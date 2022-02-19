@@ -1,0 +1,14 @@
+{
+    "name": "i5.VirtualAgents.Runtime",
+    "rootNamespace": "i5.VirtualAgents",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

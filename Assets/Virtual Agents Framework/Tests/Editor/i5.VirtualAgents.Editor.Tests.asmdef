@@ -1,0 +1,19 @@
+{
+    "name": "i5.VirtualAgents.Editor.Tests",
+    "rootNamespace": "i5.VirtualAgents.Editor.Tests",
+    "references": [
+        "i5.VirtualAgents.Editor",
+        "i5.VirtualAgents.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
