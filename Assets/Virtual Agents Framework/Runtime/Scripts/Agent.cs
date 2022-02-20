@@ -1,5 +1,5 @@
-using i5.VirtualAgents.Tasks.AgentTasks;
 using i5.VirtualAgents.TaskSystem;
+using i5.VirtualAgents.TaskSystem.AgentTasks;
 using UnityEngine;
 using UnityEngine.AI;
 
