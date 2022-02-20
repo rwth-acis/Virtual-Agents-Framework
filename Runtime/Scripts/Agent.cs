@@ -90,6 +90,12 @@ namespace i5.VirtualAgents
             WalkTo(destinationObject.transform.position, asap);
         }
 
+        /// <summary>
+        /// Creates an AgentMovementTask for walking and schedules it or forces its execution.
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="destinationObject">Transform the agent should walk to</param>
+        /// <param name="asap">true if the task should be executed as soon as possible, false if the task should be scheduled</param>
         public void WalkTo(Transform destinationTransform, bool asap = false)
         {
             WalkTo(destinationTransform.position, asap);
