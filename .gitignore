@@ -78,3 +78,5 @@ crashlytics-build.properties
 /Documentation/obj/.cache/build
 /Assets/Plugins/GLTFUtility/Plugins/draco/obj
 /Assets/Plugins/GLTFUtility/Plugins/draco/obj.meta
+/Assets/Virtual Agents Framework/Runtime/Scripts/obj/xdoc/cache
+/Documentation/api

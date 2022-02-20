@@ -9,7 +9,7 @@ apiRules:
     uidRegex: ^InternalTools
     type: Namespace
 - include:
-    uidRegex: ^i5.*
+    uidRegex: ^i5.VirtualAgents.*
     type: Namespace
 - exclude:
     uidRegex: ^Global
