@@ -50,30 +50,6 @@ namespace i5.VirtualAgents
         }
 
         /// <summary>
-        /// Creates an AgentMovementTask for walking and schedules it or forces its execution.
-        /// Shortcut queue management function
-        /// </summary>
-        /// <param name="destinationObject">GameObject the agent should walk to</param>
-        /// <param name="asap">true if the task should be executed as soon as possible, false if the task should be scheduled</param>
-        public void WalkTo(GameObject destinationObject, bool asap = false)
-        {
-            AgentMovementTask movementTask = new AgentMovementTask(destinationObject.transform);
-            ScheduleOrForce(movementTask, asap);
-        }
-
-        /// <summary>
-        /// Creates an AgentMovementTask for walking and schedules it or forces its execution.
-        /// Shortcut queue management function
-        /// </summary>
-        /// <param name="destinationCoordinates">Position the agent should walk to</param>
-        /// <param name="asap">true if the task should be executed as soon as possible, false if the task should be scheduled</param>
-        public void WalkTo(Vector3 destinationCoordinates, bool asap = false)
-        {
-            AgentMovementTask movementTask = new AgentMovementTask(destinationCoordinates);
-            ScheduleOrForce(movementTask, asap);
-        }
-
-        /// <summary>
         /// Helper function for shortcut queue management functions.
         /// Schedule a task or force its execution depending on the flag
         /// </summary>
@@ -89,6 +65,76 @@ namespace i5.VirtualAgents
             {
                 taskManager.ScheduleTask(task);
             }
+        }
+
+        /// <summary>
+        /// Creates an AgentMovementTask for walking and schedules it or forces its execution.
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="destinationCoordinates">Position the agent should walk to</param>
+        /// <param name="speed">The target walking speed; if negative, the default speed set in the NavMeshAgent is taken</param>
+        /// <param name="asap">true if the task should be executed as soon as possible, false if the task should be scheduled</param>
+        public void WalkTo(Vector3 destinationCoordinates, float speed = -1, bool asap = false)
+        {
+            AgentMovementTask movementTask = new AgentMovementTask(destinationCoordinates);
+            ScheduleOrForce(movementTask, asap);
+        }
+
+        /// <summary>
+        /// Creates an AgentMovementTask for walking and schedules it or forces its execution.
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="destinationCoordinates">Position the agent should walk to</param>
+        /// <param name="asap">true if the task should be executed as soon as possible, false if the task should be scheduled</param>
+        public void WalkTo(Vector3 destinationCoordinates, bool asap = false)
+        {
+            WalkTo(destinationCoordinates, -1, asap);
+        }
+
+        /// <summary>
+        /// Creates an AgentMovementTask for walking and schedules it or forces its execution.
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="destinationObject">GameObject the agent should walk to</param>
+        /// <param name="speed">The target walking speed; if negative, the default speed set in the NavMeshAgent is taken</param>
+        /// <param name="asap">true if the task should be executed as soon as possible, false if the task should be scheduled</param>
+        public void WalkTo(GameObject destinationObject, float speed = -1, bool asap = false)
+        {
+            WalkTo(destinationObject.transform.position, speed, asap);
+        }
+
+        /// <summary>
+        /// Creates an AgentMovementTask for walking and schedules it or forces its execution.
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="destinationObject">GameObject the agent should walk to</param>
+        /// <param name="asap">true if the task should be executed as soon as possible, false if the task should be scheduled</param>
+        public void WalkTo(GameObject destinationObject, bool asap)
+        {
+            WalkTo(destinationObject, -1, asap);
+        }
+
+        /// <summary>
+        /// Creates an AgentMovementTask for walking and schedules it or forces its execution.
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="destinationTransform"></param>
+        /// <param name="speed">The target walking speed; if negative, the default speed set in the NavMeshAgent is taken</param>
+        /// <param name="asap">true if the task should be executed as soon as possible, false if the task should be scheduled</param>
+        public void WalkTo(Transform destinationTransform, float speed = -1, bool asap = false)
+        {
+            WalkTo(destinationTransform.position, speed, asap);
+        }
+
+        /// <summary>
+        /// Creates an AgentMovementTask for walking and schedules it or forces its execution.
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="destinationTransform"></param>
+        /// <param name="asap">true if the task should be executed as soon as possible, false if the task should be scheduled</param>
+        public void WalkTo(Transform destinationTransform, bool asap)
+        {
+            WalkTo(destinationTransform, -1, asap);
         }
     }
 }
