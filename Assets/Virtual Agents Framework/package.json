@@ -1,9 +1,24 @@
 {
-  "name": "com.i5.virtualagents",
-  "version": "1.0.0",
-  "displayName": "Virtual Agents Framework",
-  "description": "A Unity package for creating virtual agents",
-  "unity": "2020.3",
+    "name": "com.i5.virtualagents",
+    "version": "${version}",
+    "displayName": "Virtual Agents Framework",
+    "description": "A Unity package for creating virtual agents",
+    "unity": "2020.3",
+    "unityRelease": "13f1",
+    "dependencies": {
+        "com.i5.toolkit.core": "1.7.0"
+    },
+    "keywords": [
+        "Unity",
+        "Virtual Agent",
+        "Non-player character",
+        "NPC",
+        "Artificial Intelligence",
+        "AI"
+        "rwth-acis",
+        "i5",
+        "RWTH"
+    ],
     "author": {
         "name": "Advanced Community Information Systems\nInformatik 5, RWTH Aachen University",
         "url": "https://dbis.rwth-aachen.de/dbis/"
