@@ -1,0 +1,60 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "..",
+          "files": [ "**.cs" ]
+        }
+      ],
+      "globalNamespaceId": "Global",
+      "filter": "filterConfig.yml",
+      "dest": "api"
+    }
+  ],
+  "build": {
+    "globalMetadata": {
+      "_appTitle": "Documentation of the Virtual Agents Framework",
+      "_appFooter": "Documentation of the Virtual Agents Framework",
+      "_enableSearch": true,
+      "_appLogoPath": "resources/Logos/Logo_whiteBg.svg",
+      "_appFaviconPath":  "resources/Logos/Logo_whiteBg.svg"
+    },
+    "content": [
+      {
+        "files": [ "toc.yml", "index.md" ]
+      },
+      {
+        "src": "api",
+        "files": [ "*.yml" ],
+        "dest": "api"
+      },
+      {
+        "files": [ "manual/toc.yml", "manual/**.md" ]
+      }
+    ],
+    "overwrite": [
+      {
+        "src": "..",
+        "files": [ "Assets/Virtual Agents Framework/**/*.md" ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [ "resources/**/*" ],
+      }
+    ],
+    "sitemap": {
+      "baseUrl": "https://localhost",
+      "changefreq": "weekly",
+      "fileOptions": {
+        "api/*": {
+          "changefreq": "daily"
+        }
+      }
+    },
+    "xref": [ "https://normanderwan.github.io/UnityXrefMaps/2018.4/xrefmap.yml" ],
+    "xrefService": [ "https://xref.docs.microsoft.com/query?uid={uid}" ],
+    "dest": "../_site"
+  }
+}
