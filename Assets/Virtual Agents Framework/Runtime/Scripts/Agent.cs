@@ -1,12 +1,9 @@
+using i5.VirtualAgents.Tasks.AgentTasks;
+using i5.VirtualAgents.TaskSystem;
 using UnityEngine;
-// NavMesh
 using UnityEngine.AI;
-// Tasks
-using VirtualAgentsFramework.AgentTasks;
-// Rigs
-using VirtualAgentsFramework.TaskSystem;
 
-namespace VirtualAgentsFramework
+namespace i5.VirtualAgents
 {
     /// <summary>
     /// Agent's functionality mainly includes managing their task queue,

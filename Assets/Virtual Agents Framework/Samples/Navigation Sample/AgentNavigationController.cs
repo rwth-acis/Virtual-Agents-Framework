@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using VirtualAgentsFramework;
+using i5.VirtualAgents;
 
 namespace i5.VirtualAgents.Examples
 {

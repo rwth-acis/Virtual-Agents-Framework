@@ -1,4 +1,4 @@
-﻿namespace VirtualAgentsFramework.TaskSystem
+﻿namespace i5.VirtualAgents.TaskSystem
 {
     /// <summary>
     /// States an agent's tasks can be in

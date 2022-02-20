@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using VirtualAgentsFramework.AgentTasks;
 
-namespace VirtualAgentsFramework.TaskSystem
+namespace i5.VirtualAgents.TaskSystem
 {
     /// <summary>
     /// Holds an IAgentTask queue
