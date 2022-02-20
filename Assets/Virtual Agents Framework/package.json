@@ -14,7 +14,7 @@
         "Non-player character",
         "NPC",
         "Artificial Intelligence",
-        "AI"
+        "AI",
         "rwth-acis",
         "i5",
         "RWTH"
@@ -24,5 +24,10 @@
         "url": "https://dbis.rwth-aachen.de/dbis/"
     },
     "samples": [
+        {
+            "displayName": "Navigation Example",
+            "description": "Example scene which shows how walking tasks can be issued to the agent. The agent walks along a path defined by a series of waypoints.",
+            "path": "Samples~/Navigation Example"
+        }
     ]
 }
