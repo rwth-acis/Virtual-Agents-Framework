@@ -1,7 +1,6 @@
 ﻿using System;
-using VirtualAgentsFramework.TaskSystem;
 
-namespace VirtualAgentsFramework
+namespace i5.VirtualAgents.TaskSystem
 {
     namespace AgentTasks
     {

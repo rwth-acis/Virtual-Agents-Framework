@@ -2,9 +2,9 @@ using i5.Toolkit.Core.Utilities;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
-using VirtualAgentsFramework.TaskSystem;
+using i5.VirtualAgents.TaskSystem;
 
-namespace VirtualAgentsFramework
+namespace i5.VirtualAgents.Tasks
 {
     namespace AgentTasks
     {
@@ -29,6 +29,9 @@ namespace VirtualAgentsFramework
             /// </summary>
             public float TargetSpeed { get; protected set; }
 
+            /// <summary>
+            /// Event which is invoked once the task is finished
+            /// </summary>
             public event Action OnTaskFinished;
 
             /// <summary>

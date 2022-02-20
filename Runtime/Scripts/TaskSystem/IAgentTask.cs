@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VirtualAgentsFramework.TaskSystem
+namespace i5.VirtualAgents.TaskSystem
 {
     /// <summary>
     /// Common methods and attributes for all AgentTasks
