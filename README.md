@@ -1,4 +1,4 @@
-# Virtual-Agents-Framework
+# Virtual Agents Framework
 
 ![Virtual Agents Framework](https://raw.githubusercontent.com/rwth-acis/Virtual-Agents-Framework/master/Logo_wide.png)
 
