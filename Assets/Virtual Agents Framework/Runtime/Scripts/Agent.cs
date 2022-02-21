@@ -13,7 +13,13 @@ namespace i5.VirtualAgents
     [RequireComponent(typeof(AgentAnimationUpdater))] // Responsible for the avatar's movement
     public class Agent : MonoBehaviour
     {
-        AgentTaskManager taskManager;
+        private AgentTaskManager taskManager;
+
+        /// <summary>
+        /// List of shortcut methods to add common tasks to the agent's task queue
+        /// Syntactic sugar. It is also possible to directly enqueue task objects on the agent instead, e.g. for custom tasks
+        /// </summary>
+        public TaskActions Tasks { get; private set; }
 
         /// <summary>
         /// Initialize the agent
@@ -21,6 +27,7 @@ namespace i5.VirtualAgents
         private void Awake()
         {
             taskManager = new AgentTaskManager(this);
+            Tasks = new TaskActions(this);
         }
 
         /// <summary>
@@ -65,40 +72,6 @@ namespace i5.VirtualAgents
             {
                 taskManager.ScheduleTask(task);
             }
-        }
-
-        /// <summary>
-        /// Creates an AgentMovementTask for walking and schedules it or forces its execution.
-        /// Shortcut queue management function
-        /// </summary>
-        /// <param name="destinationCoordinates">Position the agent should walk to</param>
-        /// <param name="asap">true if the task should be executed as soon as possible, false if the task should be scheduled</param>
-        public void WalkTo(Vector3 destinationCoordinates, bool asap = false)
-        {
-            AgentMovementTask movementTask = new AgentMovementTask(destinationCoordinates);
-            ScheduleOrForce(movementTask, asap);
-        }
-
-        /// <summary>
-        /// Creates an AgentMovementTask for walking and schedules it or forces its execution.
-        /// Shortcut queue management function
-        /// </summary>
-        /// <param name="destinationObject">GameObject the agent should walk to</param>
-        /// <param name="asap">true if the task should be executed as soon as possible, false if the task should be scheduled</param>
-        public void WalkTo(GameObject destinationObject, bool asap = false)
-        {
-            WalkTo(destinationObject.transform.position, asap);
-        }
-
-        /// <summary>
-        /// Creates an AgentMovementTask for walking and schedules it or forces its execution.
-        /// Shortcut queue management function
-        /// </summary>
-        /// <param name="destinationObject">Transform the agent should walk to</param>
-        /// <param name="asap">true if the task should be executed as soon as possible, false if the task should be scheduled</param>
-        public void WalkTo(Transform destinationTransform, bool asap = false)
-        {
-            WalkTo(destinationTransform.position, asap);
         }
     }
 }

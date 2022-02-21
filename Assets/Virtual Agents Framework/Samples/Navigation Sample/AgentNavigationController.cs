@@ -13,7 +13,7 @@ namespace i5.VirtualAgents.Examples
         {
             for (int i = 0; i < waypoints.Count; i++)
             {
-                agent.WalkTo(waypoints[i].position);
+                agent.Tasks.WalkTo(waypoints[i].position);
             }
         }
     }
