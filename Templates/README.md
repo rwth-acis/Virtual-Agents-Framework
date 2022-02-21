@@ -1,6 +1,6 @@
-# Virtual-Agents-Framework
+# Virtual Agents Framework
 
-![Virtual Agents Framework](https://raw.githubusercontent.com/rwth-acis/Virtual-Agents-Framework/master/Logo_wide.png)
+![Virtual Agents Framework](https://raw.githubusercontent.com/rwth-acis/Virtual-Agents-Framework/master/Logos/Logo_wide.png)
 
 A Unity package for creating virtual agents.
 
