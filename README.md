@@ -4,7 +4,7 @@
 
 A Unity package for creating virtual agents.
 
-![1.0.0](https://img.shields.io/badge/version-1.0.0-blue)
+![0.1.0](https://img.shields.io/badge/version-0.1.0-blue)
 
 This framework provides the architecture, assets and samples for creating own virtual agents, also called non-player characters (NPCs), in Unity.
 
