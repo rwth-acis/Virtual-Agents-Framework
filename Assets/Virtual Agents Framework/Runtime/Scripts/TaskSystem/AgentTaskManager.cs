@@ -76,14 +76,14 @@ namespace i5.VirtualAgents.TaskSystem
             }
         }
 
-        public void ForceTask(IAgentTask task)
+        /// <summary>
+        /// Schedules a task in the queue, sorted by the given priority
+        /// </summary>
+        /// <param name="task">The task that should be scheduled for execution</param>
+        /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
+        public void ScheduleTask(IAgentTask task, int priority = 0)
         {
-            queue.AddAtFront(task);
-        }
-
-        public void ScheduleTask(IAgentTask task)
-        {
-            queue.AddAtBack(task);
+            queue.AddTask(task, priority);
         }
 
         private void RequestNextTask()

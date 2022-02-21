@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace i5.VirtualAgents.TaskSystem
@@ -7,14 +8,14 @@ namespace i5.VirtualAgents.TaskSystem
     /// </summary>
     public class AgentTaskQueue
     {
-        private LinkedList<IAgentTask> taskQueue;
+        private List<TaskEntry> taskQueue;
 
         /// <summary>
         /// Create an empty IAgentTask queue
         /// </summary>
         public AgentTaskQueue()
         {
-            taskQueue = new LinkedList<IAgentTask>();
+            taskQueue = new List<TaskEntry>();
         }
 
         /// <summary>
@@ -23,10 +24,10 @@ namespace i5.VirtualAgents.TaskSystem
         /// <returns>Next task from the queue or null if the queue is empty</returns>
         public IAgentTask RequestNextTask()
         {
-            if (taskQueue.First != null)
+            if (taskQueue.Count > 0)
             {
-                IAgentTask result = taskQueue.First.Value;
-                taskQueue.RemoveFirst();
+                IAgentTask result = taskQueue[0].task;
+                taskQueue.RemoveAt(0);
                 return result;
             }
             else
@@ -36,23 +37,34 @@ namespace i5.VirtualAgents.TaskSystem
         }
 
         /// <summary>
-        /// Add a new task to the queue according to the FIFO principle
+        /// Add a new task to the queue according to the FIFO principle but with priority categories
         /// </summary>
         /// <param name="task">Any task that implements the IAgentTask interface</param>
-        public void AddAtBack(IAgentTask task)
+        /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
+        public void AddTask(IAgentTask task, int priority = 0)
         {
-            taskQueue.AddLast(task);
+            int insertIndex = taskQueue.Count;
+            for (int i = 0; i < taskQueue.Count; i++)
+            {
+                if (taskQueue[i].priority < priority)
+                {
+                    insertIndex = i;
+                    break;
+                }
+            }
+
+            taskQueue.Insert(insertIndex,
+                new TaskEntry()
+                {
+                    task = task,
+                    priority = priority
+                });
         }
 
-        /// <summary>
-        /// Make a task jump the queue instead of scheduling it.
-        /// The task is performed as soon as possible and the rest
-        /// of the queue remains intact
-        /// </summary>
-        /// <param name="task">Any task that implements the IAgentTask interface</param>
-        public void AddAtFront(IAgentTask task)
+        private struct TaskEntry
         {
-            taskQueue.AddFirst(task);
+            public IAgentTask task;
+            public int priority;
         }
     }
 }

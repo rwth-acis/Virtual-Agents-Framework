@@ -42,36 +42,10 @@ namespace i5.VirtualAgents
         /// Schedule a task
         /// </summary>
         /// <param name="task">Task to be scheduled</param>
-        public void ScheduleTask(IAgentTask task)
+        /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value</param>
+        public void ScheduleTask(IAgentTask task, int priority)
         {
-            taskManager.ScheduleTask(task);
-        }
-
-        /// <summary>
-        /// Execute a task as soon as possible
-        /// </summary>
-        /// <param name="task">Task to be executed</param>
-        public void ExecuteTaskASAP(IAgentTask task)
-        {
-            taskManager.ForceTask(task);
-        }
-
-        /// <summary>
-        /// Helper function for shortcut queue management functions.
-        /// Schedule a task or force its execution depending on the flag
-        /// </summary>
-        /// <param name="task">Task to be scheduled or forced</param>
-        /// <param name="force">Flag: true if the task's execution should be forced, false if the task should be scheduled</param>
-        public void ScheduleOrForce(IAgentTask task, bool force)
-        {
-            if (force == true)
-            {
-                taskManager.ForceTask(task);
-            }
-            else
-            {
-                taskManager.ScheduleTask(task);
-            }
+            taskManager.ScheduleTask(task, priority);
         }
     }
 }
