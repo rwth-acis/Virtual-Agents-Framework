@@ -11,8 +11,14 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
     /// </summary>
     public class AgentMovementTask : IAgentTask
     {
+        /// <summary>
+        /// Reference to the NavMeshAgent component
+        /// </summary>
         protected NavMeshAgent navMeshAgent;
 
+        /// <summary>
+        /// Minimum distance of the agent to the target so that the task is considered finished
+        /// </summary>
         private const float minDistance = 0.01f;
 
         /// <summary>
@@ -43,16 +49,6 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         }
 
         /// <summary>
-        /// Create an AgentMovementTask using a destination Transform
-        /// </summary>
-        /// <param name="destinationTransform">The transform to which the agent should walk</param>
-        /// <param name="targetSpeed">The target speed of the agent, e.g. to set running or walking; if not set, the default value in the NavMeshAgent is taken</param>
-        public AgentMovementTask(Transform destinationTransform, float targetSpeed = -1)
-            : this(destinationTransform.position, targetSpeed)
-        {
-        }
-
-        /// <summary>
         /// Starts the movement task
         /// </summary>
         /// <param name="agent">The agent which should execute the movement task</param>
@@ -76,8 +72,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         }
 
         /// <summary>
-        /// Update the animations as long as the agent still moves.
-        /// If the NavMeshAgent did not move this agent for standingFrames frames, the task is finished
+        /// Checks every frame whether the agent has reached the target
         /// </summary>
         public void Update()
         {
