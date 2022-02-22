@@ -120,11 +120,11 @@ Select &quot;&quot;Add package by name...&quot; or &quot;Add package from git UR
 <li>If the package manager asks for a version number, enter the latest one, so <code>1.0.0</code>.</li>
 <li>Click the add button and wait for the download to finish.</li>
 </ol>
-<p>Alternatively to steps 7 - 8, the package should also be available in the list if you switch the dropdown next to the plus button from &quot;Packages: Unity Registry&quot; to &quot;Packages: My Registries&quot;.
+<p>As an alternative to steps 7 - 8, the package should also be available in the list if you switch the dropdown next to the plus button from &quot;Packages: Unity Registry&quot; to &quot;Packages: My Registries&quot;.
 You can then select the entry and click the &quot;Install&quot; button.</p>
 <h3 id="alternative-2-openupm-with-manifestjson-file">Alternative 2: OpenUPM with manifest.json file</h3>
 <p>A second option is to directly edit the manifest.json file of your project.
-In alternative 1, Unity&#39;s UI does this in the background but you can also just copy-paste the necessary scoped registry definitions and add the package directly in the manifest.json file.</p>
+In alternative 1, Unity performs this in the background, but you can also just copy-paste the necessary scoped registry definitions and add the package directly in the manifest.json file.</p>
 <ol>
 <li>Open a file explorer and navigation into your project&#39;s root folder (the folder which contains sub-directories like &quot;Assets&quot; or &quot;Library&quot;).
 Then, navigate into the &quot;Packages&quot; folder and open the &quot;manifest.json&quot; file.</li>
@@ -162,6 +162,36 @@ Confirm the download by clicking on the &quot;add&quot; button.</li>
 <p>If you specify &quot;upm&quot; to get the latest version, be aware that the package is not automatically updated and you will not be notified about updates automatically.
 This command just pulls the latest version which is available at that time.
 To update to the newest current version, remove the package again and re-download it.</p>
+<h2 id="documentation">Documentation</h2>
+<p>Check out the <a href="https://rwth-acis.github.io/Virtual-Agents-Framework/">documentation pages</a> and select the version that you are using.</p>
+<p>You can also find practical examples of features in the package&#39;s samples.
+To access them, follow these steps:</p>
+<ol>
+<li>In Unity, go to &quot;Window &gt; Package Manager&quot;.</li>
+<li>Make sure that the dropdown menu in the top left of the package manager window is set to &quot;Packages: In Project&quot;.</li>
+<li>Click on the entry for the Virtual Agents Framework in the list.</li>
+<li>On the right side, expand the samples section.
+Here, you can find a list of available examples.</li>
+<li>Click the import button to download the samples.
+They are saved in your Assets folder in a folder &quot;Samples/Virtual Agents Framework/1.0.0&quot;.</li>
+</ol>
+<p>Usually, each sample contains a sample scene as the starting point.
+Within the scene, there is a documentation object, indicated by an information icon.
+If you click on it, there are further descriptions about the scene in the inspector.</p>
+<h2 id="licensing">Licensing</h2>
+<p>The package&#39;s code is distributed under the <a href="https://github.com/rwth-acis/Virtual-Agents-Framework/blob/master/LICENSE">MIT license</a>.</p>
+<p>All art assets (e.g. files located in the folders &quot;3D Models&quot; and &quot;Animations&quot; in the package&#39;s root folder) are distributed under the <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International</a> license and are attributed to Benedikt Hensen unless stated otherwise.</p>
+<h2 id="contributors">Contributors</h2>
+<h3 id="code--documentation">Code &amp; Documentation:</h3>
+<ul>
+<li>Benedikt Hensen</li>
+<li>Danylo Bekhter</li>
+<li>Sebastian Meinberger</li>
+</ul>
+<h3 id="3d-models--animations">3D Models &amp; Animations:</h3>
+<ul>
+<li>Benedikt Hensen</li>
+</ul>
 <h2 id="related-projects">Related Projects</h2>
 <p>This framework uses the <a href="https://github.com/rwth-acis/i5-Toolkit-for-Unity">i5 Toolkit for Unity</a> which provides building blocks and modules for general development with the Unity 3D engine.
 If you want to use the virtual agents in mixed reality, check out our <a href="https://github.com/rwth-acis/i5-Toolkit-for-Mixed-Reality">i5 Toolkit for Mixed Reality</a>.
@@ -174,7 +204,7 @@ It is an extension package that builds upon the functionality of the i5 Toolkit 
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/rwth-acis/Virtual-Agents-Framework/blob/develop/Documentation/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/rwth-acis/Virtual-Agents-Framework/blob/master/Documentation/index.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

@@ -2,85 +2,85 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://localhost/api/i5.VirtualAgents.Agent.html</loc>
-    <lastmod>2022-02-22T07:00:35+01:00</lastmod>
+    <lastmod>2022-02-22T08:10:09+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://localhost/api/i5.VirtualAgents.AgentAnimationUpdater.html</loc>
-    <lastmod>2022-02-22T07:00:35+01:00</lastmod>
+    <lastmod>2022-02-22T08:10:09+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://localhost/api/i5.VirtualAgents.TaskSystem.AgentTaskManager.html</loc>
-    <lastmod>2022-02-22T07:00:35+01:00</lastmod>
+    <lastmod>2022-02-22T08:10:09+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://localhost/api/i5.VirtualAgents.TaskSystem.AgentTaskQueue.html</loc>
-    <lastmod>2022-02-22T07:00:35+01:00</lastmod>
+    <lastmod>2022-02-22T08:10:09+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://localhost/api/i5.VirtualAgents.TaskSystem.AgentTasks.AgentBaseTask.html</loc>
-    <lastmod>2022-02-22T07:00:35+01:00</lastmod>
+    <lastmod>2022-02-22T08:10:09+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://localhost/api/i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask.html</loc>
-    <lastmod>2022-02-22T07:00:35+01:00</lastmod>
+    <lastmod>2022-02-22T08:10:09+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://localhost/api/i5.VirtualAgents.TaskSystem.AgentTasks.html</loc>
-    <lastmod>2022-02-22T07:00:35+01:00</lastmod>
+    <lastmod>2022-02-22T08:10:09+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://localhost/api/i5.VirtualAgents.TaskSystem.IAgentTask.html</loc>
-    <lastmod>2022-02-22T07:00:35+01:00</lastmod>
+    <lastmod>2022-02-22T08:10:09+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://localhost/api/i5.VirtualAgents.TaskSystem.TaskActions.html</loc>
-    <lastmod>2022-02-22T07:00:35+01:00</lastmod>
+    <lastmod>2022-02-22T08:10:09+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://localhost/api/i5.VirtualAgents.TaskSystem.TaskState.html</loc>
-    <lastmod>2022-02-22T07:00:35+01:00</lastmod>
+    <lastmod>2022-02-22T08:10:09+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://localhost/api/i5.VirtualAgents.TaskSystem.html</loc>
-    <lastmod>2022-02-22T07:00:35+01:00</lastmod>
+    <lastmod>2022-02-22T08:10:09+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://localhost/api/i5.VirtualAgents.html</loc>
-    <lastmod>2022-02-22T07:00:35+01:00</lastmod>
+    <lastmod>2022-02-22T08:10:09+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://localhost/index.html</loc>
-    <lastmod>2022-02-22T07:00:35+01:00</lastmod>
+    <lastmod>2022-02-22T08:10:09+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://localhost/manual/own-agents.html</loc>
-    <lastmod>2022-02-22T07:00:35+01:00</lastmod>
+    <lastmod>2022-02-22T08:10:09+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
