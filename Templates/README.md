@@ -26,10 +26,11 @@ After that, we can add the package in Unity's package manager window.
 2. In the right corner of the opened windows, click on the small cogwheel and select "Advanced Project Settings".
 3. Add a new scoped registry with the following values:
 
+| Field | Value(s) |
+| --- | --- |
 | Name: | `package.openupm.com` |
 | URL: | `https://package.openupm.com` |
-| Scope(s): | `com.i5.toolkit.core` |
-|           | `com.i5.virtualagents` |
+| Scope(s): | `com.i5.toolkit.core` <br/> `com.i5.virtualagents` |
 
 4. Next, click the Save/Apply button.
 5. Close the settings window and return to the package manager window.

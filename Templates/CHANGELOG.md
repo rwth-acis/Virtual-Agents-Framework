@@ -2,7 +2,7 @@
 
 This document keeps track of the changes between versions of the framework.
 
-## 1.0.0 (Unreleased)
+## 1.0.0 (2022-02-22)
 
 ### Added
 - Project and package structure
