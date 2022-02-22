@@ -1,6 +1,6 @@
 {
     "name": "com.i5.virtualagents",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "displayName": "Virtual Agents Framework",
     "description": "A Unity package for creating virtual agents",
     "unity": "2020.3",
