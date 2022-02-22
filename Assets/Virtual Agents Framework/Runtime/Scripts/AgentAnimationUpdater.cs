@@ -3,7 +3,9 @@ using UnityEngine.AI;
 
 namespace i5.VirtualAgents
 {
-
+    /// <summary>
+    /// Component for synchronizing the agent's movement with the shown animation
+    /// </summary>
     public class AgentAnimationUpdater : MonoBehaviour
     {
         private NavMeshAgent agent;
@@ -12,8 +14,6 @@ namespace i5.VirtualAgents
         // animation Parameter Names
         [SerializeField] private string forwardSpeed = "Speed";
         [SerializeField] private string angularSpeed = "Turn";
-
-        public bool movementHandeledByAnimator = false;
 
         // animation IDs
         private int _animIDSpeed;

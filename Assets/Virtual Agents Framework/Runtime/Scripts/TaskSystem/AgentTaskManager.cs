@@ -4,6 +4,9 @@ namespace i5.VirtualAgents.TaskSystem
 {
     public class AgentTaskManager
     {
+        /// <summary>
+        /// Agent which will execute the scheduled tasks
+        /// </summary>
         public Agent ExecutingAgent { get; private set; }
 
         // task queue of this manager
@@ -11,7 +14,13 @@ namespace i5.VirtualAgents.TaskSystem
 
         private TaskState currentState;
 
+        /// <summary>
+        /// Event which is raised once the agent's state changes
+        /// </summary>
         public event Action OnStateChanged;
+        /// <summary>
+        /// Event which is raised once the agent has finished the current task
+        /// </summary>
         public event Action OnTaskFinished;
 
         /// <summary>
@@ -32,6 +41,10 @@ namespace i5.VirtualAgents.TaskSystem
             }
         }
 
+        /// <summary>
+        /// Creates a new task manager but does not yet associate an agent with it
+        /// If you use this method, you need to call the AssociateAgent method at some point before scheduled tasks can be executed
+        /// </summary>
         public AgentTaskManager() : this(null)
         {
             // Make the agent start in the idle state in order to enable requesting new tasks
@@ -39,11 +52,20 @@ namespace i5.VirtualAgents.TaskSystem
             currentState = TaskState.idle;
         }
 
+        /// <summary>
+        /// Creates a new task manager and associates with an agent
+        /// </summary>
+        /// <param name="agent">The agent on which scheduled tasks should be executed</param>
         public AgentTaskManager(Agent agent)
         {
             AssociateAgent(agent);
         }
 
+        /// <summary>
+        /// Associates an agent with the task manager
+        /// Scheduled tasks can only run if an agent was registered with the task manager, either using this method or the constructor which takes an agent as an argument
+        /// </summary>
+        /// <param name="agent">The agent which should execute the scheduled tasks</param>
         public void AssociateAgent(Agent agent)
         {
             ExecutingAgent = agent;
@@ -86,6 +108,7 @@ namespace i5.VirtualAgents.TaskSystem
             queue.AddTask(task, priority);
         }
 
+        // get the next task from the queue and adapts the states accordingly
         private void RequestNextTask()
         {
             IAgentTask nextTask = queue.RequestNextTask();
