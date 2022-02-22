@@ -116,7 +116,7 @@ If you click on it, there are further descriptions about the scene in the inspec
 
 The package's code is distributed under the [MIT license](https://github.com/rwth-acis/Virtual-Agents-Framework/blob/master/LICENSE).
 
-All 3D assets (e.g. files located in the folders "3D Models" and "Animations") are distributed under the [Creative Commons Attribution 4.0 International](http://creativecommons.org/licenses/by/4.0/) license unless stated otherwise.
+All art assets (e.g. files located in the folders "3D Models" and "Animations" in the package's root folder) are distributed under the [Creative Commons Attribution 4.0 International](http://creativecommons.org/licenses/by/4.0/) license and are attributed to Benedikt Hensen unless stated otherwise.
 
 ## Contributors
 
