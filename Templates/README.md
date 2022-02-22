@@ -40,13 +40,13 @@ After that, we can add the package in Unity's package manager window.
 8. If the package manager asks for a version number, enter the latest one, so `${version}`.
 9. Click the add button and wait for the download to finish.
 
-Alternatively to steps 7 - 8, the package should also be available in the list if you switch the dropdown next to the plus button from "Packages: Unity Registry" to "Packages: My Registries".
+As an alternative to steps 7 - 8, the package should also be available in the list if you switch the dropdown next to the plus button from "Packages: Unity Registry" to "Packages: My Registries".
 You can then select the entry and click the "Install" button.
 
 ### Alternative 2: OpenUPM with manifest.json file
 
 A second option is to directly edit the manifest.json file of your project.
-In alternative 1, Unity's UI does this in the background but you can also just copy-paste the necessary scoped registry definitions and add the package directly in the manifest.json file.
+In alternative 1, Unity performs this in the background, but you can also just copy-paste the necessary scoped registry definitions and add the package directly in the manifest.json file.
 
 1. Open a file explorer and navigation into your project's root folder (the folder which contains sub-directories like "Assets" or "Library").
    Then, navigate into the "Packages" folder and open the "manifest.json" file.
@@ -98,7 +98,7 @@ To update to the newest current version, remove the package again and re-downloa
 Check out the [documentation pages](https://rwth-acis.github.io/Virtual-Agents-Framework/) and select the version that you are using.
 
 You can also find practical examples of features in the package's samples.
-To access these follow these steps:
+To access them, follow these steps:
 
 1. In Unity, go to "Window > Package Manager".
 2. Make sure that the dropdown menu in the top left of the package manager window is set to "Packages: In Project".
@@ -109,7 +109,7 @@ To access these follow these steps:
    They are saved in your Assets folder in a folder "Samples/Virtual Agents Framework/${version}".
 
 Usually, each sample contains a sample scene as the starting point.
-Within the scene, there is a documentation object, incated by an information icon.
+Within the scene, there is a documentation object, indicated by an information icon.
 If you click on it, there are further descriptions about the scene in the inspector.
 
 ## Licensing
@@ -126,7 +126,8 @@ All art assets (e.g. files located in the folders "3D Models" and "Animations" i
 - Danylo Bekhter
 - Sebastian Meinberger
 
-### 3D Models, Animations:
+### 3D Models & Animations:
+
 - Benedikt Hensen
 
 ## Related Projects
