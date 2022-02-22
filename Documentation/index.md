@@ -93,6 +93,26 @@ If you specify "upm" to get the latest version, be aware that the package is not
 This command just pulls the latest version which is available at that time.
 To update to the newest current version, remove the package again and re-download it.
 
+## Documentation
+
+Check out the [documentation pages](https://rwth-acis.github.io/Virtual-Agents-Framework/) and select the version that you are using.
+
+You can also find practical examples of features in the package's samples.
+To access these follow these steps:
+
+1. In Unity, go to "Window > Package Manager".
+2. Make sure that the dropdown menu in the top left of the package manager window is set to "Packages: In Project".
+3. Click on the entry for the Virtual Agents Framework in the list.
+4. On the right side, expand the samples section.
+   Here, you can find a list of available examples.
+5. Click the import button to download the samples.
+   They are saved in your Assets folder in a folder "Samples/Virtual Agents Framework/1.0.0".
+
+Usually, each sample contains a sample scene as the starting point.
+Within the scene, there is a documentation object, incated by an information icon.
+If you click on it, there are further descriptions about the scene in the inspector.
+   
+
 ## Related Projects
 
 This framework uses the [i5 Toolkit for Unity](https://github.com/rwth-acis/i5-Toolkit-for-Unity) which provides building blocks and modules for general development with the Unity 3D engine.
