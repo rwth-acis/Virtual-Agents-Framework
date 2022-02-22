@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Adding Own Agent Models and Animations | Documentation of the Virtual Agents Framework </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Adding Own Agent Models and Animations | Documentation of the Virtual Agents Framework ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../resources/Logos/Logo_whiteBg.svg">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../resources/Logos/Logo_whiteBg.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="adding-own-agent-models-and-animations">Adding Own Agent Models and Animations</h1>
+
+<p>The framework already provides a standard agent which can be added as a prefab.
+However, if you want to add your own character, for example from a 3D scan, this is also possible.</p>
+<h2 id="preparing-the-character">Preparing the Character</h2>
+<p>To create a new agent from scratch, first add a humanoid character to your project.
+The character needs to be rigged.
+So, it requires a skeleton that was set up in a 3D software like Blender.
+The rig is what drives the movements of the character and it defines which parts of the mesh are deformed during an animation.</p>
+<h2 id="import-into-unity">Import Into Unity</h2>
+<p>In Unity&#39;s import settings, set the rig type to &quot;humanoid&quot; so that animations can be transferred to the new character.
+Check the configuration of the rig mapping to make sure that bones are correctly transferred to Unity&#39;s default humanoid rig.
+In this configuration, there are also more advanced settings for the muscles.
+Usually, you do not need to worry about them but if you want your agent to be more or less flexible than defined in the animations, you can accomplish this with the muscle settings.</p>
+<h2 id="setup-in-the-scene">Setup in the Scene</h2>
+<p>After finishing the setup, you can add the character to your scene.</p>
+<p>Next, add the Agent component to the character in the scene.
+This will automatically add the NavMeshAgent component and the AnimationSynchronizer component to the character.
+Because of its humanoid type, there should already be an Animator component on your agent.
+You need to assign an AnimationController to the Animator.
+It is recommended to choose the default &quot;StandardAnimationController&quot; which is provided by the framework.</p>
+<h2 id="optional-adjust-animation-controller">Optional: Adjust Animation Controller</h2>
+<p>Usually, it suffices to take the existing standard controller as a basis.
+T extend the animation range of the agent, it is recommended to copy the existing controller and to extend it rather than starting with a blank controller.
+Howver, to create a controller from scratch, it needs to follow these guidelines:
+There needs to be a blend tree that mixes an idle and a walking animation so that the agent can walk.
+The blend tree is driven by an input parameter called &quot;Speed&quot;.
+If you choose a different name, also adapt the parameter name on the AnimationSynchronizer component.</p>
+<h3 id="replacing-existing-animations-with-own-ones">Replacing Existing Animations with Own Ones</h3>
+<p>If you just want to substitute the standard animations but keep the general structure of the controller, you can also copy the controller and substitute the animations with your own imported ones.</p>
+<p>If you choose a different walking animation for the blend tree, make sure to recalculate the threshold values according to the speed value of the animation.
+If the threshold value of the blend tree is incorrect, the agent&#39;s feet will slide along the ground during walking.
+Also, make sure to set up the NavMeshAgent component by determining the corresponding speed and rotation values.
+The speed of the NavMeshAgent component should correspond to the speed threshold value of the blend tree in the animator component.
+With a lower value, the agent will not be able to walk at the full speed as intended by the animation.
+A higher value will cause foot sliding as the animation is too slow to keep up with the movement speed.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/rwth-acis/Virtual-Agents-Framework/blob/releases/1.0/Documentation/manual/own-agents.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Documentation of the Virtual Agents Framework
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

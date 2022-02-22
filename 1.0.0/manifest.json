@@ -1,0 +1,295 @@
+{
+  "sitemap": {
+    "fileOptions": {
+      "api/*": {
+        "baseUrl": "https://localhost/",
+        "changefreq": "daily"
+      }
+    },
+    "baseUrl": "https://localhost/",
+    "changefreq": "weekly"
+  },
+  "homepages": [],
+  "source_base_path": "D:/Unity/Virtual Agents Framework/Documentation",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      },
+      "is_incremental": false
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/i5.VirtualAgents.Agent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/i5.VirtualAgents.Agent.html",
+          "hash": "8LW/e0QRuS/8KRl+mozR1g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/i5.VirtualAgents.AgentAnimationUpdater.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/i5.VirtualAgents.AgentAnimationUpdater.html",
+          "hash": "MzAttf50WJUYzbo0XJtrqg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/i5.VirtualAgents.TaskSystem.AgentTaskManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/i5.VirtualAgents.TaskSystem.AgentTaskManager.html",
+          "hash": "vUHZP+EnLymNBgPP88eg1Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/i5.VirtualAgents.TaskSystem.AgentTaskQueue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/i5.VirtualAgents.TaskSystem.AgentTaskQueue.html",
+          "hash": "nt3xIc2ZBbGUO0/uujOHXQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/i5.VirtualAgents.TaskSystem.AgentTasks.AgentBaseTask.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/i5.VirtualAgents.TaskSystem.AgentTasks.AgentBaseTask.html",
+          "hash": "oTopxk7e8ViaWxL55//Fig=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask.html",
+          "hash": "1HE3OY1VAq4nDKdZbrYCvQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/i5.VirtualAgents.TaskSystem.AgentTasks.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/i5.VirtualAgents.TaskSystem.AgentTasks.html",
+          "hash": "4eAQpyC+/4kzf8j74qVNNw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/i5.VirtualAgents.TaskSystem.IAgentTask.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/i5.VirtualAgents.TaskSystem.IAgentTask.html",
+          "hash": "mInrS8fd6OD8/fb5st4uyQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/i5.VirtualAgents.TaskSystem.TaskActions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/i5.VirtualAgents.TaskSystem.TaskActions.html",
+          "hash": "DxqOMQFCO1D1jfqnT44iHQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/i5.VirtualAgents.TaskSystem.TaskState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/i5.VirtualAgents.TaskSystem.TaskState.html",
+          "hash": "+2dIEIOseYOaXuyKPkk/Vw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/i5.VirtualAgents.TaskSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/i5.VirtualAgents.TaskSystem.html",
+          "hash": "L3fXTnc9IpMIp5Vv9HYTOQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/i5.VirtualAgents.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/i5.VirtualAgents.html",
+          "hash": "OupzAnbpnBpAwLC24lQ+tg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "a1rIX86dRkstZl2binTKSQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "5y/8A/N2+RLP+/u1zENGgw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "manual/own-agents.md",
+      "output": {
+        ".html": {
+          "relative_path": "manual/own-agents.html",
+          "hash": "E8N67kgr/DJXWdHm0gvw4A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "manual/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "manual/toc.html",
+          "hash": "c+DqaSHZ4Ye4ih3sdipWIQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "resources/Logos/Logo_whiteBg.svg",
+      "output": {
+        "resource": {
+          "relative_path": "resources/Logos/Logo_whiteBg.svg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "GuMjrUZx9SxcOGqUBUg8gw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 2,
+          "skipped_file_count": 2
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 16,
+          "skipped_file_count": 9
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: should not trace intermediate info.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

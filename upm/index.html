@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Virtual Agents Framework | Documentation of the Virtual Agents Framework </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Virtual Agents Framework | Documentation of the Virtual Agents Framework ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="resources/Logos/Logo_whiteBg.svg">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="resources/Logos/Logo_whiteBg.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="virtual-agents-framework">Virtual Agents Framework</h1>
+
+<p><img src="https://raw.githubusercontent.com/rwth-acis/Virtual-Agents-Framework/master/Logos/Logo_wide.png" alt="Virtual Agents Framework"></p>
+<p>A Unity package for creating virtual agents.</p>
+<p><img src="https://img.shields.io/badge/version-1.0.0-blue" alt="1.0.0"></p>
+<p><a href="https://openupm.com/packages/com.i5.virtualagents/"><img src="https://img.shields.io/npm/v/com.i5.virtualagents?label=openupm&amp;registry_uri=https://package.openupm.com" alt="openupm"></a></p>
+<p>This framework provides the architecture, assets and samples for creating own virtual agents, also called non-player characters (NPCs), in Unity.</p>
+<h2 id="setup">Setup</h2>
+<p>Minimum Unity version: 2020.3.</p>
+<p>There are different ways to add the package to a project.</p>
+<h3 id="alternative-1-openupm-using-the-package-manager-ui">Alternative 1: OpenUPM using the Package Manager UI</h3>
+<p>The first option to install the package is to include it via Unity&#39;s package manager.
+Here, we first need to add a scoped registry which tells Unity that the package is hosted on <a href="https://openupm.com/packages/com.i5.virtualagents/?subPage=readme#">OpenUPM</a>.
+After that, we can add the package in Unity&#39;s package manager window.</p>
+<ol>
+<li>In Unity, go to Window &gt; Package Manager to open the package manager UI.</li>
+<li>In the right corner of the opened windows, click on the small cogwheel and select &quot;Advanced Project Settings&quot;.</li>
+<li>Add a new scoped registry with the following values:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name:</td>
+<td><code>package.openupm.com</code></td>
+</tr>
+<tr>
+<td>URL:</td>
+<td><code>https://package.openupm.com</code></td>
+</tr>
+<tr>
+<td>Scope(s):</td>
+<td><code>com.i5.toolkit.core</code> <br> <code>com.i5.virtualagents</code></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Next, click the Save/Apply button.</li>
+<li>Close the settings window and return to the package manager window.</li>
+<li>Click the small plus button at the left top of the window.
+Select &quot;&quot;Add package by name...&quot; or &quot;Add package from git URL...&quot; depending on your Unity version.</li>
+<li>Enter <code>com.i5.virtualagents</code> in the text field.</li>
+<li>If the package manager asks for a version number, enter the latest one, so <code>1.0.0</code>.</li>
+<li>Click the add button and wait for the download to finish.</li>
+</ol>
+<p>Alternatively to steps 7 - 8, the package should also be available in the list if you switch the dropdown next to the plus button from &quot;Packages: Unity Registry&quot; to &quot;Packages: My Registries&quot;.
+You can then select the entry and click the &quot;Install&quot; button.</p>
+<h3 id="alternative-2-openupm-with-manifestjson-file">Alternative 2: OpenUPM with manifest.json file</h3>
+<p>A second option is to directly edit the manifest.json file of your project.
+In alternative 1, Unity&#39;s UI does this in the background but you can also just copy-paste the necessary scoped registry definitions and add the package directly in the manifest.json file.</p>
+<ol>
+<li>Open a file explorer and navigation into your project&#39;s root folder (the folder which contains sub-directories like &quot;Assets&quot; or &quot;Library&quot;).
+Then, navigate into the &quot;Packages&quot; folder and open the &quot;manifest.json&quot; file.</li>
+</ol>
+<p>Integrate the following json string into the manifest.json file:</p>
+<pre><code>{
+    &quot;scopedRegistries&quot;: [
+        {
+            &quot;name&quot;: &quot;package.openupm.com&quot;,
+            &quot;url&quot;: &quot;https://package.openupm.com&quot;,
+            &quot;scopes&quot;: [
+                &quot;com.i5.toolkit.core&quot;,
+                &quot;com.i5.virtualagents&quot;
+            ]
+        }
+    ],
+    &quot;dependencies&quot;: {
+        &quot;com.i5.virtualagents&quot;: &quot;1.0.0&quot;
+    }
+}
+</code></pre><p>If your manifest.json file already contains a scopedRegistries array, make sure to add the entry to the existing one.
+If your scopedRegistries array already contains an entry with the name &quot;package.openupm.com&quot;, just add the given scopes to that list.
+In that case, there is no need to create a second &quot;package.openupm.com&quot; entry.</p>
+<p>The entry <code>&quot;com.i5.virtualagents&quot;: &quot;1.0.0&quot;</code> can be inserted anywhere in the dependencies object with the other installed packages that are already listed there.</p>
+<h3 id="alternative-3-git-package">Alternative 3: Git Package</h3>
+<p>You can also directly include the package as a Git repository.</p>
+<p>First, you need to install the <a href="https://github.com/rwth-acis/i5-Toolkit-for-Unity">i5 Toolkit for Unity</a> by following one of its <a href="https://github.com/rwth-acis/i5-Toolkit-for-Unity">installation instructions in the readme file</a>.
+This step needs to happen first - otherwise there is an error message as Unity cannot resolve the dependency.</p>
+<ol>
+<li>In Unity, go to &quot;Window &gt; Package Manager&quot; to open the package manager window.</li>
+<li>Click the plus button in the top left corner and select &quot;Add package from git URL...&quot;.</li>
+<li>Enter https://github.com/rwth-acis/Virtual-Agents-Framework.git#[version] into the text field where [version] is replaced with &quot;v&quot;, followed by the release number, e.g. &quot;v1.0.0&quot; or upm for the latest version.
+Confirm the download by clicking on the &quot;add&quot; button.</li>
+</ol>
+<p>If you specify &quot;upm&quot; to get the latest version, be aware that the package is not automatically updated and you will not be notified about updates automatically.
+This command just pulls the latest version which is available at that time.
+To update to the newest current version, remove the package again and re-download it.</p>
+<h2 id="related-projects">Related Projects</h2>
+<p>This framework uses the <a href="https://github.com/rwth-acis/i5-Toolkit-for-Unity">i5 Toolkit for Unity</a> which provides building blocks and modules for general development with the Unity 3D engine.
+If you want to use the virtual agents in mixed reality, check out our <a href="https://github.com/rwth-acis/i5-Toolkit-for-Mixed-Reality">i5 Toolkit for Mixed Reality</a>.
+It is an extension package that builds upon the functionality of the i5 Toolkit for Unity and is optimized for mixed reality.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/rwth-acis/Virtual-Agents-Framework/blob/develop/Documentation/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Documentation of the Virtual Agents Framework
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>
