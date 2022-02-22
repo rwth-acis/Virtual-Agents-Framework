@@ -111,7 +111,23 @@ To access these follow these steps:
 Usually, each sample contains a sample scene as the starting point.
 Within the scene, there is a documentation object, incated by an information icon.
 If you click on it, there are further descriptions about the scene in the inspector.
-   
+
+## Licensing
+
+The package's code is distributed under the [MIT license](https://github.com/rwth-acis/Virtual-Agents-Framework/blob/master/LICENSE).
+
+All 3D assets (e.g. files located in the folders "3D Models" and "Animations") are distributed under the [Creative Commons Attribution 4.0 International](http://creativecommons.org/licenses/by/4.0/) license unless stated otherwise.
+
+## Contributors
+
+### Code & Documentation:
+
+- Benedikt Hensen
+- Danylo Bekhter
+- Sebastian Meinberger
+
+### 3D Models, Animations:
+- Benedikt Hensen
 
 ## Related Projects
 
