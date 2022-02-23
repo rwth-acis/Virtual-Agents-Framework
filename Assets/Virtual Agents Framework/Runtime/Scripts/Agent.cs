@@ -1,5 +1,4 @@
 using i5.VirtualAgents.TaskSystem;
-using i5.VirtualAgents.TaskSystem.AgentTasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,6 +15,11 @@ namespace i5.VirtualAgents
         private AgentTaskManager taskManager;
 
         /// <summary>
+        /// The animator component which controls the agent's animations
+        /// </summary>
+        public Animator Animator { get; private set; }
+
+        /// <summary>
         /// List of shortcut methods to add common tasks to the agent's task queue
         /// Syntactic sugar. It is also possible to directly enqueue task objects on the agent instead, e.g. for custom tasks
         /// </summary>
@@ -28,6 +32,7 @@ namespace i5.VirtualAgents
         {
             taskManager = new AgentTaskManager(this);
             Tasks = new TaskActions(this);
+            Animator = GetComponent<Animator>();
         }
 
         /// <summary>
@@ -43,7 +48,7 @@ namespace i5.VirtualAgents
         /// </summary>
         /// <param name="task">Task to be scheduled</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value</param>
-        public void ScheduleTask(IAgentTask task, int priority)
+        public void ScheduleTask(IAgentTask task, int priority = 0)
         {
             taskManager.ScheduleTask(task, priority);
         }
