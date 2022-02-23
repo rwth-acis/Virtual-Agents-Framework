@@ -1,6 +1,6 @@
 {
     "name": "i5.VirtualAgents.Examples",
-    "rootNamespace": "",
+    "rootNamespace": "i5.VirtualAgents.Examples",
     "references": [
         "i5.VirtualAgents.Runtime"
     ],

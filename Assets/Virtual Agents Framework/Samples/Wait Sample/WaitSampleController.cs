@@ -1,18 +1,18 @@
 using i5.VirtualAgents;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class WaitSampleController : MonoBehaviour
+namespace i5.VirtualAgents.Examples
 {
-    public Agent agent;
-    public Transform[] waypoints;
-
-    // Start is called before the first frame update
-    void Start()
+    public class WaitSampleController : MonoBehaviour
     {
-        agent.Tasks.GoTo(waypoints[0]);
-        agent.Tasks.WaitForSeconds(2f);
-        agent.Tasks.GoTo(waypoints[1]);
+        public Agent agent;
+        public Transform[] waypoints;
+
+        void Start()
+        {
+            agent.Tasks.GoTo(waypoints[0]);
+            agent.Tasks.WaitForSeconds(2f);
+            agent.Tasks.GoTo(waypoints[1]);
+        }
     }
 }
