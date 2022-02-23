@@ -1,6 +1,6 @@
 {
     "name": "com.i5.virtualagents",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "displayName": "Virtual Agents Framework",
     "description": "A Unity package for creating virtual agents",
     "unity": "2020.3",
@@ -25,9 +25,14 @@
     },
     "samples": [
         {
-            "displayName": "Navigation Example",
+            "displayName": "Navigation Sample",
             "description": "Example scene which shows how walking tasks can be issued to the agent. The agent walks along a path defined by a series of waypoints.",
-            "path": "Samples~/Navigation Example"
+            "path": "Samples~/Navigation Sample"
+        },
+        {
+            "displayName": "Wait Sample",
+            "description": "Example scene which shows how agents can wait in an idle position.",
+            "path": "Samples~/Wait Sample"
         }
     ]
 }
