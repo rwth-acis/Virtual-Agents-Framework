@@ -34,7 +34,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// Use this method to finish the task
         /// as invoking the event in derived classes is not possible (https://stackoverflow.com/a/31661451)
         /// </summary>
-        protected virtual void MarkAsFinished()
+        protected virtual void FinishTask()
         {
             OnTaskFinished();
         }

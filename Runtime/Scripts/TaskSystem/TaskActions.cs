@@ -53,5 +53,14 @@ namespace i5.VirtualAgents.TaskSystem
         {
             GoTo(destinationObject.transform, offset, priority);
         }
+
+        /// <summary>
+        /// Lets the agent wait for the given number of seconds in an idle position
+        /// </summary>
+        /// <param name="seconds">The time span in seconds for which the agent shoudl wait</param>
+        public void WaitForSeconds(float seconds, int priority = 0)
+        {
+            agent.ScheduleTask(new AgentWaitTask(seconds), priority);
+        }
     }
 }
