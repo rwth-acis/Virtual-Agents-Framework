@@ -10,10 +10,22 @@
         /// In an inactive state, no tasks are executed or started
         /// </summary>
         inactive,
+
         /// <summary>
         /// An idle state where nothing is to do and new tasks can be started
         /// </summary>
         idle,
+
+        /// <summary>
+        /// Wait until all tasks from the current task bundle are ready for exceution
+        /// </summary>
+        waitForBundleBegin,
+
+        /// <summary>
+        /// Wait until all tasks from the current task bundle are finished
+        /// </summary>
+        waitForBundleEnd,
+
         /// <summary>
         /// The agent is busy and is currently executing a task
         /// </summary>
