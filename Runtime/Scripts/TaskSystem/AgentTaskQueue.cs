@@ -22,17 +22,17 @@ namespace i5.VirtualAgents.TaskSystem
         /// Request the next task from the queue
         /// </summary>
         /// <returns>Next task from the queue or null if the queue is empty</returns>
-        public IAgentTask RequestNextTask()
+        public TaskEntry RequestNextTask()
         {
             if (taskQueue.Count > 0)
             {
-                IAgentTask result = taskQueue[0].task;
+                TaskEntry result = taskQueue[0];
                 taskQueue.RemoveAt(0);
                 return result;
             }
             else
             {
-                return null;
+                return new TaskEntry();
             }
         }
 
@@ -41,7 +41,7 @@ namespace i5.VirtualAgents.TaskSystem
         /// </summary>
         /// <param name="task">Any task that implements the IAgentTask interface</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
-        public void AddTask(IAgentTask task, int priority = 0)
+        public void AddTask(IAgentTask task, int priority = 0, TaskBundel taskBundel = null)
         {
             int insertIndex = taskQueue.Count;
             for (int i = 0; i < taskQueue.Count; i++)
@@ -57,14 +57,21 @@ namespace i5.VirtualAgents.TaskSystem
                 new TaskEntry()
                 {
                     task = task,
-                    priority = priority
+                    priority = priority,
+                    taskBundel = taskBundel
                 });
         }
 
-        private struct TaskEntry
-        {
-            public IAgentTask task;
-            public int priority;
-        }
+
+    }
+
+    /// <summary>
+    /// Contains a task, its corresponding priority and the task bundle it belongs to if it is part of one
+    /// </summary>
+    public struct TaskEntry
+    {
+        public IAgentTask task;
+        public int priority;
+        public TaskBundel taskBundel;
     }
 }
