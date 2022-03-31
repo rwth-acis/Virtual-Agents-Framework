@@ -34,7 +34,7 @@ namespace i5.VirtualAgents.Examples
             animationTask = new AgentAnimationTask("ShakeHead", 5);
             tasks.Add("Head", animationTask);
 
-            agent.ScheduleTaskBundel(tasks);
+            //agent.ScheduleTaskBundel(tasks);
             //---------------------------------------------------
 
             //Wait and wave on arm layer------
