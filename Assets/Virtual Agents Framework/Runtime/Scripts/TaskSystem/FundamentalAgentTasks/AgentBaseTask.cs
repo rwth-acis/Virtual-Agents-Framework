@@ -38,5 +38,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         {
             OnTaskFinished();
         }
+
+        public Func<bool> PrepareSchedule { get; set; }
     }
 }

@@ -21,6 +21,8 @@ namespace i5.VirtualAgents.TaskSystem
         /// </summary>
         void Update();
 
+        Func<bool> PrepareSchedule { get; set; }
+
         /// <summary>
         /// Event which is invoked once the task is finished
         /// Subscribed to by the agent's task manager so that the next task can be started afterwards
