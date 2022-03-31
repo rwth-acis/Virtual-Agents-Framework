@@ -27,12 +27,16 @@ namespace i5.VirtualAgents.Examples
             agent.ScheduleTask(wait, 0, "Left Arm");
 
             //Task Bundel: Wave and shake head simultaniously---
-            Dictionary<string, IAgentTask> tasks = new Dictionary<string, IAgentTask>();
+
+            TaskSynchroniser synchroniser = new TaskSynchroniser();
+
             IAgentTask animationTask = new AgentAnimationTask("Wave", 5);
-            tasks.Add("Left Arm",animationTask);
+            animationTask.PrepareSchedule = synchroniser.WaitForOtherTasksBegin(animationTask);
+            agent.ScheduleTask(animationTask,0, "Left Arm");
 
             animationTask = new AgentAnimationTask("ShakeHead", 5);
-            tasks.Add("Head", animationTask);
+            animationTask.PrepareSchedule = synchroniser.WaitForOtherTasksBegin(animationTask);
+            agent.ScheduleTask(animationTask,0,"Head");
 
             //agent.ScheduleTaskBundel(tasks);
             //---------------------------------------------------

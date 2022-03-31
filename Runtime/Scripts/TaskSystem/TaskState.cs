@@ -17,14 +17,10 @@
         idle,
 
         /// <summary>
-        /// Wait until all tasks from the current task bundle are ready for exceution
+        /// Wait until a task 
         /// </summary>
-        waitForBundleBegin,
+        waitForTaskReady,
 
-        /// <summary>
-        /// Wait until all tasks from the current task bundle are finished
-        /// </summary>
-        waitForBundleEnd,
 
         /// <summary>
         /// The agent is busy and is currently executing a task

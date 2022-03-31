@@ -93,9 +93,9 @@ namespace i5.VirtualAgents.TaskSystem
                 case TaskState.idle:
                     RequestNextTask(); // request new tasks
                     break;
-                case TaskState.waitForBundleBegin: // wait until all tasks from the current task bundle are ready for exceution
-                    break;
-                case TaskState.waitForBundleEnd: // wait until all tasks from the current task bundle are finished
+                case TaskState.waitForTaskReady: // wait until all tasks from the current task bundle are ready for exceution
+                    if (CurrentTask.PrepareSchedule())
+                        StartCurrentTask();
                     break;
                 case TaskState.busy:
                     CurrentTask.Update(); // perform frame-to-frame updates required by the current task
@@ -131,12 +131,15 @@ namespace i5.VirtualAgents.TaskSystem
                 // subscribe to the task's OnTaskFinished event to set the agent's state to idle after task execution
                 CurrentTask.OnTaskFinished += TaskFinished;
 
-                // The queue is not empty, thus...
-                // change the agent's current state to busy,
-                CurrentState = TaskState.busy;
-                
-                // execute the next task,
-                nextTask.Execute(ExecutingAgent);
+                if (CurrentTask.PrepareSchedule != null && !CurrentTask.PrepareSchedule())
+                {
+                    //The current task isn't ready yet, wait until it signals that it is
+                    currentState = TaskState.waitForTaskReady;
+                }
+                else
+                {
+                    StartCurrentTask();
+                }
             }
         }
 
@@ -150,6 +153,15 @@ namespace i5.VirtualAgents.TaskSystem
             // Unsubscribe from the event
             CurrentTask.OnTaskFinished -= TaskFinished;
             OnTaskFinished?.Invoke();
+        }
+
+        private void StartCurrentTask()
+        {
+            // change the agent's current state to busy,
+            CurrentState = TaskState.busy;
+
+            // execute the next task,
+            CurrentTask.Execute(ExecutingAgent);
         }
 
     }

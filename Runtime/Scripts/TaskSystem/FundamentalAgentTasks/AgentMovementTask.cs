@@ -32,10 +32,13 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// </summary>
         public float TargetSpeed { get; protected set; }
 
+        public Func<bool> PrepareSchedule { get; set; }
+
         /// <summary>
         /// Event which is invoked once the task is finished
         /// </summary>
         public event Action OnTaskFinished;
+
 
         /// <summary>
         /// Create an AgentMovementTask using destination coordinates

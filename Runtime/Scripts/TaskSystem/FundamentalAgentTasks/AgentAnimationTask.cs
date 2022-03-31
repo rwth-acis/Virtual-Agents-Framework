@@ -15,6 +15,8 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// </summary>
         public event Action OnTaskFinished;
 
+        public Func<bool> PrepareSchedule { get; set; }
+
         private Animator animator;
         private string startTrigger;
         private string stopTrigger;
