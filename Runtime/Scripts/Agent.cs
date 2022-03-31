@@ -62,20 +62,5 @@ namespace i5.VirtualAgents
         {
             taskManagers[layer].ScheduleTask(task, priority);
         }
-
-        /// <summary>
-        /// Schedule multiple tasks as a task bundel. A task from the bundle will only start onces all other tasks from the bundle are about to start and
-        /// block the excecution of new tasks on the corresponding layers until all tasks from the bundle are finished.
-        /// </summary>
-        /// <param name="LayerTask"></param>
-        public void ScheduleTaskBundel(Dictionary<string, IAgentTask> LayerTask, int priority = 0)
-        {
-            TaskBundel bundle = new TaskBundel(priority);
-            foreach (var taskManager in LayerTask)
-            {
-                bundle.AddTask(taskManagers[taskManager.Key],taskManager.Value);
-            }
-            bundle.ScheduleTaskBundel();
-        }
     }
 }

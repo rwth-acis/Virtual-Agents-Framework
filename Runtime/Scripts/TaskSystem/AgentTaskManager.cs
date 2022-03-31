@@ -13,8 +13,6 @@ namespace i5.VirtualAgents.TaskSystem
         // task queue of this manager
         private AgentTaskQueue queue = new AgentTaskQueue();
 
-        private TaskBundel currentTaskBundel;
-
         private TaskState currentState;
 
         /// <summary>
@@ -29,7 +27,7 @@ namespace i5.VirtualAgents.TaskSystem
         /// <summary>
         /// Agent's current task
         /// </summary>
-        public TaskEntry CurrentTask { get; private set; }
+        public IAgentTask CurrentTask { get; private set; }
 
         /// <summary>
         /// Agent's current state
@@ -100,7 +98,7 @@ namespace i5.VirtualAgents.TaskSystem
                 case TaskState.waitForBundleEnd: // wait until all tasks from the current task bundle are finished
                     break;
                 case TaskState.busy:
-                    CurrentTask.task.Update(); // perform frame-to-frame updates required by the current task
+                    CurrentTask.Update(); // perform frame-to-frame updates required by the current task
                     break;
             }
         }
@@ -115,21 +113,11 @@ namespace i5.VirtualAgents.TaskSystem
             queue.AddTask(task, priority);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="taskBundel"></param>
-        /// <param name="priority"></param>
-        public void ScheduleTaskBundel(TaskBundel taskBundel)
-        {
-            queue.AddTask(taskBundel.Tasks[this], taskBundel.priority, taskBundel);
-        }
-
         // get the next task from the queue and adapts the states accordingly
         private void RequestNextTask()
         {
-            TaskEntry nextTask = queue.RequestNextTask();
-            if (nextTask.task == null)
+            IAgentTask nextTask = queue.RequestNextTask();
+            if (nextTask == null)
             {
                 // The queue is empty, thus change the agent's current state to idle
                 CurrentState = TaskState.idle;
@@ -138,28 +126,17 @@ namespace i5.VirtualAgents.TaskSystem
             {
                 // save the current task,
                 CurrentTask = nextTask;
-                
-
-                //Check if the next task belongs to a task bundel
-
-                if (CurrentTask.taskBundel != null)
-                {
-                    CurrentState = TaskState.waitForBundleBegin;
-
-                    CurrentTask.taskBundel.TaskManagerReady(this);
-                    currentTaskBundel = CurrentTask.taskBundel;
-                    return;
-                }
+               
 
                 // subscribe to the task's OnTaskFinished event to set the agent's state to idle after task execution
-                CurrentTask.task.OnTaskFinished += TaskFinished;
+                CurrentTask.OnTaskFinished += TaskFinished;
 
                 // The queue is not empty, thus...
                 // change the agent's current state to busy,
                 CurrentState = TaskState.busy;
                 
                 // execute the next task,
-                nextTask.task.Execute(ExecutingAgent);
+                nextTask.Execute(ExecutingAgent);
             }
         }
 
@@ -171,41 +148,9 @@ namespace i5.VirtualAgents.TaskSystem
         {
             CurrentState = TaskState.idle;
             // Unsubscribe from the event
-            CurrentTask.task.OnTaskFinished -= TaskFinished;
+            CurrentTask.OnTaskFinished -= TaskFinished;
             OnTaskFinished?.Invoke();
         }
 
-        /// <summary>
-        /// Begins the execution of the current task bundle by setting the state to busy and invoking the current tasks excecute method
-        /// </summary>
-        public void StartBundle()
-        {
-            if (currentState == TaskState.waitForBundleBegin)
-            {
-                CurrentState = TaskState.busy;
-                CurrentTask.task.OnTaskFinished += WaitForBundle;
-                CurrentTask.task.Execute(ExecutingAgent);
-            }
-        }
-
-        // Lets the taskmanager idle until all tasks from the current task bundle are finished as well
-        private void WaitForBundle()
-        {
-            CurrentState = TaskState.waitForBundleEnd;
-            CurrentTask.task.OnTaskFinished -= WaitForBundle;
-            currentTaskBundel.TaskManagerFinished(this);
-        }
-
-        /// <summary>
-        /// Ends the execution of the current task bundle by setting the state to idle and invoking the current tasks OnTaskFinished event
-        /// </summary>
-        public void EndBundle()
-        {
-            if (currentState == TaskState.waitForBundleEnd)
-            {
-                CurrentState = TaskState.idle;
-                OnTaskFinished?.Invoke();
-            }
-        }
     }
 }
