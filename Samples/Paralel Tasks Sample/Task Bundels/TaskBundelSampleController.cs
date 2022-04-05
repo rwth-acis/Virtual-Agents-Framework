@@ -32,17 +32,17 @@ namespace i5.VirtualAgents.Examples
             TaskSynchroniser synchroniserEnd = new TaskSynchroniser();
 
             IAgentTask animationTask = new AgentAnimationTask("Wave", 5);
-            animationTask.PrepareSchedule = new List<System.Func<bool>>();
-            animationTask.PrepareSchedule.Add(synchroniserStart.WaitForOtherTasksMutually(animationTask));
-            animationTask.PrepareCleanup = new List<System.Func<bool>>();
-            animationTask.PrepareCleanup.Add(synchroniserEnd.WaitForOtherTasksMutually(animationTask));
+            animationTask.ReadyToStart = new List<System.Func<bool>>();
+            animationTask.ReadyToStart.Add(synchroniserStart.WaitForOtherTasksMutually(animationTask));
+            animationTask.ReadyToEnd = new List<System.Func<bool>>();
+            animationTask.ReadyToEnd.Add(synchroniserEnd.WaitForOtherTasksMutually(animationTask));
             agent.ScheduleTask(animationTask,0, "Left Arm");
 
             animationTask = new AgentAnimationTask("ShakeHead", 10);
-            animationTask.PrepareSchedule = new List<System.Func<bool>>();
-            animationTask.PrepareSchedule.Add(synchroniserStart.WaitForOtherTasksMutually(animationTask));
-            animationTask.PrepareCleanup = new List<System.Func<bool>>();
-            animationTask.PrepareCleanup.Add(synchroniserEnd.WaitForOtherTasksMutually(animationTask));
+            animationTask.ReadyToStart = new List<System.Func<bool>>();
+            animationTask.ReadyToStart.Add(synchroniserStart.WaitForOtherTasksMutually(animationTask));
+            animationTask.ReadyToEnd = new List<System.Func<bool>>();
+            animationTask.ReadyToEnd.Add(synchroniserEnd.WaitForOtherTasksMutually(animationTask));
             agent.ScheduleTask(animationTask,0,"Head");
 
             //agent.ScheduleTaskBundel(tasks);
