@@ -1,5 +1,6 @@
 using i5.Toolkit.Core.Utilities;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -32,7 +33,9 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// </summary>
         public float TargetSpeed { get; protected set; }
 
-        public Func<bool> PrepareSchedule { get; set; }
+        public List<Func<bool>> PrepareSchedule { get; set; }
+
+        public List<Func<bool>> PrepareCleanup { get; set; }
 
         /// <summary>
         /// Event which is invoked once the task is finished

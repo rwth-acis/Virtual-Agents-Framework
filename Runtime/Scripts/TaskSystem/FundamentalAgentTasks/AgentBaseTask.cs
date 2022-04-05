@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace i5.VirtualAgents.TaskSystem.AgentTasks
 {
@@ -39,6 +40,8 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             OnTaskFinished();
         }
 
-        public Func<bool> PrepareSchedule { get; set; }
+        public List<Func<bool>> PrepareSchedule { get; set; }
+
+        public List<Func<bool>> PrepareCleanup { get; set; }
     }
 }
