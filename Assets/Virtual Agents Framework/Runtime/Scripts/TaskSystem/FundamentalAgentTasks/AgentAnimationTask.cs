@@ -15,13 +15,14 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// </summary>
         public event Action OnTaskFinished;
 
-        public Func<bool> PrepareSchedule { get; set; }
+        public List<Func<bool>> PrepareSchedule { get; set; }
+        public List<Func<bool>> PrepareCleanup { get; set; }
 
         private Animator animator;
         private string startTrigger;
         private string stopTrigger;
         private float playTime;
-        DateTime startTime;
+        private DateTime startTime;
 
         public AgentAnimationTask(string startTrigger, float playTime, string stopTrigger = "")
         {
@@ -45,5 +46,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
                 OnTaskFinished.Invoke();
             }
         }
+
+        
     }
 }

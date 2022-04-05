@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace i5.VirtualAgents.TaskSystem
 {
@@ -21,7 +22,9 @@ namespace i5.VirtualAgents.TaskSystem
         /// </summary>
         void Update();
 
-        Func<bool> PrepareSchedule { get; set; }
+        List<Func<bool>> PrepareSchedule { get; set; }
+
+        List<Func<bool>> PrepareCleanup { get; set; }
 
         /// <summary>
         /// Event which is invoked once the task is finished

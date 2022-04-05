@@ -7,10 +7,15 @@ namespace i5.VirtualAgents.TaskSystem
 {
     public class TaskSynchroniser
     {
-        public HashSet<IAgentTask> tasks = new HashSet<IAgentTask>();
+        private HashSet<IAgentTask> tasks = new HashSet<IAgentTask>();
         private HashSet<IAgentTask> readyTasks = new HashSet<IAgentTask>();
 
-        public Func<bool> WaitForOtherTasksBegin(IAgentTask ownTask)
+        /// <summary>
+        /// All tasks that use the returned function as prepare schedule function will start simultaneously
+        /// </summary>
+        /// <param name="ownTask"></param> The task that wants to be part of the mutual scheduling
+        /// <returns></returns>
+        public Func<bool> WaitForOtherTasksMutually(IAgentTask ownTask)
         {
             tasks.Add(ownTask);
 

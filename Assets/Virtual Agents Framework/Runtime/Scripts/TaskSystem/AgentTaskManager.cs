@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace i5.VirtualAgents.TaskSystem
 {
@@ -93,9 +94,13 @@ namespace i5.VirtualAgents.TaskSystem
                 case TaskState.idle:
                     RequestNextTask(); // request new tasks
                     break;
-                case TaskState.waitForTaskReady: // wait until all tasks from the current task bundle are ready for exceution
-                    if (CurrentTask.PrepareSchedule())
+                case TaskState.waitForTaskReadyToBegin: // wait until all tasks from the current task bundle are ready for exceution
+                    if (CheckTaskReadyness(CurrentTask.PrepareSchedule))
                         StartCurrentTask();
+                    break;
+                case TaskState.waitForTaskReadyToEnd: // wait until all tasks from the current task bundle are ready for exceution
+                    if (CheckTaskReadyness(CurrentTask.PrepareCleanup))
+                        EndCurrentTask();
                     break;
                 case TaskState.busy:
                     CurrentTask.Update(); // perform frame-to-frame updates required by the current task
@@ -131,14 +136,15 @@ namespace i5.VirtualAgents.TaskSystem
                 // subscribe to the task's OnTaskFinished event to set the agent's state to idle after task execution
                 CurrentTask.OnTaskFinished += TaskFinished;
 
-                if (CurrentTask.PrepareSchedule != null && !CurrentTask.PrepareSchedule())
+
+                if (CheckTaskReadyness(CurrentTask.PrepareSchedule))
                 {
-                    //The current task isn't ready yet, wait until it signals that it is
-                    currentState = TaskState.waitForTaskReady;
+                    StartCurrentTask();
                 }
                 else
                 {
-                    StartCurrentTask();
+                    //The current task isn't ready yet, wait until it signals that it is
+                    currentState = TaskState.waitForTaskReadyToBegin;
                 }
             }
         }
@@ -149,12 +155,21 @@ namespace i5.VirtualAgents.TaskSystem
         /// </summary>
         private void TaskFinished()
         {
-            CurrentState = TaskState.idle;
             // Unsubscribe from the event
             CurrentTask.OnTaskFinished -= TaskFinished;
-            OnTaskFinished?.Invoke();
+
+            if (CheckTaskReadyness(CurrentTask.PrepareCleanup))
+            {
+                EndCurrentTask();
+            }
+            else
+            {
+                //Task isn't ready yet to be ended, wait until it signals that it is
+                currentState = TaskState.waitForTaskReadyToEnd;
+            }
         }
 
+        //
         private void StartCurrentTask()
         {
             // change the agent's current state to busy,
@@ -162,6 +177,21 @@ namespace i5.VirtualAgents.TaskSystem
 
             // execute the next task,
             CurrentTask.Execute(ExecutingAgent);
+        }
+
+        private void EndCurrentTask()
+        {
+            // change the agent's current state to idle,
+            CurrentState = TaskState.idle;
+            
+            OnTaskFinished?.Invoke();
+        }
+
+        //Is the task ready to be scheduled or finished?
+        private bool CheckTaskReadyness(List<Func<bool>> isReady)
+        {
+            return isReady == null || isReady.Count == 0 || //Does the current task implement no prepare/cleanup functions? If not, it is ready for scheduling/finish
+                 isReady.Aggregate((result, item) => () => result() && item())(); //If it does, does every prepare/cleanup function report that it has finished?
         }
 
     }

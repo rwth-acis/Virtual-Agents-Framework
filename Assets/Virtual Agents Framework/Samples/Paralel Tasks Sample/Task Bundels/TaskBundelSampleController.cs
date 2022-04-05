@@ -28,14 +28,21 @@ namespace i5.VirtualAgents.Examples
 
             //Task Bundel: Wave and shake head simultaniously---
 
-            TaskSynchroniser synchroniser = new TaskSynchroniser();
+            TaskSynchroniser synchroniserStart = new TaskSynchroniser();
+            TaskSynchroniser synchroniserEnd = new TaskSynchroniser();
 
             IAgentTask animationTask = new AgentAnimationTask("Wave", 5);
-            animationTask.PrepareSchedule = synchroniser.WaitForOtherTasksBegin(animationTask);
+            animationTask.PrepareSchedule = new List<System.Func<bool>>();
+            animationTask.PrepareSchedule.Add(synchroniserStart.WaitForOtherTasksMutually(animationTask));
+            animationTask.PrepareCleanup = new List<System.Func<bool>>();
+            animationTask.PrepareCleanup.Add(synchroniserEnd.WaitForOtherTasksMutually(animationTask));
             agent.ScheduleTask(animationTask,0, "Left Arm");
 
-            animationTask = new AgentAnimationTask("ShakeHead", 5);
-            animationTask.PrepareSchedule = synchroniser.WaitForOtherTasksBegin(animationTask);
+            animationTask = new AgentAnimationTask("ShakeHead", 10);
+            animationTask.PrepareSchedule = new List<System.Func<bool>>();
+            animationTask.PrepareSchedule.Add(synchroniserStart.WaitForOtherTasksMutually(animationTask));
+            animationTask.PrepareCleanup = new List<System.Func<bool>>();
+            animationTask.PrepareCleanup.Add(synchroniserEnd.WaitForOtherTasksMutually(animationTask));
             agent.ScheduleTask(animationTask,0,"Head");
 
             //agent.ScheduleTaskBundel(tasks);
