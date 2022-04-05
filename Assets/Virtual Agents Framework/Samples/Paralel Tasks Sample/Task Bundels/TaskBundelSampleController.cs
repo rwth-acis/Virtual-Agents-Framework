@@ -14,19 +14,19 @@ namespace i5.VirtualAgents.Examples
 
         void Start()
         {
-            // add walking tasks for each waypoint
-            // here, we use the TaskActions shortcut but we could also just create a new
-            // AgentMovementTask and schedule it using agent.ScheduleTask.
             for (int i = 0; i < waypoints.Count; i++)
             {
                 agent.Tasks.GoTo(waypoints[i].position);
             }
 
+            //Long way:
+
             //Schedule 3 Seconds wait on arm layer
             IAgentTask wait = new AgentWaitTask(2);
             agent.ScheduleTask(wait, 0, "Left Arm");
 
-            //Task Bundel: Wave and shake head simultaniously---
+            //These tasks will be configurated to start and end simultaniously.
+            //Therefore, shaking the head will not start immediately but it will only start when the waving starts which was delayed by 2 seconds by the waiting task--------------------
 
             TaskSynchroniser synchroniserStart = new TaskSynchroniser();
             TaskSynchroniser synchroniserEnd = new TaskSynchroniser();
@@ -44,19 +44,16 @@ namespace i5.VirtualAgents.Examples
             animationTask.ReadyToEnd = new List<System.Func<bool>>();
             animationTask.ReadyToEnd.Add(synchroniserEnd.WaitForOtherTasksMutually(animationTask));
             agent.ScheduleTask(animationTask,0,"Head");
+            //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-            //agent.ScheduleTaskBundel(tasks);
-            //---------------------------------------------------
 
-            //Wait and wave on arm layer------
-            wait = new AgentWaitTask(2);
-            agent.ScheduleTask(wait, 0, "Left Arm");
-
+            //Wave on arm layer. Will only start once the headshaking from the interlocked tasks is finished, since the provious wave task will block the arm lane until all other interlocked tasks are finished------
             animationTask = new AgentAnimationTask("Wave", 5);
             agent.ScheduleTask(animationTask, 0, "Left Arm");
-            //--------------------------------
+            //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-            agent.Tasks.GoTo(highPrioWaypoint, Vector3.zero, 5);
+
+            //TODO show short way via shortcuts once implemented
         }
     }
 }
