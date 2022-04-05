@@ -40,8 +40,8 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             OnTaskFinished();
         }
 
-        public List<Func<bool>> PrepareSchedule { get; set; }
+        public List<Func<bool>> ReadyToStart { get; set; }
 
-        public List<Func<bool>> PrepareCleanup { get; set; }
+        public List<Func<bool>> ReadyToEnd { get; set; }
     }
 }

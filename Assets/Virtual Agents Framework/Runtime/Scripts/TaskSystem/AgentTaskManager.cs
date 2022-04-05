@@ -95,11 +95,11 @@ namespace i5.VirtualAgents.TaskSystem
                     RequestNextTask(); // request new tasks
                     break;
                 case TaskState.waitForTaskReadyToBegin: // wait until all tasks from the current task bundle are ready for exceution
-                    if (CheckTaskReadyness(CurrentTask.PrepareSchedule))
+                    if (CheckTaskReadyness(CurrentTask.ReadyToStart))
                         StartCurrentTask();
                     break;
                 case TaskState.waitForTaskReadyToEnd: // wait until all tasks from the current task bundle are ready for exceution
-                    if (CheckTaskReadyness(CurrentTask.PrepareCleanup))
+                    if (CheckTaskReadyness(CurrentTask.ReadyToEnd))
                         EndCurrentTask();
                     break;
                 case TaskState.busy:
@@ -137,7 +137,7 @@ namespace i5.VirtualAgents.TaskSystem
                 CurrentTask.OnTaskFinished += TaskFinished;
 
 
-                if (CheckTaskReadyness(CurrentTask.PrepareSchedule))
+                if (CheckTaskReadyness(CurrentTask.ReadyToStart))
                 {
                     StartCurrentTask();
                 }
@@ -158,7 +158,7 @@ namespace i5.VirtualAgents.TaskSystem
             // Unsubscribe from the event
             CurrentTask.OnTaskFinished -= TaskFinished;
 
-            if (CheckTaskReadyness(CurrentTask.PrepareCleanup))
+            if (CheckTaskReadyness(CurrentTask.ReadyToEnd))
             {
                 EndCurrentTask();
             }
