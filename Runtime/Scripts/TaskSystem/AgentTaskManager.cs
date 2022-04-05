@@ -94,11 +94,11 @@ namespace i5.VirtualAgents.TaskSystem
                 case TaskState.idle:
                     RequestNextTask(); // request new tasks
                     break;
-                case TaskState.waitForTaskReadyToBegin: // wait until all tasks from the current task bundle are ready for exceution
+                case TaskState.waitForTaskReadyToBegin: // wait until the task is ready to start
                     if (CheckTaskReadyness(CurrentTask.ReadyToStart))
                         StartCurrentTask();
                     break;
-                case TaskState.waitForTaskReadyToEnd: // wait until all tasks from the current task bundle are ready for exceution
+                case TaskState.waitForTaskReadyToEnd: // wait until the task is ready to end
                     if (CheckTaskReadyness(CurrentTask.ReadyToEnd))
                         EndCurrentTask();
                     break;
@@ -169,7 +169,7 @@ namespace i5.VirtualAgents.TaskSystem
             }
         }
 
-        //
+        //Exceute task and change agent state to busy
         private void StartCurrentTask()
         {
             // change the agent's current state to busy,
@@ -179,6 +179,7 @@ namespace i5.VirtualAgents.TaskSystem
             CurrentTask.Execute(ExecutingAgent);
         }
 
+        //Invoe OnTaskFinish and set agent state to idel
         private void EndCurrentTask()
         {
             // change the agent's current state to idle,
@@ -190,7 +191,7 @@ namespace i5.VirtualAgents.TaskSystem
         //Is the task ready to be scheduled or finished?
         private bool CheckTaskReadyness(List<Func<bool>> isReady)
         {
-            return isReady == null || isReady.Count == 0 || //Does the current task implement no prepare/cleanup functions? If not, it is ready for scheduling/finish
+            return isReady == null || isReady.Count == 0 || //Does the current task implement no prepare/cleanup functions? If it doesn't, it is ready for scheduling/finish
                  isReady.Aggregate((result, item) => () => result() && item())(); //If it does, does every prepare/cleanup function report that it has finished?
         }
 
