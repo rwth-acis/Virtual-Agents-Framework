@@ -14,13 +14,13 @@ namespace i5.VirtualAgents.Examples
 
         void Start()
         {
-            // add walking tasks for each waypoint
-            // here, we use the TaskActions shortcut but we could also just create a new
-            // AgentMovementTask and schedule it using agent.ScheduleTask.
             for (int i = 0; i < waypoints.Count; i++)
             {
                 agent.Tasks.GoTo(waypoints[i].position);
             }
+
+
+            //Long way:
 
             //Schedule 3 Seconds wait on arm layer
             IAgentTask wait = new AgentWaitTask(3);
@@ -43,10 +43,7 @@ namespace i5.VirtualAgents.Examples
             agent.ScheduleTask(animationTask, 0, "Left Arm");
             //--------------------------------
 
-            // example for a different priority:
-            // this waypoint is added last but has the highest priority,
-            // so the agent will walk to it first
-            agent.Tasks.GoTo(highPrioWaypoint, Vector3.zero, 5);
+            //TODO show short way via shortcuts once implemented
         }
     }
 }
