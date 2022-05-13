@@ -13,8 +13,9 @@ namespace i5.VirtualAgents
     [RequireComponent(typeof(AgentAnimationUpdater))] // Responsible for the avatar's movement
     public class Agent : MonoBehaviour
     {
-        //One task manager for every animation layer of the corresponding animator is generated
-        private Dictionary<string,AgentTaskManager> taskManagers;
+        [SerializeField] private TaskSystemEnum taskSystemKind;
+        public ITaskSystem taskSystem { get; private set; }
+        
 
         /// <summary>
         /// The animator component which controls the agent's animations
@@ -34,33 +35,32 @@ namespace i5.VirtualAgents
         {
             Tasks = new TaskActions(this);
             Animator = GetComponent<Animator>();
-            taskManagers = new Dictionary<string, AgentTaskManager>();
-            //Create a task manager for each animation layer
-            for (int i = 0; i < Animator.layerCount; i++)
+            switch (taskSystemKind)
             {
-                taskManagers.Add(Animator.GetLayerName(i),new AgentTaskManager(this));
+                case TaskSystemEnum.ScheduleBased:
+                    taskSystem = new SchedulBasedTaskExecution(this);
+                    break;
             }
+
+        }
+
+        public void ScheduleTask(IAgentTask task, int priority = 0, string layer = "Base Layer")
+        {
+            taskSystem.ScheduleTask(task, priority, layer);
         }
 
         /// <summary>
-        /// Enable the right mode depending on the agent's status
+        /// Update the task system
         /// </summary>
         private void Update()
         {
-            foreach (var taskManager in taskManagers.Values)
-            {
-                taskManager.Update();
-            }
+            taskSystem.Update();
         }
+    }
 
-        /// <summary>
-        /// Schedule a task
-        /// </summary>
-        /// <param name="task">Task to be scheduled</param>
-        /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value</param>
-        public void ScheduleTask(IAgentTask task, int priority = 0, string layer = "Base Layer")
-        {
-            taskManagers[layer].ScheduleTask(task, priority);
-        }
+    enum TaskSystemEnum
+    {
+        ScheduleBased,
+        BehaviorTree
     }
 }
