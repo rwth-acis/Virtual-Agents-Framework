@@ -36,6 +36,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         public List<Func<bool>> ReadyToStart { get; set; }
 
         public List<Func<bool>> ReadyToEnd { get; set; }
+        public NodeState state { get; set; }
 
         /// <summary>
         /// Event which is invoked once the task is finished
@@ -68,9 +69,6 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
                 i5Debug.LogError($"The agent {agent.name} does not have a NavMeshAgent component. " +
                     $"Therefore, it cannot move. Skipping this task.",
                     this);
-
-                OnTaskFinished?.Invoke();
-
                 return;
             }
 
@@ -80,29 +78,40 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// <summary>
         /// Checks every frame whether the agent has reached the target
         /// </summary>
-        public void Update()
+        public NodeState Update()
         {
+            if (navMeshAgent == null)
+                return NodeState.Failure; //No navmesh agent attached
+            if (navMeshAgent.pathPending)
+                return NodeState.Running; //The navmesh agent is still generating the path, try again on next update
+            if (navMeshAgent.pathStatus == NavMeshPathStatus.PathPartial || navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
+                return NodeState.Failure; //The navmesh agent couldn't generate a complete and valid path
+
             if (navMeshAgent.remainingDistance < minDistance)
             {
-                StopMovement();
+                return NodeState.Success;
             }
+
+            //The agent moves on a valid path and hasn't reached its destination yet
+            return NodeState.Running;
         }
 
         private void StartMovement()
         {
+            //Give all control about the movement to the navmesh agent
+            navMeshAgent.enabled = true;
+            navMeshAgent.updatePosition = true;
+            navMeshAgent.updateRotation = true;
             navMeshAgent.SetDestination(Destination);
             if (TargetSpeed > 0)
             {
                 navMeshAgent.speed = TargetSpeed;
             }
-            navMeshAgent.enabled = true;
-            navMeshAgent.updatePosition = true;
-            navMeshAgent.updateRotation = true;
         }
 
-        private void StopMovement()
+        public void Stop()
         {
-            OnTaskFinished?.Invoke();
+            navMeshAgent.enabled = false;
         }
     }
 }
