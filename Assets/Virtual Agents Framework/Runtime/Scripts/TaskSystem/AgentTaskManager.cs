@@ -103,7 +103,11 @@ namespace i5.VirtualAgents.TaskSystem
                         EndCurrentTask();
                     break;
                 case TaskState.busy:
-                    CurrentTask.Update(); // perform frame-to-frame updates required by the current task
+                    NodeState taskState = CurrentTask.Update();
+                    if (taskState == NodeState.Success || taskState == NodeState.Failure) // perform frame-to-frame updates required by the current task
+                    {
+                        TaskFinished();
+                    }
                     break;
             }
         }
@@ -131,11 +135,6 @@ namespace i5.VirtualAgents.TaskSystem
             {
                 // save the current task,
                 CurrentTask = nextTask;
-               
-
-                // subscribe to the task's OnTaskFinished event to set the agent's state to idle after task execution
-                CurrentTask.OnTaskFinished += TaskFinished;
-
 
                 if (CheckTaskReadyness(CurrentTask.ReadyToStart))
                 {
@@ -151,12 +150,10 @@ namespace i5.VirtualAgents.TaskSystem
 
         /// <summary>
         /// Helper function to be called when a task has been executed.
-        /// Set agent's state to idle and unsubscribe from the current task's OnTaskFinished event
+        /// Set agent's state to idle
         /// </summary>
         private void TaskFinished()
         {
-            // Unsubscribe from the event
-            CurrentTask.OnTaskFinished -= TaskFinished;
 
             if (CheckTaskReadyness(CurrentTask.ReadyToEnd))
             {
@@ -184,8 +181,8 @@ namespace i5.VirtualAgents.TaskSystem
         {
             // change the agent's current state to idle,
             CurrentState = TaskState.idle;
-            
-            OnTaskFinished?.Invoke();
+            CurrentTask.Stop();
+            RequestNextTask();
         }
 
         //Is the task ready to be scheduled or finished?
