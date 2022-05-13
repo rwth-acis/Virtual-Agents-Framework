@@ -40,8 +40,10 @@ namespace i5.VirtualAgents
                 case TaskSystemEnum.ScheduleBased:
                     taskSystem = new SchedulBasedTaskExecution(this);
                     break;
+                case TaskSystemEnum.BehaviorTree:
+                    taskSystem = new BehaviorTreeRunner(this);
+                    break;
             }
-
         }
 
         public void ScheduleTask(IAgentTask task, int priority = 0, string layer = "Base Layer")
