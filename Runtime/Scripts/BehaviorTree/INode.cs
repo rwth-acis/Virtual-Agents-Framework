@@ -15,6 +15,23 @@ namespace i5.VirtualAgents
     public interface INode
     {
         NodeState state { get; set; }
+
+        /// <summary>
+        /// Manages nodestate and automatically triggers execute when updated fo the first time
+        /// </summary>
+        /// <param name="exceutingAgent"></param>
+        /// <returns></returns>
+        NodeState FullUpdate(Agent exceutingAgent)
+        {
+            if (state == NodeState.Waiting)
+            {
+                Execute(exceutingAgent);
+                state = NodeState.Running;
+            }
+            
+            return Update();
+        }
+
         NodeState Update();
         void Execute(Agent exceutingAgent);
         void Stop();
