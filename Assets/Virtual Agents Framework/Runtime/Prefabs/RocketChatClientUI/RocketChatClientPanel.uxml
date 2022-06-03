@@ -1,8 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="RocketChatClientPanel.uss" />
-    <ui:Label text="Name: " display-tooltip-when-elided="true" name="NameLabel" style="height: 45px; font-size: 20px; -unity-text-align: middle-left;" />
-    <ui:Label text="Email: " display-tooltip-when-elided="true" name="EmailLabel" style="height: 43px; font-size: 20px; -unity-text-align: middle-left;" />
-    <ui:Label text="ID: " display-tooltip-when-elided="true" name="IdLabel" style="height: 43px; font-size: 20px; -unity-text-align: middle-left;" />
-    <ui:Label text="Roles: " display-tooltip-when-elided="true" name="RoleLabel" style="height: 43px; font-size: 20px; -unity-text-align: middle-left;" />
-    <ui:Button text="Show Methods" display-tooltip-when-elided="true" name="ShowMethodsButton" style="font-size: 25px; -unity-font-style: bold; height: 51px; width: 345px;" />
+    <ui:Label text="Channel Group" display-tooltip-when-elided="true" name="ChannelGroupLabel" style="-unity-text-align: middle-center; height: 34px; font-size: 25px;" />
+    <ui:TextField picking-mode="Ignore" label="Message" value="filler text" name="MessageField" style="height: 37px; font-size: 25px; -unity-text-align: middle-center;" />
+    <ui:Button text="Post Message" display-tooltip-when-elided="true" name="PostMessageButton" style="height: 37px; font-size: 25px;" />
+    <ui:Button text="Subscribe" display-tooltip-when-elided="true" name="SubscribeButton" style="height: 40px; font-size: 25px;" />
+    <ui:Button text="Show Methods" display-tooltip-when-elided="true" name="ShowMethodsButton" style="height: 40px; font-size: 25px;" />
 </ui:UXML>
