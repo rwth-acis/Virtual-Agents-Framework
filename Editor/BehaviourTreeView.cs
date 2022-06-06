@@ -29,16 +29,37 @@ namespace i5.VirtualAgents.Editor
             styleSheets.Add(styleSheet);
         }
 
+        
         internal void PopulateView(BehaviorTreeAsset tree)
         {
             this.tree = tree;
             graphViewChanged -= OnGraphViewChanged;
             DeleteElements(graphElements);
             graphViewChanged += OnGraphViewChanged;
+
+            //Create nodes
             foreach (var node in tree.nodes)
             {
                 CreateNodeView(node);
             }
+
+            //Create edges
+            foreach (var node in tree.nodes)
+            {
+                NodeView parentView = FindNodeView(node);
+                foreach (var child in node.children)
+                {
+                    NodeView childView = FindNodeView(child);
+                    Edge edge = parentView.output.ConnectTo(childView.input);
+                    AddElement(edge);
+                }
+            }
+
+        }
+
+        NodeView FindNodeView(GraphicalNode node)
+        {
+            return GetNodeByGuid(node.guid.ToString()) as NodeView;
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
@@ -112,10 +133,11 @@ namespace i5.VirtualAgents.Editor
             CreateNodeView(graphicalNode);
         }
 
-        void CreateNodeView(GraphicalNode node)
+        NodeView CreateNodeView(GraphicalNode node)
         {
             NodeView nodeView = new NodeView(node);
             AddElement(nodeView);
+            return nodeView;
         }
 
         /// <summary>
