@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace i5.VirtualAgents
 {
-    public interface IDecoratorNode : INode
+    public interface IDecoratorNode : ITask
     {
-        INode child { get; set; }
+        ITask child { get; set; }
     }
 }
