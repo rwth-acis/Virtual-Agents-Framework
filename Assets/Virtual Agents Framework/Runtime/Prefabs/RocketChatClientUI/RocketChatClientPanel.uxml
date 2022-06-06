@@ -3,6 +3,7 @@
     <ui:Label text="Channel Group" display-tooltip-when-elided="true" name="ChannelGroupLabel" style="-unity-text-align: middle-center; height: 34px; font-size: 25px;" />
     <ui:TextField picking-mode="Ignore" label="Message" value="filler text" name="MessageField" style="height: 37px; font-size: 25px; -unity-text-align: middle-center;" />
     <ui:Button text="Post Message" display-tooltip-when-elided="true" name="PostMessageButton" style="height: 37px; font-size: 25px;" />
+    <ui:Button text="Post Message" display-tooltip-when-elided="true" name="PostMessageButton" style="height: 37px; font-size: 25px;" />
     <ui:Button text="Subscribe" display-tooltip-when-elided="true" name="SubscribeButton" style="height: 40px; font-size: 25px;" />
     <ui:Button text="Show Methods" display-tooltip-when-elided="true" name="ShowMethodsButton" style="height: 40px; font-size: 25px;" />
 </ui:UXML>
