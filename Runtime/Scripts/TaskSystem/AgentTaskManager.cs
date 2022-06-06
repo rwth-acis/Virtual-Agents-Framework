@@ -14,7 +14,7 @@ namespace i5.VirtualAgents.TaskSystem
         // task queue of this manager
         private AgentTaskQueue queue = new AgentTaskQueue();
 
-        private TaskState currentState;
+        private TaskManagerState currentState;
 
         /// <summary>
         /// Event which is raised once the agent's state changes
@@ -33,7 +33,7 @@ namespace i5.VirtualAgents.TaskSystem
         /// <summary>
         /// Agent's current state
         /// </summary>
-        public TaskState CurrentState
+        public TaskManagerState CurrentState
         {
             get => currentState;
             private set
@@ -51,7 +51,7 @@ namespace i5.VirtualAgents.TaskSystem
         {
             // Make the agent start in the idle state in order to enable requesting new tasks
             // CHANGE_ME to inactive in order to disable requesting new tasks
-            currentState = TaskState.idle;
+            currentState = TaskManagerState.idle;
         }
 
         /// <summary>
@@ -74,11 +74,11 @@ namespace i5.VirtualAgents.TaskSystem
 
             if (ExecutingAgent == null)
             {
-                CurrentState = TaskState.inactive;
+                CurrentState = TaskManagerState.inactive;
             }
             else
             {
-                CurrentState = TaskState.idle;
+                CurrentState = TaskManagerState.idle;
             }
         }
 
@@ -89,22 +89,22 @@ namespace i5.VirtualAgents.TaskSystem
         {
             switch (CurrentState)
             {
-                case TaskState.inactive: // do nothing
+                case TaskManagerState.inactive: // do nothing
                     break;
-                case TaskState.idle:
+                case TaskManagerState.idle:
                     RequestNextTask(); // request new tasks
                     break;
-                case TaskState.waitForTaskReadyToBegin: // wait until the task is ready to start
+                case TaskManagerState.waitForTaskReadyToBegin: // wait until the task is ready to start
                     if (CheckTaskReadyness(CurrentTask.ReadyToStart))
                         StartCurrentTask();
                     break;
-                case TaskState.waitForTaskReadyToEnd: // wait until the task is ready to end
+                case TaskManagerState.waitForTaskReadyToEnd: // wait until the task is ready to end
                     if (CheckTaskReadyness(CurrentTask.ReadyToEnd))
                         EndCurrentTask();
                     break;
-                case TaskState.busy:
-                    NodeState taskState = CurrentTask.Update();
-                    if (taskState == NodeState.Success || taskState == NodeState.Failure) // perform frame-to-frame updates required by the current task
+                case TaskManagerState.busy:
+                    TaskState taskState = CurrentTask.Update();
+                    if (taskState == TaskState.Success || taskState == TaskState.Failure) // perform frame-to-frame updates required by the current task
                     {
                         TaskFinished();
                     }
@@ -129,7 +129,7 @@ namespace i5.VirtualAgents.TaskSystem
             if (nextTask == null)
             {
                 // The queue is empty, thus change the agent's current state to idle
-                CurrentState = TaskState.idle;
+                CurrentState = TaskManagerState.idle;
             }
             else
             {
@@ -143,7 +143,7 @@ namespace i5.VirtualAgents.TaskSystem
                 else
                 {
                     //The current task isn't ready yet, wait until it signals that it is
-                    currentState = TaskState.waitForTaskReadyToBegin;
+                    currentState = TaskManagerState.waitForTaskReadyToBegin;
                 }
             }
         }
@@ -162,7 +162,7 @@ namespace i5.VirtualAgents.TaskSystem
             else
             {
                 //Task isn't ready yet to be ended, wait until it signals that it is
-                currentState = TaskState.waitForTaskReadyToEnd;
+                currentState = TaskManagerState.waitForTaskReadyToEnd;
             }
         }
 
@@ -170,7 +170,7 @@ namespace i5.VirtualAgents.TaskSystem
         private void StartCurrentTask()
         {
             // change the agent's current state to busy,
-            CurrentState = TaskState.busy;
+            CurrentState = TaskManagerState.busy;
 
             // execute the next task,
             CurrentTask.Execute(ExecutingAgent);
@@ -180,7 +180,7 @@ namespace i5.VirtualAgents.TaskSystem
         private void EndCurrentTask()
         {
             // change the agent's current state to idle,
-            CurrentState = TaskState.idle;
+            CurrentState = TaskManagerState.idle;
             CurrentTask.Stop();
             RequestNextTask();
         }
