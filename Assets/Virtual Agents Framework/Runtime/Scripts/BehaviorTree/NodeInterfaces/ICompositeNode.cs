@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace i5.VirtualAgents
 {
-    public interface ICompositeNode : INode
+    public interface ICompositeNode : ITask
     {
-        List<INode> children { get; set; }
+        List<ITask> children {get; set;}
     }
 }
