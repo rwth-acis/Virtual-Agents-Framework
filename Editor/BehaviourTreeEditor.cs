@@ -9,6 +9,7 @@ using i5.VirtualAgents.Editor;
 public class BehaviourTreeEditor : EditorWindow
 {
     BehaviourTreeView treeView;
+    InspectorView inspectorView; 
 
     [MenuItem("i5 Toolkit/BehaviourTreeEditor")]
     public static void ShowExample()
@@ -34,6 +35,11 @@ public class BehaviourTreeEditor : EditorWindow
         root.styleSheets.Add(styleSheet);
 
         treeView = root.Query<BehaviourTreeView>();
+        inspectorView = root.Query<InspectorView>();
+        treeView.OnNodeSelect = OnNodeSelectionChanged;
+
+        Button saveButton = root.Query<Button>("Save");
+        saveButton.clicked += SaveTree;
     }
 
     private void OnSelectionChange()
@@ -43,5 +49,16 @@ public class BehaviourTreeEditor : EditorWindow
         {
             treeView.PopulateView(tree);
         }
+    }
+
+    void OnNodeSelectionChanged(NodeView view)
+    {
+        inspectorView.UpdateSelection(view);
+    }
+
+    void SaveTree()
+    {
+        EditorUtility.SetDirty(treeView.tree);
+        AssetDatabase.SaveAssets();
     }
 }
