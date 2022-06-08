@@ -74,8 +74,17 @@ namespace i5.VirtualAgents
         {
             if (serializedTask != null)
             {
+                ClearSerializedData();
                 serializedTask.Serialize(this);
             }
+        }
+
+        private void ClearSerializedData()
+        {
+            serializedVectors.Clear();
+            serializedStrings.Clear();
+            serializedFloats.Clear();
+            serializedInts.Clear();
         }
 
         //public static ISerializable restoreSerializableInterface() { }
