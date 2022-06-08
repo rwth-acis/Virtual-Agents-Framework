@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
+using System;
 
 namespace i5.VirtualAgents.Editor
 {
     public class NodeView : Node
     {
+        public Action<NodeView> OnNodeSelect;
         public GraphicalNode node;
         public Port input;
         public Port output;
@@ -14,7 +16,7 @@ namespace i5.VirtualAgents.Editor
         {
             this.node = node;
             title = node.name;
-            viewDataKey = node.guid.ToString();
+            viewDataKey = node.guid;
 
             style.left = node.position.x;
             style.top = node.position.y;
@@ -51,6 +53,15 @@ namespace i5.VirtualAgents.Editor
             {
                 output.portName = "";
                 outputContainer.Add(output);
+            }
+        }
+
+        public override void OnSelected()
+        {
+            base.OnSelected();
+            if (OnNodeSelect != null)
+            {
+                OnNodeSelect.Invoke(this);
             }
         }
     }

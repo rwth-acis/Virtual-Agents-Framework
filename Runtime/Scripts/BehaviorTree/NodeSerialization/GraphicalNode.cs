@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
+using UnityEditor.Experimental.GraphView;
 
 namespace i5.VirtualAgents
 {
@@ -12,7 +13,7 @@ namespace i5.VirtualAgents
     [Serializable]
     public class GraphicalNode : TaskSerializer
     {
-        public GUID guid;
+        public string guid;
         public Vector2 position;
         public string description;
         public List<GraphicalNode> children = new List<GraphicalNode>();

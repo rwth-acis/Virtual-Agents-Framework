@@ -31,7 +31,7 @@ namespace i5.VirtualAgents
         {
             GraphicalNode node = CreateInstance<GraphicalNode>();
             node.name = baseTask.GetType().Name;
-            node.guid = GUID.Generate();
+            node.guid = GUID.Generate().ToString();
             node.serializedTask = baseTask;
             nodes.Add(node);
             AssetDatabase.AddObjectToAsset(node,this);
