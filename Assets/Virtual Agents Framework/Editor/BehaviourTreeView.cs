@@ -13,8 +13,9 @@ namespace i5.VirtualAgents.Editor
 {
     public class BehaviourTreeView : GraphView
     {
+        public Action<NodeView> OnNodeSelect;
         public new class UxmlFactory : UxmlFactory<BehaviourTreeView, UxmlTraits> { }
-        BehaviorTreeAsset tree;
+        public BehaviorTreeAsset tree;
 
         public BehaviourTreeView()
         {
@@ -59,7 +60,7 @@ namespace i5.VirtualAgents.Editor
 
         NodeView FindNodeView(GraphicalNode node)
         {
-            return GetNodeByGuid(node.guid.ToString()) as NodeView;
+            return GetNodeByGuid(node.guid) as NodeView;
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
@@ -136,6 +137,7 @@ namespace i5.VirtualAgents.Editor
         NodeView CreateNodeView(GraphicalNode node)
         {
             NodeView nodeView = new NodeView(node);
+            nodeView.OnNodeSelect = OnNodeSelect;
             AddElement(nodeView);
             return nodeView;
         }
