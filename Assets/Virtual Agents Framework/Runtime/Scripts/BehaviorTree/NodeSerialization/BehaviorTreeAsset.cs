@@ -14,7 +14,7 @@ namespace i5.VirtualAgents
         {
             get 
             {
-                if (rootNode == null)
+                if (rootNode == null && nodes != null && nodes.Count > 0)
                 {
                     rootNode = nodes[0];
                 }
@@ -25,6 +25,9 @@ namespace i5.VirtualAgents
                 rootNode = value;
             }
         }
+
+        public TaskState rootState { get; set; }
+
         public List<GraphicalNode> nodes = new List<GraphicalNode>();
 
         public GraphicalNode AddAndCreateGrapicalNode(ISerializable baseTask)
@@ -44,6 +47,27 @@ namespace i5.VirtualAgents
             nodes.Remove(node);
             AssetDatabase.RemoveObjectFromAsset(node);
             AssetDatabase.SaveAssets();
+        }
+
+        public ITask GetAbstractCopy()
+        {
+            rootNode = nodes[0];
+            ITask root = (ITask)rootNode.GetCopyOfSerializedInterface();
+            ConnectAbstractTree(rootNode, root);
+            return root;
+        }
+
+        private void ConnectAbstractTree(GraphicalNode node, ITask abstractNode)
+        {
+            foreach (var child in node.children)
+            {
+                ITask abstractChild = (ITask)child.GetCopyOfSerializedInterface();
+                if (abstractNode is ICompositeNode)
+                {
+                    (abstractNode as ICompositeNode).children.Add(abstractChild);
+                }
+                ConnectAbstractTree(child, abstractChild);
+            }
         }
     }
 }
