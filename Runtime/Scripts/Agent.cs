@@ -14,7 +14,7 @@ namespace i5.VirtualAgents
     public class Agent : MonoBehaviour
     {
         [SerializeField] private TaskSystemEnum taskSystemKind;
-        public ITaskSystem taskSystem { get; private set; }
+        private ITaskSystem taskSystem;
         
 
         /// <summary>
@@ -27,6 +27,9 @@ namespace i5.VirtualAgents
         /// Syntactic sugar. It is also possible to directly enqueue task objects on the agent instead, e.g. for custom tasks
         /// </summary>
         public TaskActions Tasks { get; private set; }
+
+
+        public BehaviorTreeAsset tree;
 
         /// <summary>
         /// Initialize the agent
@@ -41,7 +44,7 @@ namespace i5.VirtualAgents
                     taskSystem = new SchedulBasedTaskExecution(this);
                     break;
                 case TaskSystemEnum.BehaviorTree:
-                    taskSystem = new BehaviorTreeRunner(this);
+                    taskSystem = new BehaviorTreeRunner(this,tree);
                     break;
             }
         }
