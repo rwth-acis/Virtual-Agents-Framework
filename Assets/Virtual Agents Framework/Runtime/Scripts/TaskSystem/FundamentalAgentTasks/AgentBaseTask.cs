@@ -9,6 +9,8 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
     /// </summary>
     public abstract class AgentBaseTask : IAgentTask
     {
+        public bool IsFinished { get; protected set; } = false;
+
         /// <summary>
         /// Gets the reference to the agent which will execute this task
         /// Starts the task's execution
@@ -37,11 +39,8 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// </summary>
         protected virtual void FinishTask()
         {
+            IsFinished = true;
             OnTaskFinished();
         }
-
-        public List<Func<bool>> ReadyToStart { get; set; }
-
-        public List<Func<bool>> ReadyToEnd { get; set; }
     }
 }
