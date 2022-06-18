@@ -14,7 +14,7 @@ namespace i5.VirtualAgents
     public class Agent : MonoBehaviour
     {
         //One task manager for every animation layer of the corresponding animator is generated
-        private Dictionary<string,AgentTaskManager> taskManagers;
+        private Dictionary<string, AgentTaskManager> taskManagers;
 
         /// <summary>
         /// The animator component which controls the agent's animations
@@ -35,10 +35,10 @@ namespace i5.VirtualAgents
             Tasks = new TaskActions(this);
             Animator = GetComponent<Animator>();
             taskManagers = new Dictionary<string, AgentTaskManager>();
-            //Create a task manager for each animation layer
+            // Create a task manager for each animation layer
             for (int i = 0; i < Animator.layerCount; i++)
             {
-                taskManagers.Add(Animator.GetLayerName(i),new AgentTaskManager(this));
+                taskManagers.Add(Animator.GetLayerName(i), new AgentTaskManager(this));
             }
         }
 
