@@ -16,8 +16,6 @@ namespace i5.VirtualAgents
         //One task manager for every animation layer of the corresponding animator is generated
         private Dictionary<string, AgentTaskManager> taskManagers;
 
-        private TaskSynchronizer taskSynchronizer;
-
         /// <summary>
         /// The animator component which controls the agent's animations
         /// </summary>
@@ -42,7 +40,6 @@ namespace i5.VirtualAgents
             {
                 taskManagers.Add(Animator.GetLayerName(i), new AgentTaskManager(this));
             }
-            taskSynchronizer = new TaskSynchronizer(taskManagers);
         }
 
         /// <summary>
@@ -64,11 +61,6 @@ namespace i5.VirtualAgents
         public void ScheduleTask(IAgentTask task, int priority = 0, string layer = "Base Layer")
         {
             taskManagers[layer].ScheduleTask(task, priority);
-        }
-
-        public void DefineTaskDependency(IAgentTask task, params IAgentTask[] dependencies)
-        {
-            taskSynchronizer.DefineTaskDependency(task, dependencies);
         }
     }
 }
