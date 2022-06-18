@@ -83,7 +83,7 @@ namespace i5.VirtualAgents.TaskSystem
         public AgentBaseTask PlayAnimation(string startTrigger, float playTime, string stopTrigger = "", int priority = 0, string layer = "Base Layer")
         {
             AgentAnimationTask animationTask = new AgentAnimationTask(startTrigger, playTime, stopTrigger);
-            agent.ScheduleTask(animationTask);
+            agent.ScheduleTask(animationTask, priority, layer);
             return animationTask;
         }
     }
