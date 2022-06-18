@@ -119,6 +119,7 @@ namespace i5.VirtualAgents.TaskSystem
             {
                 case TaskState.inactive: // do nothing
                     break;
+                case TaskState.waiting:
                 case TaskState.idle:
                     RequestNextTask(); // request new tasks
                     break;
@@ -141,14 +142,20 @@ namespace i5.VirtualAgents.TaskSystem
         // get the next task from the queue and adapts the states accordingly
         private void RequestNextTask()
         {
-            IAgentTask nextTask = queue.RequestNextTask();
+            IAgentTask nextTask = queue.PeekNextTask();
             if (nextTask == null)
             {
                 // The queue is empty, thus change the agent's current state to idle
                 CurrentState = TaskState.idle;
             }
+            else if (!nextTask.CanStart)
+            {
+                CurrentState = TaskState.waiting;
+            }
             else
             {
+                // now actually retrieve the task from the queue
+                nextTask = queue.RequestNextTask();
                 // The queue is not empty, thus...
                 // change the agent's current state to busy,
                 CurrentState = TaskState.busy;

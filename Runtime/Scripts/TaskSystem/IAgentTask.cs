@@ -8,6 +8,8 @@ namespace i5.VirtualAgents.TaskSystem
     /// </summary>
     public interface IAgentTask
     {
+        bool CanStart { get; }
+
         bool IsFinished { get; }
 
         /// <summary>

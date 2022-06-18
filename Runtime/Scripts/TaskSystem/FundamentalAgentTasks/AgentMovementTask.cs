@@ -1,6 +1,4 @@
 using i5.Toolkit.Core.Utilities;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
