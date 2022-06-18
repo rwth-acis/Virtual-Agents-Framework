@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace i5.VirtualAgents.TaskSystem
 {
@@ -7,6 +8,10 @@ namespace i5.VirtualAgents.TaskSystem
     /// </summary>
     public interface IAgentTask
     {
+        bool CanStart { get; }
+
+        bool IsFinished { get; }
+
         /// <summary>
         /// Gets the reference to the agent which will execute this task
         /// Starts the task's execution

@@ -1,5 +1,4 @@
 using i5.Toolkit.Core.Utilities;
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,7 +8,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
     /// Defines movement tasks for walking and running
     /// Uses the NavMeshAgent component
     /// </summary>
-    public class AgentMovementTask : IAgentTask
+    public class AgentMovementTask : AgentBaseTask
     {
         /// <summary>
         /// Reference to the NavMeshAgent component
@@ -33,11 +32,6 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         public float TargetSpeed { get; protected set; }
 
         /// <summary>
-        /// Event which is invoked once the task is finished
-        /// </summary>
-        public event Action OnTaskFinished;
-
-        /// <summary>
         /// Create an AgentMovementTask using destination coordinates
         /// </summary>
         /// <param name="destinationCoordinates">The position to which the agent should move</param>
@@ -52,8 +46,9 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// Starts the movement task
         /// </summary>
         /// <param name="agent">The agent which should execute the movement task</param>
-        public void Execute(Agent agent)
+        public override void Execute(Agent agent)
         {
+            base.Execute(agent);
             navMeshAgent = agent.GetComponent<NavMeshAgent>();
 
             // only proceed on agents with a NavMeshAgent
@@ -63,7 +58,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
                     $"Therefore, it cannot move. Skipping this task.",
                     this);
 
-                OnTaskFinished?.Invoke();
+                FinishTask();
 
                 return;
             }
@@ -74,8 +69,9 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// <summary>
         /// Checks every frame whether the agent has reached the target
         /// </summary>
-        public void Update()
+        public override void Update()
         {
+            base.Update();
             if (navMeshAgent.remainingDistance < minDistance)
             {
                 StopMovement();
@@ -96,7 +92,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
 
         private void StopMovement()
         {
-            OnTaskFinished?.Invoke();
+            FinishTask();
         }
     }
 }

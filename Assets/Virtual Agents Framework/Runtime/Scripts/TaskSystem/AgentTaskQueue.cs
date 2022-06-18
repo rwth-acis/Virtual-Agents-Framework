@@ -24,10 +24,23 @@ namespace i5.VirtualAgents.TaskSystem
         /// <returns>Next task from the queue or null if the queue is empty</returns>
         public IAgentTask RequestNextTask()
         {
+            IAgentTask result = PeekNextTask();
+            if (result != null)
+            {
+                taskQueue.RemoveAt(0);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Peeks the next task in the queue
+        /// </summary>
+        /// <returns>Returns the next upcoming task in the queue, null if no more tasks are queued</returns>
+        public IAgentTask PeekNextTask()
+        {
             if (taskQueue.Count > 0)
             {
                 IAgentTask result = taskQueue[0].task;
-                taskQueue.RemoveAt(0);
                 return result;
             }
             else
@@ -61,10 +74,15 @@ namespace i5.VirtualAgents.TaskSystem
                 });
         }
 
+        /// <summary>
+        /// Contains a task, its corresponding priority and the task bundle it belongs to if it is part of one
+        /// </summary>
         private struct TaskEntry
         {
             public IAgentTask task;
             public int priority;
         }
     }
+
+
 }

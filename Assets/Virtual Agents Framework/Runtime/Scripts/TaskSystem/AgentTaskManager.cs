@@ -1,4 +1,5 @@
-﻿using System;
+﻿using i5.Toolkit.Core.Utilities;
+using System;
 
 namespace i5.VirtualAgents.TaskSystem
 {
@@ -14,14 +15,39 @@ namespace i5.VirtualAgents.TaskSystem
 
         private TaskState currentState;
 
+        public bool IsActive
+        {
+            get => currentState != TaskState.inactive;
+            set
+            {
+                if (value)
+                {
+                    if (CurrentTask != null)
+                    {
+                        CurrentState = TaskState.busy;
+                    }
+                    else
+                    {
+                        CurrentState = TaskState.idle;
+                    }
+                }
+                else
+                {
+                    CurrentState = TaskState.inactive;
+                }
+            }
+        }
+
         /// <summary>
         /// Event which is raised once the agent's state changes
         /// </summary>
         public event Action OnStateChanged;
+
+        public delegate void TaskFinishedEvent(AgentTaskManager sender, IAgentTask finishedTask);
         /// <summary>
         /// Event which is raised once the agent has finished the current task
         /// </summary>
-        public event Action OnTaskFinished;
+        public event TaskFinishedEvent OnTaskFinished;
 
         /// <summary>
         /// Agent's current task
@@ -36,8 +62,12 @@ namespace i5.VirtualAgents.TaskSystem
             get => currentState;
             private set
             {
+                bool invokeEvent = currentState != value;
                 currentState = value;
-                OnStateChanged?.Invoke();
+                if (invokeEvent)
+                {
+                    OnStateChanged?.Invoke();
+                }
             }
         }
 
@@ -89,6 +119,7 @@ namespace i5.VirtualAgents.TaskSystem
             {
                 case TaskState.inactive: // do nothing
                     break;
+                case TaskState.waiting:
                 case TaskState.idle:
                     RequestNextTask(); // request new tasks
                     break;
@@ -111,14 +142,20 @@ namespace i5.VirtualAgents.TaskSystem
         // get the next task from the queue and adapts the states accordingly
         private void RequestNextTask()
         {
-            IAgentTask nextTask = queue.RequestNextTask();
+            IAgentTask nextTask = queue.PeekNextTask();
             if (nextTask == null)
             {
                 // The queue is empty, thus change the agent's current state to idle
                 CurrentState = TaskState.idle;
             }
+            else if (!nextTask.CanStart)
+            {
+                CurrentState = TaskState.waiting;
+            }
             else
             {
+                // now actually retrieve the task from the queue
+                nextTask = queue.RequestNextTask();
                 // The queue is not empty, thus...
                 // change the agent's current state to busy,
                 CurrentState = TaskState.busy;
@@ -132,15 +169,26 @@ namespace i5.VirtualAgents.TaskSystem
         }
 
         /// <summary>
+        /// Peeks at the next task that the task manager will execute after the current one
+        /// </summary>
+        /// <returns>Returns the next task to execute, null if no task is upcoming</returns>
+        public IAgentTask PeekNextTask()
+        {
+            return queue.PeekNextTask();
+        }
+
+        /// <summary>
         /// Helper function to be called when a task has been executed.
         /// Set agent's state to idle and unsubscribe from the current task's OnTaskFinished event
         /// </summary>
         private void TaskFinished()
         {
-            CurrentState = TaskState.idle;
             // Unsubscribe from the event
             CurrentTask.OnTaskFinished -= TaskFinished;
-            OnTaskFinished?.Invoke();
+            CurrentState = TaskState.idle;
+            IAgentTask previousTask = CurrentTask;
+            CurrentTask = null;
+            OnTaskFinished?.Invoke(this, previousTask);
         }
     }
 }

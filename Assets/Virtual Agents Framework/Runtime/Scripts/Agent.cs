@@ -1,4 +1,5 @@
 using i5.VirtualAgents.TaskSystem;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,7 +13,8 @@ namespace i5.VirtualAgents
     [RequireComponent(typeof(AgentAnimationUpdater))] // Responsible for the avatar's movement
     public class Agent : MonoBehaviour
     {
-        private AgentTaskManager taskManager;
+        //One task manager for every animation layer of the corresponding animator is generated
+        private Dictionary<string, AgentTaskManager> taskManagers;
 
         /// <summary>
         /// The animator component which controls the agent's animations
@@ -30,9 +32,14 @@ namespace i5.VirtualAgents
         /// </summary>
         private void Awake()
         {
-            taskManager = new AgentTaskManager(this);
             Tasks = new TaskActions(this);
             Animator = GetComponent<Animator>();
+            taskManagers = new Dictionary<string, AgentTaskManager>();
+            // Create a task manager for each animation layer
+            for (int i = 0; i < Animator.layerCount; i++)
+            {
+                taskManagers.Add(Animator.GetLayerName(i), new AgentTaskManager(this));
+            }
         }
 
         /// <summary>
@@ -40,7 +47,10 @@ namespace i5.VirtualAgents
         /// </summary>
         private void Update()
         {
-            taskManager.Update();
+            foreach (var taskManager in taskManagers.Values)
+            {
+                taskManager.Update();
+            }
         }
 
         /// <summary>
@@ -48,9 +58,9 @@ namespace i5.VirtualAgents
         /// </summary>
         /// <param name="task">Task to be scheduled</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value</param>
-        public void ScheduleTask(IAgentTask task, int priority = 0)
+        public void ScheduleTask(IAgentTask task, int priority = 0, string layer = "Base Layer")
         {
-            taskManager.ScheduleTask(task, priority);
+            taskManagers[layer].ScheduleTask(task, priority);
         }
     }
 }
