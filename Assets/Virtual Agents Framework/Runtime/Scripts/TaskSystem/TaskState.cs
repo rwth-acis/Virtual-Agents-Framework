@@ -17,18 +17,13 @@
         idle,
 
         /// <summary>
-        /// Wait until a task is ready to be excecuted
-        /// </summary>
-        waitForTaskReadyToBegin,
-
-        /// <summary>
-        /// Wait until a task is ready to be finished
-        /// </summary>
-        waitForTaskReadyToEnd,
-
-        /// <summary>
         /// The agent is busy and is currently executing a task
         /// </summary>
-        busy
+        busy,
+
+        /// <summary>
+        /// The agent waits for a condition to become true so that the next task can be started
+        /// </summary>
+        waiting
     }
 }
