@@ -37,7 +37,7 @@ namespace i5.VirtualAgents
             Tasks = new TaskActions(this);
             Animator = GetComponent<Animator>();
             taskManagers = new Dictionary<string, AgentTaskManager>();
-            //Create a task manager for each animation layer
+            // Create a task manager for each animation layer
             for (int i = 0; i < Animator.layerCount; i++)
             {
                 taskManagers.Add(Animator.GetLayerName(i), new AgentTaskManager(this));
