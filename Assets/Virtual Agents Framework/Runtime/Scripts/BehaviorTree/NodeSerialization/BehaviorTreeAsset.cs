@@ -6,6 +6,9 @@ using i5.VirtualAgents.TaskSystem.AgentTasks;
 
 namespace i5.VirtualAgents
 {
+    /// <summary>
+    /// Asset that can be used to create behaviour trees that are saved persistently. The tree is not executable, but an executable abstract copy can be retrived.
+    /// </summary>
     [CreateAssetMenu(menuName = "i5 Toolkit/Behaviour Tree")]
     public class BehaviorTreeAsset : ScriptableObject
     {
@@ -26,30 +29,41 @@ namespace i5.VirtualAgents
             }
         }
 
-        public TaskState rootState { get; set; }
-
         public List<GraphicalNode> nodes = new List<GraphicalNode>();
 
-        public GraphicalNode AddAndCreateGrapicalNode(ISerializable baseTask)
+        /// <summary>
+        /// Adds a new node based on an serializable task.
+        /// </summary>
+        /// <param name="baseTask"></param>
+        /// <returns></returns>
+        public GraphicalNode AddNode(ISerializable baseTask)
         {
             GraphicalNode node = CreateInstance<GraphicalNode>();
             node.name = baseTask.GetType().Name;
             node.guid = GUID.Generate().ToString();
             node.serializedTask = baseTask;
             nodes.Add(node);
-            AssetDatabase.AddObjectToAsset(node,this);
-            AssetDatabase.SaveAssets();
             return node;
         }
 
-        public void DeleteNode(GraphicalNode node)
+        /// <summary>
+        /// Deletes the given node from the tree.
+        /// </summary>
+        /// <param name="nodeToDelete"></param>
+        public void DeleteNode(GraphicalNode nodeToDelete)
         {
-            nodes.Remove(node);
-            AssetDatabase.RemoveObjectFromAsset(node);
-            AssetDatabase.SaveAssets();
+            nodes.Remove(nodeToDelete);
+            foreach (var node in nodes)
+            {
+                node.children.Remove(nodeToDelete);
+            }
         }
 
-        public ITask GetAbstractCopy()
+        /// <summary>
+        /// Generates an abstract copy of the tree that is executable through the root nodes update function.
+        /// </summary>
+        /// <returns></returns>
+        public ITask GetExecutableTree()
         {
             rootNode = nodes[0];
             ITask root = (ITask)rootNode.GetCopyOfSerializedInterface();
@@ -57,6 +71,7 @@ namespace i5.VirtualAgents
             return root;
         }
 
+        //Generates recursivly the abstract childs for the given graphical node and connects them.
         private void ConnectAbstractTree(GraphicalNode node, ITask abstractNode)
         {
             foreach (var child in node.children)
