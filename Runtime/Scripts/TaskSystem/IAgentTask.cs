@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace i5.VirtualAgents.TaskSystem
 {
     /// <summary>
     /// Common methods and attributes for all AgentTasks
     /// </summary>
-    public interface IAgentTask : INode
+    public interface IAgentTask : ITask
     {
-        /// <summary>
-        /// Event which is invoked once the task is finished
-        /// Subscribed to by the agent's task manager so that the next task can be started afterwards
-        /// </summary>
-        //event Action OnTaskFinished;
-
         /// <summary>
         /// Can be used to delay the scheduling of the task. Once scheduled, the taskmanager will call all ReadyToStart functions every frame until all of them signal that the task is ready (i.e. retrun true).
         /// This is e.g. usefull to delay the task until another task started/finished.
