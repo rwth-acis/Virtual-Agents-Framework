@@ -9,10 +9,10 @@ namespace i5.VirtualAgents.Editor
     public class NodeView : Node
     {
         public Action<NodeView> OnNodeSelect;
-        public GraphicalNode node;
+        public VisualNode node;
         public Port input;
         public Port output;
-        public NodeView(GraphicalNode node)
+        public NodeView(VisualNode node)
         {
             this.node = node;
             title = node.name;

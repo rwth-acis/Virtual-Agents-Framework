@@ -8,14 +8,14 @@ using UnityEditor.Experimental.GraphView;
 namespace i5.VirtualAgents
 {
     /// <summary>
-    /// Allows a node to be used in the visual behavior tree editor
+    /// Allows a node to be used in the visual behavior tree editor.
     /// </summary>
     [Serializable]
-    public class GraphicalNode : TaskSerializer
+    public class VisualNode : TaskSerializer
     {
         public string guid;
         public Vector2 position;
         public string description;
-        public List<GraphicalNode> children = new List<GraphicalNode>();
+        public List<VisualNode> children = new List<VisualNode>();
     }
 }

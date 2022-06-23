@@ -11,6 +11,9 @@ using System.Linq;
 
 namespace i5.VirtualAgents.Editor
 {
+    /// <summary>
+    /// Displays a behaviour tree in the behaviour tree editor.
+    /// </summary>
     public class BehaviourTreeView : GraphView
     {
         public Action<NodeView> OnNodeSelect;
@@ -21,6 +24,7 @@ namespace i5.VirtualAgents.Editor
         {
             Insert(0, new GridBackground());
 
+            //Adds the ability to zoom in on the graph, to drag and drop nodes around, to drag and drop an entire selection and to select nodes using a rectangle selction
             this.AddManipulator(new ContentZoomer()); //since AddManipulator is an extension method, it can only be called with a direct object reference (hence the "this.")
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
@@ -30,15 +34,18 @@ namespace i5.VirtualAgents.Editor
             styleSheets.Add(styleSheet);
         }
 
-        
-        internal void PopulateView(BehaviorTreeAsset tree)
+        /// <summary>
+        /// Creates node views for all nodes in the tree and draws the necessary edges.
+        /// </summary>
+        /// <param name="tree"></param>
+        public void PopulateView(BehaviorTreeAsset tree)
         {
             this.tree = tree;
             graphViewChanged -= OnGraphViewChanged;
             DeleteElements(graphElements);
             graphViewChanged += OnGraphViewChanged;
 
-            //Create nodes
+            //Create node views
             foreach (var node in tree.nodes)
             {
                 CreateNodeView(node);
@@ -58,7 +65,8 @@ namespace i5.VirtualAgents.Editor
 
         }
 
-        NodeView FindNodeView(GraphicalNode node)
+        //Finds the node view corresponding to the given visual node
+        private NodeView FindNodeView(VisualNode node)
         {
             return GetNodeByGuid(node.guid) as NodeView;
         }
@@ -90,41 +98,46 @@ namespace i5.VirtualAgents.Editor
             return graphViewChange;
         }
 
+        /// <summary>
+        /// Builds a context menu with options for creating nodes. Every class that (1) implements IAgentTask, ICompositeNode or IDecoratorNode, (2) additionally implements ISerialiazble
+        /// and (3) has an empty constructor will automatically get its own context menu entry and can be fully used as node in the behaviour tree.
+        /// </summary>
+        /// <param name="evt"></param>
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            //base.BuildContextualMenu(evt);
+            void CreateVisualNode(ISerializable node)
+            {
+                VisualNode graphicalNode = tree.AddNode(node);
+                CreateNodeView(graphicalNode);
+            }
 
             void BuildContextMenuEntrysFromType<T>(string menuName) 
             {
                 var derivedTypes = TypeCache.GetTypesDerivedFrom<T>();
                 foreach (var type in derivedTypes)
                 {
-                    
+                    //Get the empty constructor. If no empty constructor exists, a corresponding node can't be created by the context menu.
                     var constructor = type.GetConstructor(new Type[0]);
                      
                     if (constructor != null) // Can only instatiate a task, if it has an empty constructor
                     {
-                        ISerializable task = constructor.Invoke(new object[0]) as ISerializable; //Can only use it as node if it serializable
+                        ISerializable task = constructor.Invoke(new object[0]) as ISerializable; //Can only use it as node if it is serializable
                         if (task != null)
                         {
-                            evt.menu.AppendAction(menuName + "/" + type.Name, (a) => CreateGraphicalNode(task));
+                            evt.menu.AppendAction(menuName + "/" + type.Name, (a) => CreateVisualNode(task));
                         }
                     }
                 }
             }
 
             BuildContextMenuEntrysFromType<IAgentTask>("Tasks");
-
             BuildContextMenuEntrysFromType<ICompositeNode>("Composite Nodes");
+            BuildContextMenuEntrysFromType<IDecoratorNode>("Decorator Nodes");
         }
 
-        void CreateGraphicalNode(ISerializable node)
-        {
-            GraphicalNode graphicalNode = tree.AddNode(node);
-            CreateNodeView(graphicalNode);
-        }
 
-        NodeView CreateNodeView(GraphicalNode node)
+        //Creates a NodeView for the given node
+        private NodeView CreateNodeView(VisualNode node)
         {
             NodeView nodeView = new NodeView(node);
             nodeView.OnNodeSelect = OnNodeSelect;
@@ -133,7 +146,7 @@ namespace i5.VirtualAgents.Editor
         }
 
         /// <summary>
-        /// 
+        /// Get all ports compatible with given port. In theory this exact function is already provided by the GraphView class, but it contains an implementation error.
         /// </summary>
         /// <param name="startPort"></param>
         /// <param name="nodeAdapter"></param>
