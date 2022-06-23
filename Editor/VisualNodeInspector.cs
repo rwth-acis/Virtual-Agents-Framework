@@ -17,13 +17,12 @@ namespace i5.VirtualAgents.Editor
             int stringCounter = 0;
             int intCounter = 0;
 
-            SerializableType[] test = new SerializableType[targetNode.serializationOrder.Count];
+            SerializableType[] serializationOrder = new SerializableType[targetNode.serializationOrder.Count];
 
-            targetNode.serializationOrder.CopyTo(test);
+            targetNode.serializationOrder.CopyTo(serializationOrder);
 
-            foreach (var type in test)
+            foreach (var type in serializationOrder)
             {
-                
                 void CreatePropertyField(string propertyName, ref int counter, SerializableType type)
                 {
                     SerializedProperty baseProperty = serializedObject.FindProperty(propertyName + ".data"); ;

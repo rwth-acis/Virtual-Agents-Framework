@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using i5.VirtualAgents.TaskSystem;
 using System;
+using UnityEditor;
 
 namespace i5.VirtualAgents
 {
@@ -10,7 +11,7 @@ namespace i5.VirtualAgents
     public class SelectorNode : ICompositeNode, ISerializable
     {
         public List<ITask> children { get; set; }
-        public TaskState state { get; set; }
+        public TaskState rootState { get; set; }
 
         private Agent executingAgent;
         public SelectorNode()
@@ -21,7 +22,7 @@ namespace i5.VirtualAgents
         
         public void Execute(Agent executingAgent)
         {
-            state = TaskState.Running;
+            rootState = TaskState.Running;
             this.executingAgent = executingAgent;
         }
         int current = 0;

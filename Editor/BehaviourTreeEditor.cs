@@ -1,18 +1,20 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 using i5.VirtualAgents;
 using i5.VirtualAgents.Editor;
 
 
+/// <summary>
+/// Provides a visual behaviour tree editor.
+/// </summary>
 public class BehaviourTreeEditor : EditorWindow
 {
     BehaviourTreeView treeView;
     InspectorView inspectorView; 
 
     [MenuItem("i5 Toolkit/BehaviourTreeEditor")]
-    public static void ShowExample()
+    public static void ShowWindow()
     {
         BehaviourTreeEditor wnd = GetWindow<BehaviourTreeEditor>();
         wnd.titleContent = new GUIContent("BehaviourTreeEditor");
@@ -25,8 +27,6 @@ public class BehaviourTreeEditor : EditorWindow
 
         // Import UXML
         var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Virtual Agents Framework/Editor/BehaviourTreeEditor.uxml");
-        //VisualElement labelFromUXML = visualTree.Instantiate();
-        //root.Add(labelFromUXML);
         visualTree.CloneTree(root);
 
         // A stylesheet can be added to a VisualElement.
@@ -38,10 +38,12 @@ public class BehaviourTreeEditor : EditorWindow
         inspectorView = root.Query<InspectorView>();
         treeView.OnNodeSelect = OnNodeSelectionChanged;
 
+        //Setup the save button
         Button saveButton = root.Query<Button>("Save");
         saveButton.clicked += SaveTree;
     }
 
+    //Changes the currently edited tree to the one selected in the unity project tab
     private void OnSelectionChange()
     {
         BehaviorTreeAsset tree = Selection.activeObject as BehaviorTreeAsset;
@@ -51,6 +53,7 @@ public class BehaviourTreeEditor : EditorWindow
         }
     }
 
+    //Displays the inspector for the currently selected node
     void OnNodeSelectionChanged(NodeView view)
     {
         inspectorView.UpdateSelection(view);

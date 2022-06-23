@@ -18,9 +18,15 @@ namespace i5.VirtualAgents
         public BehaviorTreeRunner(Agent excecutingAgent, BehaviorTreeAsset tree)
         {
             this.excecutingAgent = excecutingAgent;
-            abstractTree = tree.GetAbstractCopy();
+            abstractTree = tree.GetExecutableTree();
         }
 
+        /// <summary>
+        /// Scheduling aditional tasks in a behaviour tree is currently not supported
+        /// </summary>
+        /// <param name="task"></param>
+        /// <param name="priority"></param>
+        /// <param name="layer"></param>
         public void ScheduleTask(IAgentTask task, int priority = 0, string layer = "Base Layer")
         {
             //TODO Maby halt the tree execution, execute new task and then continue with the tree?

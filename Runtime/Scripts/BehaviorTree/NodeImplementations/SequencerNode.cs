@@ -11,7 +11,7 @@ namespace i5.VirtualAgents
         //TODO komplizierter getter setter vermutlich nicht nötig
         List<ITask> _children;
         public List<ITask> children { get { return _children; } set { _children = value; } }
-        public TaskState state { get; set; }
+        public TaskState rootState { get; set; }
         public List<Func<bool>> ReadyToStart { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public List<Func<bool>> ReadyToEnd { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 

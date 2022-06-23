@@ -6,6 +6,9 @@ using UnityEditor;
 
 namespace i5.VirtualAgents
 {
+    /// <summary>
+    /// The types that can be serialized using the ISerializable interface
+    /// </summary>
     [Serializable]
     public enum SerializableType
     {
@@ -15,7 +18,10 @@ namespace i5.VirtualAgents
         INT
     }
 
-
+    /// <summary>
+    /// Serilaized data identified by a key
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     [Serializable]
     public class SerializationEntry<T>
     {
@@ -29,6 +35,10 @@ namespace i5.VirtualAgents
         }
     }
 
+    /// <summary>
+    /// Pseudo dictornary, that in contrast to actual dictonarys is serializable, but only offers search in linear time
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     [Serializable]
     public class SerializationData<T>
     {
@@ -64,7 +74,7 @@ namespace i5.VirtualAgents
 
     //Since generic types are not serializable, a new type that derives from the generic version while providing it with a concrete type has to be created. 
     [Serializable]
-    public class SerializedVectors : SerializationData<Vector3> {}
+    public class SerializedVectors : SerializationData<Vector3> { }
     [Serializable]
     public class SerializedFloats : SerializationData<float> { }
     [Serializable]
@@ -72,6 +82,9 @@ namespace i5.VirtualAgents
     [Serializable]
     public class SerializedInts : SerializationData<int> { }
 
+    /// <summary>
+    /// Allows to serialize objects that implement the ISerializable interface
+    /// </summary>
     public class TaskSerializer : ScriptableObject, ISerializationCallbackReceiver
     {
         //Serialized data
@@ -79,9 +92,12 @@ namespace i5.VirtualAgents
         [SerializeField] private SerializedFloats serializedFloats = new SerializedFloats();
         [SerializeField] private SerializedStrings serializedStrings = new SerializedStrings();
         [SerializeField] private SerializedInts serializedInts = new SerializedInts();
+
         //Saves the order in which the data was serialized. Allows coustom inspectors to replicate that order.
         [SerializeField] public List<SerializableType> serializationOrder = new List<SerializableType>();
-        
+
+        //The name of the type that was serialized
+        [SerializeField] private string serializedObjectType;
 
         private ISerializable _serializedTask;
         public ISerializable serializedTask 
@@ -96,7 +112,7 @@ namespace i5.VirtualAgents
                 }
             }
         }
-        public string serializedObjectType;
+        
 
 
 
@@ -218,9 +234,9 @@ namespace i5.VirtualAgents
         {
             serializationOrder.Clear();
             serializedVectors.Clear();
-            //serializedStrings.Clear();
+            serializedStrings.Clear();
             serializedFloats.Clear();
-            //serializedInts.Clear();
+            serializedInts.Clear();
         }
     }
 }

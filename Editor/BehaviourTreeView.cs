@@ -130,7 +130,7 @@ namespace i5.VirtualAgents.Editor
 
         void CreateGraphicalNode(ISerializable node)
         {
-            GraphicalNode graphicalNode = tree.AddAndCreateGrapicalNode(node);
+            GraphicalNode graphicalNode = tree.AddNode(node);
             CreateNodeView(graphicalNode);
         }
 
