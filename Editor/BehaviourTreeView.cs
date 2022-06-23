@@ -83,16 +83,6 @@ namespace i5.VirtualAgents.Editor
             {
                 foreach (var edge in graphViewChange.edgesToCreate)
                 {
-                    //Add edge in abstracted tree
-                    ISerializable parent = ((NodeView)edge.output.node).node.serializedTask;
-                    ISerializable child = ((NodeView)edge.input.node).node.serializedTask;
-
-                    if (parent is ICompositeNode)
-                    {
-                        ((ICompositeNode)parent).children.Add((ITask)child);
-                    }
-
-                    //Add edge in concrete tree
                     ((NodeView)edge.output.node).node.children.Add(((NodeView)edge.input.node).node);
                 }
             }

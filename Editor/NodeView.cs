@@ -44,7 +44,7 @@ namespace i5.VirtualAgents.Editor
             //Action Nodes/Tasks are leaves => no output
 
             //Composite Nodes can have multiple children/outputs
-            if (node.serializedTask is ICompositeNode)
+            if (node.GetCopyOfSerializedInterface() is ICompositeNode)
             {
                 output = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(bool));
             }

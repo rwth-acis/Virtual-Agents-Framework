@@ -85,7 +85,7 @@ namespace i5.VirtualAgents
     /// <summary>
     /// Allows to serialize objects that implement the ISerializable interface
     /// </summary>
-    public class TaskSerializer : ScriptableObject, ISerializationCallbackReceiver
+    public class TaskSerializer : ScriptableObject
     {
         //Serialized data
         [SerializeField] private SerializedVectors serializedVectors = new SerializedVectors();
@@ -99,22 +99,15 @@ namespace i5.VirtualAgents
         //The name of the type that was serialized
         [SerializeField] private string serializedObjectType;
 
-        private ISerializable _serializedTask;
-        public ISerializable serializedTask 
+        public void SetSerializedType(ISerializable serializedTask)
         {
-            get { return _serializedTask; }
-            set 
-            {
-                _serializedTask = value;
-                if (value != null)
-                {
-                    serializedObjectType = value.GetType().FullName;
-                }
-            }
+            //Save the name of the type
+            serializedObjectType = serializedTask.GetType().FullName;
+
+            //Serialize it once in order to retrive the default values of this task
+            ClearSerializedData();
+            serializedTask.Serialize(this);
         }
-        
-
-
 
         #region Overloads for adding data to the serialization
         public void AddSerializedData(string key, Vector3 value)
@@ -164,6 +157,9 @@ namespace i5.VirtualAgents
         }
         #endregion
 
+
+        
+
         /// <summary>
         /// Retrives the key of the item at position index.
         /// </summary>
@@ -180,18 +176,6 @@ namespace i5.VirtualAgents
                     return serializedFloats.Get(index).key;
                 default:
                     return "";
-            }
-        }
-
-        public virtual void OnAfterDeserialize()
-        {
-            if (serializedObjectType != "")
-            {
-                serializedTask = DeserializeType();
-            }
-            if (serializedTask != null)
-            {
-                serializedTask.Deserialize(this);
             }
         }
 
@@ -218,15 +202,6 @@ namespace i5.VirtualAgents
             ISerializable copy = DeserializeType();
             copy.Deserialize(this);
             return copy;
-        }
-
-        public virtual void OnBeforeSerialize()
-        {
-            if (serializedTask != null)
-            {
-                ClearSerializedData();
-                serializedTask.Serialize(this);
-            }
         }
 
         // Deletes everything that was serialized
