@@ -41,8 +41,9 @@ namespace i5.VirtualAgents
             GraphicalNode node = CreateInstance<GraphicalNode>();
             node.name = baseTask.GetType().Name;
             node.guid = GUID.Generate().ToString();
-            node.serializedTask = baseTask;
+            node.SetSerializedType(baseTask);
             nodes.Add(node);
+            AssetDatabase.AddObjectToAsset(node,this);
             return node;
         }
 
@@ -57,6 +58,7 @@ namespace i5.VirtualAgents
             {
                 node.children.Remove(nodeToDelete);
             }
+            AssetDatabase.RemoveObjectFromAsset(nodeToDelete);
         }
 
         /// <summary>
