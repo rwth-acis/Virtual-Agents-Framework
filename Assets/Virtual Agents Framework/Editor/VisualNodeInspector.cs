@@ -5,12 +5,12 @@ using UnityEditor;
 
 namespace i5.VirtualAgents.Editor
 {
-    [CustomEditor(typeof(GraphicalNode))]
+    [CustomEditor(typeof(VisualNode))]
     public class VisualNodeInspector : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
-            GraphicalNode targetNode = target as GraphicalNode;
+            VisualNode targetNode = target as VisualNode;
 
             int vectorCounter = 0;
             int floatCounter = 0;

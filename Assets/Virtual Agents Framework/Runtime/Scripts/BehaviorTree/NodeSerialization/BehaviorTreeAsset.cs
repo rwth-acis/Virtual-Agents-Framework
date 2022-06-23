@@ -12,8 +12,8 @@ namespace i5.VirtualAgents
     [CreateAssetMenu(menuName = "i5 Toolkit/Behaviour Tree")]
     public class BehaviorTreeAsset : ScriptableObject
     {
-        private GraphicalNode rootNode;
-        public GraphicalNode RootNode 
+        private VisualNode rootNode;
+        public VisualNode RootNode 
         {
             get 
             {
@@ -29,16 +29,16 @@ namespace i5.VirtualAgents
             }
         }
 
-        public List<GraphicalNode> nodes = new List<GraphicalNode>();
+        public List<VisualNode> nodes = new List<VisualNode>();
 
         /// <summary>
         /// Adds a new node based on an serializable task.
         /// </summary>
         /// <param name="baseTask"></param>
         /// <returns></returns>
-        public GraphicalNode AddNode(ISerializable baseTask)
+        public VisualNode AddNode(ISerializable baseTask)
         {
-            GraphicalNode node = CreateInstance<GraphicalNode>();
+            VisualNode node = CreateInstance<VisualNode>();
             node.name = baseTask.GetType().Name;
             node.guid = GUID.Generate().ToString();
             node.SetSerializedType(baseTask);
@@ -51,7 +51,7 @@ namespace i5.VirtualAgents
         /// Deletes the given node from the tree.
         /// </summary>
         /// <param name="nodeToDelete"></param>
-        public void DeleteNode(GraphicalNode nodeToDelete)
+        public void DeleteNode(VisualNode nodeToDelete)
         {
             nodes.Remove(nodeToDelete);
             foreach (var node in nodes)
@@ -74,7 +74,7 @@ namespace i5.VirtualAgents
         }
 
         //Generates recursivly the abstract childs for the given graphical node and connects them.
-        private void ConnectAbstractTree(GraphicalNode node, ITask abstractNode)
+        private void ConnectAbstractTree(VisualNode node, ITask abstractNode)
         {
             foreach (var child in node.children)
             {
