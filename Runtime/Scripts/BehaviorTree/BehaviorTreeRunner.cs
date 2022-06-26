@@ -7,7 +7,7 @@ using i5.VirtualAgents.TaskSystem.AgentTasks;
 namespace i5.VirtualAgents
 {
     /// <summary>
-    /// Executes a given behaviour tree as long as the root node doesn't reprot sucess or failure.
+    /// Executes a given behaviour tree until the root node reports sucess or failure.
     /// </summary>
     public class BehaviorTreeRunner : ITaskSystem
     {
@@ -15,6 +15,11 @@ namespace i5.VirtualAgents
         private ITask abstractTree;
         TaskState rootState;
 
+        /// <summary>
+        /// Execute visual behaviour tree.
+        /// </summary>
+        /// <param name="excecutingAgent"></param>
+        /// <param name="tree"></param>
         public BehaviorTreeRunner(Agent excecutingAgent, BehaviorTreeAsset tree)
         {
             this.excecutingAgent = excecutingAgent;
@@ -22,7 +27,18 @@ namespace i5.VirtualAgents
         }
 
         /// <summary>
-        /// Scheduling aditional tasks in a behaviour tree is currently not supported
+        /// Execute abstract behaviour tree.
+        /// </summary>
+        /// <param name="excecutingAgent"></param>
+        /// <param name="rootNode"></param>
+        public BehaviorTreeRunner(Agent excecutingAgent, ITask rootNode)
+        {
+            this.excecutingAgent = excecutingAgent;
+            abstractTree = rootNode;
+        }
+
+        /// <summary>
+        /// Scheduling aditional tasks in a behaviour tree is currently not supported.
         /// </summary>
         /// <param name="task"></param>
         /// <param name="priority"></param>
