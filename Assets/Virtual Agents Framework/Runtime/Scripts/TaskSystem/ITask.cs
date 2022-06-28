@@ -29,18 +29,25 @@ namespace i5.VirtualAgents
             //On first update, invoke Execute()
             if (rootState == TaskState.Waiting)
             {
+                rootState = TaskState.Running;
                 Execute(excutingAgent);
             }
-
-            //Only update further, if the task isn't finished already
-            if (rootState != TaskState.Success && rootState != TaskState.Failure)
+            
+            //Checking failure here is important in case the task changed its root state on its own
+            if (rootState == TaskState.Failure)
+            {
+                Stop();
+                return TaskState.Failure;
+            }
+            else
             {
                 rootState = Update();
-                //Invoke stop method when the task stae switches from not Sucess/Failure to Sucess/Failure
-                if (rootState == TaskState.Success || rootState == TaskState.Failure)
-                {
-                    Stop();
-                }
+            }
+
+            //Invoke stop method when the task state switches from not Sucess/Failure to Sucess/Failure
+            if (rootState == TaskState.Success || rootState == TaskState.Failure)
+            {
+                Stop();
             }
 
             return rootState;
