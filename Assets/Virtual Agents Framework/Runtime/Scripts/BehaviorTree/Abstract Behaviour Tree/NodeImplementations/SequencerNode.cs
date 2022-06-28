@@ -4,7 +4,7 @@ using UnityEngine;
 using i5.VirtualAgents.TaskSystem;
 using System;
 
-namespace i5.VirtualAgents
+namespace i5.VirtualAgents.BehaviourTrees
 {
     public class SequencerNode : ICompositeNode, ISerializable
     {

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using i5.VirtualAgents.TaskSystem.AgentTasks;
+using i5.VirtualAgents.TaskSystem;
 
-namespace i5.VirtualAgents
+namespace i5.VirtualAgents.BehaviourTrees.Visual
 {
     /// <summary>
     /// Asset that can be used to create behaviour trees that are saved persistently. The tree is not executable, but an executable abstract copy can be retrived.

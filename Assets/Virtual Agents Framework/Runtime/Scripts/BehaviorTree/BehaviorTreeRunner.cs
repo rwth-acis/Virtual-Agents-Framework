@@ -2,9 +2,9 @@ using i5.VirtualAgents.TaskSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using i5.VirtualAgents.TaskSystem.AgentTasks;
+using i5.VirtualAgents.BehaviourTrees.Visual;
 
-namespace i5.VirtualAgents
+namespace i5.VirtualAgents.BehaviourTrees
 {
     /// <summary>
     /// Executes a given behaviour tree until the root node reports sucess or failure.

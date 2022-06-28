@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace i5.VirtualAgents
+namespace i5.VirtualAgents.TaskSystem
 {
     /// <summary>
-    /// The types that can be serialized using the ISerializable interface
+    /// The types that can be serialized using the ISerializable interface.
     /// </summary>
     [Serializable]
     public enum SerializableType
@@ -19,7 +19,7 @@ namespace i5.VirtualAgents
     }
 
     /// <summary>
-    /// Serilaized data identified by a key
+    /// Serilaized data identified by a key.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
@@ -36,7 +36,7 @@ namespace i5.VirtualAgents
     }
 
     /// <summary>
-    /// Pseudo dictornary, that in contrast to actual dictonarys is serializable, but only offers search in linear time
+    /// Pseudo dictonary, that in contrast to actual dictonaries is serializable, but only offers search in linear time.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
@@ -83,7 +83,7 @@ namespace i5.VirtualAgents
     public class SerializedInts : SerializationData<int> { }
 
     /// <summary>
-    /// Allows to serialize objects that implement the ISerializable interface
+    /// Allows to serialize tasks that implement the ISerializable interface.
     /// </summary>
     public class TaskSerializer : ScriptableObject
     {
@@ -194,7 +194,7 @@ namespace i5.VirtualAgents
         }
 
         /// <summary>
-        /// Creates a new object from the serialized interface and fills it with the serialized data
+        /// Creates a new object from the serialized interface and fills it with the serialized data.
         /// </summary>
         /// <returns></returns>
         public ISerializable GetCopyOfSerializedInterface()

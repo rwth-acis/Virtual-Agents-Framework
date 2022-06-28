@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using System;
-using UnityEditor.Experimental.GraphView;
+using i5.VirtualAgents.TaskSystem;
 
-namespace i5.VirtualAgents
+namespace i5.VirtualAgents.BehaviourTrees.Visual
 {
     /// <summary>
     /// Allows a node to be used in the visual behavior tree editor.

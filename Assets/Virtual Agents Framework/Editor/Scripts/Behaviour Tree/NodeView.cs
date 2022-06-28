@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
 using System;
+using i5.VirtualAgents.BehaviourTrees.Visual;
+using i5.VirtualAgents.BehaviourTrees;
 
-namespace i5.VirtualAgents.Editor
+namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
     public class NodeView : Node
     {

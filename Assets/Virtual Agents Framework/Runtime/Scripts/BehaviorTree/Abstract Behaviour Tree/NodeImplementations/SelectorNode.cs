@@ -5,7 +5,7 @@ using i5.VirtualAgents.TaskSystem;
 using System;
 using UnityEditor;
 
-namespace i5.VirtualAgents
+namespace i5.VirtualAgents.BehaviourTrees
 {
     [Serializable]
     public class SelectorNode : ICompositeNode, ISerializable
