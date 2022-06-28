@@ -14,25 +14,36 @@ namespace i5.VirtualAgents
     public interface ITask
     {
         TaskState Update();
-        void Execute(Agent exceutingAgent);
+        void Execute(Agent executingAgent);
         void Stop();
 
         TaskState rootState { get; set; }
 
         /// <summary>
-        /// When updated for the first time, sets rootState to running and invokes Execute().
+        /// Updates rootState and automattically invokes Execute() on first update and Stop() when task succeeds/fails.
         /// </summary>
         /// <param name="excutingAgent"></param>
         /// <returns></returns>
         TaskState FullUpdate(Agent excutingAgent)
         {
+            //On first update, invoke Execute()
             if (rootState == TaskState.Waiting)
             {
                 Execute(excutingAgent);
-                rootState = TaskState.Running;
             }
 
-            return Update();
+            //Only update further, if the task isn't finished already
+            if (rootState != TaskState.Success && rootState != TaskState.Failure)
+            {
+                rootState = Update();
+                //Invoke stop method when the task stae switches from not Sucess/Failure to Sucess/Failure
+                if (rootState == TaskState.Success || rootState == TaskState.Failure)
+                {
+                    Stop();
+                }
+            }
+
+            return rootState;
         }
     }
 }
