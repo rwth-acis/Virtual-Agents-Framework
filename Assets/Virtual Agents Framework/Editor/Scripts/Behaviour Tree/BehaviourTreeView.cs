@@ -106,10 +106,11 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         /// <param name="evt"></param>
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            void CreateVisualNode(ISerializable node)
+            void CreateVisualNode(ISerializable node, Vector2 position)
             {
-                VisualNode graphicalNode = tree.AddNode(node);
-                CreateNodeView(graphicalNode);
+                VisualNode visualNode = tree.AddNode(node);
+                visualNode.position = position;
+                CreateNodeView(visualNode);
             }
 
             void BuildContextMenuEntrysFromType<T>(string menuName) 
@@ -125,7 +126,8 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                         ISerializable task = constructor.Invoke(new object[0]) as ISerializable; //Can only use it as node if it is serializable
                         if (task != null)
                         {
-                            evt.menu.AppendAction(menuName + "/" + type.Name, (a) => CreateVisualNode(task));
+                            Vector2 nodePosition = this.ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
+                            evt.menu.AppendAction(menuName + "/" + type.Name, (a) => CreateVisualNode(task, nodePosition));
                         }
                     }
                 }
