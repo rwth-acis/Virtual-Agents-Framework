@@ -8,8 +8,8 @@ namespace i5.VirtualAgents.TaskSystem
 {
     public interface ISerializable
     {
-        void Serialize(TaskSerializer serializer) { }
+        void Serialize(TaskSerializer serializer);
 
-        void Deserialize(TaskSerializer serializer) { }
+        void Deserialize(TaskSerializer serializer);
     }
 }

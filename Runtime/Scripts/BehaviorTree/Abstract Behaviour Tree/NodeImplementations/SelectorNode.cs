@@ -49,5 +49,13 @@ namespace i5.VirtualAgents.BehaviourTrees
                 return currentNodestate;
             }
         }
+
+        public void Serialize(TaskSerializer serializer)
+        {
+        }
+
+        public void Deserialize(TaskSerializer serializer)
+        {
+        }
     }
 }

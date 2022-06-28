@@ -4,9 +4,11 @@ using UnityEngine;
 
 namespace i5.VirtualAgents.TaskSystem.AgentTasks
 {
-    public class AgentWaitTask : AgentBaseTask
+    public class AgentWaitTask : AgentBaseTask, ISerializable
     {
         public float WaitTimeInSeconds { get; set; }
+
+        public AgentWaitTask() { }
 
         public AgentWaitTask(float timeInSeconds)
         {
@@ -44,6 +46,16 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         {
             yield return new WaitForSeconds(timeInSeconds);
             FinishTask();
+        }
+
+        public void Serialize(TaskSerializer serializer)
+        {
+            serializer.AddSerializedData("Wait time", WaitTimeInSeconds);
+        }
+
+        public void Deserialize(TaskSerializer serializer)
+        {
+            WaitTimeInSeconds = serializer.GetSerializedFloat("Wait time");
         }
     }
 }
