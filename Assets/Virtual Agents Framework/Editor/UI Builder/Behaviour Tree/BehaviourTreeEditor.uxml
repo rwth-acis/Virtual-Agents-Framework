@@ -1,7 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/Virtual%20Agents%20Framework/Editor/UI%20Builder/Behaviour%20Tree/BehaviourTreeEditorStyleSheet.uss?fileID=7433441132597879392&amp;guid=d4e81260ecd9b3d44abfc488dacff670&amp;type=3#BehaviourTreeEditorStyleSheet" />
     <uie:Toolbar>
-        <uie:ToolbarMenu display-tooltip-when-elided="true" text="Asset" />
         <ui:Button text="Save" display-tooltip-when-elided="true" name="Save" />
     </uie:Toolbar>
     <i5.VirtualAgents.Editor.SplitView fixed-pane-initial-dimension="362">
@@ -10,6 +9,7 @@
             <i5.VirtualAgents.Editor.BehaviourTrees.InspectorView />
         </ui:VisualElement>
         <ui:VisualElement name="right_panel">
+            <ui:Label text="&#10;&lt;size=30&gt;&#10;Select a Behaviour Tree&#10;in the Project Window &lt;/size&gt;" display-tooltip-when-elided="true" name="treeViewOccludeLabel" style="height: 193px; width: 451px; flex-direction: column; left: auto; top: auto; right: auto; bottom: auto; position: relative;" />
             <i5.VirtualAgents.Editor.BehaviourTrees.BehaviourTreeView focusable="true" style="flex-grow: 1;" />
         </ui:VisualElement>
     </i5.VirtualAgents.Editor.SplitView>

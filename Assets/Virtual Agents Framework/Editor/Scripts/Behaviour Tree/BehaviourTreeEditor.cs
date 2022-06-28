@@ -14,6 +14,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
     {
         BehaviourTreeView treeView;
         InspectorView inspectorView;
+        Label treeViewOccludeLabel;
 
         [MenuItem("i5 Toolkit/BehaviourTreeEditor")]
         public static void ShowWindow()
@@ -37,8 +38,10 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             root.styleSheets.Add(styleSheet);
 
             treeView = root.Query<BehaviourTreeView>();
+            treeView.SetEnabled(false); //Disable, until a tree is selected
             inspectorView = root.Query<InspectorView>();
             treeView.OnNodeSelect = OnNodeSelectionChanged;
+            treeViewOccludeLabel = root.Query<Label>("treeViewOccludeLabel");
 
             //Setup the save button
             Button saveButton = root.Query<Button>("Save");
@@ -51,6 +54,8 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             BehaviorTreeAsset tree = Selection.activeObject as BehaviorTreeAsset;
             if (tree)
             {
+                treeViewOccludeLabel.RemoveFromHierarchy();
+                treeView.SetEnabled(true);
                 treeView.PopulateView(tree);
             }
         }
