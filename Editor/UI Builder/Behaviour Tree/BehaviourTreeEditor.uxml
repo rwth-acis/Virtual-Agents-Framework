@@ -7,10 +7,10 @@
     <i5.VirtualAgents.Editor.SplitView fixed-pane-initial-dimension="362">
         <ui:VisualElement name="left_panel">
             <ui:Label text="Inspector" display-tooltip-when-elided="true" style="background-color: rgb(37, 37, 37);" />
-            <i5.VirtualAgents.Editor.InspectorView />
+            <i5.VirtualAgents.Editor.BehaviourTrees.InspectorView />
         </ui:VisualElement>
         <ui:VisualElement name="right_panel">
-            <i5.VirtualAgents.Editor.BehaviourTreeView focusable="true" style="flex-grow: 1;" />
+            <i5.VirtualAgents.Editor.BehaviourTrees.BehaviourTreeView focusable="true" style="flex-grow: 1;" />
         </ui:VisualElement>
     </i5.VirtualAgents.Editor.SplitView>
 </ui:UXML>

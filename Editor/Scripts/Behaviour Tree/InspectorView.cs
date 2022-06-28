@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEditor;
+using i5.VirtualAgents.Editor.BehaviourTrees;
 
-namespace i5.VirtualAgents.Editor
+namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
     /// <summary>
     /// Provides an inspector view for a node view

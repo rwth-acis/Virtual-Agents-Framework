@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using i5.VirtualAgents.BehaviourTrees.Visual;
+using i5.VirtualAgents.TaskSystem;
 
-namespace i5.VirtualAgents.Editor
+namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
     [CustomEditor(typeof(VisualNode))]
     public class VisualNodeInspector : UnityEditor.Editor

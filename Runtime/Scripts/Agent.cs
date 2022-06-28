@@ -2,6 +2,8 @@ using i5.VirtualAgents.TaskSystem;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using i5.VirtualAgents.BehaviourTrees;
+using i5.VirtualAgents.BehaviourTrees.Visual;
 
 namespace i5.VirtualAgents
 {

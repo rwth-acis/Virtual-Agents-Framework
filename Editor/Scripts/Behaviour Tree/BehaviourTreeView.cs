@@ -5,11 +5,12 @@ using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor;
 using i5.VirtualAgents.TaskSystem;
-using i5.VirtualAgents.TaskSystem.AgentTasks;
+using i5.VirtualAgents.BehaviourTrees.Visual;
+using i5.VirtualAgents.BehaviourTrees;
 using System;
 using System.Linq;
 
-namespace i5.VirtualAgents.Editor
+namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
     /// <summary>
     /// Displays a behaviour tree in the behaviour tree editor.

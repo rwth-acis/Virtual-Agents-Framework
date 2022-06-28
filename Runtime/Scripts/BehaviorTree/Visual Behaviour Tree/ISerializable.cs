@@ -4,7 +4,7 @@ using UnityEngine;
 using i5.VirtualAgents.TaskSystem;
 using UnityEditor;
 
-namespace i5.VirtualAgents
+namespace i5.VirtualAgents.TaskSystem
 {
     public interface ISerializable
     {
