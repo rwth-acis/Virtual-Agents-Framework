@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.i5.spatial_ui_converter": "https://github.com/rwth-acis/Spatial-UI-Converter.git#v1.0.1",
+    "com.i5.spatial_ui_converter": "https://github.com/rwth-acis/Spatial-UI-Converter.git#v1.0.2",
     "com.i5.toolkit.core": "1.8.0",
     "com.unity.collab-proxy": "1.15.4",
     "com.unity.ide.rider": "2.0.7",
