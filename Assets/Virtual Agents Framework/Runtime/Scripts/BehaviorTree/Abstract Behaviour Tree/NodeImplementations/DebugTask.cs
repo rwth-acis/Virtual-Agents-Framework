@@ -6,25 +6,10 @@ using UnityEngine;
 
 namespace i5.VirtualAgents.TaskSystem.AgentTasks
 {
-    public class DebugTask : IAgentTask, ISerializable
+    public class DebugTask : AgentBaseTask, ISerializable
     {
-        public List<Func<bool>> ReadyToStart { get; set; }
-        public List<Func<bool>> ReadyToEnd { get; set; }
-        public TaskState rootState { get; set; }
 
-
-
-        public void Execute(Agent exceutingAgent)
-        {
-        }
-
- 
-
-        public void Stop()
-        {
-        }
-
-        TaskState ITask.Update()
+        public override TaskState Update()
         {
             Debug.Log("Debug Task ececuted");
             return TaskState.Success;

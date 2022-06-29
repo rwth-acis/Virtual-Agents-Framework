@@ -17,7 +17,6 @@ namespace i5.VirtualAgents
     {
         [SerializeField] private TaskSystemEnum taskSystemKind;
         private ITaskSystem taskSystem;
-        
 
         /// <summary>
         /// The animator component which controls the agent's animations

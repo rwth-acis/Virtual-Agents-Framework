@@ -11,14 +11,14 @@ namespace i5.VirtualAgents
         {
             taskManagers = new Dictionary<string, AgentTaskManager>();
             Animator animator = agent.GetComponent<Animator>();
-            //Create a task manager for each animation layer
+            // Create a task manager for each animation layer
             for (int i = 0; i < animator.layerCount; i++)
             {
                 taskManagers.Add(animator.GetLayerName(i), new AgentTaskManager(agent));
             }
         }
 
-        //One task manager for every animation layer of the corresponding animator is generated
+        // One task manager for every animation layer of the corresponding animator is generated
         private Dictionary<string, AgentTaskManager> taskManagers;
 
         public void Update()
