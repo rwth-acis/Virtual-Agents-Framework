@@ -37,11 +37,15 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Virtual Agents Framework/Editor/UI Builder/Behaviour Tree/BehaviourTreeEditorStyleSheet.uss");
             root.styleSheets.Add(styleSheet);
 
+            //Fetch and initialise objects from window
             treeView = root.Query<BehaviourTreeView>();
             treeView.SetEnabled(false); //Disable, until a tree is selected
             inspectorView = root.Query<InspectorView>();
             treeView.OnNodeSelect = OnNodeSelectionChanged;
             treeViewOccludeLabel = root.Query<Label>("treeViewOccludeLabel");
+
+            //Check if a tree is already selected
+            LoadSelectedTree();
 
             //Setup the save button
             Button saveButton = root.Query<Button>("Save");
@@ -51,10 +55,23 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         //Changes the currently edited tree to the one selected in the unity project tab
         private void OnSelectionChange()
         {
+            LoadSelectedTree();
+        }
+
+        private void OnFocus()
+        {
+            LoadSelectedTree();
+        }
+
+        private void LoadSelectedTree()
+        {
             BehaviorTreeAsset tree = Selection.activeObject as BehaviorTreeAsset;
-            if (tree)
+            if (tree != null)
             {
-                treeViewOccludeLabel.RemoveFromHierarchy();
+                if (treeViewOccludeLabel != null)
+                {
+                    treeViewOccludeLabel.RemoveFromHierarchy();
+                }
                 treeView.SetEnabled(true);
                 treeView.PopulateView(tree);
             }
