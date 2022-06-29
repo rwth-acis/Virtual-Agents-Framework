@@ -1,6 +1,4 @@
 using i5.Toolkit.Core.Utilities;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,7 +8,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
     /// Defines movement tasks for walking and running
     /// Uses the NavMeshAgent component
     /// </summary>
-    public class AgentMovementTask : IAgentTask, ISerializable
+    public class AgentMovementTask : AgentBaseTask, ISerializable
     {
         /// <summary>
         /// Reference to the NavMeshAgent component
@@ -33,16 +31,6 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// </summary>
         public float TargetSpeed { get; protected set; }
 
-        public List<Func<bool>> ReadyToStart { get; set; }
-
-        public List<Func<bool>> ReadyToEnd { get; set; }
-        public TaskState rootState { get; set; }
-
-        /// <summary>
-        /// Event which is invoked once the task is finished
-        /// </summary>
-        public event Action OnTaskFinished;
-
         public AgentMovementTask()
         {
             TargetSpeed = -1;
@@ -63,8 +51,9 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// Starts the movement task
         /// </summary>
         /// <param name="agent">The agent which should execute the movement task</param>
-        public void Execute(Agent agent)
+        public override void Execute(Agent agent)
         {
+            base.Execute(agent);
             navMeshAgent = agent.GetComponent<NavMeshAgent>();
 
             // only proceed on agents with a NavMeshAgent
@@ -74,6 +63,8 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
                 i5Debug.LogError($"The agent {agent.name} does not have a NavMeshAgent component. " +
                     $"Therefore, it cannot move. Skipping this task.",
                     this);
+
+                FinishTask();
                 return;
             }
 
@@ -83,7 +74,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// <summary>
         /// Checks every frame whether the agent has reached the target
         /// </summary>
-        public TaskState Update()
+        public override TaskState Update()
         {
             if (navMeshAgent == null)
                 return TaskState.Failure; //No navmesh agent attached
@@ -91,7 +82,6 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
                 return TaskState.Running; //The navmesh agent is still generating the path, try again on next update
             if (navMeshAgent.pathStatus == NavMeshPathStatus.PathPartial || navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
                 return TaskState.Failure; //The navmesh agent couldn't generate a complete and valid path
-
             if (navMeshAgent.remainingDistance < minDistance)
             {
                 return TaskState.Success;
@@ -118,7 +108,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             }
         }
 
-        public void Stop()
+        public override void Stop()
         {
             navMeshAgent.enabled = false;
         }

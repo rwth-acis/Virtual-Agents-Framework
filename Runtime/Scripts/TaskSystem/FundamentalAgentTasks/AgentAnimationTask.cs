@@ -8,17 +8,8 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
     /// <summary>
     /// Starts an animation by setting the trigger in the animator belonging to the agent. It will stop it after playtime second using the stop trigger if provided or else the startTrigger again
     /// </summary>
-    public class AgentAnimationTask : IAgentTask, ISerializable
+    public class AgentAnimationTask : AgentBaseTask, ISerializable
     {
-        /// <summary>
-        /// Event which is invoked once the task is finished
-        /// </summary>
-        public event Action OnTaskFinished;
-
-        public List<Func<bool>> ReadyToStart { get; set; }
-        public List<Func<bool>> ReadyToEnd { get; set; }
-        public TaskState rootState { get; set; }
-
         private Animator animator;
         private string startTrigger;
         private string stopTrigger;
@@ -34,14 +25,14 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             this.playTime = playTime;
         }
 
-        public void Execute(Agent agent)
+        public override void Execute(Agent agent)
         {
             animator = agent.GetComponent<Animator>();
             animator.SetTrigger(startTrigger);
             startTime = DateTime.Now;
         }
 
-        public TaskState Update()
+        public override TaskState Update()
         {
             if ((DateTime.Now - startTime).Seconds > playTime)
             {
@@ -50,7 +41,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             return TaskState.Running;
         }
 
-        public void Stop()
+        public override void Stop()
         {
             animator.SetTrigger(stopTrigger != "" ? stopTrigger : startTrigger);
         }
