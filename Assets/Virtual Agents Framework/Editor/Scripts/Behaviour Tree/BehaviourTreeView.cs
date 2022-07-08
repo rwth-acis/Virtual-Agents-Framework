@@ -49,16 +49,16 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             graphViewChanged += OnGraphViewChanged;
 
             //Create node views
-            foreach (var node in tree.nodes)
+            foreach (var node in tree.Nodes)
             {
                 CreateNodeView(node);
             }
 
             //Create edges
-            foreach (var node in tree.nodes)
+            foreach (var node in tree.Nodes)
             {
                 NodeView parentView = FindNodeView(node);
-                foreach (var child in node.children)
+                foreach (var child in node.Children)
                 {
                     NodeView childView = FindNodeView(child);
                     Edge edge = parentView.output.ConnectTo(childView.input);
@@ -71,7 +71,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         //Finds the node view corresponding to the given visual node
         private NodeView FindNodeView(VisualNode node)
         {
-            return GetNodeByGuid(node.guid) as NodeView;
+            return GetNodeByGuid(node.Guid) as NodeView;
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
@@ -94,7 +94,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             {
                 foreach (var edge in graphViewChange.edgesToCreate)
                 {
-                    ((NodeView)edge.output.node).node.children.Add(((NodeView)edge.input.node).node);
+                    ((NodeView)edge.output.node).node.Children.Add(((NodeView)edge.input.node).node);
                 }
             }
 
@@ -111,7 +111,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             void CreateVisualNode(ISerializable node, Vector2 position)
             {
                 VisualNode visualNode = Tree.AddNode(node);
-                visualNode.position = position;
+                visualNode.Position = position;
                 CreateNodeView(visualNode);
             }
 

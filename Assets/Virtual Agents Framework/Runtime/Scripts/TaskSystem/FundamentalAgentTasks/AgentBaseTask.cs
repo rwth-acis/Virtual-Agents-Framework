@@ -23,14 +23,14 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
                 bool canStart = true;
                 foreach(IAgentTask task in DependsOnTasks)
                 {
-                    canStart &= (task.rootState == TaskState.Success ||task.rootState == TaskState.Failure);
+                    canStart &= (task.State == TaskState.Success ||task.State == TaskState.Failure);
                 }
                 return canStart;
             }
         }
 
         public bool IsFinished { get; protected set; } = false;
-        public TaskState rootState { get; set; }
+        public TaskState State { get; set; }
 
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// </summary>
         public virtual TaskState Update()
         {
-            return rootState;
+            return State;
         }
 
 
@@ -70,7 +70,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         }
 
         /// <summary>
-        /// Indicates taht that the task has to wait for another task to finish first
+        /// Indicates that the task has to wait for another task to finish first
         /// </summary>
         /// <param name="otherTasks">The other tasks which have to finish before this task can start</param>
         public void WaitFor(params AgentBaseTask[] otherTasks)

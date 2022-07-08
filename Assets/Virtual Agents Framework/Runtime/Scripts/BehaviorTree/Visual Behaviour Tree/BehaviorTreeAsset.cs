@@ -17,9 +17,9 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         {
             get 
             {
-                if (rootNode == null && nodes != null && nodes.Count > 0)
+                if (rootNode == null && Nodes != null && Nodes.Count > 0)
                 {
-                    rootNode = nodes[0];
+                    rootNode = Nodes[0];
                 }
                 return rootNode;
             }
@@ -29,10 +29,10 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             }
         }
 
-        public List<VisualNode> nodes = new List<VisualNode>();
+        public List<VisualNode> Nodes = new List<VisualNode>();
 
         /// <summary>
-        /// Adds a new node based on an serializable task.
+        /// Adds a new node based on an serializable task
         /// </summary>
         /// <param name="baseTask"></param>
         /// <returns></returns>
@@ -40,48 +40,48 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         {
             VisualNode node = CreateInstance<VisualNode>();
             node.name = baseTask.GetType().Name;
-            node.guid = GUID.Generate().ToString();
+            node.Guid = GUID.Generate().ToString();
             node.SetSerializedType(baseTask);
-            nodes.Add(node);
+            Nodes.Add(node);
             AssetDatabase.AddObjectToAsset(node,this);
             return node;
         }
 
         /// <summary>
-        /// Deletes the given node from the tree.
+        /// Deletes the given node from the tree
         /// </summary>
         /// <param name="nodeToDelete"></param>
         public void DeleteNode(VisualNode nodeToDelete)
         {
-            nodes.Remove(nodeToDelete);
-            foreach (var node in nodes)
+            Nodes.Remove(nodeToDelete);
+            foreach (var node in Nodes)
             {
-                node.children.Remove(nodeToDelete);
+                node.Children.Remove(nodeToDelete);
             }
             AssetDatabase.RemoveObjectFromAsset(nodeToDelete);
         }
 
         /// <summary>
-        /// Generates an abstract copy of the tree that is executable through the root nodes update function.
+        /// Generates an abstract copy of the tree that is executable through the root nodes FullUpdate() function
         /// </summary>
         /// <returns></returns>
         public ITask GetExecutableTree()
         {
-            rootNode = nodes[0];
+            rootNode = Nodes[0];
             ITask root = (ITask)rootNode.GetCopyOfSerializedInterface();
             ConnectAbstractTree(rootNode, root);
             return root;
         }
 
-        //Generates recursivly the abstract childs for the given graphical node and connects them.
+        // Generates recursivly the abstract childs for the given graphical node and connects them
         private void ConnectAbstractTree(VisualNode node, ITask abstractNode)
         {
-            foreach (var child in node.children)
+            foreach (var child in node.Children)
             {
                 ITask abstractChild = (ITask)child.GetCopyOfSerializedInterface();
                 if (abstractNode is ICompositeNode)
                 {
-                    (abstractNode as ICompositeNode).children.Add(abstractChild);
+                    (abstractNode as ICompositeNode).Children.Add(abstractChild);
                 }
                 ConnectAbstractTree(child, abstractChild);
             }

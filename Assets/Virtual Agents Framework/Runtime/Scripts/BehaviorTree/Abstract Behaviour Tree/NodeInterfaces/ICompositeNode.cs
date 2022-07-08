@@ -4,8 +4,11 @@ using UnityEngine;
 
 namespace i5.VirtualAgents.BehaviourTrees
 {
+    /// <summary>
+    /// Nodes that execute other nodes
+    /// </summary>
     public interface ICompositeNode : ITask
     {
-        List<ITask> children {get; set;}
+        List<ITask> Children {get; set;}
     }
 }

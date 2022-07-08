@@ -5,7 +5,7 @@ using UnityEngine;
 namespace i5.VirtualAgents.TaskSystem
 {
     /// <summary>
-    /// Common methods and attributes for all AgentTasks
+    /// A task that directly manipualtes an agent
     /// </summary>
     public interface IAgentTask : ITask
     {

@@ -12,9 +12,9 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
     [Serializable]
     public class VisualNode : TaskSerializer
     {
-        public string guid;
-        public Vector2 position;
-        public string description;
-        public List<VisualNode> children = new List<VisualNode>();
+        public string Guid;
+        public Vector2 Position;
+        public string Description;
+        public List<VisualNode> Children = new List<VisualNode>();
     }
 }

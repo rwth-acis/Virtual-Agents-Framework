@@ -20,7 +20,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             // Retrive the serialized array
             SerializedProperty baseProperty = serializedObject.FindProperty(propertyName + ".data");
             // Create the property field for the element with index counter
-            EditorGUILayout.PropertyField(baseProperty.GetArrayElementAtIndex(counter).FindPropertyRelative("value"), new GUIContent(targetNode.GetKeyByIndex(counter, type)));
+            EditorGUILayout.PropertyField(baseProperty.GetArrayElementAtIndex(counter).FindPropertyRelative("Value"), new GUIContent(targetNode.GetKeyByIndex(counter, type)));
             counter++;
         }
         public override void OnInspectorGUI()

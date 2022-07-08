@@ -21,11 +21,11 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         {
             this.node = node;
             title = node.name;
-            viewDataKey = node.guid;
+            viewDataKey = node.Guid;
 
             // Restore the position saved in the serialized data
-            style.left = node.position.x;
-            style.top = node.position.y;
+            style.left = node.Position.x;
+            style.top = node.Position.y;
 
             // Create the ports
             CreateInputPorts();
@@ -39,8 +39,8 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         public override void SetPosition(Rect newPos)
         {
             base.SetPosition(newPos);
-            node.position.x = newPos.xMin;
-            node.position.y = newPos.yMin;
+            node.Position.x = newPos.xMin;
+            node.Position.y = newPos.yMin;
         }
 
         // Create the ports for input edges

@@ -11,68 +11,85 @@ namespace i5.VirtualAgents
         Failure,
         Success
     }
+
+    /// <summary>
+    /// Task that can be executed by ITaskSystems. Needs to be updated with FullUpdate() in order to perform work.
+    /// </summary>
     public interface ITask
     {
+        /// <summary>
+        /// Perform work on frame to frame basis. It is recommended to instead call FullUpdate, since it automaticallay handles calling Execute() Update() and Stop() and manges the State.
+        /// </summary>
+        /// <returns></returns>
         TaskState Update();
+
+        /// <summary>
+        /// Called when the task is executed for the first time
+        /// </summary>
+        /// <param name="executingAgent"></param>
         void Execute(Agent executingAgent);
+
+        /// <summary>
+        /// Called when the task succeedes or fails
+        /// </summary>
         void Stop();
 
-        TaskState rootState { get; set; }
+        TaskState State { get; set; }
 
         /// <summary>
         /// Can be used to fail the task outside of its Update method
         /// </summary>
         void PreemptivelyFailTask()
         {
-            rootState = TaskState.Failure;
+            State = TaskState.Failure;
             Stop();
         }
 
         /// <summary>
-        /// Can be used to fail the task outside of its Update method
+        /// Can be used to let the task succseed outside of its Update method
         /// </summary>
         void PreemptivelySuccedTask()
         {
-            rootState = TaskState.Success;
+            State = TaskState.Success;
             Stop();
         }
 
 
         /// <summary>
-        /// Updates rootState and automattically invokes Execute() on first update and Stop() when task succeeds/fails.
+        /// Updates the State and automatically invokes Execute() on first update and Stop() when task succeeds/fails.
         /// </summary>
         /// <param name="excutingAgent"></param>
         /// <returns></returns>
         TaskState FullUpdate(Agent excutingAgent)
         {
             //Is the task already finished?
-            if (rootState == TaskState.Success || rootState == TaskState.Failure)
+            if (State == TaskState.Success || State == TaskState.Failure)
             {
-                return rootState; //Don't update the task any further
+                return State; //Don't update the task any further
             }
 
             //Is the task updated for the first time?
-            if (rootState == TaskState.Waiting)
+            if (State == TaskState.Waiting)
             {
-                rootState = TaskState.Running;
+                State = TaskState.Running;
                 Execute(excutingAgent);
                 //Check if the task already finished, in the Execute()
-                if (rootState == TaskState.Success || rootState == TaskState.Failure)
+                if (State == TaskState.Success || State == TaskState.Failure)
                 {
-                    return rootState;
+                    return State;
                 }
             }
             
-            rootState = Update();
+            State = Update();
 
 
-            //Check if the task finished in te last Update
-            if (rootState == TaskState.Success || rootState == TaskState.Failure)
+            //Check if the task finished in the last Update()
+            if (State == TaskState.Success || State == TaskState.Failure)
             {
                 Stop();
             }
 
-            return rootState;
+            return State;
         }
     }
 }
