@@ -121,7 +121,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                     //Get the empty constructor. If no empty constructor exists, a corresponding node can't be created by the context menu.
                     var constructor = type.GetConstructor(new Type[0]);
                      
-                    if (constructor != null) // Can only instatiate a task, if it has an empty constructor
+                    if (constructor != null && !type.IsAbstract) // Can only instatiate a task, if it has an empty constructor
                     {
                         ISerializable task = constructor.Invoke(new object[0]) as ISerializable; //Can only use it as node if it is serializable
                         if (task != null)
