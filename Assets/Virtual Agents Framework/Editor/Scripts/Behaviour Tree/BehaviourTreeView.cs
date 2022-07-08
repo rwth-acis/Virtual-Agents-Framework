@@ -13,13 +13,15 @@ using System.Linq;
 namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
     /// <summary>
-    /// Displays a behaviour tree in the behaviour tree editor.
+    /// Displays a behaviour tree in the behaviour tree editor and provides the means to manipulate it.
     /// </summary>
     public class BehaviourTreeView : GraphView
     {
         public Action<NodeView> OnNodeSelect;
+
+        // Needed for the UI Builder
         public new class UxmlFactory : UxmlFactory<BehaviourTreeView, UxmlTraits> { }
-        public BehaviorTreeAsset tree;
+        public BehaviorTreeAsset Tree;
 
         public BehaviourTreeView()
         {
@@ -41,7 +43,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         /// <param name="tree"></param>
         public void PopulateView(BehaviorTreeAsset tree)
         {
-            this.tree = tree;
+            this.Tree = tree;
             graphViewChanged -= OnGraphViewChanged;
             DeleteElements(graphElements);
             graphViewChanged += OnGraphViewChanged;
@@ -82,7 +84,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                     NodeView nodeToRemove = elemToRemove as NodeView;
                     if (nodeToRemove != null)
                     {
-                        tree.DeleteNode(nodeToRemove.node);
+                        Tree.DeleteNode(nodeToRemove.node);
                     }
                 }
             }
@@ -100,7 +102,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         }
 
         /// <summary>
-        /// Builds a context menu with options for creating nodes. Every class that (1) implements IAgentTask, ICompositeNode or IDecoratorNode, (2) additionally implements ISerialiazble
+        /// Builds a context menu with options for creating nodes. Every non abstract class that (1) implements IAgentTask, ICompositeNode or IDecoratorNode, (2) additionally implements ISerialiazble
         /// and (3) has an empty constructor will automatically get its own context menu entry and can be fully used as node in the behaviour tree.
         /// </summary>
         /// <param name="evt"></param>
@@ -108,7 +110,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         {
             void CreateVisualNode(ISerializable node, Vector2 position)
             {
-                VisualNode visualNode = tree.AddNode(node);
+                VisualNode visualNode = Tree.AddNode(node);
                 visualNode.position = position;
                 CreateNodeView(visualNode);
             }

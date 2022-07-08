@@ -15,7 +15,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         //Needed so it can be used in the UI builder
         public new class UxmlFactory : UxmlFactory<InspectorView, VisualElement.UxmlTraits> { }
 
-        UnityEditor.Editor editor;
+        private UnityEditor.Editor editor;
 
         internal void UpdateSelection(NodeView view)
         {

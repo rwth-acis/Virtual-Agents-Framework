@@ -12,15 +12,15 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
     /// </summary>
     public class BehaviourTreeEditor : EditorWindow
     {
-        BehaviourTreeView treeView;
-        InspectorView inspectorView;
-        Label treeViewOccludeLabel;
+        private BehaviourTreeView treeView;
+        private InspectorView inspectorView;
+        private Label treeViewOccludeLabel;
 
         [MenuItem("i5 Toolkit/BehaviourTreeEditor")]
         public static void ShowWindow()
         {
-            BehaviourTreeEditor wnd = GetWindow<BehaviourTreeEditor>();
-            wnd.titleContent = new GUIContent("BehaviourTreeEditor");
+            BehaviourTreeEditor window = GetWindow<BehaviourTreeEditor>();
+            window.titleContent = new GUIContent("BehaviourTreeEditor");
         }
 
         public void CreateGUI()
@@ -81,7 +81,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         //Saves all changes made to the currently selected behaviour tree to the disc
         private void SaveTree()
         {
-            EditorUtility.SetDirty(treeView.tree);
+            EditorUtility.SetDirty(treeView.Tree);
             AssetDatabase.SaveAssets();
         }
     } 
