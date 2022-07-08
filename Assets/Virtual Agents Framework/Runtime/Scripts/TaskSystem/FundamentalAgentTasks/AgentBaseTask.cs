@@ -41,8 +41,6 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             DependsOnTasks = new List<IAgentTask>();
         }
 
-        public event Action OnTaskFinished;
-
         /// <summary>
         /// Gets the reference to the agent which will execute this task
         /// Starts the task's execution
@@ -69,7 +67,6 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             rootState = TaskState.Success;
             IsFinished = true;
             DependsOnTasks.Clear();
-            OnTaskFinished();
         }
 
         /// <summary>

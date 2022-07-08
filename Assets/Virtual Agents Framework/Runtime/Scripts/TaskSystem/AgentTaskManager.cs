@@ -124,7 +124,13 @@ namespace i5.VirtualAgents.TaskSystem
                     RequestNextTask(); // request new tasks
                     break;
                 case TaskManagerState.busy:
-                    CurrentTask.Update(); // perform frame-to-frame updates required by the current task
+                    TaskState taskState = CurrentTask.FullUpdate(ExecutingAgent); // perform frame-to-frame updates required by the current task
+                    if (taskState == TaskState.Success || taskState == TaskState.Failure)
+                    {
+                        CurrentState = TaskManagerState.idle;
+                        OnTaskFinished?.Invoke(this, CurrentTask);
+                        CurrentTask = null;
+                    }
                     break;
             }
         }
@@ -161,10 +167,6 @@ namespace i5.VirtualAgents.TaskSystem
                 CurrentState = TaskManagerState.busy;
                 // save the current task,
                 CurrentTask = nextTask;
-                // subscribe to the task's OnTaskFinished event to set the agent's state to idle after task execution
-                CurrentTask.OnTaskFinished += TaskFinished;
-                // execute the next task,
-                nextTask.Execute(ExecutingAgent);
             }
         }
 
@@ -175,20 +177,6 @@ namespace i5.VirtualAgents.TaskSystem
         public IAgentTask PeekNextTask()
         {
             return queue.PeekNextTask();
-        }
-
-        /// <summary>
-        /// Helper function to be called when a task has been executed.
-        /// Set agent's state to idle
-        /// </summary>
-        private void TaskFinished()
-        {
-            // Unsubscribe from the event
-            CurrentTask.OnTaskFinished -= TaskFinished;
-            CurrentState = TaskManagerState.idle;
-            IAgentTask previousTask = CurrentTask;
-            CurrentTask = null;
-            OnTaskFinished?.Invoke(this, previousTask);
         }
     }
 }
