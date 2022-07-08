@@ -64,7 +64,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
 
         public virtual void FinishTask()
         {
-            rootState = TaskState.Success;
+            (this as IAgentTask).PreemptivelySuccedTask();
             IsFinished = true;
             DependsOnTasks.Clear();
         }
