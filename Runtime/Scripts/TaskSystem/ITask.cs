@@ -6,8 +6,8 @@ namespace i5.VirtualAgents
 {
     public enum TaskState
     {
-        Waiting, //Node created, but never executed
-        Running, //Node 
+        Waiting, //Task created, but never executed
+        Running, //Task currently running
         Failure,
         Success
     }
