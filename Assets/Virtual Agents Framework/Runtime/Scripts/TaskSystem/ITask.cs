@@ -20,31 +20,53 @@ namespace i5.VirtualAgents
         TaskState rootState { get; set; }
 
         /// <summary>
+        /// Can be used to fail the task outside of its Update method
+        /// </summary>
+        void PreemptivelyFailTask()
+        {
+            rootState = TaskState.Failure;
+            Stop();
+        }
+
+        /// <summary>
+        /// Can be used to fail the task outside of its Update method
+        /// </summary>
+        void PreemptivelySuccedTask()
+        {
+            rootState = TaskState.Success;
+            Stop();
+        }
+
+
+        /// <summary>
         /// Updates rootState and automattically invokes Execute() on first update and Stop() when task succeeds/fails.
         /// </summary>
         /// <param name="excutingAgent"></param>
         /// <returns></returns>
         TaskState FullUpdate(Agent excutingAgent)
         {
-            //On first update, invoke Execute()
+            //Is the task already finished?
+            if (rootState == TaskState.Success || rootState == TaskState.Failure)
+            {
+                return rootState; //Don't update the task any further
+            }
+
+            //Is the task updated for the first time?
             if (rootState == TaskState.Waiting)
             {
                 rootState = TaskState.Running;
                 Execute(excutingAgent);
+                //Check if the task already finished, in the Execute()
+                if (rootState == TaskState.Success || rootState == TaskState.Failure)
+                {
+                    return rootState;
+                }
             }
             
-            //Checking failure here is important in case the task changed its root state on its own
-            if (rootState == TaskState.Failure)
-            {
-                Stop();
-                return TaskState.Failure;
-            }
-            else
-            {
-                rootState = Update();
-            }
+            rootState = Update();
 
-            //Invoke stop method when the task state switches from not Sucess/Failure to Sucess/Failure
+
+            //Check if the task finished in te last Update
             if (rootState == TaskState.Success || rootState == TaskState.Failure)
             {
                 Stop();
