@@ -8,6 +8,9 @@ using i5.VirtualAgents.BehaviourTrees;
 
 namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
+    /// <summary>
+    /// Displays a Behaviour Tree node in the visual editor
+    /// </summary>
     public class NodeView : Node
     {
         public Action<NodeView> OnNodeSelect;
@@ -20,12 +23,19 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             title = node.name;
             viewDataKey = node.guid;
 
+            // Restore the position saved in the serialized data
             style.left = node.position.x;
             style.top = node.position.y;
+
+            // Create the ports
             CreateInputPorts();
             CreateOutputPorts();
         }
 
+        /// <summary>
+        /// Set node position
+        /// </summary>
+        /// <param name="newPos"></param>
         public override void SetPosition(Rect newPos)
         {
             base.SetPosition(newPos);
@@ -33,6 +43,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             node.position.y = newPos.yMin;
         }
 
+        // Create the ports for input edges
         private void CreateInputPorts()
         {
             //Every node has one input
@@ -41,6 +52,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             inputContainer.Add(input);
         }
 
+        // Create the ports for output edges
         private void CreateOutputPorts()
         {
             //Action Nodes/Tasks are leaves => no output
@@ -58,6 +70,9 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             }
         }
 
+        /// <summary>
+        /// Delegate the OnSelect event to display this node in the node inspector
+        /// </summary>
         public override void OnSelected()
         {
             base.OnSelected();
