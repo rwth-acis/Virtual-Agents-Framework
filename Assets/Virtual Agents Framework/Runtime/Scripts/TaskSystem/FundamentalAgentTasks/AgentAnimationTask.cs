@@ -14,7 +14,6 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         private string startTrigger;
         private string stopTrigger;
         private float playTime;
-        private DateTime startTime;
 
         public AgentAnimationTask(){}
 
@@ -25,25 +24,30 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             this.playTime = playTime;
         }
 
+        /// <summary>
+        /// Satrt the animation
+        /// </summary>
+        /// <param name="agent"></param>
         public override void Execute(Agent agent)
         {
             animator = agent.GetComponent<Animator>();
             animator.SetTrigger(startTrigger);
-            startTime = DateTime.Now;
+            agent.StartCoroutine(Wait(playTime));
         }
 
-        public override TaskState Update()
-        {
-            if ((DateTime.Now - startTime).Seconds > playTime)
-            {
-                return TaskState.Success;
-            }
-            return TaskState.Running;
-        }
-
+        /// <summary>
+        /// Stop the animation
+        /// </summary>
         public override void Stop()
         {
             animator.SetTrigger(stopTrigger != "" ? stopTrigger : startTrigger);
+        }
+
+        // wait for the given time and then finish the task
+        private IEnumerator Wait(float timeInSeconds)
+        {
+            yield return new WaitForSeconds(timeInSeconds);
+            FinishTask();
         }
 
         public void Serialize(TaskSerializer serializer)
