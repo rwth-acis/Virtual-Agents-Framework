@@ -10,11 +10,5 @@ namespace i5.VirtualAgents.TaskSystem
     public interface IAgentTask : ITask
     {
         bool CanStart { get; }
-
-        /// <summary>
-        /// Event which is invoked once the task is finished
-        /// Subscribed to by the agent's task manager so that the next task can be started afterwards
-        /// </summary>
-        event Action OnTaskFinished;
     }
 }
