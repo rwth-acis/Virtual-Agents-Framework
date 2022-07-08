@@ -7,22 +7,23 @@ using UnityEditor;
 
 namespace i5.VirtualAgents.BehaviourTrees
 {
-    [Serializable]
+    /// <summary>
+    /// Executes its child one after another, until one succsedes
+    /// </summary>
     public class SelectorNode : ICompositeNode, ISerializable
     {
-        public List<ITask> children { get; set; }
-        public TaskState rootState { get; set; }
+        public List<ITask> Children { get; set; }
+        public TaskState State { get; set; }
 
         private Agent executingAgent;
         public SelectorNode()
         {
-            children = new List<ITask>();
+            Children = new List<ITask>();
         }
 
         
         public void Execute(Agent executingAgent)
         {
-            rootState = TaskState.Running;
             this.executingAgent = executingAgent;
         }
         int current = 0;
@@ -33,13 +34,13 @@ namespace i5.VirtualAgents.BehaviourTrees
 
         public TaskState Update()
         {
-            TaskState currentNodestate = children[current].FullUpdate(executingAgent);
+            TaskState currentNodestate = Children[current].FullUpdate(executingAgent);
 
 
             if (currentNodestate == TaskState.Failure)
             {
                 current++;
-                if (current >= children.Count)
+                if (current >= Children.Count)
                     return TaskState.Failure; //All nodes failed, report general failure
                 else
                     return TaskState.Running; 

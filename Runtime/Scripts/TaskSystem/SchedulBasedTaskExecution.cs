@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace i5.VirtualAgents
 {
+    /// <summary>
+    /// Executes tasks by scheduling them in a priority queue
+    /// </summary>
     public class SchedulBasedTaskExecution : ITaskSystem
     {
         public SchedulBasedTaskExecution(Agent agent)

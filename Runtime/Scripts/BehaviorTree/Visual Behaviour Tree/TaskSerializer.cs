@@ -19,19 +19,19 @@ namespace i5.VirtualAgents.TaskSystem
     }
 
     /// <summary>
-    /// Serilaized data identified by a key.
+    /// Serialized data identified by a key.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
     public class SerializationEntry<T>
     {
-        public string key;
-        public T value;
+        public string Key;
+        public T Value;
 
         public SerializationEntry(string key, T value)
         {
-            this.key = key;
-            this.value = value;
+            this.Key = key;
+            this.Value = value;
         }
     }
 
@@ -48,9 +48,9 @@ namespace i5.VirtualAgents.TaskSystem
         {
             foreach (var entry in data)
             {
-                if (entry.key == key)
+                if (entry.Key == key)
                 {
-                    return entry.value;
+                    return entry.Value;
                 }
             }
             throw new KeyNotFoundException();
@@ -72,7 +72,7 @@ namespace i5.VirtualAgents.TaskSystem
         }
     }
 
-    //Since generic types are not serializable, a new type that derives from the generic version while providing it with a concrete type has to be created. 
+    // Since generic types are not serializable, a new type that derives from the generic version while providing it with a concrete type has to be created. 
     [Serializable]
     public class SerializedVectors : SerializationData<Vector3> { }
     [Serializable]
@@ -171,15 +171,15 @@ namespace i5.VirtualAgents.TaskSystem
             switch (type)
             {
                 case SerializableType.VECTOR3:
-                    return serializedVectors.Get(index).key;
+                    return serializedVectors.Get(index).Key;
                 case SerializableType.FLOAT:
-                    return serializedFloats.Get(index).key;
+                    return serializedFloats.Get(index).Key;
                 default:
                     return "";
             }
         }
 
-        //Creates an object from the serialized type
+        // Creates an object from the serialized type
         private ISerializable DeserializeType()
         {
             foreach (var type in TypeCache.GetTypesDerivedFrom<ISerializable>())

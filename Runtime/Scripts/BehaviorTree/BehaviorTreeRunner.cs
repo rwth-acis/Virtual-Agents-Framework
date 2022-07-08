@@ -11,9 +11,9 @@ namespace i5.VirtualAgents.BehaviourTrees
     /// </summary>
     public class BehaviorTreeRunner : ITaskSystem
     {
-        Agent excecutingAgent;
+        private Agent excecutingAgent;
         private ITask abstractTree;
-        TaskState rootState;
+        private TaskState rootState;
 
         /// <summary>
         /// Execute visual behaviour tree.

@@ -6,21 +6,20 @@ using System;
 
 namespace i5.VirtualAgents.BehaviourTrees
 {
+    /// <summary>
+    /// Executes all its children one after another, but aborts if one child fails
+    /// </summary>
     public class SequencerNode : ICompositeNode, ISerializable
     {
-        //TODO komplizierter getter setter vermutlich nicht nötig
-        List<ITask> _children;
-        public List<ITask> children { get { return _children; } set { _children = value; } }
-        public TaskState rootState { get; set; }
-        public List<Func<bool>> ReadyToStart { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public List<Func<bool>> ReadyToEnd { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public List<ITask> Children { get;  set; }
+        public TaskState State { get; set; }
 
-        int current = 0;
-        Agent executingAgent;
+        private int current = 0;
+        private Agent executingAgent;
 
         public SequencerNode()
         {
-            children = new List<ITask>();
+            Children = new List<ITask>();
         }
 
         public void Execute(Agent executingAgent)
@@ -34,18 +33,19 @@ namespace i5.VirtualAgents.BehaviourTrees
 
         public TaskState Update()
         {
-            TaskState currentNodestate = children[current].FullUpdate(executingAgent);
+            TaskState currentNodestate = Children[current].FullUpdate(executingAgent);
 
             if (currentNodestate == TaskState.Success)
             {
                 current++;
-                if (current >= children.Count)
+                if (current >= Children.Count)
                     return TaskState.Success;
                 else
                     return TaskState.Running;
             }
             else
             {
+                // This lets this node automatically fail once the first child fails
                 return currentNodestate;
             }
         }
