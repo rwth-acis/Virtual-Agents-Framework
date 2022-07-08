@@ -58,11 +58,6 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             LoadSelectedTree();
         }
 
-        private void OnFocus()
-        {
-            LoadSelectedTree();
-        }
-
         private void LoadSelectedTree()
         {
             BehaviorTreeAsset tree = Selection.activeObject as BehaviorTreeAsset;
