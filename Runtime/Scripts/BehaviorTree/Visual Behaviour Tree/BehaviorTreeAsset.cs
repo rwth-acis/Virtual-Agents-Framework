@@ -65,10 +65,15 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         /// Generates an abstract copy of the tree that is executable through the root nodes FullUpdate() function
         /// </summary>
         /// <returns></returns>
-        public ITask GetExecutableTree()
+        public ITask GetExecutableTree(NodesOverwriteData nodesOverwriteData = null)
         {
             rootNode = Nodes[0];
-            ITask root = (ITask)rootNode.GetCopyOfSerializedInterface();
+            SerializationDataContainer rootNodeData = null;
+            if (nodesOverwriteData != null)
+            {
+                rootNodeData = nodesOverwriteData.Get(rootNode.Guid);
+            }
+            ITask root = (ITask)rootNode.GetCopyOfSerializedInterface(rootNodeData);
             ConnectAbstractTree(rootNode, root);
             return root;
         }
