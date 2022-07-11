@@ -18,9 +18,9 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         private void CreatePropertyField(string propertyName, ref int counter, SerializableType type, VisualNode targetNode)
         {
             // Retrive the serialized array
-            SerializedProperty baseProperty = serializedObject.FindProperty(propertyName + ".data");
+            SerializedProperty baseProperty = serializedObject.FindProperty("Data." + propertyName + ".data");
             // Create the property field for the element with index counter
-            EditorGUILayout.PropertyField(baseProperty.GetArrayElementAtIndex(counter).FindPropertyRelative("Value"), new GUIContent(targetNode.GetKeyByIndex(counter, type)));
+            EditorGUILayout.PropertyField(baseProperty.GetArrayElementAtIndex(counter).FindPropertyRelative("Value"), new GUIContent(targetNode.Data.GetKeyByIndex(counter, type)));
             counter++;
         }
         public override void OnInspectorGUI()
@@ -33,9 +33,9 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             int stringCounter = 0;
             int intCounter = 0;
 
-            SerializableType[] serializationOrder = new SerializableType[targetNode.serializationOrder.Count];
+            SerializableType[] serializationOrder = new SerializableType[targetNode.Data.serializationOrder.Count];
 
-            targetNode.serializationOrder.CopyTo(serializationOrder);
+            targetNode.Data.serializationOrder.CopyTo(serializationOrder);
 
             foreach (var type in serializationOrder)
             {
