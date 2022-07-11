@@ -3,38 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using i5.VirtualAgents.BehaviourTrees.Visual;
+using System;
 
 namespace i5.VirtualAgents.BehaviourTrees
 {
+    [Serializable]
+    public class NodesOverwriteData : SerializationData<SerializationDataContainer> { }
+
     /// <summary>
     /// Executes a given behaviour tree until the root node reports sucess or failure.
     /// </summary>
-    public class BehaviorTreeRunner : ITaskSystem
+    public class BehaviorTreeRunner : MonoBehaviour, ITaskSystem
     {
-        private Agent excecutingAgent;
-        private ITask abstractTree;
+        public Agent excecutingAgent;
+        public BehaviorTreeAsset behaviourTree;
+        public ITask abstractTree;
         private TaskState rootState;
 
-        /// <summary>
-        /// Execute visual behaviour tree.
-        /// </summary>
-        /// <param name="excecutingAgent"></param>
-        /// <param name="tree"></param>
-        public BehaviorTreeRunner(Agent excecutingAgent, BehaviorTreeAsset tree)
-        {
-            this.excecutingAgent = excecutingAgent;
-            abstractTree = tree.GetExecutableTree();
-        }
+        public NodesOverwriteData nodesOverwriteData = new NodesOverwriteData();
 
-        /// <summary>
-        /// Execute abstract behaviour tree.
-        /// </summary>
-        /// <param name="excecutingAgent"></param>
-        /// <param name="rootNode"></param>
-        public BehaviorTreeRunner(Agent excecutingAgent, ITask rootNode)
+        public void OnEnable()
         {
-            this.excecutingAgent = excecutingAgent;
-            abstractTree = rootNode;
+            abstractTree = behaviourTree.GetExecutableTree(nodesOverwriteData);
         }
 
         /// <summary>

@@ -45,7 +45,9 @@ namespace i5.VirtualAgents
                     taskSystem = new SchedulBasedTaskExecution(this);
                     break;
                 case TaskSystemEnum.BehaviorTree:
-                    taskSystem = new BehaviorTreeRunner(this,tree);
+                    BehaviorTreeRunner behaviorTreeRunner = FindObjectOfType<BehaviorTreeRunner>();
+                    behaviorTreeRunner.excecutingAgent = this;
+                    taskSystem = behaviorTreeRunner;
                     break;
             }
         }
