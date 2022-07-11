@@ -47,10 +47,10 @@ namespace i5.VirtualAgents.TaskSystem
         /// Creates a new object from the serialized interface and fills it with the serialized data.
         /// </summary>
         /// <returns></returns>
-        public ISerializable GetCopyOfSerializedInterface()
+        public ISerializable GetCopyOfSerializedInterface(SerializationDataContainer overwriteData = null)
         {
             ISerializable copy = DeserializeType();
-            copy.Deserialize(Data);
+            copy.Deserialize(overwriteData != null ? overwriteData : Data);
             return copy;
         }
     }
