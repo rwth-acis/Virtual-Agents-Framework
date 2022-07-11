@@ -50,14 +50,14 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             FinishTask();
         }
 
-        public void Serialize(TaskSerializer serializer)
+        public void Serialize(SerializationDataContainer serializer)
         {
             serializer.AddSerializedData("Start Trigger", startTrigger);
             serializer.AddSerializedData("Stop Trigger", stopTrigger);
             serializer.AddSerializedData("Play Time", playTime);
         }
 
-        public void Deserialize(TaskSerializer serializer)
+        public void Deserialize(SerializationDataContainer serializer)
         {
             startTrigger = serializer.GetSerializedString("Start Trigger");
             stopTrigger = serializer.GetSerializedString("Stop Trigger");

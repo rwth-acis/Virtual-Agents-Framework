@@ -50,10 +50,10 @@ namespace i5.VirtualAgents.BehaviourTrees
             }
         }
 
-        public void Serialize(TaskSerializer serializer)
+        public void Serialize(SerializationDataContainer serializer)
         { }
 
-        public void Deserialize(TaskSerializer serializer)
+        public void Deserialize(SerializationDataContainer serializer)
         { }
     }
 }

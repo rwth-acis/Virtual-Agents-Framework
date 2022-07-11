@@ -48,12 +48,12 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             FinishTask();
         }
 
-        public void Serialize(TaskSerializer serializer)
+        public void Serialize(SerializationDataContainer serializer)
         {
             serializer.AddSerializedData("Wait time", WaitTimeInSeconds);
         }
 
-        public void Deserialize(TaskSerializer serializer)
+        public void Deserialize(SerializationDataContainer serializer)
         {
             WaitTimeInSeconds = serializer.GetSerializedFloat("Wait time");
         }

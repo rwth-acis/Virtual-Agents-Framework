@@ -113,13 +113,13 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             navMeshAgent.enabled = false;
         }
 
-        public void Serialize(TaskSerializer serializer)
+        public void Serialize(SerializationDataContainer serializer)
         {
             serializer.AddSerializedData("Destination",Destination);
             serializer.AddSerializedData("TargetSpeed",TargetSpeed);
         }
 
-        public void Deserialize(TaskSerializer serializer)
+        public void Deserialize(SerializationDataContainer serializer)
         {
             Destination = serializer.GetSerializedVector("Destination");
             TargetSpeed = serializer.GetSerializedFloat("TargetSpeed");
