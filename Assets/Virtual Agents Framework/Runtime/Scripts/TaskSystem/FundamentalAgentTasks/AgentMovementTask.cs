@@ -78,6 +78,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             }
         }
 
+        // sets the destionation on the NavMesh and lets the agent walk on the NavMesh
         private void StartMovement()
         {
             navMeshAgent.SetDestination(Destination);
@@ -90,6 +91,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             navMeshAgent.updateRotation = true;
         }
 
+        // Finish the task
         private void StopMovement()
         {
             FinishTask();
