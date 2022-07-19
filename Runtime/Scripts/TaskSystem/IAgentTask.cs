@@ -8,8 +8,15 @@ namespace i5.VirtualAgents.TaskSystem
     /// </summary>
     public interface IAgentTask
     {
+        /// <summary>
+        /// Indicates whether the task can start its execution
+        /// False if there are unfulfilled conditions that block the execution
+        /// </summary>
         bool CanStart { get; }
 
+        /// <summary>
+        /// Indicates whether the task has finished its execution
+        /// </summary>
         bool IsFinished { get; }
 
         /// <summary>
