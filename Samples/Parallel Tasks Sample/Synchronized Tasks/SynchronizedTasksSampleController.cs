@@ -34,9 +34,11 @@ namespace i5.VirtualAgents.Examples
                 AgentBaseTask wave1 = agent.Tasks.PlayAnimation("Wave", 5, "", 0, "Left Arm");
                 AgentBaseTask headShake = agent.Tasks.PlayAnimation("ShakeHead", 10, "", 0, "Left Arm");
 
-                // Wave again but wait for the first wave and the head shaking to end.
+                // Wave again but wait for the head shaking to end.
+                // Implicitly, this also waits for the first waving animation to end
+                // but we do not need to define that dependency as it is scheduled on the same layer
                 agent.Tasks.PlayAnimation("Wave", 5, "", 0, "Left Arm")
-                    .WaitFor(wave1, headShake);
+                    .WaitFor(headShake);
             }
             else
             {
@@ -56,9 +58,11 @@ namespace i5.VirtualAgents.Examples
                 AgentAnimationTask shakeHeadTask = new AgentAnimationTask("ShakeHead", 10);
                 agent.ScheduleTask(shakeHeadTask, 0, "Head");
 
-                // Wave again but wait for the first wave and the head shaking to end.
+                // Wave again but wait for the head shaking to end.
+                // Implicitly, this also waits for the first waving animation to end
+                // but we do not need to define that dependency as it is scheduled on the same layer
                 AgentAnimationTask wave2Task = new AgentAnimationTask("Wave", 5);
-                wave2Task.WaitFor(waveTask, shakeHeadTask);
+                wave2Task.WaitFor(shakeHeadTask);
                 agent.ScheduleTask(wave2Task, 0, "Left Arm");
             }
         }
