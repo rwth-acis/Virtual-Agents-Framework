@@ -205,7 +205,7 @@ namespace i5.VirtualAgents.TaskSystem
                 case SerializableType.GAMEOBJECT:
                     return serializedGameobjects.Get(index).Key;
                 default:
-                    return "";
+                    throw new NotImplementedException();
             }
         }
     }
