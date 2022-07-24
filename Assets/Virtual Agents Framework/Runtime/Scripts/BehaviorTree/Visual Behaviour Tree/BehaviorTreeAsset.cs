@@ -69,26 +69,31 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         {
             rootNode = Nodes[0];
             SerializationDataContainer rootNodeData = null;
-            if (nodesOverwriteData != null)
+            if (nodesOverwriteData != null && nodesOverwriteData.KeyExists(rootNode.Guid))
             {
                 rootNodeData = nodesOverwriteData.Get(rootNode.Guid);
             }
             ITask root = (ITask)rootNode.GetCopyOfSerializedInterface(rootNodeData);
-            ConnectAbstractTree(rootNode, root);
+            ConnectAbstractTree(rootNode, root, nodesOverwriteData);
             return root;
         }
 
         // Generates recursivly the abstract childs for the given graphical node and connects them
-        private void ConnectAbstractTree(VisualNode node, ITask abstractNode)
+        private void ConnectAbstractTree(VisualNode node, ITask abstractNode, NodesOverwriteData nodesOverwriteData)
         {
             foreach (var child in node.Children)
             {
-                ITask abstractChild = (ITask)child.GetCopyOfSerializedInterface();
+                SerializationDataContainer nodeData = null;
+                if (nodesOverwriteData.KeyExists(child.Guid))
+                {
+                    nodeData = nodesOverwriteData.Get(child.Guid);
+                }
+                ITask abstractChild = (ITask)child.GetCopyOfSerializedInterface(nodeData);
                 if (abstractNode is ICompositeNode)
                 {
                     (abstractNode as ICompositeNode).Children.Add(abstractChild);
                 }
-                ConnectAbstractTree(child, abstractChild);
+                ConnectAbstractTree(child, abstractChild, nodesOverwriteData);
             }
         }
     }
