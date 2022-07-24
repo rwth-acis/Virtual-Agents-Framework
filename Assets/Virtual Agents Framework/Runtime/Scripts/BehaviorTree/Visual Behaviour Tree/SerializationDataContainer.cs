@@ -14,7 +14,8 @@ namespace i5.VirtualAgents.TaskSystem
         VECTOR3,
         FLOAT,
         STRING,
-        INT
+        INT,
+        GAMEOBJECT
     }
 
     /// <summary>
@@ -69,6 +70,19 @@ namespace i5.VirtualAgents.TaskSystem
         {
             data.Clear();
         }
+
+        public bool KeyExists(string key)
+        {
+            foreach (var entry in data)
+            {
+                if (entry.Key == key)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 
     // Since generic types are not serializable, a new type that derives from the generic version while providing it with a concrete type has to be created. 
@@ -82,6 +96,9 @@ namespace i5.VirtualAgents.TaskSystem
     public class SerializedInts : SerializationData<int> { }
 
     [Serializable]
+    public class SerializedGameobjects : SerializationData<GameObject> { }
+
+    [Serializable]
     public class SerializationDataContainer
     {
         //Serialized data
@@ -89,6 +106,7 @@ namespace i5.VirtualAgents.TaskSystem
         [SerializeField] public SerializedFloats serializedFloats = new SerializedFloats();
         [SerializeField] public SerializedStrings serializedStrings = new SerializedStrings();
         [SerializeField] public SerializedInts serializedInts = new SerializedInts();
+        [SerializeField] public SerializedGameobjects serializedGameobjects = new SerializedGameobjects();
 
         //Saves the order in which the data was serialized. Allows coustom inspectors to replicate that order.
         [SerializeField] public List<SerializableType> serializationOrder = new List<SerializableType>();
@@ -117,6 +135,12 @@ namespace i5.VirtualAgents.TaskSystem
             serializationOrder.Add(SerializableType.INT);
             serializedInts.Add(key, value);
         }
+
+        public void AddSerializedData(string key, GameObject value)
+        {
+            serializationOrder.Add(SerializableType.GAMEOBJECT);
+            serializedGameobjects.Add(key,value);
+        }
         #endregion
 
         #region Overloads for retriving serialized data
@@ -139,6 +163,12 @@ namespace i5.VirtualAgents.TaskSystem
         {
             return serializedInts.Get(key);
         }
+
+        public GameObject GetSerializedGameobjects(string key)
+        {
+            return serializedGameobjects.Get(key);
+        }
+
         #endregion
 
         /// <summary>
@@ -151,6 +181,7 @@ namespace i5.VirtualAgents.TaskSystem
             serializedStrings.Clear();
             serializedFloats.Clear();
             serializedInts.Clear();
+            serializedGameobjects.Clear();
         }
 
         /// <summary>
@@ -167,6 +198,12 @@ namespace i5.VirtualAgents.TaskSystem
                     return serializedVectors.Get(index).Key;
                 case SerializableType.FLOAT:
                     return serializedFloats.Get(index).Key;
+                case SerializableType.STRING:
+                    return serializedStrings.Get(index).Key;
+                case SerializableType.INT:
+                    return serializedInts.Get(index).Key;
+                case SerializableType.GAMEOBJECT:
+                    return serializedGameobjects.Get(index).Key;
                 default:
                     return "";
             }

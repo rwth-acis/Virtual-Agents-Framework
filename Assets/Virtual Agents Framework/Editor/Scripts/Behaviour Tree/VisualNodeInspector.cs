@@ -32,6 +32,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             int floatCounter = 0;
             int stringCounter = 0;
             int intCounter = 0;
+            int gameobjectCounter = 0;
 
             SerializableType[] serializationOrder = new SerializableType[targetNode.Data.serializationOrder.Count];
 
@@ -53,6 +54,9 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                         break;
                     case SerializableType.INT:
                         CreatePropertyField("serializedInts", ref intCounter, SerializableType.INT, targetNode);
+                        break;
+                    case SerializableType.GAMEOBJECT:
+                        CreatePropertyField("serializedGameobjects", ref gameobjectCounter, SerializableType.GAMEOBJECT, targetNode);
                         break;
                 }
             }

@@ -25,6 +25,9 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// </summary>
         public Vector3 Destination { get; protected set; }
 
+
+        public GameObject DestinationObject;
+
         /// <summary>
         /// The target movement speed of the agent
         /// If negative, the default value set in the NavMeshAgent is taken
@@ -97,7 +100,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             navMeshAgent.enabled = true;
             navMeshAgent.updatePosition = true;
             navMeshAgent.updateRotation = true;
-            if (!navMeshAgent.SetDestination(Destination))
+            if (!navMeshAgent.SetDestination(DestinationObject != null ? DestinationObject.transform.position : Destination))
             {
                 State = TaskState.Failure;
                 return;
@@ -115,12 +118,14 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
 
         public void Serialize(SerializationDataContainer serializer)
         {
+            serializer.AddSerializedData("Destination Object", DestinationObject);
             serializer.AddSerializedData("Destination",Destination);
             serializer.AddSerializedData("TargetSpeed",TargetSpeed);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
         {
+            DestinationObject = serializer.GetSerializedGameobjects("Destination Object");
             Destination = serializer.GetSerializedVector("Destination");
             TargetSpeed = serializer.GetSerializedFloat("TargetSpeed");
         }
