@@ -10,10 +10,9 @@ namespace i5.VirtualAgents.BehaviourTrees
     /// <summary>
     /// Executes its child one after another, until one succsedes
     /// </summary>
-    public class SelectorNode : ICompositeNode, ISerializable
+    public class SelectorNode : BaseTask, ICompositeNode, ISerializable
     {
         public List<ITask> Children { get; set; }
-        public TaskState State { get; set; }
 
         private Agent executingAgent;
         public SelectorNode()
@@ -22,17 +21,13 @@ namespace i5.VirtualAgents.BehaviourTrees
         }
 
         
-        public void Execute(Agent executingAgent)
+        public override void Execute(Agent executingAgent)
         {
             this.executingAgent = executingAgent;
         }
         int current = 0;
 
-        public void Stop()
-        {
-        }
-
-        public TaskState Update()
+        public override TaskState Update()
         {
             TaskState currentNodestate = Children[current].FullUpdate(executingAgent);
 
