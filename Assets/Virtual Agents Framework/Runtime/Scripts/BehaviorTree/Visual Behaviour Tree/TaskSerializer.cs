@@ -174,8 +174,12 @@ namespace i5.VirtualAgents.TaskSystem
                     return serializedVectors.Get(index).Key;
                 case SerializableType.FLOAT:
                     return serializedFloats.Get(index).Key;
+                case SerializableType.STRING:
+                    return serializedStrings.Get(index).Key;
+                case SerializableType.INT:
+                    return serializedInts.Get(index).Key;
                 default:
-                    return "";
+                    throw new NotImplementedException();
             }
         }
 
