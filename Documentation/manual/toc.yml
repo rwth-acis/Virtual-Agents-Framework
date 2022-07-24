@@ -1,2 +1,10 @@
-- name: Adding Own Agent Models and Animations
-  href: own-agents.md
+- name: Agent Behavior
+  items:
+    - name: Task System
+      href: task-system.md
+    - name: Parallel Tasks
+      href: parallel-tasks.md
+- name: Customization
+  items:
+    - name: Adding Own Agent Models and Animations
+      href: own-agents.md

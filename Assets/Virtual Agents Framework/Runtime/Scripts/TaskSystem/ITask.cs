@@ -18,15 +18,17 @@ namespace i5.VirtualAgents
     public interface ITask
     {
         /// <summary>
-        /// Perform work on frame to frame basis. It is recommended to instead call FullUpdate, since it automaticallay handles calling Execute() Update() and Stop() and manges the State.
+        /// Called by the executing agent on running tasks
+        /// Performs frame-to-frame task execution updates
+        /// This is e.g. useful for tracking movements towards a target and determinig when the agent has reached the target
         /// </summary>
-        /// <returns></returns>
         TaskState Update();
 
         /// <summary>
-        /// Called when the task is executed for the first time
+        /// Gets the reference to the agent which will execute this task
+        /// Starts the task's execution
         /// </summary>
-        /// <param name="executingAgent"></param>
+        /// <param name="agent">The agent which should execute this task</param>
         void Execute(Agent executingAgent);
 
         /// <summary>

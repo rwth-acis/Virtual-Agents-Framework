@@ -10,12 +10,20 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
     /// </summary>
     public abstract class AgentBaseTask : IAgentTask
     {
+        /// <summary>
+        /// List of tasks which need to finish first in order for this task to start
+        /// </summary>
         public List<IAgentTask> DependsOnTasks
         {
             get;
             protected set;
         }
 
+        /// <summary>
+        /// Indicates whether this task is ready to start execution
+        /// Checks whether all depending tasks are finished
+        /// Can be overridden to add custom conditions in child classes
+        /// </summary>
         public virtual bool CanStart
         {
             get
@@ -29,6 +37,9 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             }
         }
 
+        /// <summary>
+        /// Indicates whether the task is finished
+        /// </summary>
         public bool IsFinished { get; protected set; } = false;
         public TaskState State { get; set; }
 
@@ -70,7 +81,8 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         }
 
         /// <summary>
-        /// Indicates that the task has to wait for another task to finish first
+        /// Indicates that the task has to wait for at least one oter task to finish first
+        /// Adds the tasks to the list of dependencies
         /// </summary>
         /// <param name="otherTasks">The other tasks which have to finish before this task can start</param>
         public void WaitFor(params AgentBaseTask[] otherTasks)
