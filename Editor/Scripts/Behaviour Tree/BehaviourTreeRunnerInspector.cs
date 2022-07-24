@@ -39,11 +39,15 @@ namespace i5.VirtualAgents.Editor
                 behaviourTreeView.Tree = tree;
                 behaviourTreeView.PopulateView(tree);
             }
-            
-            
-            
-            
-            
+
+
+
+            //Debug
+            PropertyField field = new PropertyField(serializedObject.FindProperty("nodesOverwriteData"));
+            field.label = "Debug";
+            field.BindProperty(serializedObject);
+            inspector.Add(field);
+
 
             // Return the finished inspector UI
             return inspector;
@@ -120,7 +124,17 @@ namespace i5.VirtualAgents.Editor
                     counter++;
                 }
 
-                
+                counter = 0;
+                serializedArray = nodeOverwriteData.FindPropertyRelative("serializedGameobjects.data");
+                foreach (var data in view.node.Data.serializedGameobjects.data)
+                {
+                    serializedArray.InsertArrayElementAtIndex(counter);
+                    serializedData = serializedArray.GetArrayElementAtIndex(counter);
+                    serializedData.FindPropertyRelative("Key").stringValue = data.Key;
+                    serializedData.FindPropertyRelative("Value").objectReferenceValue = data.Value;
+                    counter++;
+                }
+
 
             }
 
@@ -140,6 +154,7 @@ namespace i5.VirtualAgents.Editor
             int floatCounter = 0;
             int stringCounter = 0;
             int intCounter = 0;
+            int gameobjectCounter = 0;
 
             SerializableType[] serializationOrder = new SerializableType[targetNode.Data.serializationOrder.Count];
 
@@ -161,6 +176,9 @@ namespace i5.VirtualAgents.Editor
                         break;
                     case SerializableType.INT:
                         CreatePropertyField("serializedInts", ref intCounter, SerializableType.INT, targetNode, nodeOverwriteData);
+                        break;
+                    case SerializableType.GAMEOBJECT:
+                        CreatePropertyField("serializedGameobjects", ref gameobjectCounter, SerializableType.GAMEOBJECT, targetNode, nodeOverwriteData);
                         break;
                 }
             }
