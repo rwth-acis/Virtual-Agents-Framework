@@ -13,8 +13,13 @@ namespace i5.VirtualAgents.TaskSystem
         // task queue of this manager
         private AgentTaskQueue queue = new AgentTaskQueue();
 
+        // the stat of the task manager
         private TaskManagerState currentState;
 
+        /// <summary>
+        /// Checks whether the task manager is active or has been deactivated
+        /// Only returns false if the task manager has explicitly been deactivated
+        /// </summary>
         public bool IsActive
         {
             get => currentState != TaskManagerState.inactive;
@@ -43,6 +48,11 @@ namespace i5.VirtualAgents.TaskSystem
         /// </summary>
         public event Action OnStateChanged;
 
+        /// <summary>
+        /// Event handler for finished tasks
+        /// </summary>
+        /// <param name="sender">The task manager on which the task finished</param>
+        /// <param name="finishedTask">The task that finished</param>
         public delegate void TaskFinishedEvent(AgentTaskManager sender, IAgentTask finishedTask);
         /// <summary>
         /// Event which is raised once the agent has finished the current task

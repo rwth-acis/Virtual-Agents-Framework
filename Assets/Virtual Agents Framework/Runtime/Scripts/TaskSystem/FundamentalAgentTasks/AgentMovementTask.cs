@@ -94,6 +94,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             return TaskState.Running;
         }
 
+        // sets the destionation on the NavMesh and lets the agent walk on the NavMesh
         private void StartMovement()
         {
             //Give all control about the movement to the navmesh agent
@@ -111,6 +112,9 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             }
         }
 
+        /// <summary>
+        /// Finish the task
+        /// </summary>
         public override void Stop()
         {
             navMeshAgent.enabled = false;

@@ -25,9 +25,9 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         }
 
         /// <summary>
-        /// Satrt the animation
+        /// Starts the execution of the task; starts the animation
         /// </summary>
-        /// <param name="agent"></param>
+        /// <param name="agent">The agent on which the task is executed</param>
         public override void Execute(Agent agent)
         {
             animator = agent.GetComponent<Animator>();
@@ -36,7 +36,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         }
 
         /// <summary>
-        /// Stop the animation
+        /// Stops the animation
         /// </summary>
         public override void Stop()
         {
