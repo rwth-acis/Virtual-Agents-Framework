@@ -15,6 +15,7 @@ namespace i5.VirtualAgents
     [RequireComponent(typeof(AgentAnimationUpdater))] // Responsible for the avatar's movement
     public class Agent : MonoBehaviour
     {
+
         [SerializeField] private TaskSystemEnum taskSystemKind;
         private ITaskSystem taskSystem;
 
@@ -45,7 +46,7 @@ namespace i5.VirtualAgents
                     taskSystem = new SchedulBasedTaskExecution(this);
                     break;
                 case TaskSystemEnum.BehaviorTree:
-                    BehaviorTreeRunner behaviorTreeRunner = FindObjectOfType<BehaviorTreeRunner>();
+                    BehaviorTreeRunner behaviorTreeRunner = GetComponent<BehaviorTreeRunner>();
                     behaviorTreeRunner.excecutingAgent = this;
                     taskSystem = behaviorTreeRunner;
                     break;
