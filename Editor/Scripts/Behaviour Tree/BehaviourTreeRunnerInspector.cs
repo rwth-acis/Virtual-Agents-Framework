@@ -19,30 +19,39 @@ namespace i5.VirtualAgents.Editor
 
         public override VisualElement CreateInspectorGUI()
         {
-            // Create a new VisualElement to be the root of our inspector UI
+            // Create a new VisualElement to be the root of the inspector UI
             inspector = new VisualElement();
 
             // Load and clone a visual tree from UXML
             VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Virtual Agents Framework/Editor/UI Builder/Behaviour Tree/BehaviourTreeRunnerInspector.uxml");
-
             visualTree.CloneTree(inspector);
 
             Button clear = inspector.Query<Button>("Clear");
             clear.clicked += () => { serializedObject.FindProperty("nodesOverwriteData.data").ClearArray(); serializedObject.ApplyModifiedProperties(); };
 
+
             BehaviourTreeView behaviourTreeView = inspector.Query<BehaviourTreeView>();
             behaviourTreeView.OnNodeSelect = OnNodeSelectionChanged;
             behaviourTreeView.ReadOnly = true;
-            BehaviorTreeAsset tree = (target as BehaviorTreeRunner).behaviourTree; //serializedObject.FindProperty("behaviourTree").objectReferenceValue as BehaviorTreeAsset;
-            if (tree != null)
+            BehaviorTreeAsset tree = (target as BehaviorTreeRunner).behaviourTree;
+
+            void setupNewTree(BehaviorTreeAsset tree)
             {
-                behaviourTreeView.Tree = tree;
-                behaviourTreeView.PopulateView(tree);
+                if (tree != null)
+                {
+                    behaviourTreeView.Tree = tree;
+                    behaviourTreeView.PopulateView(tree);
+                }
             }
 
+            setupNewTree(tree);
 
 
-            //Debug
+            // Setup tree when a new one is selected
+            PropertyField treePropertyField = inspector.Query<PropertyField>("tree");
+            treePropertyField.RegisterValueChangeCallback( (x) => setupNewTree(x.changedProperty.objectReferenceValue as BehaviorTreeAsset) );
+
+            // Debug
             PropertyField field = new PropertyField(serializedObject.FindProperty("nodesOverwriteData"));
             field.label = "Debug";
             field.BindProperty(serializedObject);
@@ -52,6 +61,7 @@ namespace i5.VirtualAgents.Editor
             // Return the finished inspector UI
             return inspector;
         }
+
 
 
         private void OnNodeSelectionChanged(NodeView view)
@@ -167,12 +177,6 @@ namespace i5.VirtualAgents.Editor
                 }
             }
 
-
-            //PropertyField test = new PropertyField();
-            //test.bindingPath = "excecutingAgent";
-            //test.BindProperty(serializedObject);
-            //inspector.Add(test);
-
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -189,33 +193,5 @@ namespace i5.VirtualAgents.Editor
             propertyFieldsForCurrendNode.Add(field);
             counter++;
         }
-
-        public override void OnInspectorGUI()
-        {
-            //VisualNode root = (target as TreeWrapper).tree.Nodes[0];
-            //if (GUILayout.Button("Update"))
-            //{
-            //    var nodes = serializedObject.FindProperty("Nodes");
-            //    nodes.ClearArray();
-            //    nodes.InsertArrayElementAtIndex(0);
-            //    var strings = nodes.GetArrayElementAtIndex(0).FindPropertyRelative("serializedStrings.data");
-            //    strings.InsertArrayElementAtIndex(0);
-            //    var key = strings.GetArrayElementAtIndex(0).FindPropertyRelative("Key");
-            //    //key.stringValue = root.serializedStrings.data[0].Key;
-            //    var value = strings.GetArrayElementAtIndex(0).FindPropertyRelative("Value");
-            //    //value.stringValue = root.serializedStrings.data[0].Value;
-            //}
-
-            //EditorGUILayout.PropertyField(serializedObject.FindProperty("tree"), new GUIContent("tree"));
-            //var test = serializedObject.FindProperty("Nodes").GetArrayElementAtIndex(0);
-            //if (test != null)
-            //{
-            //    var data = test.FindPropertyRelative("serializedStrings.data").GetArrayElementAtIndex(0);
-            //    EditorGUILayout.PropertyField(data.FindPropertyRelative("Value"), new GUIContent(data.FindPropertyRelative("Key").stringValue));
-            //}
-            
-            //serializedObject.ApplyModifiedProperties();
-        }
-
     }
 }
