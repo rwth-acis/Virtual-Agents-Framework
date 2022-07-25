@@ -14,7 +14,10 @@ namespace i5.VirtualAgents.Editor
     [CustomEditor(typeof(BehaviorTreeRunner))]
     public class BehaviourTreeRunnerInspector : UnityEditor.Editor
     {
-        VisualElement inspector;
+        // Root node of the inspector
+        private VisualElement inspector;
+
+        // The property fields used to display the propertys of the currently selected node
         private List<PropertyField> propertyFieldsForCurrendNode = new List<PropertyField>();
 
         public override VisualElement CreateInspectorGUI()
@@ -29,11 +32,10 @@ namespace i5.VirtualAgents.Editor
             Button clear = inspector.Query<Button>("Clear");
             clear.clicked += () => { serializedObject.FindProperty("nodesOverwriteData.data").ClearArray(); serializedObject.ApplyModifiedProperties(); };
 
-
+            // Setup the behaviour tree view
             BehaviourTreeView behaviourTreeView = inspector.Query<BehaviourTreeView>();
             behaviourTreeView.SetupManipulators(true);
-            behaviourTreeView.OnNodeSelect = OnNodeSelectionChanged;
-            behaviourTreeView.ReadOnly = true;
+            behaviourTreeView.OnNodeSelect = OnNodeSelectionChanged; // Register callback on node select in order to display the corrsponding property fields for the node
             BehaviorTreeAsset tree = (target as BehaviorTreeRunner).behaviourTree;
 
             void setupNewTree(BehaviorTreeAsset tree)
@@ -133,6 +135,7 @@ namespace i5.VirtualAgents.Editor
                 CopySerializedData(view.node.Data.serializedInts.data, "serializedInts.data");
                 CopySerializedData(view.node.Data.serializedGameobjects.data, "serializedGameobjects.data");
             }
+            // Create Property fields for the overwrite data
 
             // Clear old property fields
             foreach (var propertyField in propertyFieldsForCurrendNode)
