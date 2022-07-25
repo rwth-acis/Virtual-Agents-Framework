@@ -73,69 +73,54 @@ namespace i5.VirtualAgents.Editor
             {
                 // No data found => create it!
                 int size = nodesData.arraySize;
-                nodesData.InsertArrayElementAtIndex(size);
+                nodesData.InsertArrayElementAtIndex(size); // Insert a new entry at the end
                 var entry = nodesData.GetArrayElementAtIndex(size);
                 entry.FindPropertyRelative("Key").stringValue = view.node.Guid;
                 nodeOverwriteData = entry.FindPropertyRelative("Value");
 
+                // Copys all data from the seralizationData List origin into the serialized seralizationData array destination
+                void CopySerializedData <T> (List<SerializationEntry<T>> origin, string destinationPath)
+                {
+                    SerializedProperty destination = nodeOverwriteData.FindPropertyRelative(destinationPath);
+                    for (int i = 0;  i < origin.Count; i++)
+                    {
+                        SerializationEntry<T> data = origin[i];
+                        destination.InsertArrayElementAtIndex(i); //Make space for the new data entry in the serialized array
+                        SerializedProperty arrayElement = destination.GetArrayElementAtIndex(i);
+
+                        // Copy key and data
+                        arrayElement.FindPropertyRelative("Key").stringValue = data.Key;
+                        SerializedProperty value = arrayElement.FindPropertyRelative("Value");
+                        if (typeof(T) == typeof(Vector3))
+                        {
+                            value.vector3Value = (Vector3)(data.Value as Vector3?); // This is neccesarry, since direct cast can't be used because T is not constrained to inherit from Vector3 and the as operator
+                                                                                    // can only be used on nullable types. Therfore the conversion to the nullable type Vector3? which is then casted to the actual Vector3 type
+                        }
+                        if (typeof(T) == typeof(float))
+                        {
+                            value.floatValue = (float)(data.Value as float?);
+                        }
+                        if (typeof(T) == typeof(string))
+                        {
+                            value.stringValue = data.Value as string;
+                        }
+                        if (typeof(T) == typeof(int))
+                        {
+                            value.intValue = (int)(data.Value as int?);
+                        }
+                        if (typeof(T) == typeof(GameObject))
+                        {
+                            value.objectReferenceValue = data.Value as GameObject;
+                        }
+                    }
+                }
+
                 // Copy the serialization data from the node to the newly created nodesData
-                int counter = 0;
-                SerializedProperty serializedArray = nodeOverwriteData.FindPropertyRelative("serializedVectors.data");
-                SerializedProperty serializedData;
-                foreach (var data in view.node.Data.serializedVectors.data)
-                {
-                    serializedArray.InsertArrayElementAtIndex(counter);
-                    serializedData = serializedArray.GetArrayElementAtIndex(counter);
-                    serializedData.FindPropertyRelative("Key").stringValue = data.Key;
-                    serializedData.FindPropertyRelative("Value").vector3Value = data.Value;
-                    counter++;
-                }
-
-                counter = 0;
-                serializedArray = nodeOverwriteData.FindPropertyRelative("serializedFloats.data");
-                foreach (var data in view.node.Data.serializedFloats.data)
-                {
-                    serializedArray.InsertArrayElementAtIndex(counter);
-                    serializedData = serializedArray.GetArrayElementAtIndex(counter);
-                    serializedData.FindPropertyRelative("Key").stringValue = data.Key;
-                    serializedData.FindPropertyRelative("Value").floatValue = data.Value;
-                    counter++;
-                }
-
-                counter = 0;
-                serializedArray = nodeOverwriteData.FindPropertyRelative("serializedStrings.data");
-                foreach (var data in view.node.Data.serializedStrings.data)
-                {
-                    serializedArray.InsertArrayElementAtIndex(counter);
-                    serializedData = serializedArray.GetArrayElementAtIndex(counter);
-                    serializedData.FindPropertyRelative("Key").stringValue = data.Key;
-                    serializedData.FindPropertyRelative("Value").stringValue = data.Value;
-                    counter++;
-                }
-
-                counter = 0;
-                serializedArray = nodeOverwriteData.FindPropertyRelative("serializedInts.data");
-                foreach (var data in view.node.Data.serializedInts.data)
-                {
-                    serializedArray.InsertArrayElementAtIndex(counter);
-                    serializedData = serializedArray.GetArrayElementAtIndex(counter);
-                    serializedData.FindPropertyRelative("Key").stringValue = data.Key;
-                    serializedData.FindPropertyRelative("Value").intValue = data.Value;
-                    counter++;
-                }
-
-                counter = 0;
-                serializedArray = nodeOverwriteData.FindPropertyRelative("serializedGameobjects.data");
-                foreach (var data in view.node.Data.serializedGameobjects.data)
-                {
-                    serializedArray.InsertArrayElementAtIndex(counter);
-                    serializedData = serializedArray.GetArrayElementAtIndex(counter);
-                    serializedData.FindPropertyRelative("Key").stringValue = data.Key;
-                    serializedData.FindPropertyRelative("Value").objectReferenceValue = data.Value;
-                    counter++;
-                }
-
-
+                CopySerializedData(view.node.Data.serializedVectors.data, "serializedVectors.data");
+                CopySerializedData(view.node.Data.serializedFloats.data, "serializedFloats.data");
+                CopySerializedData(view.node.Data.serializedStrings.data, "serializedStrings.data");
+                CopySerializedData(view.node.Data.serializedInts.data, "serializedInts.data");
+                CopySerializedData(view.node.Data.serializedGameobjects.data, "serializedGameobjects.data");
             }
 
             // Clear old property fields
@@ -145,8 +130,7 @@ namespace i5.VirtualAgents.Editor
             }
             propertyFieldsForCurrendNode.Clear();
 
-            // Create new ones for current 
-
+            // Create new ones for current node data
             VisualNode targetNode = view.node;
 
             // Needed in order to expose the data in the original order
