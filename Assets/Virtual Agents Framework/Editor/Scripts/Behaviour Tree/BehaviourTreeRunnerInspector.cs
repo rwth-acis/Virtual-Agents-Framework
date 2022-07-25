@@ -29,9 +29,6 @@ namespace i5.VirtualAgents.Editor
             VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Virtual Agents Framework/Editor/UI Builder/Behaviour Tree/BehaviourTreeRunnerInspector.uxml");
             visualTree.CloneTree(inspector);
 
-            Button clear = inspector.Query<Button>("Clear");
-            clear.clicked += () => { serializedObject.FindProperty("nodesOverwriteData.data").ClearArray(); serializedObject.ApplyModifiedProperties(); };
-
             // Setup the behaviour tree view
             BehaviourTreeView behaviourTreeView = inspector.Query<BehaviourTreeView>();
             behaviourTreeView.SetupManipulators(true);
@@ -53,13 +50,6 @@ namespace i5.VirtualAgents.Editor
             // Setup tree when a new one is selected
             PropertyField treePropertyField = inspector.Query<PropertyField>("tree");
             treePropertyField.RegisterValueChangeCallback( (x) => setupNewTree(x.changedProperty.objectReferenceValue as BehaviorTreeAsset) );
-
-            // Debug
-            PropertyField field = new PropertyField(serializedObject.FindProperty("nodesOverwriteData"));
-            field.label = "Debug";
-            field.BindProperty(serializedObject);
-            inspector.Add(field);
-
 
             // Return the finished inspector UI
             return inspector;
