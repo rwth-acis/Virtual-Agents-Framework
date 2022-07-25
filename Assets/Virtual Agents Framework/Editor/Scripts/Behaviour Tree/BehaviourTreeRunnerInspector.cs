@@ -31,6 +31,7 @@ namespace i5.VirtualAgents.Editor
 
 
             BehaviourTreeView behaviourTreeView = inspector.Query<BehaviourTreeView>();
+            behaviourTreeView.SetupManipulators(true);
             behaviourTreeView.OnNodeSelect = OnNodeSelectionChanged;
             behaviourTreeView.ReadOnly = true;
             BehaviorTreeAsset tree = (target as BehaviorTreeRunner).behaviourTree;

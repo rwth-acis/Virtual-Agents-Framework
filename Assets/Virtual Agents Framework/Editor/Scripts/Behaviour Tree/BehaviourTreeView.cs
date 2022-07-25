@@ -23,23 +23,29 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         public new class UxmlFactory : UxmlFactory<BehaviourTreeView, UxmlTraits> { }
         public BehaviorTreeAsset Tree;
 
-        /// <summary>
-        /// If yes, the view forbits node creating, delting, connecting, and moving. The individual data from nodes (e.g. the target from a MovementTask) can however still be altered.
-        /// </summary>
-        public bool ReadOnly = false;
+        private bool readOnly = false;
 
         public BehaviourTreeView()
         {
             Insert(0, new GridBackground());
-
-            //Adds the ability to zoom in on the graph, to drag and drop nodes around, to drag and drop an entire selection and to select nodes using a rectangle selction
-            this.AddManipulator(new ContentZoomer()); //since AddManipulator is an extension method, it can only be called with a direct object reference (hence the "this.")
-            this.AddManipulator(new ContentDragger());
-            this.AddManipulator(new SelectionDragger());
-            this.AddManipulator(new RectangleSelector());
-
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Virtual Agents Framework/Editor/UI Builder/Behaviour Tree/BehaviourTreeEditorStyleSheet.uss");
             styleSheets.Add(styleSheet);
+        }
+
+        /// <summary>
+        /// Adds the ability to zoom in on the graph, to drag and drop nodes around, to drag and drop an entire selection and to select nodes using a rectangle selction
+        /// </summary>
+        /// <param name="readOnly"></param> If yes, the view forbits node creating, delting, connecting, and moving. The individual data from nodes (e.g. the target from a MovementTask) can however still be altered.
+        public void SetupManipulators(bool readOnly = false)
+        {
+            this.readOnly = readOnly;
+            this.AddManipulator(new ContentZoomer()); //since AddManipulator is an extension method, it can only be called with a direct object reference (hence the "this.")
+            this.AddManipulator(new ContentDragger());
+            if (!readOnly)
+            {
+                this.AddManipulator(new SelectionDragger());
+                this.AddManipulator(new RectangleSelector());
+            }
         }
 
         /// <summary>
@@ -81,7 +87,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
-            if (!ReadOnly)
+            if (!readOnly)
             {
                 //Delete the removed nodes from the asset
                 if (graphViewChange.elementsToRemove != null)
@@ -149,7 +155,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                 }
             }
 
-            if (!ReadOnly)
+            if (!readOnly)
             {
                 BuildContextMenuEntrysFromType<IAgentTask>("Tasks");
                 BuildContextMenuEntrysFromType<ICompositeNode>("Composite Nodes");
