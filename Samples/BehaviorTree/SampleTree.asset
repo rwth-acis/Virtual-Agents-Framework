@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7520574202540384791
+--- !u!114 &-8641866566806534650
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,25 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
   m_Name: AgentMovementTask
   m_EditorClassIdentifier: 
-  serializedVectors:
-    data:
-    - Key: Destination
-      Value: {x: -7.05, y: 0, z: -3.77}
-  serializedFloats:
-    data:
-    - Key: TargetSpeed
-      Value: -1
-  serializedStrings:
-    data: []
-  serializedInts:
-    data: []
-  serializationOrder: 0000000001000000
+  Data:
+    serializedVectors:
+      data:
+      - Key: Destination
+        Value: {x: 0, y: 0, z: 0}
+    serializedFloats:
+      data:
+      - Key: TargetSpeed
+        Value: -1
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data:
+      - Key: Destination Object
+        Value: {fileID: 0}
+    serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
-  Guid: cb145a59e596e6d48b2e4f7d2b188f8f
-  Position: {x: 528.16003, y: -257.05}
+  Guid: eb5ac3bc952ad9c469a3df0e9e1fce17
+  Position: {x: 477.00006, y: 86}
   Description: 
   Children: []
---- !u!114 &-4901724997445243074
+--- !u!114 &-6363394986406603958
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,22 +47,128 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
   m_Name: AgentMovementTask
   m_EditorClassIdentifier: 
-  serializedVectors:
-    data:
-    - Key: Destination
-      Value: {x: 11.29, y: 0, z: -10.14}
-  serializedFloats:
-    data:
-    - Key: TargetSpeed
-      Value: -1
-  serializedStrings:
-    data: []
-  serializedInts:
-    data: []
-  serializationOrder: 0000000001000000
+  Data:
+    serializedVectors:
+      data:
+      - Key: Destination
+        Value: {x: 0, y: 0, z: 0}
+    serializedFloats:
+      data:
+      - Key: TargetSpeed
+        Value: -1
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data:
+      - Key: Destination Object
+        Value: {fileID: 0}
+    serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
-  Guid: 679a123ec47034543a99afa1f1f42c7f
-  Position: {x: 528, y: 205.6}
+  Guid: 2b284de6f91e42740b1245ee776209ac
+  Position: {x: 717.00024, y: -309.92126}
+  Description: 
+  Children: []
+--- !u!114 &-6283924566743465568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
+  m_Name: AgentMovementTask
+  m_EditorClassIdentifier: 
+  Data:
+    serializedVectors:
+      data:
+      - Key: Destination
+        Value: {x: 0, y: 0, z: 0}
+    serializedFloats:
+      data:
+      - Key: TargetSpeed
+        Value: -1
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data:
+      - Key: Destination Object
+        Value: {fileID: 0}
+    serializationOrder: 040000000000000001000000
+  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  Guid: d21940f90f5caf04d9b4e2f04a74707d
+  Position: {x: 716.99994, y: 162.99998}
+  Description: 
+  Children: []
+--- !u!114 &-4828788806637190200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
+  m_Name: SelectorNode
+  m_EditorClassIdentifier: 
+  Data:
+    serializedVectors:
+      data: []
+    serializedFloats:
+      data: []
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data: []
+    serializationOrder: 
+  serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
+  Guid: 08fe69535cc949046aa68ee29102c19c
+  Position: {x: 477.0002, y: -174.92125}
+  Description: 
+  Children:
+  - {fileID: -6363394986406603958}
+  - {fileID: 6811801647993298243}
+--- !u!114 &-4688834083146325139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
+  m_Name: AgentMovementTask
+  m_EditorClassIdentifier: 
+  Data:
+    serializedVectors:
+      data:
+      - Key: Destination
+        Value: {x: 0, y: 0, z: 0}
+    serializedFloats:
+      data:
+      - Key: TargetSpeed
+        Value: -1
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data:
+      - Key: Destination Object
+        Value: {fileID: 0}
+    serializationOrder: 040000000000000001000000
+  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  Guid: 27b1e7ea6f3661c4bac8b6107ddd328e
+  Position: {x: 716.99994, y: 432.01138}
   Description: 
   Children: []
 --- !u!114 &11400000
@@ -73,101 +184,15 @@ MonoBehaviour:
   m_Name: SampleTree
   m_EditorClassIdentifier: 
   Nodes:
-  - {fileID: 6967784002155569364}
-  - {fileID: 2989949044064440297}
-  - {fileID: -7520574202540384791}
-  - {fileID: 4472380530838506551}
-  - {fileID: 8916099104124705402}
-  - {fileID: -4901724997445243074}
-  - {fileID: 7715309313626136576}
-  - {fileID: 6574817090094898536}
---- !u!114 &2989949044064440297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
-  m_Name: SelectorNode
-  m_EditorClassIdentifier: 
-  serializedVectors:
-    data: []
-  serializedFloats:
-    data: []
-  serializedStrings:
-    data: []
-  serializedInts:
-    data: []
-  serializationOrder: 
-  serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
-  Guid: 560da3a10ce0c51469727cc7633a7e55
-  Position: {x: 280.8, y: -180.00002}
-  Description: 
-  Children:
-  - {fileID: -7520574202540384791}
-  - {fileID: 4472380530838506551}
---- !u!114 &4472380530838506551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
-  m_Name: AgentMovementTask
-  m_EditorClassIdentifier: 
-  serializedVectors:
-    data:
-    - Key: Destination
-      Value: {x: 11.29, y: 0, z: -10.14}
-  serializedFloats:
-    data:
-    - Key: TargetSpeed
-      Value: -1
-  serializedStrings:
-    data: []
-  serializedInts:
-    data: []
-  serializationOrder: 0000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
-  Guid: 953689d174dbc714d891492adff4f69a
-  Position: {x: 528.00006, y: -112}
-  Description: 
-  Children: []
---- !u!114 &6574817090094898536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
-  m_Name: SelectorNode
-  m_EditorClassIdentifier: 
-  serializedVectors:
-    data: []
-  serializedFloats:
-    data: []
-  serializedStrings:
-    data: []
-  serializedInts:
-    data: []
-  serializationOrder: 
-  serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
-  Guid: 21e134983a9a18849b0efaf508f9e8e2
-  Position: {x: 280.8, y: 128.8}
-  Description: 
-  Children:
-  - {fileID: 8916099104124705402}
-  - {fileID: -4901724997445243074}
---- !u!114 &6967784002155569364
+  - {fileID: 3089739589082556824}
+  - {fileID: -4828788806637190200}
+  - {fileID: -6363394986406603958}
+  - {fileID: 6811801647993298243}
+  - {fileID: -8641866566806534650}
+  - {fileID: 5888955420970159497}
+  - {fileID: -6283924566743465568}
+  - {fileID: -4688834083146325139}
+--- !u!114 &3089739589082556824
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,24 +204,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
   m_Name: SequencerNode
   m_EditorClassIdentifier: 
-  serializedVectors:
-    data: []
-  serializedFloats:
-    data: []
-  serializedStrings:
-    data: []
-  serializedInts:
-    data: []
-  serializationOrder: 
+  Data:
+    serializedVectors:
+      data: []
+    serializedFloats:
+      data: []
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data: []
+    serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
-  Guid: c584981a4b5994d42b47e6cc300197c8
-  Position: {x: -2.1932983, y: -6.446327}
+  Guid: 3c07eacf856d6c448aa1ae8e3cb6a633
+  Position: {x: 99.69335, y: 85.70129}
   Description: 
   Children:
-  - {fileID: 2989949044064440297}
-  - {fileID: 7715309313626136576}
-  - {fileID: 6574817090094898536}
---- !u!114 &7715309313626136576
+  - {fileID: -4828788806637190200}
+  - {fileID: -8641866566806534650}
+  - {fileID: 5888955420970159497}
+--- !u!114 &5888955420970159497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,27 +234,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
-  m_Name: AgentMovementTask
+  m_Name: SelectorNode
   m_EditorClassIdentifier: 
-  serializedVectors:
-    data:
-    - Key: Destination
-      Value: {x: 0, y: 0, z: 0}
-  serializedFloats:
-    data:
-    - Key: TargetSpeed
-      Value: -1
-  serializedStrings:
-    data: []
-  serializedInts:
-    data: []
-  serializationOrder: 0000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
-  Guid: 73f5d12c2eca4944baa698e8caa311ed
-  Position: {x: 280.8, y: -6.399994}
+  Data:
+    serializedVectors:
+      data: []
+    serializedFloats:
+      data: []
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data: []
+    serializationOrder: 
+  serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
+  Guid: 2a66b511be8c55e40a5ddcef02ae6c09
+  Position: {x: 477.00015, y: 285.20496}
   Description: 
-  Children: []
---- !u!114 &8916099104124705402
+  Children:
+  - {fileID: -6283924566743465568}
+  - {fileID: -4688834083146325139}
+--- !u!114 &6811801647993298243
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -238,21 +267,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
   m_Name: AgentMovementTask
   m_EditorClassIdentifier: 
-  serializedVectors:
-    data:
-    - Key: Destination
-      Value: {x: -7.05, y: 0, z: -3.77}
-  serializedFloats:
-    data:
-    - Key: TargetSpeed
-      Value: -1
-  serializedStrings:
-    data: []
-  serializedInts:
-    data: []
-  serializationOrder: 0000000001000000
+  Data:
+    serializedVectors:
+      data:
+      - Key: Destination
+        Value: {x: 0, y: 0, z: 0}
+    serializedFloats:
+      data:
+      - Key: TargetSpeed
+        Value: -1
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data:
+      - Key: Destination Object
+        Value: {fileID: 0}
+    serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
-  Guid: bda1cd1304af37a438b38008e83bea93
-  Position: {x: 528.00006, y: 51.905968}
+  Guid: 3cdfe703a8eed434e92cb6ce40c953ba
+  Position: {x: 717.00024, y: -97.921265}
   Description: 
   Children: []
