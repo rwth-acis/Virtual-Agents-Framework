@@ -62,12 +62,11 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             // only proceed on agents with a NavMeshAgent
             if (navMeshAgent == null)
             {
-                State = TaskState.Failure;
                 i5Debug.LogError($"The agent {agent.name} does not have a NavMeshAgent component. " +
                     $"Therefore, it cannot move. Skipping this task.",
                     this);
 
-                FinishTask();
+                FailTask();
                 return;
             }
 
@@ -90,22 +89,23 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
                 return TaskState.Success;
             }
 
-            //The agent moves on a valid path and hasn't reached its destination yet
+            //The agent moves on a valid path and hasn't reached its destination yet. Give all control about movement und rotation to the navmesh agent
+            navMeshAgent.isStopped = false;
             return TaskState.Running;
         }
 
         // sets the destionation on the NavMesh and lets the agent walk on the NavMesh
         private void StartMovement()
         {
-            //Give all control about the movement to the navmesh agent
             navMeshAgent.enabled = true;
             navMeshAgent.updatePosition = true;
             navMeshAgent.updateRotation = true;
             if (!navMeshAgent.SetDestination(DestinationObject != null ? DestinationObject.transform.position : Destination))
             {
-                State = TaskState.Failure;
+                FailTask();
                 return;
             }
+            navMeshAgent.isStopped = true;
             if (TargetSpeed > 0)
             {
                 navMeshAgent.speed = TargetSpeed;
@@ -117,7 +117,7 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
         /// </summary>
         public override void Stop()
         {
-            navMeshAgent.enabled = false;
+            navMeshAgent.isStopped = true;
         }
 
         public void Serialize(SerializationDataContainer serializer)
