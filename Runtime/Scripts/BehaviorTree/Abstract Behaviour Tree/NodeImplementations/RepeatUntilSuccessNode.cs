@@ -9,22 +9,14 @@ namespace i5.VirtualAgents.BehaviourTrees
     /// <summary>
     /// Repeats its child 
     /// </summary>
-    public class RepeatUntilSuccessNode : BaseTask, IDecoratorNode, ISerializable
+    public class RepeatUntilSuccessNode : DecoratorNode, ISerializable
     {
-        public ITask Child { get; set; }
-        private Agent executingAgent;
-
         /// <summary>
         /// The maximum amount the task is repeated. If 0, the task will berepeated idenfnitly, until it succeds
         /// </summary>
         public int RepeatLimit;
 
         private int repeatCount;
-
-        public override void Execute(Agent executingAgent)
-        {
-            this.executingAgent = executingAgent;
-        }
 
         public override TaskState Update()
         {
