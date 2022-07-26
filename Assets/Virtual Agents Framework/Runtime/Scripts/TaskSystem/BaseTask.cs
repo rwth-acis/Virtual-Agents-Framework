@@ -80,6 +80,13 @@ namespace i5.VirtualAgents
             return State;
         }
 
+        /// <summary>
+        /// Resets the task to its beginning state
+        /// </summary>
+        public virtual void Reset()
+        {
+            State = TaskState.Waiting;
+        }
 
     }
 }

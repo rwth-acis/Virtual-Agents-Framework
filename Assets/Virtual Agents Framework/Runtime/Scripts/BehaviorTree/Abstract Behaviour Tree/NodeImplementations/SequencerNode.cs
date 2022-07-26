@@ -9,10 +9,8 @@ namespace i5.VirtualAgents.BehaviourTrees
     /// <summary>
     /// Executes all its children one after another, but aborts if one child fails
     /// </summary>
-    public class SequencerNode : BaseTask, ICompositeNode, ISerializable
+    public class SequencerNode : CompositeNode, ISerializable
     {
-        public List<ITask> Children { get;  set; }
-
         private int current = 0;
         private Agent executingAgent;
 
@@ -44,6 +42,12 @@ namespace i5.VirtualAgents.BehaviourTrees
                 // This lets this node automatically fail once the first child fails
                 return currentNodestate;
             }
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+            current = 0;
         }
 
         public void Serialize(SerializationDataContainer serializer)

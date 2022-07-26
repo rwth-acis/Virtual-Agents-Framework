@@ -58,6 +58,13 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
             DependsOnTasks.Clear();
         }
 
+        public virtual void FailTask()
+        {
+            PreemptivelyFailTask();
+            IsFinished = true;
+            DependsOnTasks.Clear();
+        }
+
         /// <summary>
         /// Indicates that the task has to wait for at least one oter task to finish first
         /// Adds the tasks to the list of dependencies
@@ -81,6 +88,12 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
                     DependsOnTasks.Add(otherTask);
                 }
             }
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+            IsFinished = false;
         }
     }
 }
