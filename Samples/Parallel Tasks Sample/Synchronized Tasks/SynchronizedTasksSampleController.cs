@@ -13,7 +13,7 @@ namespace i5.VirtualAgents.Examples
         public Transform highPrioWaypoint;
         public bool useTaskShortcuts;
 
-        void Start()
+        private void Start()
         {
             for (int i = 0; i < waypoints.Count; i++)
             {
