@@ -7,11 +7,17 @@ namespace i5.VirtualAgents.BehaviourTrees
     public abstract class DecoratorNode : BaseTask, IDecoratorNode
     {
         public ITask Child { get; set; }
+        protected Agent executingAgent;
 
         public override void Reset()
         {
             base.Reset();
             Child.Reset();
+        }
+
+        public override void Execute(Agent executingAgent)
+        {
+            this.executingAgent = executingAgent;
         }
     }
 }
