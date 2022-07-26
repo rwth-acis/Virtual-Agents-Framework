@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Task System | Documentation of the Virtual Agents Framework </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Task System | Documentation of the Virtual Agents Framework ">
+    <meta name="generator" content="docfx 2.59.2.0">
+    
+    <link rel="shortcut icon" href="../resources/Logos/Logo_whiteBg.svg">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../resources/Logos/Logo_whiteBg.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="task-system">Task System</h1>
+
+<p>A possible way to influence the agent&#39;s behavior is to assign tasks to the agent which the agent then works on.</p>
+<h2 id="tasks">Tasks</h2>
+<p>Tasks are the elements which tell the agent what to do.</p>
+<h3 id="structure">Structure</h3>
+<p>All tasks need to implement the <a class="xref" href="../api/i5.VirtualAgents.TaskSystem.IAgentTask.html">IAgentTask</a> interface.
+It determines the necessary methods that a task must have like <a class="xref" href="../api/i5.VirtualAgents.TaskSystem.IAgentTask.html#i5_VirtualAgents_TaskSystem_IAgentTask_Execute_i5_VirtualAgents_Agent_">Execute(Agent)</a> to start the task&#39;s execution or <a class="xref" href="../api/i5.VirtualAgents.TaskSystem.IAgentTask.html#i5_VirtualAgents_TaskSystem_IAgentTask_Update">Update()</a> which is called every frame during the execution.</p>
+<h3 id="pre-implemented-tasks">Pre-Implemented Tasks</h3>
+<p>The Virtual Agents Framework contains an ever-growing collection of pre-implemented tasks.
+These tasks are meant as a starting point for composing behaviors of agents.
+Currently, the following tasks exist and can already be used:</p>
+<ul>
+<li><a class="xref" href="../api/i5.VirtualAgents.TaskSystem.AgentTasks.AgentAnimationTask.html">AgentAnimationTask</a>: Play animations on the agent</li>
+<li><a class="xref" href="../api/i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask.html">AgentMovementTask</a>: Let the agent walk to a given location</li>
+<li><a class="xref" href="../api/i5.VirtualAgents.TaskSystem.AgentTasks.AgentWaitTask.html">AgentWaitTask</a>: Let the agent wait for a specific amount of time</li>
+</ul>
+<h3 id="adding-own-tasks">Adding Own Tasks</h3>
+<p>In addition to the pre-implemented tasks, developers can also add own tasks that implement the <a class="xref" href="../api/i5.VirtualAgents.TaskSystem.IAgentTask.html">IAgentTask</a> interface.
+It is recommended to inherit from the <a class="xref" href="../api/i5.VirtualAgents.TaskSystem.AgentTasks.AgentBaseTask.html">AgentBaseTask</a> class when creating new tasks.
+This base class already contains a lot of common logic for tasks, like marking a task as finished and then automatically invoking the event that is defined in the interface. </p>
+<p>If you have created a generic and configurable task that might be interesting to other developers, feel welcome to post a pull request on GitHub that contributes the task to the framework as a pre-implemented task.</p>
+<h2 id="task-scheduling">Task Scheduling</h2>
+<p>Tasks are scheduled on agents using a priority queue.
+Each agent has a task manager which will evaluate the queue and start the execution of the next task. </p>
+<h3 id="scheduling-a-task-instance-on-an-agent">Scheduling a Task Instance on an Agent</h3>
+<p>To assign a task to an agent, first create an instance of your task by calling its constructor.</p>
+<pre><code>MyTask myTask = new MyTask();
+</code></pre><p>Configure the task as required, e.g., by passing arguments to the constructor or by setting properties.
+After that, call <a class="xref" href="../api/i5.VirtualAgents.Agent.html#i5_VirtualAgents_Agent_ScheduleTask_">ScheduleTask</a> to schedule the task on a specific agent.
+Optionally, you can set the priority of the task.
+By default, it is set to 0, so negative values will be executed after all other tasks and positive values take priority over default tasks.
+The higher the number the earlier the task will be executed.
+Moreover, you can provide a layer argument to specify which animation layer the task affects.
+The agent is set up with different layers so that multiple actions can happen in parallel.
+By default the &quot;Base Layer&quot; is chosen, so it affects the entire body of the agent.
+For more information on parallel layers see the documentation on <a href="parallel-tasks.html">parallel tasks</a>.</p>
+<h3 id="shortcuts">Shortcuts</h3>
+<p>In order to keep the code brief and understandable, it is not always necessary to create the task instance object yourself and to schedule it on the agent explicitly.
+For common actions, it is also possible to call one of the shortcut functions on the agent.
+Currently, the following shortcut functions exist:</p>
+<ul>
+<li><a class="xref" href="../api/i5.VirtualAgents.TaskSystem.TaskActions.html#i5_VirtualAgents_TaskSystem_TaskActions_GoTo_">GoTo</a><ul>
+<li><a class="xref" href="../api/i5.VirtualAgents.TaskSystem.TaskActions.html#i5_VirtualAgents_TaskSystem_TaskActions_GoTo_Vector3_System_Int32_">GoTo(Vector3, Int32)</a>: Let the agent walk to the specified coordinates.</li>
+<li><a class="xref" href="../api/i5.VirtualAgents.TaskSystem.TaskActions.html#i5_VirtualAgents_TaskSystem_TaskActions_GoTo_Transform_Vector3_System_Int32_">GoTo(Transform, Vector3, Int32)</a>: Let the agent walk to the specified transform of an object in the scene.
+You can add an optional offset so that the agent does not run into the object but stops next to it.</li>
+<li><a class="xref" href="../api/i5.VirtualAgents.TaskSystem.TaskActions.html#i5_VirtualAgents_TaskSystem_TaskActions_GoTo_GameObject_Vector3_System_Int32_">GoTo(GameObject, Vector3, Int32)</a>: Let the agent walk to the specified object in the scene.
+You can add an optional offset so that the agent does not run into the object but stops next to it.</li>
+</ul>
+</li>
+<li><a class="xref" href="../api/i5.VirtualAgents.TaskSystem.TaskActions.html#i5_VirtualAgents_TaskSystem_TaskActions_WaitForSeconds_">WaitForSeconds</a>: The agent waits for the given amount of seconds.</li>
+<li><a class="xref" href="../api/i5.VirtualAgents.TaskSystem.TaskActions.html#i5_VirtualAgents_TaskSystem_TaskActions_PlayAnimation_">PlayAnimation</a>: Play an animation for the given time.
+Specify a start and stop trigger which will cause the animation to start and stop in the animator.
+If you add you own animations, set them up in a way that there are transitions in and out of your animation with the start and stop triggers set as conditions for entering the transition.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/rwth-acis/Virtual-Agents-Framework/blob/develop/Documentation/manual/task-system.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Documentation of the Virtual Agents Framework
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
