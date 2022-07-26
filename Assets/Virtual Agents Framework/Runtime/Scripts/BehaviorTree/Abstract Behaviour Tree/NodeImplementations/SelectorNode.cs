@@ -12,20 +12,11 @@ namespace i5.VirtualAgents.BehaviourTrees
     /// </summary>
     public class SelectorNode : CompositeNode, ISerializable
     {
-        private Agent executingAgent;
-
         private int current = 0;
         public SelectorNode()
         {
             Children = new List<ITask>();
         }
-
-        
-        public override void Execute(Agent executingAgent)
-        {
-            this.executingAgent = executingAgent;
-        }
-        
 
         public override TaskState Update()
         {
@@ -36,7 +27,7 @@ namespace i5.VirtualAgents.BehaviourTrees
             {
                 current++;
                 if (current >= Children.Count)
-                    return TaskState.Failure; //All nodes failed, report general failure
+                    return TaskState.Failure; // All nodes failed, report general failure
                 else
                     return TaskState.Running; 
             }
