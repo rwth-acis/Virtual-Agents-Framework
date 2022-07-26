@@ -17,6 +17,7 @@ namespace i5.VirtualAgents.BehaviourTrees
 
         public override void Execute(Agent executingAgent)
         {
+            base.Execute(executingAgent);
             this.executingAgent = executingAgent;
         }
     }

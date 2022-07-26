@@ -12,18 +12,11 @@ namespace i5.VirtualAgents.BehaviourTrees
     public class SequencerNode : CompositeNode, ISerializable
     {
         private int current = 0;
-        private Agent executingAgent;
 
         public SequencerNode()
         {
             Children = new List<ITask>();
         }
-
-        public override void Execute(Agent executingAgent)
-        {
-            this.executingAgent = executingAgent;
-        }
-
 
         public override TaskState Update()
         {
