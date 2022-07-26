@@ -93,6 +93,10 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
                 {
                     (abstractNode as ICompositeNode).Children.Add(abstractChild);
                 }
+                if (abstractNode is IDecoratorNode)
+                {
+                    (abstractNode as IDecoratorNode).Child = abstractChild;
+                }
                 ConnectAbstractTree(child, abstractChild, nodesOverwriteData);
             }
         }

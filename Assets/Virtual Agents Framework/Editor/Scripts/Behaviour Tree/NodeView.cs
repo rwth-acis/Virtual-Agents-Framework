@@ -63,6 +63,12 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                 output = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(bool));
             }
 
+            //Decorator Nodes have one childe/output
+            if (node.GetCopyOfSerializedInterface() is IDecoratorNode)
+            {
+                output = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
+            }
+
             if (output != null)
             {
                 output.portName = "";
