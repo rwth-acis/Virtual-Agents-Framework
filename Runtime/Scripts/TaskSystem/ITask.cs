@@ -47,5 +47,10 @@ namespace i5.VirtualAgents
         /// <param name="excutingAgent"></param>
         /// <returns></returns>
         TaskState FullUpdate(Agent excutingAgent);
+
+        /// <summary>
+        /// Resets the task to its beginning state
+        /// </summary>
+        void Reset();
     }
 }
