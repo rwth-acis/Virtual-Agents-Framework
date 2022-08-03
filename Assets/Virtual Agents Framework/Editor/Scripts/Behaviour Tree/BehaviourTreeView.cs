@@ -45,7 +45,12 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         {
             this.Tree = tree;
             graphViewChanged -= OnGraphViewChanged;
-            DeleteElements(graphElements);
+
+            //Convert graphElements to list, since in older Unity versions UQueryState does not implement IEnumerable
+            List<GraphElement> graphElementList = new List<GraphElement>();
+            graphElements.ToList(graphElementList);
+
+            DeleteElements(graphElementList);
             graphViewChanged += OnGraphViewChanged;
 
             //Create node views
