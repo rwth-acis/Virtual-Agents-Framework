@@ -8,7 +8,7 @@ using UnityEditor;
 namespace i5.VirtualAgents.BehaviourTrees
 {
     /// <summary>
-    /// Executes its child one after another, until one succsedes
+    /// Executes its child one after another, until one succeedes
     /// </summary>
     public class SelectorNode : CompositeNode, ISerializable
     {
