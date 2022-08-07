@@ -7,12 +7,12 @@ using System;
 namespace i5.VirtualAgents.BehaviourTrees
 {
     /// <summary>
-    /// Repeats its child 
+    /// Repeats its child until it succeeds
     /// </summary>
     public class RepeatUntilSuccessNode : DecoratorNode, ISerializable
     {
         /// <summary>
-        /// The maximum amount the task is repeated. If 0, the task will berepeated idenfnitly, until it succeds
+        /// The maximum number of times, the task is repeated. If 0, the task will be repeated idenfnitly, until it succeeds
         /// </summary>
         public int RepeatLimit;
 
@@ -49,12 +49,12 @@ namespace i5.VirtualAgents.BehaviourTrees
 
         public void Deserialize(SerializationDataContainer serializer)
         {
-            RepeatLimit = serializer.GetSerializedInt("RepeatLimit");
+            RepeatLimit = serializer.GetSerializedInt("Repeat Limit");
         }
 
         public void Serialize(SerializationDataContainer serializer)
         {
-            serializer.AddSerializedData("RepeatLimit", RepeatLimit);
+            serializer.AddSerializedData("Repeat Limit", RepeatLimit);
         }
     }
 }
