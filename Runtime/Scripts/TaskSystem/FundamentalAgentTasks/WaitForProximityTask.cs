@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace i5.VirtualAgents.TaskSystem.AgentTasks
 {
+    /// <summary>
+    /// Succeeds once the target is less than distance units away from the executing agent
+    /// </summary>
     public class WaitForProximityTask : AgentBaseTask, ISerializable
     {
         private GameObject target;
