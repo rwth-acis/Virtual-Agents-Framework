@@ -11,7 +11,13 @@ namespace i5.VirtualAgents.BehaviourTrees
     /// </summary>
     public class SequencerNode : CompositeNode, ISerializable
     {
-        private int current = 0;
+        private int current;
+
+        public override void Execute(Agent executingAgent)
+        {
+            base.Execute(executingAgent);
+            current = 0;
+        }
 
         public override TaskState Update()
         {
@@ -30,12 +36,6 @@ namespace i5.VirtualAgents.BehaviourTrees
                 // This lets this node automatically fail once the first child fails
                 return currentNodestate;
             }
-        }
-
-        public override void Reset()
-        {
-            base.Reset();
-            current = 0;
         }
 
         public void Serialize(SerializationDataContainer serializer)

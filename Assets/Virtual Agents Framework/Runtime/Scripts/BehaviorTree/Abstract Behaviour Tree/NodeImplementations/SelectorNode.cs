@@ -12,7 +12,14 @@ namespace i5.VirtualAgents.BehaviourTrees
     /// </summary>
     public class SelectorNode : CompositeNode, ISerializable
     {
-        private int current = 0;
+        private int current;
+
+        public override void Execute(Agent executingAgent)
+        {
+            base.Execute(executingAgent);
+            current = 0;
+        }
+
         public override TaskState Update()
         {
             TaskState currentNodestate = Children[current].FullUpdate(executingAgent);
@@ -30,12 +37,6 @@ namespace i5.VirtualAgents.BehaviourTrees
             {
                 return currentNodestate;
             }
-        }
-
-        public override void Reset()
-        {
-            base.Reset();
-            current = 0;
         }
 
         public void Serialize(SerializationDataContainer serializer)
