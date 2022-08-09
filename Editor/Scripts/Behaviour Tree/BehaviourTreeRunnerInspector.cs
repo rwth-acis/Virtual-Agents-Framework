@@ -115,6 +115,10 @@ namespace i5.VirtualAgents.Editor
                         {
                             value.objectReferenceValue = data.Value as GameObject;
                         }
+                        if (typeof(T) == typeof(bool))
+                        {
+                            value.boolValue = (bool)(data.Value as bool?);
+                        }
                     }
                 }
 
@@ -124,6 +128,7 @@ namespace i5.VirtualAgents.Editor
                 CopySerializedData(view.node.Data.serializedStrings.data, "serializedStrings.data");
                 CopySerializedData(view.node.Data.serializedInts.data, "serializedInts.data");
                 CopySerializedData(view.node.Data.serializedGameobjects.data, "serializedGameobjects.data");
+                CopySerializedData(view.node.Data.serializedBools.data, "serializedGameobjects.data");
             }
             // Create Property fields for the overwrite data
 
@@ -143,6 +148,7 @@ namespace i5.VirtualAgents.Editor
             int stringCounter = 0;
             int intCounter = 0;
             int gameobjectCounter = 0;
+            int boolCounter = 0;
 
             SerializableType[] serializationOrder = new SerializableType[targetNode.Data.serializationOrder.Count];
 
@@ -167,6 +173,9 @@ namespace i5.VirtualAgents.Editor
                         break;
                     case SerializableType.GAMEOBJECT:
                         CreatePropertyField("serializedGameobjects", ref gameobjectCounter, SerializableType.GAMEOBJECT, targetNode, nodeOverwriteData);
+                        break;
+                    case SerializableType.BOOL:
+                        CreatePropertyField("serializedBools", ref boolCounter, SerializableType.BOOL, targetNode, nodeOverwriteData);
                         break;
                 }
             }
