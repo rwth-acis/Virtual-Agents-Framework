@@ -9,19 +9,8 @@ namespace i5.VirtualAgents.BehaviourTrees
     /// </summary>
     public abstract class CompositeNode : BaseTask, ICompositeNode
     {
-        public List<ITask> Children { get; set; }
-        protected Agent executingAgent;
-
-        /// <summary>
-        /// Gets the reference to the agent which will execute this task
-        /// Starts the task's execution
-        /// </summary>
-        /// <param name="agent">The agent which should execute this task</param>
-        public override void Execute(Agent executingAgent)
-        {
-            base.Execute(executingAgent);
-            this.executingAgent = executingAgent;
-        }
+        private List<ITask> children = new List<ITask>();
+        public List<ITask> Children { get { return children; } set { children = value; } }
 
         /// <summary>
         /// Resets entire subtree

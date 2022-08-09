@@ -7,6 +7,7 @@ namespace i5.VirtualAgents
     public abstract class BaseTask : ITask
     {
         public TaskState State { get; set; }
+        protected Agent executingAgent;
 
         /// <summary>
         /// Called by the executing agent on running tasks
@@ -23,7 +24,10 @@ namespace i5.VirtualAgents
         /// Starts the task's execution
         /// </summary>
         /// <param name="agent">The agent which should execute this task</param>
-        public virtual void Execute(Agent executingAgent){ }
+        public virtual void Execute(Agent executingAgent)
+        {
+            this.executingAgent = executingAgent;
+        }
 
         /// <summary>
         /// Called when the task succeedes or fails
