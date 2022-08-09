@@ -89,6 +89,10 @@ namespace i5.VirtualAgents
         /// </summary>
         public virtual void Reset()
         {
+            if (State == TaskState.Running)
+            {
+                Stop();
+            }
             State = TaskState.Waiting;
         }
 
