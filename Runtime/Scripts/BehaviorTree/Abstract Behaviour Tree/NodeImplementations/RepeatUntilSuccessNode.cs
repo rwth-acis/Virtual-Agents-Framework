@@ -11,12 +11,15 @@ namespace i5.VirtualAgents.BehaviourTrees
     /// </summary>
     public class RepeatUntilSuccessNode : DecoratorNode, ISerializable
     {
-        /// <summary>
-        /// The maximum number of times, the task is repeated. If 0, the task will be repeated idenfnitly, until it succeeds
-        /// </summary>
-        public int RepeatLimit;
-
+        // The maximum number of times, the task is repeated. If 0, the task will be repeated idenfnitly, until it succeeds
+        private int RepeatLimit;
         private int repeatCount;
+
+        public override void Execute(Agent executingAgent)
+        {
+            base.Execute(executingAgent);
+            repeatCount = 0;
+        }
 
         public override TaskState Update()
         {
@@ -49,12 +52,12 @@ namespace i5.VirtualAgents.BehaviourTrees
 
         public void Deserialize(SerializationDataContainer serializer)
         {
-            RepeatLimit = serializer.GetSerializedInt("Repeat Limit");
+            RepeatLimit = serializer.GetSerializedInt("RepeatLimit");
         }
 
         public void Serialize(SerializationDataContainer serializer)
         {
-            serializer.AddSerializedData("Repeat Limit", RepeatLimit);
+            serializer.AddSerializedData("RepeatLimit", RepeatLimit);
         }
     }
 }
