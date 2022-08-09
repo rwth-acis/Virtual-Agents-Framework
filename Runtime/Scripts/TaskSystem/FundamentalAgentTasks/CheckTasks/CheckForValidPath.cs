@@ -18,8 +18,8 @@ namespace i5.VirtualAgents.TaskSystem.AgentTasks
 
         public override void Execute(Agent executingAgent)
         {
-            base.Execute(executingAgent);
             navMeshAgent = executingAgent.GetComponent<NavMeshAgent>();
+            base.Execute(executingAgent);
         }
 
         /// <summary>
