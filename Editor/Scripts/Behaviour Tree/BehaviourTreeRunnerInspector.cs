@@ -128,7 +128,7 @@ namespace i5.VirtualAgents.Editor
                 CopySerializedData(view.node.Data.serializedStrings.data, "serializedStrings.data");
                 CopySerializedData(view.node.Data.serializedInts.data, "serializedInts.data");
                 CopySerializedData(view.node.Data.serializedGameobjects.data, "serializedGameobjects.data");
-                CopySerializedData(view.node.Data.serializedBools.data, "serializedGameobjects.data");
+                CopySerializedData(view.node.Data.serializedBools.data, "serializedBools.data");
             }
             // Create Property fields for the overwrite data
 
