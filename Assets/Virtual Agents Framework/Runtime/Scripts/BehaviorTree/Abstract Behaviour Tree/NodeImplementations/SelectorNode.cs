@@ -13,11 +13,6 @@ namespace i5.VirtualAgents.BehaviourTrees
     public class SelectorNode : CompositeNode, ISerializable
     {
         private int current = 0;
-        public SelectorNode()
-        {
-            Children = new List<ITask>();
-        }
-
         public override TaskState Update()
         {
             TaskState currentNodestate = Children[current].FullUpdate(executingAgent);

@@ -13,11 +13,6 @@ namespace i5.VirtualAgents.BehaviourTrees
     {
         private int current = 0;
 
-        public SequencerNode()
-        {
-            Children = new List<ITask>();
-        }
-
         public override TaskState Update()
         {
             TaskState currentNodestate = Children[current].FullUpdate(executingAgent);
