@@ -12,24 +12,14 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
     [CreateAssetMenu(menuName = "i5 Toolkit/Behaviour Tree")]
     public class BehaviorTreeAsset : ScriptableObject
     {
+        [SerializeField]
         private VisualNode rootNode;
-        public VisualNode RootNode 
-        {
-            get 
-            {
-                if (rootNode == null && Nodes != null && Nodes.Count > 0)
-                {
-                    rootNode = Nodes[0];
-                }
-                return rootNode;
-            }
-            private set
-            {
-                rootNode = value;
-            }
-        }
-
         public List<VisualNode> Nodes = new List<VisualNode>();
+
+        private void OnEnable()
+        {
+            AddRoot();
+        }
 
         /// <summary>
         /// Adds a new node based on an serializable task
@@ -45,6 +35,14 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             Nodes.Add(node);
             AssetDatabase.AddObjectToAsset(node,this);
             return node;
+        }
+
+        protected virtual void AddRoot()
+        {
+            if (rootNode == null)
+            {
+                rootNode = AddNode(new RootNode());
+            }
         }
 
         /// <summary>
