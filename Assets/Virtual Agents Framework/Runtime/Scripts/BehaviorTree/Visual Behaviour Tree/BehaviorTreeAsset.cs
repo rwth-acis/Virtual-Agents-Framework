@@ -81,6 +81,9 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         // Generates recursivly the abstract childs for the given graphical node and connects them
         private void ConnectAbstractTree(VisualNode node, ITask abstractNode, NodesOverwriteData nodesOverwriteData)
         {
+            // Sort the children by there height in order to execute higher children first
+            node.Children.Sort((node1, node2) => { if (node1.Position.y > node2.Position.y) { return 1; } else if (node1.Position.y < node2.Position.y) { return -1; } else return 0; });
+
             foreach (var child in node.Children)
             {
                 SerializationDataContainer nodeData = null;
