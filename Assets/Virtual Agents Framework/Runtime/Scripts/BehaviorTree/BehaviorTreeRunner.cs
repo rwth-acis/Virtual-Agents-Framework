@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using i5.VirtualAgents.BehaviourTrees.Visual;
 
-namespace i5.VirtualAgents.BehaviourTrees
+namespace i5.VirtualAgents.TaskSystem
 {
     /// <summary>
     /// Executes a given behaviour tree until the root node reports sucess or failure.
     /// </summary>
-    public class BehaviorTreeRunner : ITaskSystem
+    public class BehaviorTreeRunner : TaskSystem
     {
         private Agent excecutingAgent;
         private ITask abstractTree;
@@ -37,19 +37,7 @@ namespace i5.VirtualAgents.BehaviourTrees
             abstractTree = rootNode;
         }
 
-        /// <summary>
-        /// Scheduling aditional tasks in a behaviour tree is currently not supported.
-        /// </summary>
-        /// <param name="task"></param>
-        /// <param name="priority"></param>
-        /// <param name="layer"></param>
-        public void ScheduleTask(IAgentTask task, int priority = 0, string layer = "Base Layer")
-        {
-            //TODO Maby halt the tree execution, execute new task and then continue with the tree?
-            throw new System.NotImplementedException();
-        }
-
-        void ITaskSystem.Update()
+        public override void UpdateTaskSystem()
         {
             if (rootState != TaskState.Success && rootState != TaskState.Failure)
             {

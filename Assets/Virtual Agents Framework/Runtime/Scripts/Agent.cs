@@ -1,9 +1,5 @@
-using i5.VirtualAgents.TaskSystem;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using i5.VirtualAgents.BehaviourTrees;
-using i5.VirtualAgents.BehaviourTrees.Visual;
 
 namespace i5.VirtualAgents
 {
@@ -15,8 +11,7 @@ namespace i5.VirtualAgents
     [RequireComponent(typeof(AgentAnimationUpdater))] // Responsible for the avatar's movement
     public class Agent : MonoBehaviour
     {
-        [SerializeField] private TaskSystemEnum taskSystemKind;
-        private ITaskSystem taskSystem;
+        public ITaskSystem TaskSystem { get; private set; }
 
         /// <summary>
         /// The animator component which controls the agent's animations
@@ -24,35 +19,12 @@ namespace i5.VirtualAgents
         public Animator Animator { get; private set; }
 
         /// <summary>
-        /// List of shortcut methods to add common tasks to the agent's task queue
-        /// Syntactic sugar. It is also possible to directly enqueue task objects on the agent instead, e.g. for custom tasks
-        /// </summary>
-        public TaskActions Tasks { get; private set; }
-
-
-        public BehaviorTreeAsset tree;
-
-        /// <summary>
         /// Initialize the agent
         /// </summary>
         private void Awake()
         {
-            Tasks = new TaskActions(this);
             Animator = GetComponent<Animator>();
-            switch (taskSystemKind)
-            {
-                case TaskSystemEnum.ScheduleBased:
-                    taskSystem = new SchedulBasedTaskExecution(this);
-                    break;
-                case TaskSystemEnum.BehaviorTree:
-                    taskSystem = new BehaviorTreeRunner(this,tree);
-                    break;
-            }
-        }
-
-        public void ScheduleTask(IAgentTask task, int priority = 0, string layer = "Base Layer")
-        {
-            taskSystem.ScheduleTask(task, priority, layer);
+            TaskSystem = GetComponent<TaskSystem.TaskSystem>();
         }
 
         /// <summary>
@@ -60,13 +32,7 @@ namespace i5.VirtualAgents
         /// </summary>
         private void Update()
         {
-            taskSystem.Update();
+            TaskSystem.UpdateTaskSystem();
         }
-    }
-
-    enum TaskSystemEnum
-    {
-        ScheduleBased,
-        BehaviorTree
     }
 }

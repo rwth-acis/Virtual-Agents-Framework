@@ -9,16 +9,16 @@ namespace i5.VirtualAgents.TaskSystem
     /// </summary>
     public class TaskActions
     {
-        // the agent for which these tasks actions are
-        private Agent agent;
+        // the schedule system for which these tasks actions are
+        private SchedulBasedTaskExecution scheduleTaskSystem;
 
         /// <summary>
-        /// Creates a new task actions shortcut and registers the agent on which the tasks are scheduled
+        /// Creates a new task actions shortcut and registers the schedule system on which the tasks are scheduled
         /// </summary>
-        /// <param name="agent">The agent on which the tasks are scheduled and executed</param>
-        public TaskActions(Agent agent)
+        /// <param name="scheduleTaskSystem">The agent on which the tasks are scheduled and executed</param>
+        public TaskActions(SchedulBasedTaskExecution scheduleTaskSystem)
         {
-            this.agent = agent;
+            this.scheduleTaskSystem = scheduleTaskSystem;
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace i5.VirtualAgents.TaskSystem
         public AgentBaseTask GoTo(Vector3 destinationCoordinates, int priority = 0)
         {
             AgentMovementTask movementTask = new AgentMovementTask(destinationCoordinates);
-            agent.ScheduleTask(movementTask, priority);
+            scheduleTaskSystem.ScheduleTask(movementTask, priority);
             return movementTask;
         }
 
@@ -66,7 +66,7 @@ namespace i5.VirtualAgents.TaskSystem
         public AgentBaseTask WaitForSeconds(float seconds, int priority = 0, string layer = "Base Layer")
         {
             AgentWaitTask agentWaitTask = new AgentWaitTask(seconds);
-            agent.ScheduleTask(agentWaitTask, priority, layer);
+            scheduleTaskSystem.ScheduleTask(agentWaitTask, priority, layer);
             return agentWaitTask;
         }
 
@@ -83,7 +83,7 @@ namespace i5.VirtualAgents.TaskSystem
         public AgentBaseTask PlayAnimation(string startTrigger, float playTime, string stopTrigger = "", int priority = 0, string layer = "Base Layer")
         {
             AgentAnimationTask animationTask = new AgentAnimationTask(startTrigger, playTime, stopTrigger);
-            agent.ScheduleTask(animationTask, priority, layer);
+            scheduleTaskSystem.ScheduleTask(animationTask, priority, layer);
             return animationTask;
         }
     }
