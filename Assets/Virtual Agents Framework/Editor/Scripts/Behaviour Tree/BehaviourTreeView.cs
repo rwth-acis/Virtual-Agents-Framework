@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor;
-using i5.VirtualAgents.TaskSystem;
+using i5.VirtualAgents.AgentTasks;
 using i5.VirtualAgents.BehaviourTrees.Visual;
 using i5.VirtualAgents.BehaviourTrees;
 using System;

@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using i5.VirtualAgents.AgentTasks;
 
-namespace i5.VirtualAgents.TaskSystem
+namespace i5.VirtualAgents.ScheduleBasedExecution
 {
     /// <summary>
     /// Holds an IAgentTask queue

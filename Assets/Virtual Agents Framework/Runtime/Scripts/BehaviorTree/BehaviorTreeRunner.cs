@@ -1,10 +1,10 @@
-using i5.VirtualAgents.TaskSystem;
+using i5.VirtualAgents.ScheduleBasedExecution;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using i5.VirtualAgents.BehaviourTrees.Visual;
 
-namespace i5.VirtualAgents.TaskSystem
+namespace i5.VirtualAgents.ScheduleBasedExecution
 {
     /// <summary>
     /// Executes a given behaviour tree until the root node reports sucess or failure.
