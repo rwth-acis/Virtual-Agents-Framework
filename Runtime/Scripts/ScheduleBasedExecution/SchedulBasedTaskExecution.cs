@@ -1,9 +1,10 @@
-using i5.VirtualAgents.TaskSystem;
+using i5.VirtualAgents.ScheduleBasedExecution;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using i5.VirtualAgents.AgentTasks;
 
-namespace i5.VirtualAgents.TaskSystem
+namespace i5.VirtualAgents.ScheduleBasedExecution
 {
     /// <summary>
     /// Executes tasks by scheduling them in a priority queue

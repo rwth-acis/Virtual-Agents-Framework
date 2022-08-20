@@ -1,8 +1,8 @@
-using i5.VirtualAgents.TaskSystem.AgentTasks;
+using i5.VirtualAgents.AgentTasks;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace i5.VirtualAgents.TaskSystem
+namespace i5.VirtualAgents.ScheduleBasedExecution
 {
     /// <summary>
     /// List of shortcuts to schedule actions on an agent

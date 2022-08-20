@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace i5.VirtualAgents.TaskSystem
+namespace i5.VirtualAgents.AgentTasks
 {
     /// <summary>
     /// The types that can be serialized using the ISerializable interface.

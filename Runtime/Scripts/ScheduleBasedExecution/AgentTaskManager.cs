@@ -1,7 +1,8 @@
 ﻿using i5.Toolkit.Core.Utilities;
 using System;
+using i5.VirtualAgents.AgentTasks;
 
-namespace i5.VirtualAgents.TaskSystem
+namespace i5.VirtualAgents.ScheduleBasedExecution
 {
     public class AgentTaskManager
     {
