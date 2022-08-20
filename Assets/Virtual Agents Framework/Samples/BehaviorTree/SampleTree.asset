@@ -144,6 +144,38 @@ MonoBehaviour:
   Position: {x: 1061.5707, y: 363.4891}
   Description: 
   Children: []
+--- !u!114 &-5985135328202316579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  Data:
+    serializedVectors:
+      data: []
+    serializedFloats:
+      data: []
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data: []
+    serializedBools:
+      data: []
+    serializationOrder: 
+  serializedObjectType: i5.VirtualAgents.BehaviourTrees.Visual.RootNode
+  Guid: ddd58fbfbffd30741bf0897fe83838dd
+  Position: {x: -33, y: -52}
+  Description: 
+  Children:
+  - {fileID: -9139409445907796344}
 --- !u!114 &-3053648699762478987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,6 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3430e2b3fb448544d99baab57de75da2, type: 3}
   m_Name: SampleTree
   m_EditorClassIdentifier: 
+  rootNode: {fileID: -5985135328202316579}
   Nodes:
   - {fileID: -9139409445907796344}
   - {fileID: 1079275665565824699}
@@ -244,6 +277,7 @@ MonoBehaviour:
   - {fileID: 2552690996657784906}
   - {fileID: 526460927573322102}
   - {fileID: 4601129525653909725}
+  - {fileID: -5985135328202316579}
 --- !u!114 &526460927573322102
 MonoBehaviour:
   m_ObjectHideFlags: 0
