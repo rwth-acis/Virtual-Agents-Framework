@@ -10,7 +10,6 @@ namespace i5.VirtualAgents
     /// </summary>
     public interface ITaskSystem
     {
-        void Update();
-        void ScheduleTask(IAgentTask task, int priority = 0, string layer = "Base Layer");
+        void UpdateTasksystem();
     }
 }
