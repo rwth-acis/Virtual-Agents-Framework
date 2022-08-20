@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace i5.VirtualAgents.TaskSystem
+namespace i5.VirtualAgents.AgentTasks
 {
     /// <summary>
     /// A task that directly manipualtes an agent
