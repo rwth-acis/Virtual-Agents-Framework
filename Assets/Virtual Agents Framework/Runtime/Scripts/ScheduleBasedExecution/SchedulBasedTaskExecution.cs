@@ -21,6 +21,7 @@ namespace i5.VirtualAgents.TaskSystem
 
         private void Awake()
         {
+            Tasks = new TaskActions(this);
             taskManagers = new Dictionary<string, AgentTaskManager>();
             Animator animator = GetComponent<Animator>();
             Agent agent = GetComponent<Agent>();
