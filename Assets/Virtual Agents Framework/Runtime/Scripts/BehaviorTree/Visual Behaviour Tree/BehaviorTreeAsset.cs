@@ -37,9 +37,9 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             return node;
         }
 
-        protected virtual void AddRoot()
+        public virtual void AddRoot()
         {
-            if (rootNode == null)
+            if (rootNode == null && AssetDatabase.Contains(this))
             {
                 rootNode = AddNode(new RootNode());
             }
