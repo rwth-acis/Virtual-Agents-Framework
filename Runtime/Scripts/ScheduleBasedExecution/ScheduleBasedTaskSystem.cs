@@ -9,7 +9,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
     /// <summary>
     /// Executes tasks by scheduling them in a priority queue
     /// </summary>
-    public class SchedulBasedTaskExecution : TaskSystem
+    public class ScheduleBasedTaskSystem : TaskSystem
     {
         /// <summary>
         /// List of shortcut methods to add common tasks to the agent's task queue
