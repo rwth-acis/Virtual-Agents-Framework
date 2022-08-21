@@ -25,7 +25,7 @@ MonoBehaviour:
   serializedInts:
     data: []
   serializationOrder: 0000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: cb145a59e596e6d48b2e4f7d2b188f8f
   Position: {x: 528.16003, y: -257.05}
   Description: 
@@ -55,7 +55,7 @@ MonoBehaviour:
   serializedInts:
     data: []
   serializationOrder: 0000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 679a123ec47034543a99afa1f1f42c7f
   Position: {x: 528, y: 205.6}
   Description: 
@@ -134,7 +134,7 @@ MonoBehaviour:
   serializedInts:
     data: []
   serializationOrder: 0000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 953689d174dbc714d891492adff4f69a
   Position: {x: 528.00006, y: -112}
   Description: 
@@ -221,7 +221,7 @@ MonoBehaviour:
   serializedInts:
     data: []
   serializationOrder: 0000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 73f5d12c2eca4944baa698e8caa311ed
   Position: {x: 280.8, y: -6.399994}
   Description: 
@@ -251,7 +251,7 @@ MonoBehaviour:
   serializedInts:
     data: []
   serializationOrder: 0000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: bda1cd1304af37a438b38008e83bea93
   Position: {x: 528.00006, y: 51.905968}
   Description: 
