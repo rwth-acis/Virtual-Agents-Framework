@@ -10,13 +10,13 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
     public class TaskActions
     {
         // the schedule system for which these tasks actions are
-        private SchedulBasedTaskExecution scheduleTaskSystem;
+        private ScheduleBasedTaskSystem scheduleTaskSystem;
 
         /// <summary>
         /// Creates a new task actions shortcut and registers the schedule system on which the tasks are scheduled
         /// </summary>
         /// <param name="scheduleTaskSystem">The agent on which the tasks are scheduled and executed</param>
-        public TaskActions(SchedulBasedTaskExecution scheduleTaskSystem)
+        public TaskActions(ScheduleBasedTaskSystem scheduleTaskSystem)
         {
             this.scheduleTaskSystem = scheduleTaskSystem;
         }
