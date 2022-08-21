@@ -4,44 +4,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using i5.VirtualAgents.BehaviourTrees.Visual;
 
-namespace i5.VirtualAgents.ScheduleBasedExecution
+namespace i5.VirtualAgents.BehaviourTrees
 {
     /// <summary>
-    /// Executes a given behaviour tree until the root node reports sucess or failure.
+    /// Executes a given behaviour tree until the root node reports sucess or failure. Can either be provided with a Behaviour Tree Asset or can be given an AbstractTree manually constructed using the ITask interface.
     /// </summary>
     public class BehaviorTreeRunner : TaskSystem
     {
         private Agent excecutingAgent;
-        private ITask abstractTree;
+        public ITask AbstractTree;
         private TaskState rootState;
+        public BehaviorTreeAsset Tree;
 
-        /// <summary>
-        /// Execute visual behaviour tree.
-        /// </summary>
-        /// <param name="excecutingAgent"></param>
-        /// <param name="tree"></param>
-        public BehaviorTreeRunner(Agent excecutingAgent, BehaviorTreeAsset tree)
+        private void Awake()
         {
-            this.excecutingAgent = excecutingAgent;
-            abstractTree = tree.GetExecutableTree();
-        }
-
-        /// <summary>
-        /// Execute abstract behaviour tree.
-        /// </summary>
-        /// <param name="excecutingAgent"></param>
-        /// <param name="rootNode"></param>
-        public BehaviorTreeRunner(Agent excecutingAgent, ITask rootNode)
-        {
-            this.excecutingAgent = excecutingAgent;
-            abstractTree = rootNode;
+            excecutingAgent = GetComponent<Agent>();
+            if (Tree != null)
+            {
+                AbstractTree = Tree.GetExecutableTree();
+            }
         }
 
         public override void UpdateTaskSystem()
         {
             if (rootState != TaskState.Success && rootState != TaskState.Failure)
             {
-                rootState = abstractTree.FullUpdate(excecutingAgent);
+                rootState = AbstractTree.FullUpdate(excecutingAgent);
             }
         }
     }
