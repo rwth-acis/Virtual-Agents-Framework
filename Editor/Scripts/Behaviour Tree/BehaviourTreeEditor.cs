@@ -15,6 +15,8 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         private BehaviourTreeView treeView;
         private InspectorView inspectorView;
         private Label treeViewOccludeLabel;
+        private VisualElement occludeLabelParent;
+        private Button saveButton;
 
         [MenuItem("i5 Toolkit/BehaviourTreeEditor")]
         public static void ShowWindow()
@@ -40,17 +42,20 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             //Fetch and initialise objects from window
             treeView = root.Query<BehaviourTreeView>();
             treeView.SetupManipulators();
-            treeView.SetEnabled(false); //Disable, until a tree is selected
             inspectorView = root.Query<InspectorView>();
             treeView.OnNodeSelect = OnNodeSelectionChanged;
             treeViewOccludeLabel = root.Query<Label>("treeViewOccludeLabel");
+            occludeLabelParent = treeViewOccludeLabel.parent;
 
             //Check if a tree is already selected
             LoadSelectedTree();
 
             //Setup the save button
-            Button saveButton = root.Query<Button>("Save");
+            saveButton = root.Query<Button>("Save");
             saveButton.clicked += SaveTree;
+
+            // Forbid until a tree is selected
+            ForbidTreeEditing();
         }
 
         //Changes the currently edited tree to the one selected in the unity project tab
@@ -64,13 +69,37 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             BehaviorTreeAsset tree = Selection.activeObject as BehaviorTreeAsset;
             if (tree != null)
             {
-                if (treeViewOccludeLabel != null)
+                if (AssetDatabase.Contains(tree))
                 {
-                    treeViewOccludeLabel.RemoveFromHierarchy();
+                    AllowTreeEditing();
+                    treeView.PopulateView(tree);
                 }
-                treeView.SetEnabled(true);
-                treeView.PopulateView(tree);
+                else
+                {
+                    // The asset is currently being created and named. Delay loading the tree until the tree is fully created.
+                    ForbidTreeEditing();
+                    tree.CreatedAndNamed += LoadSelectedTree;
+                }
             }
+        }
+
+        // Allows the user interact with the editor
+        private void AllowTreeEditing()
+        {
+            treeViewOccludeLabel.RemoveFromHierarchy();
+            treeView.SetEnabled(true);
+            saveButton.SetEnabled(true);
+        }
+
+        // Forbids the user to interact with the editor
+        private void ForbidTreeEditing()
+        {
+            if (!occludeLabelParent.Contains(treeViewOccludeLabel))
+            {
+                occludeLabelParent.Insert(0, treeViewOccludeLabel);
+            }
+            treeView.SetEnabled(false);
+            saveButton.SetEnabled(false);
         }
 
         //Displays the inspector for the currently selected node
