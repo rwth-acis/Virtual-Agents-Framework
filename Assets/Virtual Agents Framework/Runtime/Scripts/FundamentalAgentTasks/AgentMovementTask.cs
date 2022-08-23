@@ -2,7 +2,7 @@ using i5.Toolkit.Core.Utilities;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace i5.VirtualAgents.TaskSystem.AgentTasks
+namespace i5.VirtualAgents.AgentTasks
 {
     /// <summary>
     /// Defines movement tasks for walking and running

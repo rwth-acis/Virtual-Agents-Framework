@@ -30,7 +30,7 @@ MonoBehaviour:
       - Key: Destination Object
         Value: {fileID: 0}
     serializationOrder: 040000000000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: eb5ac3bc952ad9c469a3df0e9e1fce17
   Position: {x: 477.00006, y: 86}
   Description: 
@@ -65,7 +65,7 @@ MonoBehaviour:
       - Key: Destination Object
         Value: {fileID: 0}
     serializationOrder: 040000000000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 2b284de6f91e42740b1245ee776209ac
   Position: {x: 717.00024, y: -309.92126}
   Description: 
@@ -100,7 +100,7 @@ MonoBehaviour:
       - Key: Destination Object
         Value: {fileID: 0}
     serializationOrder: 040000000000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: d21940f90f5caf04d9b4e2f04a74707d
   Position: {x: 716.99994, y: 162.99998}
   Description: 
@@ -166,7 +166,7 @@ MonoBehaviour:
       - Key: Destination Object
         Value: {fileID: 0}
     serializationOrder: 040000000000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 27b1e7ea6f3661c4bac8b6107ddd328e
   Position: {x: 716.99994, y: 432.01138}
   Description: 
@@ -285,7 +285,7 @@ MonoBehaviour:
       - Key: Destination Object
         Value: {fileID: 0}
     serializationOrder: 040000000000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 3cdfe703a8eed434e92cb6ce40c953ba
   Position: {x: 717.00024, y: -97.921265}
   Description: 
