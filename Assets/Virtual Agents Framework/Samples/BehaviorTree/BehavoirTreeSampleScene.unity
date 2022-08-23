@@ -218,8 +218,372 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &199971896 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
+  m_PrefabInstance: {fileID: 1023428232005854918}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &199971897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199971896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 203c64101e305a942899fec191eef9df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &199971898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199971896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c1417c8a0e226d468b3fdb8852704c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Tree: {fileID: 11400000, guid: d0ac200d59a62b3498a3fe9b195a9250, type: 2}
+  nodesOverwriteData:
+    data:
+    - Key: a48c80c7c6597a84a90ad868bc335516
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: TargetSpeed
+            Value: -1
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 1735457798}
+        serializedBools:
+          data: []
+        serializationOrder: 
+    - Key: abcfbc14295604f468718a1f2bf14f14
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: Play Time
+            Value: 100
+          - Key: TargetSpeed
+            Value: -1
+        serializedStrings:
+          data:
+          - Key: Start Trigger
+            Value: Wave
+          - Key: Stop Trigger
+            Value: 
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 0}
+        serializedBools:
+          data: []
+        serializationOrder: 
+    - Key: 89286c356cc0bf84888e4065f66b4940
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: Play Time
+            Value: 100
+          - Key: Play Time
+            Value: 100
+          - Key: TargetSpeed
+            Value: -1
+        serializedStrings:
+          data:
+          - Key: Start Trigger
+            Value: Wave
+          - Key: Stop Trigger
+            Value: 
+          - Key: Start Trigger
+            Value: Wave
+          - Key: Stop Trigger
+            Value: 
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 0}
+        serializedBools:
+          data: []
+        serializationOrder: 
+    - Key: 3d2790e448be36048bd46d0136da0c7a
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: TargetSpeed
+            Value: -1
+          - Key: Play Time
+            Value: 100
+          - Key: Play Time
+            Value: 100
+          - Key: TargetSpeed
+            Value: -1
+        serializedStrings:
+          data:
+          - Key: Start Trigger
+            Value: Wave
+          - Key: Stop Trigger
+            Value: 
+          - Key: Start Trigger
+            Value: Wave
+          - Key: Stop Trigger
+            Value: 
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 0}
+          - Key: Destination Object
+            Value: {fileID: 0}
+        serializedBools:
+          data: []
+        serializationOrder: 
+    - Key: 055a980e88ed8c54a89dba922adf52cf
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: Play Time
+            Value: 0
+          - Key: TargetSpeed
+            Value: -1
+          - Key: Play Time
+            Value: 100
+          - Key: Play Time
+            Value: 100
+          - Key: TargetSpeed
+            Value: -1
+        serializedStrings:
+          data:
+          - Key: Start Trigger
+            Value: ShakeHead
+          - Key: Stop Trigger
+            Value: 
+          - Key: Start Trigger
+            Value: Wave
+          - Key: Stop Trigger
+            Value: 
+          - Key: Start Trigger
+            Value: Wave
+          - Key: Stop Trigger
+            Value: 
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 0}
+          - Key: Destination Object
+            Value: {fileID: 0}
+        serializedBools:
+          data: []
+        serializationOrder: 
+    - Key: b163c23a2f522124e829c75489a1d669
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: TargetSpeed
+            Value: -1
+          - Key: Play Time
+            Value: 0
+          - Key: TargetSpeed
+            Value: -1
+          - Key: Play Time
+            Value: 100
+          - Key: Play Time
+            Value: 100
+          - Key: TargetSpeed
+            Value: -1
+        serializedStrings:
+          data:
+          - Key: Start Trigger
+            Value: ShakeHead
+          - Key: Stop Trigger
+            Value: 
+          - Key: Start Trigger
+            Value: Wave
+          - Key: Stop Trigger
+            Value: 
+          - Key: Start Trigger
+            Value: Wave
+          - Key: Stop Trigger
+            Value: 
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 213695202}
+          - Key: Destination Object
+            Value: {fileID: 0}
+          - Key: Destination Object
+            Value: {fileID: 0}
+        serializedBools:
+          data: []
+        serializationOrder: 
+    - Key: edbcae40fd15ca043963e468a9668bed
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: TargetSpeed
+            Value: -1
+          - Key: Play Time
+            Value: 0
+          - Key: TargetSpeed
+            Value: -1
+          - Key: Play Time
+            Value: 100
+          - Key: Play Time
+            Value: 100
+          - Key: TargetSpeed
+            Value: -1
+        serializedStrings:
+          data:
+          - Key: Start Trigger
+            Value: ShakeHead
+          - Key: Stop Trigger
+            Value: 
+          - Key: Start Trigger
+            Value: Wave
+          - Key: Stop Trigger
+            Value: 
+          - Key: Start Trigger
+            Value: Wave
+          - Key: Stop Trigger
+            Value: 
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination
+            Value: {fileID: 1735457798}
+          - Key: Destination Object
+            Value: {fileID: 1644641973}
+          - Key: Destination Object
+            Value: {fileID: 0}
+          - Key: Destination Object
+            Value: {fileID: 0}
+        serializedBools:
+          data:
+          - Key: Allow Partial Paths
+            Value: 0
+        serializationOrder: 
+    - Key: e93a232ea1fb97647b12edc22d4ca7a4
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: TargetSpeed
+            Value: -1
+          - Key: TargetSpeed
+            Value: -1
+          - Key: Play Time
+            Value: 0
+          - Key: TargetSpeed
+            Value: -1
+          - Key: Play Time
+            Value: 100
+          - Key: Play Time
+            Value: 100
+          - Key: TargetSpeed
+            Value: -1
+        serializedStrings:
+          data:
+          - Key: Start Trigger
+            Value: ShakeHead
+          - Key: Stop Trigger
+            Value: 
+          - Key: Start Trigger
+            Value: Wave
+          - Key: Stop Trigger
+            Value: 
+          - Key: Start Trigger
+            Value: Wave
+          - Key: Stop Trigger
+            Value: 
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 1735457798}
+          - Key: Destination
+            Value: {fileID: 1735457798}
+          - Key: Destination Object
+            Value: {fileID: 1644641973}
+          - Key: Destination Object
+            Value: {fileID: 0}
+          - Key: Destination Object
+            Value: {fileID: 0}
+        serializedBools:
+          data:
+          - Key: Allow Partial Paths
+            Value: 0
+        serializationOrder: 
 --- !u!1 &213695202
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,7 +613,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &256232410
 GameObject:
@@ -284,7 +648,7 @@ Transform:
   - {fileID: 662356427}
   - {fileID: 825118010}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &304672430
 GameObject:
@@ -397,7 +761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fb98ac844c73a94c98cce73d20bc604, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WaitTime: 15
+  WaitTime: 13
 --- !u!208 &304672436
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -634,7 +998,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &825118009
 GameObject:
@@ -859,7 +1223,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1264251850
 GameObject:
@@ -921,50 +1285,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1351748437
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1351748439}
-  - component: {fileID: 1351748440}
-  m_Layer: 0
-  m_Name: Controller
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1351748439
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1351748437}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.32297, y: 1.6174818, z: -18.973707}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1351748440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1351748437}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3270956354e47c4eb480e597402164f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1644641973
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,7 +1314,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1735457798
 GameObject:
@@ -1025,7 +1345,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1787573991
 GameObject:
@@ -1056,7 +1376,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1896648545
 GameObject:
@@ -1140,7 +1460,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 23.561, y: 198.545, z: 0}
 --- !u!1001 &1023428232005854918
 PrefabInstance:
@@ -1339,7 +1659,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 700674713753034054, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 700674713753034054, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8921,5 +9241,6 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.0073660305
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 718444495650295341, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}

@@ -6,8 +6,8 @@ using i5.VirtualAgents.BehaviourTrees.Visual;
 using i5.VirtualAgents.BehaviourTrees;
 using UnityEngine.UIElements;
 using i5.VirtualAgents.Editor.BehaviourTrees;
+using i5.VirtualAgents.AgentTasks;
 using UnityEditor.UIElements;
-using i5.VirtualAgents.TaskSystem;
 
 namespace i5.VirtualAgents.Editor
 {
@@ -33,7 +33,7 @@ namespace i5.VirtualAgents.Editor
             BehaviourTreeView behaviourTreeView = inspector.Query<BehaviourTreeView>();
             behaviourTreeView.SetupManipulators(true);
             behaviourTreeView.OnNodeSelect = OnNodeSelectionChanged; // Register callback on node select in order to display the corrsponding property fields for the node
-            BehaviorTreeAsset tree = (target as BehaviorTreeRunner).behaviourTree;
+            BehaviorTreeAsset tree = (target as BehaviorTreeRunner).Tree;
 
             void setupNewTree(BehaviorTreeAsset tree)
             {

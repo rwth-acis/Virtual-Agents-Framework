@@ -1,8 +1,8 @@
-﻿using i5.Toolkit.Core.Utilities;
+using i5.Toolkit.Core.Utilities;
 using System;
 using System.Collections.Generic;
 
-namespace i5.VirtualAgents.TaskSystem.AgentTasks
+namespace i5.VirtualAgents.AgentTasks
 {
     /// <summary>
     /// Base class which provides default implementations for the interface methods

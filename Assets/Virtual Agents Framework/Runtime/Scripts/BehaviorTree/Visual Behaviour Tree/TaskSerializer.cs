@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
 using i5.VirtualAgents.BehaviourTrees;
 
-namespace i5.VirtualAgents.TaskSystem
+namespace i5.VirtualAgents.AgentTasks
 {
 
 
