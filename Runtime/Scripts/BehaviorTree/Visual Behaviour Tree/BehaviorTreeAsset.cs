@@ -13,24 +13,14 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
     [CreateAssetMenu(menuName = "i5 Toolkit/Behaviour Tree")]
     public class BehaviorTreeAsset : ScriptableObject
     {
+        [SerializeField]
         private VisualNode rootNode;
-        public VisualNode RootNode 
-        {
-            get 
-            {
-                if (rootNode == null && Nodes != null && Nodes.Count > 0)
-                {
-                    rootNode = Nodes[0];
-                }
-                return rootNode;
-            }
-            private set
-            {
-                rootNode = value;
-            }
-        }
-
         public List<VisualNode> Nodes = new List<VisualNode>();
+
+        private void OnEnable()
+        {
+            AddRoot();
+        }
 
         /// <summary>
         /// Adds a new node based on an serializable task
@@ -46,6 +36,14 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             Nodes.Add(node);
             AssetDatabase.AddObjectToAsset(node,this);
             return node;
+        }
+
+        public virtual void AddRoot()
+        {
+            if (rootNode == null && AssetDatabase.Contains(this))
+            {
+                rootNode = AddNode(new RootNode());
+            }
         }
 
         /// <summary>
@@ -82,6 +80,9 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         // Generates recursivly the abstract childs for the given graphical node and connects them
         private void ConnectAbstractTree(VisualNode node, ITask abstractNode, NodesOverwriteData nodesOverwriteData)
         {
+            // Sort the children by there height in order to execute higher children first
+            node.Children.Sort((node1, node2) => { if (node1.Position.y > node2.Position.y) { return 1; } else if (node1.Position.y < node2.Position.y) { return -1; } else return 0; });
+
             foreach (var child in node.Children)
             {
                 SerializationDataContainer nodeData = null;
