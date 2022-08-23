@@ -1,9 +1,5 @@
-using i5.VirtualAgents.TaskSystem;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using i5.VirtualAgents.BehaviourTrees;
-using i5.VirtualAgents.BehaviourTrees.Visual;
 
 namespace i5.VirtualAgents
 {
@@ -15,9 +11,7 @@ namespace i5.VirtualAgents
     [RequireComponent(typeof(AgentAnimationUpdater))] // Responsible for the avatar's movement
     public class Agent : MonoBehaviour
     {
-
-        [SerializeField] private TaskSystemEnum taskSystemKind;
-        private ITaskSystem taskSystem;
+        public ITaskSystem TaskSystem { get; private set; }
 
         /// <summary>
         /// The animator component which controls the agent's animations
@@ -25,37 +19,19 @@ namespace i5.VirtualAgents
         public Animator Animator { get; private set; }
 
         /// <summary>
-        /// List of shortcut methods to add common tasks to the agent's task queue
-        /// Syntactic sugar. It is also possible to directly enqueue task objects on the agent instead, e.g. for custom tasks
-        /// </summary>
-        public TaskActions Tasks { get; private set; }
-
-
-        public BehaviorTreeAsset tree;
-
-        /// <summary>
         /// Initialize the agent
         /// </summary>
         private void Awake()
         {
-            Tasks = new TaskActions(this);
             Animator = GetComponent<Animator>();
-            switch (taskSystemKind)
+            TaskSystem = GetComponent<ScheduleBasedExecution.TaskSystem>();
+            // Since there are multiple TaskSystems, enforcing one with RequireComponent is not advisable.
+            // If the parent class TaskSystem is enforced, an agent will automatically get a component that implemenets no own functionallity, that can not easily be deleted and that can be confused with the actual task system.
+            // If one of its implementations is enforced, it is harder to use one of the other implemetations.
+            if (TaskSystem == null)
             {
-                case TaskSystemEnum.ScheduleBased:
-                    taskSystem = new SchedulBasedTaskExecution(this);
-                    break;
-                case TaskSystemEnum.BehaviorTree:
-                    BehaviorTreeRunner behaviorTreeRunner = GetComponent<BehaviorTreeRunner>();
-                    behaviorTreeRunner.excecutingAgent = this;
-                    taskSystem = behaviorTreeRunner;
-                    break;
+                Debug.LogWarning("Agent has no TaskSystem attached. Attach a component that inherits the TaskSystem class.");
             }
-        }
-
-        public void ScheduleTask(IAgentTask task, int priority = 0, string layer = "Base Layer")
-        {
-            taskSystem.ScheduleTask(task, priority, layer);
         }
 
         /// <summary>
@@ -63,13 +39,7 @@ namespace i5.VirtualAgents
         /// </summary>
         private void Update()
         {
-            taskSystem.Update();
+            TaskSystem.UpdateTaskSystem();
         }
-    }
-
-    enum TaskSystemEnum
-    {
-        ScheduleBased,
-        BehaviorTree
     }
 }
