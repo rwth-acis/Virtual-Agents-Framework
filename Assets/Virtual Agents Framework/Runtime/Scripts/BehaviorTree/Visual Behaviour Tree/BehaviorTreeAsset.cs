@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using i5.VirtualAgents.ScheduleBasedExecution;
 using i5.VirtualAgents.AgentTasks;
+using System;
 
 namespace i5.VirtualAgents.BehaviourTrees.Visual
 {
@@ -16,6 +17,7 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         [SerializeField]
         private VisualNode rootNode;
         public List<VisualNode> Nodes = new List<VisualNode>();
+        public event Action CreatedAndNamed;
 
         private void OnEnable()
         {
@@ -38,11 +40,32 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             return node;
         }
 
-        public virtual void AddRoot()
+        // Adds a root node as long as non exists
+        private void AddRoot()
         {
-            if (rootNode == null && AssetDatabase.Contains(this))
+            if (rootNode == null)
             {
+                if (AssetDatabase.Contains(this))
+                {
+                    rootNode = AddNode(new RootNode());
+                }
+                else
+                {
+                    // The tree is still being named and therefore not permanently saved. Delay the creation of the root node until the tree is properly created.
+                    EditorApplication.update += AddRootDelayed;
+                }
+
+            }
+        }
+
+        // Adds the root once the tree is part of the asset database (i.e. once it is named)
+        private void AddRootDelayed()
+        {
+            if (AssetDatabase.Contains(this))
+            {
+                EditorApplication.update -= AddRootDelayed;
                 rootNode = AddNode(new RootNode());
+                CreatedAndNamed?.Invoke();
             }
         }
 
