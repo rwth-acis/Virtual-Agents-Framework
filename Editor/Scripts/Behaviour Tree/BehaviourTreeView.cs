@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor;
-using i5.VirtualAgents.TaskSystem;
+using i5.VirtualAgents.AgentTasks;
 using i5.VirtualAgents.BehaviourTrees.Visual;
 using i5.VirtualAgents.BehaviourTrees;
 using System;
@@ -56,7 +56,12 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         {
             this.Tree = tree;
             graphViewChanged -= OnGraphViewChanged;
-            DeleteElements(graphElements);
+
+            //Convert graphElements to list, since in older Unity versions UQueryState does not implement IEnumerable
+            List<GraphElement> graphElementList = new List<GraphElement>();
+            graphElements.ToList(graphElementList);
+
+            DeleteElements(graphElementList);
             graphViewChanged += OnGraphViewChanged;
 
             //Create node views

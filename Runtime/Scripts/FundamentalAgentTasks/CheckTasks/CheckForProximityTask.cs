@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-namespace i5.VirtualAgents.TaskSystem.AgentTasks
+namespace i5.VirtualAgents.AgentTasks
 {
     /// <summary>
     /// Succeeds if the target is less than distance units away from the executing agent, otherwise fails

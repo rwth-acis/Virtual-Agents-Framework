@@ -170,8 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eb11c02fcaa7fa40861161120bf3b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  taskSystemKind: 0
-  tree: {fileID: 0}
 --- !u!114 &3315054795678153039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,19 +206,3 @@ NavMeshAgent:
   m_BaseOffset: -0.06
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6387369780788715286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 212402951927973884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c1417c8a0e226d468b3fdb8852704c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  excecutingAgent: {fileID: 0}
-  behaviourTree: {fileID: 0}
-  nodesOverwriteData:
-    data: []

@@ -2,7 +2,7 @@ using i5.Toolkit.Core.Utilities;
 using System.Collections;
 using UnityEngine;
 
-namespace i5.VirtualAgents.TaskSystem.AgentTasks
+namespace i5.VirtualAgents.AgentTasks
 {
     /// <summary>
     /// Makes the agent wait for a given amount of time

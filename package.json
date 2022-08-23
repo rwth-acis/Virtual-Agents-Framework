@@ -6,7 +6,7 @@
     "unity": "2020.3",
     "unityRelease": "13f1",
     "dependencies": {
-        "com.i5.toolkit.core": "1.7.0"
+        "com.i5.toolkit.core": "1.8.1"
     },
     "keywords": [
         "Unity",
@@ -33,6 +33,11 @@
             "displayName": "Wait Sample",
             "description": "Example scene which shows how agents can wait in an idle position.",
             "path": "Samples~/Wait Sample"
+        },
+        {
+            "displayName": "Parallel Tasks Sample",
+            "description": "Two example scenes which demonstrates the scheduling of independent tasks on multiple body parts in parallel. One of them shows tasks that do not depend on another and in the second scene tasks wait for the completion of other tasks.",
+            "path": "Samples~/Parallel Tasks Sample"
         }
     ]
 }

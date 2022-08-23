@@ -65,7 +65,7 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializationOrder: 040000000000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: e93a232ea1fb97647b12edc22d4ca7a4
   Position: {x: 1035.5099, y: 242.52184}
   Description: 
@@ -102,7 +102,7 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializationOrder: 040000000000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: b163c23a2f522124e829c75489a1d669
   Position: {x: 583.90515, y: 8.999912}
   Description: 
@@ -139,7 +139,7 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializationOrder: 020000000200000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentAnimationTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
   Guid: 89286c356cc0bf84888e4065f66b4940
   Position: {x: 1061.5707, y: 363.4891}
   Description: 
@@ -210,7 +210,7 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializationOrder: 040000000000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: a48c80c7c6597a84a90ad868bc335516
   Position: {x: 599.2575, y: -348.865}
   Description: 
@@ -276,7 +276,7 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializationOrder: 020000000200000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentAnimationTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
   Guid: 055a980e88ed8c54a89dba922adf52cf
   Position: {x: 1036, y: 490.10004}
   Description: 
@@ -379,7 +379,7 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializationOrder: 020000000200000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentAnimationTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
   Guid: abcfbc14295604f468718a1f2bf14f14
   Position: {x: 603.2575, y: -206.86499}
   Description: 
@@ -449,7 +449,7 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializationOrder: 040000000000000001000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.AgentMovementTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 3d2790e448be36048bd46d0136da0c7a
   Position: {x: 1040, y: 671}
   Description: 
@@ -518,7 +518,7 @@ MonoBehaviour:
       - Key: Allow Partial Paths
         Value: 0
     serializationOrder: 0400000005000000
-  serializedObjectType: i5.VirtualAgents.TaskSystem.AgentTasks.CheckForValidPath
+  serializedObjectType: i5.VirtualAgents.AgentTasks.CheckForValidPath
   Guid: edbcae40fd15ca043963e468a9668bed
   Position: {x: 1509.5099, y: 104.52185}
   Description: 

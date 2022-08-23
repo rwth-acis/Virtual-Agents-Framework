@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using i5.VirtualAgents.TaskSystem;
+using i5.VirtualAgents.ScheduleBasedExecution;
 using UnityEditor;
 
-namespace i5.VirtualAgents.TaskSystem
+namespace i5.VirtualAgents.AgentTasks
 {
     /// <summary>
     /// Allows a task be be serialized. Neccesarry in order to use them with the visual Behaviour Tree editor.

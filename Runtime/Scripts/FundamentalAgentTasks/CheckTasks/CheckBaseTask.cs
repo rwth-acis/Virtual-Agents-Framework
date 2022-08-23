@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-namespace i5.VirtualAgents.TaskSystem.AgentTasks
+namespace i5.VirtualAgents.AgentTasks
 {
     public class CheckBaseTask : AgentBaseTask
     {

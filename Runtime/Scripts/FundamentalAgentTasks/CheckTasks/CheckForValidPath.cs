@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System;
 
-namespace i5.VirtualAgents.TaskSystem.AgentTasks
+namespace i5.VirtualAgents.AgentTasks
 {
     /// <summary>
     /// Succeeds if there is a NavMesh path from the agent to the target

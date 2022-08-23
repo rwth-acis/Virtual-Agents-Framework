@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using i5.VirtualAgents.BehaviourTrees.Visual;
-using i5.VirtualAgents.TaskSystem;
+using i5.VirtualAgents.AgentTasks;
 
 namespace i5.VirtualAgents.Editor.BehaviourTrees
 {

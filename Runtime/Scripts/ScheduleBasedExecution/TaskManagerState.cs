@@ -1,4 +1,4 @@
-namespace i5.VirtualAgents.TaskSystem
+namespace i5.VirtualAgents.ScheduleBasedExecution
 {
     /// <summary>
     /// The different states that the agent's task manager can be in
