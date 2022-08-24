@@ -15,7 +15,8 @@ namespace i5.VirtualAgents.AgentTasks
         STRING,
         INT,
         GAMEOBJECT,
-        BOOL
+        BOOL,
+        LIST_FLOAT
     }
 
     /// <summary>
@@ -98,6 +99,8 @@ namespace i5.VirtualAgents.AgentTasks
     public class SerializedGameobjects : SerializationData<GameObject> { }
     [Serializable]
     public class SerializedBools : SerializationData<bool> { }
+    [Serializable]
+    public class SerializedListFloats : SerializationData<List<float>> { }
 
     [Serializable]
     public class SerializationDataContainer
@@ -109,6 +112,7 @@ namespace i5.VirtualAgents.AgentTasks
         [SerializeField] public SerializedInts serializedInts = new SerializedInts();
         [SerializeField] public SerializedGameobjects serializedGameobjects = new SerializedGameobjects();
         [SerializeField] public SerializedBools serializedBools = new SerializedBools();
+        [SerializeField] public SerializedListFloats serializedListFloats = new SerializedListFloats();
 
         //Saves the order in which the data was serialized. Allows coustom inspectors to replicate that order.
         [SerializeField] public List<SerializableType> serializationOrder = new List<SerializableType>();
@@ -149,6 +153,12 @@ namespace i5.VirtualAgents.AgentTasks
             serializationOrder.Add(SerializableType.BOOL);
             serializedBools.Add(key, value);
         }
+
+        public void AddSerializedData(string key, List<float> value)
+        {
+            serializationOrder.Add(SerializableType.LIST_FLOAT);
+            serializedListFloats.Add(key, value);
+        }
         #endregion
 
         #region Overloads for retriving serialized data
@@ -182,6 +192,11 @@ namespace i5.VirtualAgents.AgentTasks
             return serializedBools.Get(key);
         }
 
+        public List<float> GetSerializedListFloat(string key)
+        {
+            return serializedListFloats.Get(key);
+        }
+
         #endregion
 
         /// <summary>
@@ -196,6 +211,7 @@ namespace i5.VirtualAgents.AgentTasks
             serializedInts.Clear();
             serializedGameobjects.Clear();
             serializedBools.Clear();
+            serializedListFloats.Clear();
         }
 
         /// <summary>
@@ -220,6 +236,8 @@ namespace i5.VirtualAgents.AgentTasks
                     return serializedGameobjects.Get(index).Key;
                 case SerializableType.BOOL:
                     return serializedBools.Get(index).Key;
+                case SerializableType.LIST_FLOAT:
+                    return serializedListFloats.Get(index).Key;
                 default:
                     throw new NotImplementedException();
             }

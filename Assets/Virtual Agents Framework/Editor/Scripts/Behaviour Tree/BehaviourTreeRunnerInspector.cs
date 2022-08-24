@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -99,26 +99,36 @@ namespace i5.VirtualAgents.Editor
                             value.vector3Value = (Vector3)(data.Value as Vector3?); // This is neccesarry, since direct cast can't be used because T is not constrained to inherit from Vector3 and the as operator
                                                                                     // can only be used on nullable types. Therfore the conversion to the nullable type Vector3? which is then casted to the actual Vector3 type
                         }
-                        if (typeof(T) == typeof(float))
+                        else if (typeof(T) == typeof(float))
                         {
                             value.floatValue = (float)(data.Value as float?);
                         }
-                        if (typeof(T) == typeof(string))
+                        else if (typeof(T) == typeof(string))
                         {
                             value.stringValue = data.Value as string;
                         }
-                        if (typeof(T) == typeof(int))
+                        else if (typeof(T) == typeof(int))
                         {
                             value.intValue = (int)(data.Value as int?);
                         }
-                        if (typeof(T) == typeof(GameObject))
+                        else if (typeof(T) == typeof(GameObject))
                         {
                             value.objectReferenceValue = data.Value as GameObject;
                         }
-                        if (typeof(T) == typeof(bool))
+                        else if (typeof(T) == typeof(bool))
                         {
                             value.boolValue = (bool)(data.Value as bool?);
                         }
+                        else if (typeof(T) == typeof(List<float>))
+                        {
+                            List<float> floatList = data.Value as List<float>;
+                            for (int j = 0; j < floatList.Count; j++)
+                            {
+                                value.InsertArrayElementAtIndex(j);
+                                value.GetArrayElementAtIndex(j).floatValue = floatList[j];
+                            }
+                        }
+                        
                     }
                 }
 
@@ -129,6 +139,7 @@ namespace i5.VirtualAgents.Editor
                 CopySerializedData(view.node.Data.serializedInts.data, "serializedInts.data");
                 CopySerializedData(view.node.Data.serializedGameobjects.data, "serializedGameobjects.data");
                 CopySerializedData(view.node.Data.serializedBools.data, "serializedBools.data");
+                CopySerializedData(view.node.Data.serializedListFloats.data, "serializedListFloats.data");
             }
             // Create Property fields for the overwrite data
 
@@ -149,6 +160,7 @@ namespace i5.VirtualAgents.Editor
             int intCounter = 0;
             int gameobjectCounter = 0;
             int boolCounter = 0;
+            int listFloatCounter = 0;
 
             SerializableType[] serializationOrder = new SerializableType[targetNode.Data.serializationOrder.Count];
 
@@ -177,6 +189,11 @@ namespace i5.VirtualAgents.Editor
                     case SerializableType.BOOL:
                         CreatePropertyField("serializedBools", ref boolCounter, SerializableType.BOOL, targetNode, nodeOverwriteData);
                         break;
+                    case SerializableType.LIST_FLOAT:
+                        CreatePropertyField("serializedListFloats", ref listFloatCounter, SerializableType.LIST_FLOAT, targetNode, nodeOverwriteData);
+                        break;
+                    default:
+                        throw new NotImplementedException();
                 }
             }
 
