@@ -47,9 +47,6 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             treeViewOccludeLabel = root.Query<Label>("treeViewOccludeLabel");
             occludeLabelParent = treeViewOccludeLabel.parent;
 
-            //Check if a tree is already selected
-            LoadSelectedTree();
-
             //Setup the save button
             saveButton = root.Query<Button>("Save");
             saveButton.clicked += SaveTree;

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using i5.VirtualAgents.BehaviourTrees.Visual;
 using i5.VirtualAgents.AgentTasks;
+using System;
 
 namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
@@ -34,6 +35,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             int intCounter = 0;
             int gameobjectCounter = 0;
             int boolCounter = 0;
+            int listFloatCounter = 0;
 
             SerializableType[] serializationOrder = new SerializableType[targetNode.Data.serializationOrder.Count];
 
@@ -62,6 +64,11 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                     case SerializableType.BOOL:
                         CreatePropertyField("serializedBools", ref boolCounter, SerializableType.BOOL, targetNode);
                         break;
+                    case SerializableType.LIST_FLOAT:
+                        CreatePropertyField("serializedListFloats", ref listFloatCounter, SerializableType.LIST_FLOAT, targetNode);
+                        break;
+                    default:
+                        throw new NotImplementedException();
                 }
             }
 
