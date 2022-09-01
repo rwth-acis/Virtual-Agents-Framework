@@ -1,3 +1,4 @@
+using i5.VirtualAgents.BehaviourTrees.Visual;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,8 @@ namespace i5.VirtualAgents.AgentTasks
         INT,
         GAMEOBJECT,
         BOOL,
-        LIST_FLOAT
+        LIST_FLOAT,
+        TREE
     }
 
     /// <summary>
@@ -103,6 +105,9 @@ namespace i5.VirtualAgents.AgentTasks
     public class SerializedListFloats : SerializationData<List<float>> { }
 
     [Serializable]
+    public class SerializedTrees : SerializationData<BehaviorTreeAsset> { }
+
+    [Serializable]
     public class SerializationDataContainer
     {
         //Serialized data
@@ -113,6 +118,7 @@ namespace i5.VirtualAgents.AgentTasks
         [SerializeField] public SerializedGameobjects serializedGameobjects = new SerializedGameobjects();
         [SerializeField] public SerializedBools serializedBools = new SerializedBools();
         [SerializeField] public SerializedListFloats serializedListFloats = new SerializedListFloats();
+        [SerializeField] public SerializedTrees serializedTrees = new SerializedTrees();
 
         //Saves the order in which the data was serialized. Allows coustom inspectors to replicate that order.
         [SerializeField] public List<SerializableType> serializationOrder = new List<SerializableType>();
@@ -159,6 +165,12 @@ namespace i5.VirtualAgents.AgentTasks
             serializationOrder.Add(SerializableType.LIST_FLOAT);
             serializedListFloats.Add(key, value);
         }
+
+        public void AddSerializedData(string key, BehaviorTreeAsset value)
+        {
+            serializationOrder.Add(SerializableType.TREE);
+            serializedTrees.Add(key, value);
+        }
         #endregion
 
         #region Overloads for retriving serialized data
@@ -197,6 +209,11 @@ namespace i5.VirtualAgents.AgentTasks
             return serializedListFloats.Get(key);
         }
 
+        public BehaviorTreeAsset GetSerializedTrees(string key)
+        {
+            return serializedTrees.Get(key);
+        }
+
         #endregion
 
         /// <summary>
@@ -212,6 +229,7 @@ namespace i5.VirtualAgents.AgentTasks
             serializedGameobjects.Clear();
             serializedBools.Clear();
             serializedListFloats.Clear();
+            serializedTrees.Clear();
         }
 
         /// <summary>
@@ -238,6 +256,8 @@ namespace i5.VirtualAgents.AgentTasks
                     return serializedBools.Get(index).Key;
                 case SerializableType.LIST_FLOAT:
                     return serializedListFloats.Get(index).Key;
+                case SerializableType.TREE:
+                    return serializedTrees.Get(index).Key;
                 default:
                     throw new NotImplementedException();
             }

@@ -36,6 +36,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             int gameobjectCounter = 0;
             int boolCounter = 0;
             int listFloatCounter = 0;
+            int treeCounter = 0;
 
             SerializableType[] serializationOrder = new SerializableType[targetNode.Data.serializationOrder.Count];
 
@@ -66,6 +67,9 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                         break;
                     case SerializableType.LIST_FLOAT:
                         CreatePropertyField("serializedListFloats", ref listFloatCounter, SerializableType.LIST_FLOAT, targetNode);
+                        break;
+                    case SerializableType.TREE:
+                        CreatePropertyField("serializedTrees", ref treeCounter, SerializableType.TREE, targetNode);
                         break;
                     default:
                         throw new NotImplementedException();
