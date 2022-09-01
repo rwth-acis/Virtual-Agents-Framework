@@ -109,7 +109,7 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             foreach (var child in node.Children)
             {
                 SerializationDataContainer nodeData = null;
-                if (nodesOverwriteData.KeyExists(child.Guid))
+                if (nodesOverwriteData != null && nodesOverwriteData.KeyExists(child.Guid))
                 {
                     nodeData = nodesOverwriteData.Get(child.Guid);
                 }

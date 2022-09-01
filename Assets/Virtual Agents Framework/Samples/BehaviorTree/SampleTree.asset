@@ -25,6 +25,8 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedListFloats:
+      data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
   Guid: dab902aae050f904a93a4d128c733988
@@ -64,6 +66,8 @@ MonoBehaviour:
         Value: {fileID: 0}
     serializedBools:
       data: []
+    serializedListFloats:
+      data: []
     serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: e93a232ea1fb97647b12edc22d4ca7a4
@@ -100,6 +104,8 @@ MonoBehaviour:
       - Key: Destination Object
         Value: {fileID: 0}
     serializedBools:
+      data: []
+    serializedListFloats:
       data: []
     serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
@@ -138,6 +144,8 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedListFloats:
+      data: []
     serializationOrder: 020000000200000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
   Guid: 89286c356cc0bf84888e4065f66b4940
@@ -168,6 +176,8 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedListFloats:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.Visual.RootNode
@@ -202,6 +212,8 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedListFloats:
       data: []
     serializationOrder: 01000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.TimeOutNode
@@ -240,6 +252,8 @@ MonoBehaviour:
       - Key: Destination Object
         Value: {fileID: 0}
     serializedBools:
+      data: []
+    serializedListFloats:
       data: []
     serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
@@ -309,6 +323,8 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedListFloats:
+      data: []
     serializationOrder: 020000000200000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
   Guid: 055a980e88ed8c54a89dba922adf52cf
@@ -339,6 +355,8 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedListFloats:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
@@ -372,6 +390,8 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedListFloats:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
@@ -412,6 +432,8 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedListFloats:
+      data: []
     serializationOrder: 020000000200000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
   Guid: abcfbc14295604f468718a1f2bf14f14
@@ -443,7 +465,11 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
-    serializationOrder: 
+    serializedListFloats:
+      data:
+      - Key: Probabilities
+        Value: []
+    serializationOrder: 06000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.RandomNode
   Guid: 4b9002bf6ca04a243bab4512cfb9f6cd
   Position: {x: 707.8, y: 594.1501}
@@ -482,6 +508,8 @@ MonoBehaviour:
         Value: {fileID: 0}
     serializedBools:
       data: []
+    serializedListFloats:
+      data: []
     serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 3d2790e448be36048bd46d0136da0c7a
@@ -514,6 +542,8 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedListFloats:
       data: []
     serializationOrder: 03000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.RepeatUntilSuccessNode
@@ -551,6 +581,8 @@ MonoBehaviour:
       data:
       - Key: Allow Partial Paths
         Value: 0
+    serializedListFloats:
+      data: []
     serializationOrder: 0400000005000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.CheckForValidPath
   Guid: edbcae40fd15ca043963e468a9668bed
@@ -581,6 +613,8 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedListFloats:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
@@ -615,6 +649,8 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedListFloats:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
