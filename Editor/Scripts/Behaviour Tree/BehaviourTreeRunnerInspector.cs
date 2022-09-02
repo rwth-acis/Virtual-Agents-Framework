@@ -61,20 +61,21 @@ namespace i5.VirtualAgents.Editor
         {
             // Search if overwrite data exisits
             BehaviorTreeRunner runner = target as BehaviorTreeRunner;
-            var nodesData = serializedObject.FindProperty("nodesOverwriteData.data");
+            var nodesData = runner.nodesOverwriteData.data;
             SerializedProperty nodeOverwriteData = null;
-            for (int i = 0; i < nodesData.arraySize && nodeOverwriteData == null; i++)
+            for (int i = 0; i < nodesData.Count && nodeOverwriteData == null; i++)
             {
-                SerializedProperty entry = nodesData.GetArrayElementAtIndex(i);
-                if (entry.FindPropertyRelative("Key").stringValue == view.node.Guid)
+                SerializationEntry<SerializationDataContainer> entry = nodesData[i];
+                if (entry.Key == view.node.Guid)
                 {
-                    nodeOverwriteData = entry.FindPropertyRelative("Value");
+                    nodeOverwriteData = serializedObject.FindProperty("nodesOverwriteData.data").GetArrayElementAtIndex(i).FindPropertyRelative("Value");
                 }
             }
 
             if (nodeOverwriteData == null)
             {
-                nodeOverwriteData = CreateNodeOverwriteData(nodesData, view);
+                // No data found => create it!
+                nodeOverwriteData = CreateNodeOverwriteData(view);
             }
             // Create Property fields for the overwrite data
 
@@ -140,9 +141,9 @@ namespace i5.VirtualAgents.Editor
         }
 
 
-        private SerializedProperty CreateNodeOverwriteData(SerializedProperty nodesData, NodeView view)
+        private SerializedProperty CreateNodeOverwriteData(NodeView view)
         {
-            // No data found => create it!
+            SerializedProperty nodesData = serializedObject.FindProperty("nodesOverwriteData.data");
             int size = nodesData.arraySize;
             nodesData.InsertArrayElementAtIndex(size); // Insert a new entry at the end
             var entry = nodesData.GetArrayElementAtIndex(size);
@@ -153,6 +154,8 @@ namespace i5.VirtualAgents.Editor
             void CopySerializedData<T>(List<SerializationEntry<T>> origin, string destinationPath)
             {
                 SerializedProperty destination = nodeOverwriteData.FindPropertyRelative(destinationPath);
+                // Needs to be cleared first, since it contains the copied values from the previous entry, due to InsertArrayElementAtIndex not working as described in the documentation
+                destination.ClearArray();
                 for (int i = 0; i < origin.Count; i++)
                 {
                     SerializationEntry<T> data = origin[i];
