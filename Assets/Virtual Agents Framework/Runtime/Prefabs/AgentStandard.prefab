@@ -93,9 +93,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 6f3d0f249f2aba447935291b7b907b05, type: 2}
     - target: {fileID: 5866666021909216657, guid: 26f8cd740528f3b469c4f32fe28b8306, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'Shoulder.R'\n\tFrom animation clip 'Wave'"
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7144292759028925990, guid: 26f8cd740528f3b469c4f32fe28b8306, type: 3}
       propertyPath: m_LocalRotation.w
