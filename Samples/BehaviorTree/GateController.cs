@@ -4,21 +4,16 @@ using UnityEngine;
 
 namespace i5.VirtualAgents.Examples
 {
+    // controls the gate the example and moves it up after some time
     public class GateController : MonoBehaviour
     {
         public float WaitTime;
         private Vector3 startPos;
-        // Start is called before the first frame update
+        
         void Start()
         {
             startPos = transform.position;
             StartCoroutine(MoveUp(WaitTime));
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            
         }
 
         IEnumerator MoveUp(float waittime)
