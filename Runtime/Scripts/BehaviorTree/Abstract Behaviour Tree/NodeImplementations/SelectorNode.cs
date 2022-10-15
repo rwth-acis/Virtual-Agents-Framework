@@ -22,7 +22,7 @@ namespace i5.VirtualAgents.BehaviourTrees
         }
 
         
-        public override void Execute(Agent executingAgent)
+        public override void StartExecution(Agent executingAgent)
         {
             this.executingAgent = executingAgent;
         }

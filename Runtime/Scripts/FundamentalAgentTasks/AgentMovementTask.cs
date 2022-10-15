@@ -51,9 +51,9 @@ namespace i5.VirtualAgents.AgentTasks
         /// Starts the movement task
         /// </summary>
         /// <param name="agent">The agent which should execute the movement task</param>
-        public override void Execute(Agent agent)
+        public override void StartExecution(Agent agent)
         {
-            base.Execute(agent);
+            base.StartExecution(agent);
             navMeshAgent = agent.GetComponent<NavMeshAgent>();
 
             // only proceed on agents with a NavMeshAgent
@@ -112,7 +112,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// <summary>
         /// Finish the task
         /// </summary>
-        public override void Stop()
+        public override void StopExecution()
         {
             navMeshAgent.enabled = false;
         }

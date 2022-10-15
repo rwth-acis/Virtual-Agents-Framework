@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace i5.VirtualAgents.ScheduleBasedExecution
 {
-    public class TaskSystem : MonoBehaviour, ITaskSystem
+    public abstract class TaskSystem : MonoBehaviour, ITaskSystem
     {
-        public virtual void UpdateTaskSystem(){}
+        public abstract void UpdateTaskSystem();
     }
 }
