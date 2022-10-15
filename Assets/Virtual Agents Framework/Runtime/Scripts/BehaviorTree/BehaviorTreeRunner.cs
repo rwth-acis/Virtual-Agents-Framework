@@ -29,7 +29,7 @@ namespace i5.VirtualAgents.BehaviourTrees
         {
             if (rootState != TaskState.Success && rootState != TaskState.Failure)
             {
-                rootState = AbstractTree.FullUpdate(excecutingAgent);
+                rootState = AbstractTree.Tick(excecutingAgent);
             }
         }
     }
