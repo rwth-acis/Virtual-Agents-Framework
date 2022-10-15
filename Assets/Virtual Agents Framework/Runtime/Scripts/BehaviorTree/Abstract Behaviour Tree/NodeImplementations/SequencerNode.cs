@@ -21,7 +21,7 @@ namespace i5.VirtualAgents.BehaviourTrees
             Children = new List<ITask>();
         }
 
-        public override void Execute(Agent executingAgent)
+        public override void StartExecution(Agent executingAgent)
         {
             this.executingAgent = executingAgent;
         }
