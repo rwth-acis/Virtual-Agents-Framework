@@ -74,7 +74,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// <summary>
         /// Checks every frame whether the agent has reached the target
         /// </summary>
-        public override TaskState Update()
+        public override TaskState EvaluateTaskState()
         {
             if (navMeshAgent == null)
                 return TaskState.Failure; //No navmesh agent attached

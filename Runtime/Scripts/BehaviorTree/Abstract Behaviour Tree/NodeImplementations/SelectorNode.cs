@@ -28,9 +28,9 @@ namespace i5.VirtualAgents.BehaviourTrees
         }
         int current = 0;
 
-        public override TaskState Update()
+        public override TaskState EvaluateTaskState()
         {
-            TaskState currentNodestate = Children[current].FullUpdate(executingAgent);
+            TaskState currentNodestate = Children[current].Tick(executingAgent);
 
 
             if (currentNodestate == TaskState.Failure)

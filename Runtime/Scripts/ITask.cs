@@ -23,11 +23,9 @@ namespace i5.VirtualAgents
         TaskState State { get; set; }
 
         /// <summary>
-        /// Called by the executing agent on running tasks
-        /// Performs frame-to-frame task execution updates
-        /// This is e.g. useful for tracking movements towards a target and determinig when the agent has reached the target
+        /// Evaluates the task's current state
         /// </summary>
-        TaskState Update();
+        TaskState EvaluateTaskState();
 
         /// <summary>
         /// Gets the reference to the agent which will execute this task
@@ -46,6 +44,6 @@ namespace i5.VirtualAgents
         /// </summary>
         /// <param name="excutingAgent"></param>
         /// <returns></returns>
-        TaskState FullUpdate(Agent excutingAgent);
+        TaskState Tick(Agent excutingAgent);
     }
 }

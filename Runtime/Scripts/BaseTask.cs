@@ -13,7 +13,7 @@ namespace i5.VirtualAgents
         /// Performs frame-to-frame task execution updates
         /// This is e.g. useful for tracking movements towards a target and determinig when the agent has reached the target
         /// </summary>
-        public virtual TaskState Update()
+        public virtual TaskState EvaluateTaskState()
         {
             return State;
         }
@@ -48,7 +48,7 @@ namespace i5.VirtualAgents
             StopExecution();
         }
 
-        public TaskState FullUpdate(Agent excutingAgent)
+        public TaskState Tick(Agent excutingAgent)
         {
             //Is the task already finished?
             if (State == TaskState.Success || State == TaskState.Failure)
@@ -68,7 +68,7 @@ namespace i5.VirtualAgents
                 }
             }
 
-            State = Update();
+            State = EvaluateTaskState();
 
 
             //Check if the task finished in the last Update()
