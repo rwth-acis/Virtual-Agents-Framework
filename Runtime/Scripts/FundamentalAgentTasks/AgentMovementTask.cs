@@ -26,7 +26,7 @@ namespace i5.VirtualAgents.AgentTasks
         public Vector3 Destination { get; protected set; }
 
 
-        public GameObject DestinationObject;
+        public GameObject DestinationObject { get; protected set; }
 
         /// <summary>
         /// The target movement speed of the agent
