@@ -9,6 +9,6 @@ namespace i5.VirtualAgents.BehaviourTrees
     /// </summary>
     public interface IDecoratorNode : ITask
     {
-        ITask child { get; set; }
+        ITask Child { get; set; }
     }
 }

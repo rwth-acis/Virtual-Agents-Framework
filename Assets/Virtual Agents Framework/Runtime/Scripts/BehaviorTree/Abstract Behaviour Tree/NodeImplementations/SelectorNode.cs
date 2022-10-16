@@ -22,15 +22,15 @@ namespace i5.VirtualAgents.BehaviourTrees
         }
 
         
-        public override void Execute(Agent executingAgent)
+        public override void StartExecution(Agent executingAgent)
         {
             this.executingAgent = executingAgent;
         }
         int current = 0;
 
-        public override TaskState Update()
+        public override TaskState EvaluateTaskState()
         {
-            TaskState currentNodestate = Children[current].FullUpdate(executingAgent);
+            TaskState currentNodestate = Children[current].Tick(executingAgent);
 
 
             if (currentNodestate == TaskState.Failure)
