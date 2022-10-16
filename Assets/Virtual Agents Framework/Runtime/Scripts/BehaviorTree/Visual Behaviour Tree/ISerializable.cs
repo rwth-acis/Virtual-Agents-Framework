@@ -11,8 +11,8 @@ namespace i5.VirtualAgents.AgentTasks
     /// </summary>
     public interface ISerializable
     {
-        void Serialize(TaskSerializer serializer);
+        void Serialize(SerializationDataContainer serializer);
 
-        void Deserialize(TaskSerializer serializer);
+        void Deserialize(SerializationDataContainer serializer);
     }
 }

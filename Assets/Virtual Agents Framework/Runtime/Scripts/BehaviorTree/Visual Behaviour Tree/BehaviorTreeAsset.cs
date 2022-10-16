@@ -66,25 +66,35 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         /// Generates an abstract copy of the tree that is executable through the root nodes FullUpdate() function
         /// </summary>
         /// <returns></returns>
-        public ITask GetExecutableTree()
+        public ITask GetExecutableTree(NodesOverwriteData nodesOverwriteData = null)
         {
             rootNode = Nodes[0];
-            ITask root = (ITask)rootNode.GetCopyOfSerializedInterface();
-            ConnectAbstractTree(rootNode, root);
+            SerializationDataContainer rootNodeData = null;
+            if (nodesOverwriteData != null && nodesOverwriteData.KeyExists(rootNode.Guid))
+            {
+                rootNodeData = nodesOverwriteData.Get(rootNode.Guid);
+            }
+            ITask root = (ITask)rootNode.GetCopyOfSerializedInterface(rootNodeData);
+            ConnectAbstractTree(rootNode, root, nodesOverwriteData);
             return root;
         }
 
         // Recursively generates the abstract childs for the given graphical node and connects them
-        private void ConnectAbstractTree(VisualNode node, ITask abstractNode)
+        private void ConnectAbstractTree(VisualNode node, ITask abstractNode, NodesOverwriteData nodesOverwriteData)
         {
             foreach (var child in node.Children)
             {
-                ITask abstractChild = (ITask)child.GetCopyOfSerializedInterface();
+                SerializationDataContainer nodeData = null;
+                if (nodesOverwriteData.KeyExists(child.Guid))
+                {
+                    nodeData = nodesOverwriteData.Get(child.Guid);
+                }
+                ITask abstractChild = (ITask)child.GetCopyOfSerializedInterface(nodeData);
                 if (abstractNode is ICompositeNode)
                 {
                     (abstractNode as ICompositeNode).Children.Add(abstractChild);
                 }
-                ConnectAbstractTree(child, abstractChild);
+                ConnectAbstractTree(child, abstractChild, nodesOverwriteData);
             }
         }
     }

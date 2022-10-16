@@ -23,18 +23,29 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         public new class UxmlFactory : UxmlFactory<BehaviourTreeView, UxmlTraits> { }
         public BehaviorTreeAsset Tree;
 
+        private bool readOnly = false;
+
         public BehaviourTreeView()
         {
             Insert(0, new GridBackground());
-
-            //Adds the ability to zoom in on the graph, to drag and drop nodes around, to drag and drop an entire selection and to select nodes using a rectangle selction
-            this.AddManipulator(new ContentZoomer()); //since AddManipulator is an extension method, it can only be called with a direct object reference (hence the "this.")
-            this.AddManipulator(new ContentDragger());
-            this.AddManipulator(new SelectionDragger());
-            this.AddManipulator(new RectangleSelector());
-
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Virtual Agents Framework/Editor/UI Builder/Behaviour Tree/BehaviourTreeEditorStyleSheet.uss");
             styleSheets.Add(styleSheet);
+        }
+
+        /// <summary>
+        /// Adds the ability to zoom in on the graph, to drag and drop nodes around, to drag and drop an entire selection and to select nodes using a rectangle selction
+        /// </summary>
+        /// <param name="readOnly"></param> If yes, the view forbits node creating, delting, connecting, and moving. The individual data from nodes (e.g. the target from a MovementTask) can however still be altered.
+        public void SetupManipulators(bool readOnly = false)
+        {
+            this.readOnly = readOnly;
+            this.AddManipulator(new ContentZoomer()); //since AddManipulator is an extension method, it can only be called with a direct object reference (hence the "this.")
+            this.AddManipulator(new ContentDragger());
+            if (!readOnly)
+            {
+                this.AddManipulator(new SelectionDragger());
+                this.AddManipulator(new RectangleSelector());
+            }
         }
 
         /// <summary>
@@ -81,26 +92,34 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
-            //Delete the removed nodes from the asset
-            if (graphViewChange.elementsToRemove != null)
+            if (!readOnly)
             {
-                foreach (var elemToRemove in graphViewChange.elementsToRemove)
+                //Delete the removed nodes from the asset
+                if (graphViewChange.elementsToRemove != null)
                 {
-                    NodeView nodeToRemove = elemToRemove as NodeView;
-                    if (nodeToRemove != null)
+                    foreach (var elemToRemove in graphViewChange.elementsToRemove)
                     {
-                        Tree.DeleteNode(nodeToRemove.node);
+                        NodeView nodeToRemove = elemToRemove as NodeView;
+                        if (nodeToRemove != null)
+                        {
+                            Tree.DeleteNode(nodeToRemove.node);
+                        }
+                    }
+                }
+
+                //Add new edges to the asset
+                if (graphViewChange.edgesToCreate != null)
+                {
+                    foreach (var edge in graphViewChange.edgesToCreate)
+                    {
+                        ((NodeView)edge.output.node).node.Children.Add(((NodeView)edge.input.node).node);
                     }
                 }
             }
-
-            //Add new edges to the asset
-            if(graphViewChange.edgesToCreate != null)
+            else
             {
-                foreach (var edge in graphViewChange.edgesToCreate)
-                {
-                    ((NodeView)edge.output.node).node.Children.Add(((NodeView)edge.input.node).node);
-                }
+                graphViewChange.elementsToRemove?.Clear();
+                graphViewChange.edgesToCreate?.Clear();
             }
 
             return graphViewChange;
@@ -113,6 +132,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         /// <param name="evt"></param>
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
+       
             void CreateVisualNode(ISerializable node, Vector2 position)
             {
                 VisualNode visualNode = Tree.AddNode(node);
@@ -140,9 +160,12 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                 }
             }
 
-            BuildContextMenuEntrysFromType<IAgentTask>("Tasks");
-            BuildContextMenuEntrysFromType<ICompositeNode>("Composite Nodes");
-            BuildContextMenuEntrysFromType<IDecoratorNode>("Decorator Nodes");
+            if (!readOnly)
+            {
+                BuildContextMenuEntrysFromType<IAgentTask>("Tasks");
+                BuildContextMenuEntrysFromType<ICompositeNode>("Composite Nodes");
+                BuildContextMenuEntrysFromType<IDecoratorNode>("Decorator Nodes");
+            }
         }
 
 
@@ -166,6 +189,6 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             return ports.ToList().Where(endPort =>
             endPort.direction != startPort.direction &&
             endPort.node != startPort.node).ToList();
-        }
+        }     
     }
 }

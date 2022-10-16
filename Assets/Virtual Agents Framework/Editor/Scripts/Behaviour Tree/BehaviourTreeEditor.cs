@@ -39,6 +39,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
 
             //Fetch and initialise objects from window
             treeView = root.Query<BehaviourTreeView>();
+            treeView.SetupManipulators();
             treeView.SetEnabled(false); //Disable, until a tree is selected
             inspectorView = root.Query<InspectorView>();
             treeView.OnNodeSelect = OnNodeSelectionChanged;
