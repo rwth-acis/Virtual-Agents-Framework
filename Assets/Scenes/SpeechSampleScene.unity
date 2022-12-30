@@ -765,6 +765,10 @@ PrefabInstance:
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 801512833}
+    - target: {fileID: 4490313348429902910, guid: 698b9e7d8f761694fb7e203d345bf46e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4490313348491920403, guid: 698b9e7d8f761694fb7e203d345bf46e, type: 3}
       propertyPath: m_Name
       value: RocketChat UI
