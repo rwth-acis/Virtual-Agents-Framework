@@ -21,6 +21,20 @@ namespace i5.VirtualAgents.AgentTasks
         private const float minDistance = 0.01f;
 
         /// <summary>
+        /// Amount of frames after which the path will be recalculated
+        /// </summary>
+        private const int pathUpdateAfterFrames = 10;
+        /// <summary>
+        /// Amount of frames that have been spent on current path
+        /// </summary>
+        private int frameOnCurrentPath = 0;
+
+        /// <summary>
+        /// Determines if the agent should follow the DestinationObject automaticlly, even when path is noncomplete 
+        /// </summary>
+        private bool follow;
+
+        /// <summary>
         /// Destination coordinates of the movement task
         /// </summary>
         public Vector3 Destination { get; protected set; }
@@ -48,6 +62,13 @@ namespace i5.VirtualAgents.AgentTasks
         {
             Destination = destinationCoordinates;
             TargetSpeed = targetSpeed;
+            follow = false;
+        }
+        public AgentMovementTask(GameObject destinationObject, float targetSpeed = -1, bool zfollow = false)
+        {
+            DestinationObject = destinationObject;
+            TargetSpeed = targetSpeed;
+            follow = zfollow;
         }
 
         /// <summary>
@@ -79,12 +100,31 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public override TaskState EvaluateTaskState()
         {
+            if(frameOnCurrentPath >= pathUpdateAfterFrames)
+            {
+                UpdateMovement(); //calculates new path
+                frameOnCurrentPath = 0;
+            }
+            else
+            {
+                frameOnCurrentPath++;
+            }
+
             if (navMeshAgent == null)
                 return TaskState.Failure; //No navmesh agent attached
             if (navMeshAgent.pathPending)
                 return TaskState.Running; //The navmesh agent is still generating the path, try again on next update
-            if (navMeshAgent.pathStatus == NavMeshPathStatus.PathPartial || navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
+            if (navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
                 return TaskState.Failure; //The navmesh agent couldn't generate a complete and valid path
+            //If the destination is at a stationary location, a partial Path will also result in failure. Otherwise the agent will walk as closly to the GameObject as possible
+            if (DestinationObject == null || !follow)
+            {
+                Debug.LogWarning("Path calculation failed because only a partial path could be generated" + follow);
+                if (navMeshAgent.pathStatus == NavMeshPathStatus.PathPartial)
+                    return TaskState.Failure; //The navmesh agent couldn't generate a complete and valid path
+
+            }
+                
             if (navMeshAgent.remainingDistance < minDistance)
             {
                 return TaskState.Success;
@@ -92,6 +132,8 @@ namespace i5.VirtualAgents.AgentTasks
 
             //The agent moves on a valid path and hasn't reached its destination yet
             return TaskState.Running;
+
+            
         }
 
         // sets the destionation on the NavMesh and lets the agent walk on the NavMesh
@@ -110,6 +152,16 @@ namespace i5.VirtualAgents.AgentTasks
             {
                 navMeshAgent.speed = TargetSpeed;
             }
+        }
+
+        //update the destination to the current location of the destination gameobject 
+        private void UpdateMovement()
+        {
+            if(DestinationObject != null)
+            {
+                StartMovement();
+            }
+                
         }
 
         /// <summary>
