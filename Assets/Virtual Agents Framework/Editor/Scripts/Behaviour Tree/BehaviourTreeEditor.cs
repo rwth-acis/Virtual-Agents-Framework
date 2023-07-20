@@ -21,6 +21,8 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         {
             BehaviourTreeEditor window = GetWindow<BehaviourTreeEditor>();
             window.titleContent = new GUIContent("Behaviour Tree Editor");
+            //Set minimum window size, so that every part of the Editor can be seen
+            window.minSize = new Vector2(600f, 400f);
         }
 
         public void CreateGUI()
