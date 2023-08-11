@@ -39,7 +39,9 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public Vector3 Destination { get; protected set; }
 
-
+        /// <summary>
+        /// Destination Object of the movement task
+        /// </summary>
         public GameObject DestinationObject { get; protected set; }
 
         /// <summary>
@@ -102,7 +104,7 @@ namespace i5.VirtualAgents.AgentTasks
         {
             if(frameOnCurrentPath >= pathUpdateAfterFrames)
             {
-                UpdateMovement(); //calculates new path
+                UpdateMovement(); //calculates new path if object is not stationary and follow is activated
                 frameOnCurrentPath = 0;
             }
             else
@@ -116,20 +118,18 @@ namespace i5.VirtualAgents.AgentTasks
                 return TaskState.Running; //The navmesh agent is still generating the path, try again on next update
             if (navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
                 return TaskState.Failure; //The navmesh agent couldn't generate a complete and valid path
-            //If the destination is at a stationary location, a partial Path will also result in failure. Otherwise the agent will walk as closly to the GameObject as possible
-            if (DestinationObject == null || !follow)
-            {
-                Debug.LogWarning("Path calculation failed because only a partial path could be generated" + follow);
+            //If the destination is at a stationary location, a partial path will also result in failure. Otherwise the agent will walk as closly to the GameObject as possible
+            if (DestinationObject == null || !follow) { 
                 if (navMeshAgent.pathStatus == NavMeshPathStatus.PathPartial)
+                {
+                    Debug.LogWarning("Path calculation failed because only a partial path could be generated. Use an DestinationObject instead of Destination coordinates and activate follow to allow partial paths.");
                     return TaskState.Failure; //The navmesh agent couldn't generate a complete and valid path
-
+                }
             }
-                
             if (navMeshAgent.remainingDistance < minDistance)
             {
                 return TaskState.Success;
             }
-
             //The agent moves on a valid path and hasn't reached its destination yet
             return TaskState.Running;
 
@@ -157,7 +157,7 @@ namespace i5.VirtualAgents.AgentTasks
         //update the destination to the current location of the destination gameobject 
         private void UpdateMovement()
         {
-            if(DestinationObject != null)
+            if(DestinationObject != null && follow)
             {
                 StartMovement();
             }
