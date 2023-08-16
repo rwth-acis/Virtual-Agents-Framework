@@ -86,11 +86,20 @@ namespace i5.VirtualAgents.Examples
 
             if (useQuery)
             {
-                sparqlAPI = GetComponent<ISparqlAPI>();
+
+                sparqlAPI = (ISparqlAPI) GetComponent(typeof(ISparqlAPI));
                 if (sparqlAPI == null)
                 {
                     Debug.LogWarning("OpenAIController: No ISparqlAPI component found on the game object. Queries will be disabled.");
                     useQuery = false;
+                }
+                else
+                {
+                    if (!sparqlAPI.isReady())
+                    {
+                        Debug.LogWarning("OpenAIController: ISparqlAPI component found on the game object, but is not ready to be used. Queries will be disabled.");
+                        useQuery = false;
+                    }
                 }
             }
 
@@ -276,11 +285,11 @@ namespace i5.VirtualAgents.Examples
                     // Call the method
                     if (animation == "doHeadshake()")
                     {
-                        AgentBaseTask wave1 = taskSystem.Tasks.PlayAnimation("Wave", 5, "", 0, "Left Arm");
+                        AgentBaseTask headShake = taskSystem.Tasks.PlayAnimation("ShakeHead", 5, "", 0, "Head");
                     }
                     else if (animation == "doWave()")
                     {
-                        AgentBaseTask headShake = taskSystem.Tasks.PlayAnimation("ShakeHead", 5, "", 0, "Head");
+                        AgentBaseTask wave1 = taskSystem.Tasks.PlayAnimation("Wave", 5, "", 0, "Left Arm");
                     }
                 }
             }

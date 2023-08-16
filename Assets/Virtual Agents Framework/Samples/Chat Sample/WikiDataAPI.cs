@@ -38,7 +38,7 @@ namespace i5.VirtualAgents.Examples
                     else
                     {
                         string errorContent = await response.Content.ReadAsStringAsync();
-                        Debug.Log($"Error Status Code: {response.StatusCode}\nReason: {response.ReasonPhrase}\nContent: {errorContent}");
+                        Debug.Log($"Error Status Code: {response.StatusCode}\n Reason: {response.ReasonPhrase}\n Content: {errorContent}");
                         return "";
                     }
                 }
@@ -48,6 +48,15 @@ namespace i5.VirtualAgents.Examples
                     return "";
                 }
             }
+        }
+        public bool isReady()
+        {
+            if (email == "")
+            {
+                Debug.LogWarning("Please enter your email address in the wikiDataAPI script");
+                return false;
+            }
+            return true;
         }
     }
 }

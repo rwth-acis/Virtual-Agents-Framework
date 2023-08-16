@@ -543,6 +543,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eb11c02fcaa7fa40861161120bf3b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &323802895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323802880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 005745ba834cfcf45a8eb4db075140ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textField: {fileID: 1168599029}
+  inputField: {fileID: 1676567223}
+  okButton: {fileID: 1101662664}
+  systemMessage: You are an honorable, friendly guide of the RWTH Aachen University.
+    You will teach students about the processes of the RWTH if they ask.
+  startString: Hello! I am here to help you with any questions about the RWTH Aachen.
+  costSaving: 1
+  useDummyMessage: 1
+  dummyMessage: "The RWTH Aachen has approximately 45,000 students. doWave() doHeadshake()\r\n\r\nSELECT
+    ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2196 ?studentCount .\r\n}"
+  useQuery: 1
+  doAnimation: 1
+  agent: {fileID: 323802891}
+--- !u!114 &323802896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323802880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae77ec4c78e9c8c49985505ea1ec7b94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &348047730
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,7 +614,7 @@ RectTransform:
   m_Children:
   - {fileID: 1168599028}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -916,70 +953,13 @@ RectTransform:
   - {fileID: 1676567222}
   - {fileID: 1101662663}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &610846568
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 610846570}
-  - component: {fileID: 610846569}
-  m_Layer: 0
-  m_Name: OpenAIController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &610846569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 610846568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 005745ba834cfcf45a8eb4db075140ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textField: {fileID: 1168599029}
-  inputField: {fileID: 1676567223}
-  okButton: {fileID: 1101662664}
-  systemMessage: You are an honorable, friendly guide of the RWTH Aachen University.
-    You will teach students about the processes of the RWTH if they ask.
-  startString: Hello! I am here to help you with any questions about the RWTH Aachen.
-  costSaving: 1
-  useQuery: 1
-  doAnimation: 1
-  controller: {fileID: 1567752303}
-  useDummyMessage: 0
-  dummyMessage: "The RWTH Aachen has approximately 45,000 students. doWave()\r\n\r\nSELECT
-    ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2196 ?studentCount .\r\n}"
---- !u!4 &610846570
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 610846568}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 587.8485, y: 123.272125, z: 136.12611}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &725956790
 GameObject:
   m_ObjectHideFlags: 0
@@ -1632,6 +1612,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 323802882}
+    - targetCorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 323802895}
+    - targetCorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 323802896}
   m_SourcePrefab: {fileID: 100100000, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
 --- !u!1 &1567752303
 GameObject:
