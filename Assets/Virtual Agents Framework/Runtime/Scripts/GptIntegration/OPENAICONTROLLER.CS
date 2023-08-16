@@ -162,6 +162,7 @@ namespace i5.VirtualAgents.Examples
 
         private async void GetResponse()
         {
+            //Check if there was an input
             if (inputField.text.Length < 1)
             {
                 return;
@@ -218,16 +219,18 @@ namespace i5.VirtualAgents.Examples
 
             Debug.Log(string.Format("{0}: {1}", responseMessage.Role, responseMessage.Content));
 
-            // Add the response to the list of messages
+            //Split message into acutal message and included query
             string[] splittedMessage = extractQueryFromMessage(responseMessage.Content);
             string query = splittedMessage[0];
             responseMessage.Content = splittedMessage[1];
-
+            
+            // Add the response to the list of messages
             messages.Add(responseMessage);
 
-            string queryResult = "";
+            //If there is a quere, process that query and ask the chat bot to incorporate the new information.
             if (query != null & query != "")
             {
+                string queryResult = "";
                 queryResult = await sparqlAPI.SparqlQueryToAPI(query);
 
                 // Fill the user message from the input field
@@ -271,7 +274,7 @@ namespace i5.VirtualAgents.Examples
                 responseMessage.Content = extractQueryFromMessage(responseMessage.Content)[1];
                 messages.Add(responseMessage);
             }
-            //Check for animation calls, play them and remove them
+            //Check for animation calls, play them and remove them from the message
             responseMessage.Content = checkMessageForAnimationPromptsAndCallThem(responseMessage.Content);
             // Update the text field with the response
             textField.text = responseMessage.Content;
