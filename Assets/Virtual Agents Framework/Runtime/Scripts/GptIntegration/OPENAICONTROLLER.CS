@@ -64,6 +64,7 @@ namespace i5.VirtualAgents.Examples
             StartConversation();
             okButton.onClick.AddListener(() => GetResponse());
 
+            //If animations are used, check if responding components are existing
             if (doAnimation)
             {
                 //If no agent is provided, try to get it from the game object
@@ -83,7 +84,7 @@ namespace i5.VirtualAgents.Examples
                 }
 
             }
-
+            //If queries are used, check if responding components are existing and ready to be used
             if (useQuery)
             {
 
