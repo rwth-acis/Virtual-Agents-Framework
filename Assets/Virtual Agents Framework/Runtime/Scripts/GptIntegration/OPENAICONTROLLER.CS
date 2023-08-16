@@ -1,24 +1,15 @@
-using Codice.ThemeImages;
 using i5.VirtualAgents.AgentTasks;
 using i5.VirtualAgents.ScheduleBasedExecution;
+using Newtonsoft.Json.Linq;
 using OpenAI_API;
 using OpenAI_API.Chat;
 using OpenAI_API.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml;
+using System.IO;
 using TMPro;
-using UnityEditor.Graphs;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.UI;
-using static Codice.Client.Common.WebApi.WebApiEndpoints;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace i5.VirtualAgents.Examples
 {
@@ -59,8 +50,9 @@ namespace i5.VirtualAgents.Examples
         // Start is called before the first frame update
         void Start()
         {
-            // This line gets your API key (and could be slightly different on Mac/Linux)
-            api = new OpenAIAPI(Environment.GetEnvironmentVariable("OPENAI_API_KEY", EnvironmentVariableTarget.User));
+            
+            string APIKey = ReadOutAPIKey();
+            api = new OpenAIAPI(APIKey);
             StartConversation();
             okButton.onClick.AddListener(() => GetResponse());
 
@@ -106,7 +98,43 @@ namespace i5.VirtualAgents.Examples
 
 
         }
+        /// <summary>
+        /// Reads out the OpenAI API Key from the windows environment varaiable or a json file
+        /// </summary>
+        /// <returns>The API Key for OpenAI</returns>
+        private string ReadOutAPIKey()
+        {
+            string apikey = "";
+            // Gets API key from Windows environment varaiable if possible
+            try
+            {
+                apikey = Environment.GetEnvironmentVariable("OPENAI_API_KEY", EnvironmentVariableTarget.User);
+            }
+            catch (Exception ex)
+            {
+                Debug.Log("An error occurred while trying to read OPENAI_API_KEY. This could be expected on some operating systems. Will try to read from JSON file now. " + ex.Message);
+            }
 
+            if (apikey == null || apikey == "")
+            {
+                try
+                {
+                    // Read the JSON file
+                    string jsonFilePath = "Assets\\Virtual Agents Framework\\Runtime\\Scripts\\GptIntegration\\apikeys.json";
+                    string jsonData = File.ReadAllText(jsonFilePath);
+                    // Deserialize JSON data
+                    JObject jsonObject = JObject.Parse(jsonData);
+                    // Get the API key
+                    apikey = (string)jsonObject["OpenAIKey"];
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError("An error occurred while trying to read json file: " + ex.Message);
+                }
+            }
+            return apikey;
+
+        }
         private void StartConversation()
         {
             if (costSaving)
