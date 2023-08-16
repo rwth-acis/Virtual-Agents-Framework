@@ -16,7 +16,7 @@ namespace i5.VirtualAgents.Examples
         public async Task<string> SparqlQueryToAPI(string sparqlQuery)
         {
             if(email == ""){
-                Debug.Log("Please enter your email address in the wikiDataAPI script");
+                Debug.LogError("Please enter your email address in the wikiDataAPI script");
                 return "";
             }
             string apiUrl = $"https://query.wikidata.org/bigdata/namespace/wdq/sparql?query={Uri.EscapeDataString(sparqlQuery)}";

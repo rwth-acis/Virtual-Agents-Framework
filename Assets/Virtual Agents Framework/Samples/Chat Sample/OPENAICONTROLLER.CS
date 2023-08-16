@@ -1,5 +1,6 @@
 using Codice.ThemeImages;
 using i5.VirtualAgents.AgentTasks;
+using i5.VirtualAgents.ScheduleBasedExecution;
 using OpenAI_API;
 using OpenAI_API.Chat;
 using OpenAI_API.Models;
@@ -16,13 +17,14 @@ using UnityEditor.Graphs;
 using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.UI;
+using static Codice.Client.Common.WebApi.WebApiEndpoints;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace i5.VirtualAgents.Examples
 {
     /// <summary>
-    /// Defines movement tasks for walking and running
-    /// Uses Text Field, Imput Field and Ok Button for Text message interaction. Controller is used to play animations on the Agent.
+    /// This script should be attached to an agent or any controller object to integrate chat GPT. If attached to an agent the chat bot can command animations.
+    /// Uses Text Field, Imput Field and Ok Button for Text message interaction.
     /// </summary>
     public class OpenAIController : MonoBehaviour
     {
@@ -35,19 +37,21 @@ namespace i5.VirtualAgents.Examples
         public string startString;
         //Chat bot is told to keep responeses short and simple for cost saving.
         public bool costSaving = true;
-        //Chat bot is told to generate a SP
-        public bool useQuery = true;
 
-        //Chat bot is told to animate when appropriate
-        public bool doAnimation = true;
-        //Controller that the animations can be called on
-        public GameObject controller;
         //Response will always be the dummyMessage instead of actually contacting the API
         public bool useDummyMessage = true;
         public string dummyMessage = "The RWTH Aachen has approximately 45,000 students. doWave() \r\n\r\nSELECT ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2191 ?studentCount .\r\n}";
 
+        //Chat bot is told to generate a SPARQL query
+        public bool useQuery = true;
+        public ISparqlAPI sparqlAPI;
 
-        
+        //Chat bot is told to animate when appropriate
+        public bool doAnimation = true;
+        //The agent and its taskSystem that the animations are called on. Is automatically set to the agent on the game object if no agent is provided.
+        public Agent agent = null;
+        protected ScheduleBasedTaskSystem taskSystem;
+
 
         private OpenAIAPI api;
         private List<ChatMessage> messages;
@@ -59,27 +63,59 @@ namespace i5.VirtualAgents.Examples
             api = new OpenAIAPI(Environment.GetEnvironmentVariable("OPENAI_API_KEY", EnvironmentVariableTarget.User));
             StartConversation();
             okButton.onClick.AddListener(() => GetResponse());
+
+            if (doAnimation)
+            {
+                //If no agent is provided, try to get it from the game object
+                if (agent == null)
+                {
+                    agent = GetComponent<Agent>();
+                }
+                //If no agent is provided, try to get it from the game object
+                if (agent == null)
+                {
+                    Debug.LogWarning("OpenAIController: No agent component found on the game object. Animations will be disabled.");
+                    doAnimation = false;
+                }
+                else
+                {
+                    taskSystem = (ScheduleBasedTaskSystem)agent.TaskSystem;
+                }
+
+            }
+
+            if (useQuery)
+            {
+                sparqlAPI = GetComponent<ISparqlAPI>();
+                if (sparqlAPI == null)
+                {
+                    Debug.LogWarning("OpenAIController: No ISparqlAPI component found on the game object. Queries will be disabled.");
+                    useQuery = false;
+                }
+            }
+
+
         }
 
         private void StartConversation()
         {
             if (costSaving)
             {
-                systemMessage = systemMessage + " You keep your responses short and to the point.";
+                systemMessage += " You keep your responses short and to the point.";
             }
             if (doAnimation)
             {
-                systemMessage = systemMessage + "In reality your are an NPC charakter that needs to emote for every message. You can do two animations a headshake and a wave with your hand. Write doHeadshake() or doWave() in the message to do these animations. An example would be: \" Hello! doWave()\" or \" This is wrong. doHeadshake()\"";
+                systemMessage += "In reality your are an NPC charakter that needs to emote for every message. You can do two animations a headshake and a wave with your hand. Write doHeadshake() or doWave() in the message to do these animations. An example would be: \" Hello! doWave()\" or \" This is wrong. doHeadshake()\"";
             }
             if (useQuery)
             {
-                systemMessage = systemMessage + " For each prompt answer the prompt as the guide and then add a SPARQL query that could retrieve information from Wikidata which would be beneficial to your answear. The RWTH Aachen is Q273263 in wikidata.";
+                systemMessage += " For each prompt answer the prompt as the guide and then add a SPARQL query that could retrieve information from Wikidata which would be beneficial to your answear. The RWTH Aachen is Q273263 in wikidata.";
             }
-            
+
             Debug.Log("SystemMessage: " + systemMessage);
             messages = new List<ChatMessage> {
-            new ChatMessage(ChatMessageRole.System, systemMessage)
-        };
+                new ChatMessage(ChatMessageRole.System, systemMessage)
+            };
 
             inputField.text = "";
             textField.text = startString;
@@ -116,7 +152,7 @@ namespace i5.VirtualAgents.Examples
             // Clear the input field
             inputField.text = "";
 
-            
+
             ChatMessage responseMessage = new ChatMessage();
 
             if (useDummyMessage == false)
@@ -129,18 +165,19 @@ namespace i5.VirtualAgents.Examples
                     MaxTokens = 100,
                     Messages = messages
                 });
-                 // Get the response message
+                // Get the response message
 
                 responseMessage.Role = chatResult.Choices[0].Message.Role;
                 responseMessage.Content = chatResult.Choices[0].Message.Content;
-                Debug.Log("Tokens used"+chatResult.Usage.CompletionTokens);
+                Debug.Log("Tokens used" + chatResult.Usage.CompletionTokens);
             }
-            else{
+            else
+            {
                 //Insert dummy message
                 responseMessage.Role = ChatMessageRole.Assistant;
                 responseMessage.Content = dummyMessage;
             }
-            
+
             Debug.Log(string.Format("{0}: {1}", responseMessage.Role, responseMessage.Content));
 
             // Add the response to the list of messages
@@ -151,15 +188,14 @@ namespace i5.VirtualAgents.Examples
             messages.Add(responseMessage);
 
             string queryResult = "";
-            if(query != null & query != "")
+            if (query != null & query != "")
             {
-                ISparqlAPI apiInstance = new WikiDataAPI();
-                queryResult = await apiInstance.SparqlQueryToAPI(query);
+                queryResult = await sparqlAPI.SparqlQueryToAPI(query);
 
                 // Fill the user message from the input field
                 ChatMessage queryResultMessage = new ChatMessage();
                 userMessage.Role = ChatMessageRole.User;
-                userMessage.Content = "The quere results is:\n"+ queryResult + "Incorporate this new information in your answear. And don't include the querie again.";
+                userMessage.Content = "The quere results is:\n" + queryResult + "Incorporate this new information in your answear. And don't include the querie again.";
                 if (userMessage.Content.Length > 200)
                 {
                     // Limit messages to 100 characters
@@ -184,7 +220,7 @@ namespace i5.VirtualAgents.Examples
 
                     responseMessage.Role = chatResult.Choices[0].Message.Role;
                     responseMessage.Content = chatResult.Choices[0].Message.Content;
-                    Debug.Log("Tokens used" + chatResult.Usage.CompletionTokens); 
+                    Debug.Log("Tokens used" + chatResult.Usage.CompletionTokens);
                 }
                 else
                 {
@@ -225,13 +261,12 @@ namespace i5.VirtualAgents.Examples
             // Return the SPARKL query.
             return new string[] { sparqlQuery, text };
         }
-        
+
         private string checkMessageForAnimationPromptsAndCallThem(string message)
         {
-            string[] animations = { "doHeadshake()", "doWave()"};
+            string[] animations = { "doHeadshake()", "doWave()" };
             foreach (string animation in animations)
             {
-                Debug.LogWarning("Old: " + message);
                 if (message.Contains(animation))
                 {
                     // Remove the method from the string
@@ -241,13 +276,11 @@ namespace i5.VirtualAgents.Examples
                     // Call the method
                     if (animation == "doHeadshake()")
                     {
-                        Debug.LogWarning("Headshake found");
-                        controller.GetComponent<ChatSampleController>().doHeadshake();
-                    } 
+                        AgentBaseTask wave1 = taskSystem.Tasks.PlayAnimation("Wave", 5, "", 0, "Left Arm");
+                    }
                     else if (animation == "doWave()")
                     {
-                        Debug.LogWarning("Wave found");
-                        controller.GetComponent<ChatSampleController>().doWave();
+                        AgentBaseTask headShake = taskSystem.Tasks.PlayAnimation("ShakeHead", 5, "", 0, "Head");
                     }
                 }
             }
