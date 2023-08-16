@@ -2,7 +2,8 @@
     "name": "i5.VirtualAgents.Runtime",
     "rootNamespace": "i5.VirtualAgents",
     "references": [
-        "GUID:f32d19dcd8c86204c933aa66960594a6"
+        "GUID:f32d19dcd8c86204c933aa66960594a6",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

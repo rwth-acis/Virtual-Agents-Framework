@@ -2,7 +2,8 @@
     "name": "i5.VirtualAgents.Examples",
     "rootNamespace": "i5.VirtualAgents.Examples",
     "references": [
-        "i5.VirtualAgents.Runtime"
+        "i5.VirtualAgents.Runtime",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

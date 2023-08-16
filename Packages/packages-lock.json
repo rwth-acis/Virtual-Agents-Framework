@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.github-glitchenzo.nugetforunity": {
+      "version": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "65640405eab3109fddb6a87f50796c8c00d1a546"
+    },
     "com.i5.toolkit.core": {
       "version": "1.9.0",
       "depth": 0,
@@ -70,7 +77,7 @@
     },
     "com.unity.textmeshpro": {
       "version": "3.0.6",
-      "depth": 0,
+      "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.ugui": "1.0.0"
