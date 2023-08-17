@@ -14,14 +14,18 @@ namespace i5.VirtualAgents.AgentTasks
         private string startTrigger;
         private string stopTrigger;
         private float playTime;
+        private GameObject aimtarget;
+
+        AimAtSomething aimScript;
 
         public AgentAnimationTask(){}
 
-        public AgentAnimationTask(string startTrigger, float playTime, string stopTrigger = "")
+        public AgentAnimationTask(string startTrigger, float playTime, string stopTrigger = "", GameObject aimTarget = null)
         {
             this.startTrigger = startTrigger;
             this.stopTrigger = stopTrigger;
             this.playTime = playTime;
+            this.aimtarget = aimTarget;
         }
 
         /// <summary>
@@ -32,6 +36,17 @@ namespace i5.VirtualAgents.AgentTasks
         {
             animator = agent.GetComponent<Animator>();
             animator.SetTrigger(startTrigger);
+            
+
+            if(aimtarget != null)
+            {
+                aimScript = agent.GetComponent<AimAtSomething>();
+                aimScript.SetTargetTransform(aimtarget.transform);
+
+
+                Transform raycast = agent.transform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest/Shoulder.R/UpperArm.R/LowerArm.R/Hand.R/Palm1.R/IndexProximal.R/IndexIntermediate.R/IndexDistal.R/RaycastRightHand");
+                aimScript.SetAimTransform(raycast);
+            }
             agent.StartCoroutine(Wait(playTime));
         }
 
@@ -40,6 +55,10 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public override void StopExecution()
         {
+            if (aimtarget != null)
+            {
+                aimScript.StartCoroutine(aimScript.fadeStop());
+            }
             animator.SetTrigger(stopTrigger != "" ? stopTrigger : startTrigger);
         }
 
