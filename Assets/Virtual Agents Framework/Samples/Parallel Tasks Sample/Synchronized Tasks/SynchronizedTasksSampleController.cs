@@ -34,7 +34,7 @@ namespace i5.VirtualAgents.Examples
                 // The waving will start after the two second wait and the head shake will start immediately
                 AgentBaseTask wave1 = taskSystem.Tasks.PlayAnimation("Wave", 5, "", 0, "Left Arm");
                 AgentBaseTask headShake = taskSystem.Tasks.PlayAnimation("ShakeHead", 10, "", 0, "Left Arm");
-                AgentBaseTask pointing= taskSystem.Tasks.PlayAnimation("pointAt", 10, "", 0, "Right Arm");
+                AgentBaseTask pointing= taskSystem.Tasks.PlayAnimation("startPointAt", 10, "stopPointAt", 0, "Right Arm");
                 // Wave again but wait for the head shaking to end.
                 // Implicitly, this also waits for the first waving animation to end
                 // but we do not need to define that dependency as it is scheduled on the same layer

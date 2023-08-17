@@ -454,7 +454,7 @@ MonoBehaviour:
   - {fileID: 1644641974}
   - {fileID: 717973402}
   highPrioWaypoint: {fileID: 1787573992}
-  useTaskShortcuts: 0
+  useTaskShortcuts: 1
 --- !u!4 &1351748439
 Transform:
   m_ObjectHideFlags: 0
