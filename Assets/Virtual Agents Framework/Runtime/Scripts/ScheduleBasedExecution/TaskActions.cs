@@ -51,7 +51,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// </summary>
         /// <param name="destinationObject">GameObject the agent should go to</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
-        /// <param name="follow">Deciedes if the Agent should follow the gameObject, dynamiclly, even if path can not reach gameObject</param>
+        /// <param name="follow">Decides if the Agent should follow the GameObject, dynamically, even if the path cannot reach the GameObject</param>
         public AgentBaseTask GoTo(GameObject destinationObject, Vector3 offset = default, int priority = 0, bool follow = false)
         {
             if(follow)
