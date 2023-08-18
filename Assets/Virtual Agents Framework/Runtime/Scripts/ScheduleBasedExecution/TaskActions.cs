@@ -46,14 +46,25 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         }
 
         /// <summary>
-        /// Creates an AgentMovementTask for walking/running and schedules it or forces its execution.
+        /// Creates an AgentMovementTask for walking/running to a specific gameobject and schedules it or forces its execution.
         /// Shortcut queue management function
         /// </summary>
         /// <param name="destinationObject">GameObject the agent should go to</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
-        public AgentBaseTask GoTo(GameObject destinationObject, Vector3 offset = default, int priority = 0)
+        /// <param name="follow">Decides if the Agent should follow the GameObject, dynamically, even if the path cannot reach the GameObject</param>
+        public AgentBaseTask GoTo(GameObject destinationObject, Vector3 offset = default, int priority = 0, bool follow = false)
         {
-            return GoTo(destinationObject.transform, offset, priority);
+            if(follow)
+            {
+                AgentMovementTask movementTask = new AgentMovementTask(destinationObject, default, follow);
+                scheduleTaskSystem.ScheduleTask(movementTask, priority);
+                return movementTask;
+            }
+            else
+            {
+                return GoTo(destinationObject.transform, offset, priority);
+            }
+            
         }
 
         /// <summary>
