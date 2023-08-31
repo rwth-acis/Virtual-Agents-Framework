@@ -80,9 +80,9 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <param name="stopTrigger"></param> Trigger that stops the animation. If not provided, start trigger is used again
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
         /// <param name="layer"></param> The animation layer on which the task should be excuted
-        public AgentBaseTask PlayAnimation(string startTrigger, float playTime, string stopTrigger = "", int priority = 0, string layer = "Base Layer")
+        public AgentBaseTask PlayAnimation(string startTrigger, float playTime, string stopTrigger = "", int priority = 0, string layer = "Base Layer", GameObject aimTarget = null)
         {
-            AgentAnimationTask animationTask = new AgentAnimationTask(startTrigger, playTime, stopTrigger);
+            AgentAnimationTask animationTask = new AgentAnimationTask(startTrigger, playTime, stopTrigger, aimTarget, layer);
             scheduleTaskSystem.ScheduleTask(animationTask, priority, layer);
             return animationTask;
         }
