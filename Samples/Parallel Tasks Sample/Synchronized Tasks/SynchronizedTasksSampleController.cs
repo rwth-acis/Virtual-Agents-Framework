@@ -12,7 +12,6 @@ namespace i5.VirtualAgents.Examples
         public Transform highPrioWaypoint;
         public bool useTaskShortcuts;
         public bool walk = true;
-        public GameObject target;
         public int pointAtTime = 5;
 
         protected override void Start()
@@ -25,7 +24,7 @@ namespace i5.VirtualAgents.Examples
                     taskSystem.Tasks.GoTo(waypoints[i].position);
                 }
             }
-            
+
 
             if (useTaskShortcuts)
             {
@@ -38,13 +37,13 @@ namespace i5.VirtualAgents.Examples
 
                 // Wave and shake the head
                 // The waving will start after the two second wait and the head shake will start immediately
-                AgentBaseTask wave1 = taskSystem.Tasks.PlayAnimation("Wave", 5, "", 0, "Left Arm");
+                AgentBaseTask wave1 = taskSystem.Tasks.PlayAnimation("WaveLeft", 5, "", 0, "Left Arm");
                 AgentBaseTask headShake = taskSystem.Tasks.PlayAnimation("ShakeHead", 10, "", 0, "Left Arm");
-                AgentBaseTask pointing= taskSystem.Tasks.PlayAnimation("startPointAt", pointAtTime, "stopPointAt", 0, "Right Arm");
+
                 // Wave again but wait for the head shaking to end.
                 // Implicitly, this also waits for the first waving animation to end
                 // but we do not need to define that dependency as it is scheduled on the same layer
-                taskSystem.Tasks.PlayAnimation("Wave", 5, "", 0, "Left Arm")
+                taskSystem.Tasks.PlayAnimation("WaveLeft", 5, "", 0, "Left Arm")
                     .WaitFor(headShake);
             }
             else
@@ -59,7 +58,7 @@ namespace i5.VirtualAgents.Examples
 
                 // Wave and shake the head
                 // The waving will start after the two second wait and the head shake will start immediately
-                AgentAnimationTask waveTask = new AgentAnimationTask("Wave", 5);
+                AgentAnimationTask waveTask = new AgentAnimationTask("WaveLeft", 5);
                 taskSystem.ScheduleTask(waveTask, 0, "Left Arm");
 
                 AgentAnimationTask shakeHeadTask = new AgentAnimationTask("ShakeHead", 10);
@@ -68,11 +67,9 @@ namespace i5.VirtualAgents.Examples
                 // Wave again but wait for the head shaking to end.
                 // Implicitly, this also waits for the first waving animation to end
                 // but we do not need to define that dependency as it is scheduled on the same layer
-                AgentAnimationTask wave2Task = new AgentAnimationTask("Wave", 5);
+                AgentAnimationTask wave2Task = new AgentAnimationTask("WaveLeft", 5);
                 wave2Task.WaitFor(shakeHeadTask);
                 taskSystem.ScheduleTask(wave2Task, 0, "Left Arm");
-                AgentAnimationTask pointAt = new AgentAnimationTask("startPointAt", pointAtTime, "stopPointAt", target);
-                taskSystem.ScheduleTask(pointAt, 0, "Right Arm");
             }
         }
     }

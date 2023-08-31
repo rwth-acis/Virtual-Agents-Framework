@@ -15,17 +15,19 @@ namespace i5.VirtualAgents.AgentTasks
         private string stopTrigger;
         private float playTime;
         private GameObject aimtarget;
+        string layer;
 
         AimAtSomething aimScript;
 
         public AgentAnimationTask(){}
 
-        public AgentAnimationTask(string startTrigger, float playTime, string stopTrigger = "", GameObject aimTarget = null)
+        public AgentAnimationTask(string startTrigger, float playTime, string stopTrigger = "", GameObject aimTarget = null, string layer = "")
         {
             this.startTrigger = startTrigger;
             this.stopTrigger = stopTrigger;
             this.playTime = playTime;
             this.aimtarget = aimTarget;
+            this.layer = layer;
         }
 
         /// <summary>
@@ -40,12 +42,47 @@ namespace i5.VirtualAgents.AgentTasks
 
             if(aimtarget != null)
             {
-                aimScript = agent.GetComponent<AimAtSomething>();
+                if(layer == "")
+                {
+                    Debug.LogError("When aming at a target a layer coresponding to the body area that should aim at the target has to be choosen.");
+                }
+
+
+                aimScript = agent.gameObject.AddComponent<AimAtSomething>();
                 aimScript.SetTargetTransform(aimtarget.transform);
 
-
-                Transform raycast = agent.transform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest/Shoulder.R/UpperArm.R/LowerArm.R/Hand.R/Palm1.R/IndexProximal.R/IndexIntermediate.R/IndexDistal.R/RaycastRightHand");
-                aimScript.SetAimTransform(raycast);
+                Transform raycast = null;
+                switch (layer)
+                {
+                    case "Right Arm":
+                        raycast = agent.transform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest/Shoulder.R/UpperArm.R/LowerArm.R/Hand.R/Palm1.R/IndexProximal.R/IndexIntermediate.R/IndexDistal.R/IndexDistal.R_end");
+                        break;
+                    case "Left Arm":
+                        raycast = agent.transform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest/Shoulder.L/UpperArm.L/LowerArm.L/Hand.L/Palm1.L/IndexProximal.L/IndexIntermediate.L/IndexDistal.L/IndexDistal.L_end");
+                        break;
+                    case "Right Leg":
+                        raycast = agent.transform.Find("MeshDeformRig/Hips/UpperLeg.R/LowerLeg.R/Foot.R/Toes.R/Toes.R_end");
+                        break;
+                    case "Left Leg":
+                        raycast = agent.transform.Find("MeshDeformRig/Hips/UpperLeg.L/LowerLeg.L/Foot.L/Toes.L/Toes.L_end");
+                        break;
+                    case "Head":
+                        raycast = agent.transform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest/Neck/Head");
+                        break;
+                    case "Base Layer":
+                        raycast = agent.transform.Find("MeshDeformRig/Hips/Spine/Chest");
+                        break;
+                    default:
+                        Debug.LogWarning("Animation layer is not specified or could not be assosiatet to a body part that should aim at the target. Using UpperChest instead for layer named:" + layer);
+                        raycast = agent.transform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest");
+                        break;
+                }
+                if(raycast == null)
+                {
+                    Debug.LogError("Body part that should be used for aiming could not be found on the agent");
+                }
+                agent.StartCoroutine(WaitForCurrentAnimationToFinishAnThenStartAiming(aimScript, raycast));
+                aimScript.setBonePreset(layer);
             }
             agent.StartCoroutine(Wait(playTime));
         }
@@ -67,6 +104,16 @@ namespace i5.VirtualAgents.AgentTasks
         {
             yield return new WaitForSeconds(timeInSeconds);
             FinishTask();
+        }
+
+        // wait for current animation to finish
+        private IEnumerator WaitForCurrentAnimationToFinishAnThenStartAiming(AimAtSomething aimScript, Transform raycast)
+        {
+            yield return new WaitForSeconds(0.5f);
+            while(animator.GetCurrentAnimatorStateInfo(1).normalizedTime < 1.0f) { 
+                yield return null;
+            }
+            aimScript.SetAimTransform(raycast);
         }
 
         public void Serialize(SerializationDataContainer serializer)
