@@ -51,7 +51,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// </summary>
         /// <param name="destinationObject">GameObject the agent should go to</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
-        /// <param name="follow">Decides if the Agent should follow the GameObject, dynamically, even if the path cannot reach the GameObject</param>
+        /// <param name="follow">Decides if the Agent should follow the GameObject, dynamically, even if the path cannot reach the GameObject </param>
         public AgentBaseTask GoTo(GameObject destinationObject, Vector3 offset = default, int priority = 0, bool follow = false)
         {
             if(follow)
@@ -96,6 +96,29 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             AgentAnimationTask animationTask = new AgentAnimationTask(startTrigger, playTime, stopTrigger);
             scheduleTaskSystem.ScheduleTask(animationTask, priority, layer);
             return animationTask;
+        }
+
+        /// <summary>
+        /// Play an animation through the agents animation controller
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="startTrigger"></param> Trigger that starts the animation
+        /// <param name="playTime"></param> Time in seconds after which the animation should stop
+        /// <param name="stopTrigger"></param> Trigger that stops the animation. If not provided, start trigger is used again
+        /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
+        /// <param name="layer"></param> The animation layer on which the task should be excuted
+        public AgentBaseTask PickUp(GameObject pickupObject, int priority = 0)
+        {
+            AgentPickUpTask pickUpTask = new AgentPickUpTask(pickupObject);
+            scheduleTaskSystem.ScheduleTask(pickUpTask, priority);
+            return pickUpTask;
+        }
+
+        public AgentBaseTask GoToAndPickUp(GameObject destinationObject, int priority = 0)
+        {
+            AgentBaseTask goToTask = GoTo(destinationObject, default, priority,true);
+            AgentBaseTask pickUpTask = PickUp(destinationObject, priority);
+            return pickUpTask;
         }
     }
 }
