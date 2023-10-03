@@ -82,3 +82,6 @@ crashlytics-build.properties
 /Documentation/api
 /Assets/Virtual Agents Framework/Runtime/Scripts/obj
 /Assets/Virtual Agents Framework/Runtime/Scripts/obj.meta
+
+# Samples from imported packages
+/Assets/Samples/*
