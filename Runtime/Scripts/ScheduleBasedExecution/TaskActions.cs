@@ -99,26 +99,74 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         }
 
         /// <summary>
-        /// Play an animation through the agents animation controller
+        /// Pick up an object with the Item component that is near to the agent
         /// Shortcut queue management function
         /// </summary>
-        /// <param name="startTrigger"></param> Trigger that starts the animation
-        /// <param name="playTime"></param> Time in seconds after which the animation should stop
-        /// <param name="stopTrigger"></param> Trigger that stops the animation. If not provided, start trigger is used again
+        /// <param name="pickupObject">Object that should be picked up. Needs to have an item component and be near to the agent.</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
-        /// <param name="layer"></param> The animation layer on which the task should be excuted
+        /// <returns></returns>
         public AgentBaseTask PickUp(GameObject pickupObject, int priority = 0)
         {
             AgentPickUpTask pickUpTask = new AgentPickUpTask(pickupObject);
             scheduleTaskSystem.ScheduleTask(pickUpTask, priority);
             return pickUpTask;
         }
-
+        /// <summary>
+        /// Go to an object with the Item component and pick it up when near enough
+        /// Might fail, when object is moving to fast
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="destinationObject">Object the agent should go to and pick up. Needs to have an item component and be reachable by the agent.</param>
+        /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
+        /// <returns></returns>
         public AgentBaseTask GoToAndPickUp(GameObject destinationObject, int priority = 0)
         {
             AgentBaseTask goToTask = GoTo(destinationObject, default, priority,true);
             AgentBaseTask pickUpTask = PickUp(destinationObject, priority);
             return pickUpTask;
         }
+
+        /// <summary>
+        /// Drop the an or all object(s) with the Item component that is currently attached to the agent
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="dropObject">The item that should be dropped, no item will result in all items being dropped</param>
+        /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
+        /// <returns></returns>
+        public AgentBaseTask DropItem(GameObject dropObject = null, int priority = 0)
+        {
+            AgentDropTask dropTask = new AgentDropTask(dropObject);
+            scheduleTaskSystem.ScheduleTask(dropTask, priority);
+            return dropTask;
+        }
+        /// <summary>
+        /// Go to coordinates and drop an or all object(s) with the Item component that is currently attached to the agent
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="destinationCoordinates">Position the agent should go to</param>
+        /// <param name="dropObject">The item that should be dropped, no item will result in all items being dropped</param>
+        /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
+        /// <returns></returns>
+        public AgentBaseTask GoToAndDropItem(Vector3 destinationCoordinates, GameObject dropObject = null, int priority = 0)
+        {
+            AgentBaseTask goToTask = GoTo(destinationCoordinates, priority);
+            AgentBaseTask dropTask = DropItem(dropObject, priority);
+            return dropTask;
+        }
+        /// <summary>
+        /// Go to a transform and drop an or all object(s) with the Item component that is currently attached to the agent
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="destinationTransform">Transform the agent should go to</param>
+        /// <param name="dropObject">The item that should be dropped, no item will result in all items being dropped</param>
+        /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
+        /// <returns></returns>
+        public AgentBaseTask GoToAndDropItem(Transform destinationTransform, GameObject dropObject = null, int priority = 0)
+        {
+            AgentBaseTask goToTask = GoTo(destinationTransform, default, priority);
+            AgentBaseTask dropTask = DropItem(dropObject, priority);
+            return dropTask;
+        }
+
     }
 }

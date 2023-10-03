@@ -14,10 +14,6 @@ namespace i5.VirtualAgents.AgentTasks
     /// </summary>
     public class AgentPickUpTask : AgentBaseTask, ISerializable
     {
-        /// <summary>
-        /// Reference to the NavMeshAgent component
-        /// </summary>
-        protected NavMeshAgent navMeshAgent;
 
         /// <summary>
         /// Minimum distance of the agent to the target so that the traget can be picked up
@@ -44,9 +40,9 @@ namespace i5.VirtualAgents.AgentTasks
         }
 
         /// <summary>
-        /// Starts the movement task
+        /// Starts the pickUp task
         /// </summary>
-        /// <param name="agent">The agent which should execute the movement task</param>
+        /// <param name="agent">The agent which should execute the pickUP task</param>
         public override void StartExecution(Agent agent)
         {
             base.StartExecution(agent);
@@ -94,7 +90,6 @@ namespace i5.VirtualAgents.AgentTasks
             var constraint = agent.GetComponentInChildren<TwoBoneIKConstraint>();
             constraint.data.target.position = item.gripTarget.position;
             constraint.data.target.rotation = item.gripTarget.rotation;
-            Debug.Log(constraint);
             constraint.weight = 0;
             item.isPickedUp = true;
             while (constraint.weight < 1)
