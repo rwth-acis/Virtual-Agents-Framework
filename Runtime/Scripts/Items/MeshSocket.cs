@@ -29,6 +29,7 @@ public class MeshSocket : MonoBehaviour
         {
             objectTransform.localPosition = Vector3.zero;
             objectTransform.localRotation = Quaternion.identity;
+            yield return new WaitForSeconds(0.025f);
         }
     }
 
