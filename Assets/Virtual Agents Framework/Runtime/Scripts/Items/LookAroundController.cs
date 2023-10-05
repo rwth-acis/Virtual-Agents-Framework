@@ -311,6 +311,7 @@ namespace i5.VirtualAgents
                 }
 
             }
+            //Transition the target position of the head aim constraint to the target position over time
             headAimConstraint.data.sourceObjects[0].transform.position = Vector3.Lerp(headAimConstraint.data.sourceObjects[0].transform.position, targetPosition, Time.deltaTime * lookSpeed);
         }
     }

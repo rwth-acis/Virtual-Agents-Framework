@@ -20,7 +20,17 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         private const float minDistance = 1.20f;
 
+        /// <summary>
+        /// Speed of IK animations
+        /// </summary>
+        private const float moveSpeed = 2f;
 
+
+        /// <summary>
+        /// How near an IK target has to be to the actual target position to be considered as reached
+        /// </summary>
+        private float proximityThreshold = 0.05f; 
+        
         /// <summary>
         /// Object that should be picked up
         /// </summary>
@@ -88,19 +98,23 @@ namespace i5.VirtualAgents.AgentTasks
         {
             
             var constraint = agent.GetComponentInChildren<TwoBoneIKConstraint>();
-            constraint.data.target.position = item.gripTarget.position;
-            constraint.data.target.rotation = item.gripTarget.rotation;
-            constraint.weight = 0;
+            constraint.data.target.position = constraint.data.tip.position;
+            constraint.data.target.rotation = constraint.data.tip.rotation;
+            constraint.weight = 1;
             item.isPickedUp = true;
-            while (constraint.weight < 1)
+
+            while (Vector3.Distance(constraint.data.target.position, item.gripTarget.position) > proximityThreshold)
             {
-                constraint.weight += 0.02f;
-                yield return new WaitForSeconds(0.01f);
+                constraint.data.target.position = Vector3.Lerp(constraint.data.target.position, item.gripTarget.position, Time.deltaTime * moveSpeed);
+                constraint.data.target.rotation = Quaternion.Lerp(constraint.data.target.rotation, item.gripTarget.rotation, Time.deltaTime * moveSpeed);
+
+                yield return null;
 
                 //Update the target position and rotation of the IK constraint
-                constraint.data.target.position = item.gripTarget.position;
-                constraint.data.target.rotation = item.gripTarget.rotation;
             }
+            // Set the target position and rotation to the exact values
+            constraint.data.target.position = item.gripTarget.position;
+            constraint.data.target.rotation = item.gripTarget.rotation;
             pickUpObject(agent, item);
         }
         //Pickup the object and attach it to the agent
