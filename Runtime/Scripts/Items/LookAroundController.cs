@@ -14,6 +14,7 @@ namespace i5.VirtualAgents
         public float distance = 0;
         public float importance = 0;
         public float timeLookedAt = 0;
+        public float novelty = 0;
         public float calcValueOfInterest = 0;
         public bool isCurrentlyNearby = false;
     }
@@ -21,8 +22,9 @@ namespace i5.VirtualAgents
 
     public class LookAroundController : MonoBehaviour
     {
-        public int maxNumberOfItemsInRange = 50;
+        
         public float detectionRadius = 10f;
+        public int maxNumberOfItemsInRange = 50;
 
         public float detectionIntervalWhenIdle = 3f;
         public float detectionIntervalWhenWalking = 0.5f;
@@ -42,18 +44,21 @@ namespace i5.VirtualAgents
         [Range(0f, 1f)]
         public float chanceIdealTime = 0.25f;
 
-        [SerializeField]
-        private List<ItemInfo> nearbyItems = new List<ItemInfo>();
-        private float timer = 0f;
+        
+
         public float lookSpeed = 2f;
-        [Range(0f, 1f)]
-        public float maxWeight = 0.8f;
+        
         ItemInfo currentlyMostInterestingItem;
 
         MultiAimConstraint headAimConstraint;
 
-        public LayerMask seeLayer;
+        public LayerMask seeLayers;
         public LayerMask occlusionLayers = default;
+
+        private List<ItemInfo> nearbyItems = new List<ItemInfo>();
+        private float timer = 0f;
+        [Range(0f, 1f)]
+        private float maxWeight = 0.8f;
 
         // Start is called before the first frame update
         void Start()
@@ -115,8 +120,8 @@ namespace i5.VirtualAgents
             Vector3 halfExtents = new Vector3(detectionRadius, 2, detectionRadius);
             Quaternion rotation = transform.rotation * Quaternion.Euler(0, 45, 0);
 
-            int count = Physics.OverlapBoxNonAlloc(center, halfExtents, colliders, rotation, seeLayer);
-            //Use Window > Analysis > Physics Debug > Queries to see the detection radius, decrease detection Interval to see the qube on every frame
+            int count = Physics.OverlapBoxNonAlloc(center, halfExtents, colliders, rotation, seeLayers);
+            //Use Window > Analysis > Physics Debug > Queries to see the detection radius, decrease detection Interval to see the cube on every frame
 
             for (int i = 0; i < count; i++)
             {
@@ -140,6 +145,7 @@ namespace i5.VirtualAgents
                         distance = Vector3.Distance(transform.position, item.transform.position),
                         importance = item.importance,
                         timeLookedAt = 0f,
+                        novelty = 0f,
                         calcValueOfInterest = 0f,
                         isCurrentlyNearby = true
                     };
@@ -154,12 +160,13 @@ namespace i5.VirtualAgents
                     //If importance of the item increased, reset time looked at
                     if(itemInfo.importance < item.importance)
                     {
-                        itemInfo.timeLookedAt = 0f;
+                        itemInfo.novelty += (10 / detectionInterval);
                     }
                     itemInfo.importance = item.importance;
                     itemInfo.isCurrentlyNearby = true;
                     //Decrease time looked at by the detection interval
-                    itemInfo.timeLookedAt -= detectionInterval;
+                    itemInfo.timeLookedAt = Mathf.Max(0f, itemInfo.timeLookedAt - detectionInterval);
+                    
                 }
             }
             //Remove items that are not in the detection radius anymore
@@ -193,27 +200,32 @@ namespace i5.VirtualAgents
         {
             foreach (ItemInfo itemInfo in nearbyItems)
             {
-                itemInfo.calcValueOfInterest = itemInfo.importance - itemInfo.distance - itemInfo.timeLookedAt;
+                itemInfo.calcValueOfInterest = itemInfo.importance - itemInfo.distance - itemInfo.timeLookedAt + itemInfo.novelty;
             }
             nearbyItems.Sort((x, y) => y.calcValueOfInterest.CompareTo(x.calcValueOfInterest));
 
             ItemInfo newItemOfInterest = selectFromListWithProbability();
 
-            if (currentlyMostInterestingItem != newItemOfInterest && newItemOfInterest != null)
-            {
-                newItemOfInterest.timeLookedAt -= 5;
-            }
+            
 
-            currentlyMostInterestingItem = newItemOfInterest;
-            if (currentlyMostInterestingItem != null)
+            if (newItemOfInterest != null)
             {
                 //Because the sourceObjects is a struct, we need to get the array, change it and then overwrite it again
                 var a = headAimConstraint.data.sourceObjects;
                 a.SetWeight(0, maxWeight);
                 headAimConstraint.data.sourceObjects = a;
-                currentlyMostInterestingItem.timeLookedAt += detectionInterval * 2;
+                //Increase time looked at by the detection interval
+                newItemOfInterest.timeLookedAt += detectionInterval * 2;
+                //Decrease novelty over time
+                newItemOfInterest.novelty = Mathf.Max(0f, newItemOfInterest.novelty - (1 / detectionInterval));
+                //Increase novalty if the item changed
+                if (currentlyMostInterestingItem != newItemOfInterest)
+                {
+                    newItemOfInterest.novelty += (5 / detectionInterval);
+                }
             }
 
+            currentlyMostInterestingItem = newItemOfInterest;
         }
 
         public bool IsInSight(GameObject obj)
