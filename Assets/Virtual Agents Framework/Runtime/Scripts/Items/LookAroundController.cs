@@ -52,11 +52,13 @@ namespace i5.VirtualAgents
 
         MultiAimConstraint headAimConstraint;
 
+        public LayerMask seeLayer;
         public LayerMask occlusionLayers = default;
 
         // Start is called before the first frame update
         void Start()
         {
+
             headAimConstraint = GetComponentInChildren<MultiAimConstraint>();
 
             //Normalize chances
@@ -112,7 +114,8 @@ namespace i5.VirtualAgents
 
             Vector3 halfExtents = new Vector3(detectionRadius, 2, detectionRadius);
             Quaternion rotation = transform.rotation * Quaternion.Euler(0, 45, 0);
-            int count = Physics.OverlapBoxNonAlloc(center, halfExtents, colliders, rotation);
+
+            int count = Physics.OverlapBoxNonAlloc(center, halfExtents, colliders, rotation, seeLayer);
             //Use Window > Analysis > Physics Debug > Queries to see the detection radius, decrease detection Interval to see the qube on every frame
 
             for (int i = 0; i < count; i++)
@@ -215,13 +218,15 @@ namespace i5.VirtualAgents
 
         public bool IsInSight(GameObject obj)
         {
-            Vector3 origin = transform.position;
+            Vector3 origin = transform.position + transform.forward;
             origin.y += 1.5f;
             Vector3 dest = obj.transform.position;
-            if (Physics.Raycast(origin, dest, occlusionLayers))
+            if (Physics.Linecast(origin, dest, occlusionLayers))
             {
+                //Debug.DrawLine(origin, dest, Color.red, 2f);
                 return false;
             }
+            //Debug.DrawLine(origin, dest, Color.green, 2f);
             return true;
         }
 
