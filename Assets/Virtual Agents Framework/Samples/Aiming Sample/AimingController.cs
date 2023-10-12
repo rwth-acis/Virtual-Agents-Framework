@@ -1,8 +1,6 @@
+using i5.VirtualAgents.AgentTasks;
 using System.Collections.Generic;
 using UnityEngine;
-using i5.VirtualAgents;
-using i5.VirtualAgents.ScheduleBasedExecution;
-using i5.VirtualAgents.AgentTasks;
 
 namespace i5.VirtualAgents.Examples
 {
@@ -15,34 +13,52 @@ namespace i5.VirtualAgents.Examples
         public GameObject target;
         public int aimAtTime = 5;
 
+        public bool aimHead = true;
+        public bool aimLeftArm = true;
+        public bool aimRightArm = true;
+        public bool waveRightArm = true;
+
         protected override void Start()
         {
             base.Start();
-            if(walk)
+            if (walk)
             {
                 for (int i = 0; i < waypoints.Count; i++)
                 {
                     taskSystem.Tasks.GoTo(waypoints[i].position);
                 }
             }
-            
+
 
             if (useTaskShortcuts)
             {
                 Debug.Log("Agent has been equipped with tasks via shortcuts");
 
                 // The quickest and most intuitive way is to use the task shortcuts of the agent
-                AgentBaseTask wave1 = taskSystem.Tasks.PlayAnimation("WaveRight", 2, "", 0, "Right Arm");
+                if (waveRightArm)
+                {
+                    AgentBaseTask wave1 = taskSystem.Tasks.PlayAnimation("WaveRight", 2, "", 0, "Right Arm");
+                }
+
                 //AgentBaseTask wave2 = taskSystem.Tasks.PlayAnimation("WaveLeft", 2, "", 0, "Left Arm");
 
                 // A target can be added to all animations but works best with no animation or animations that are meant for aiming (eg. "startAimAt") 
-                
 
-                AgentBaseTask pointingRight = taskSystem.Tasks.PlayAnimation("PointingRight", aimAtTime, "", 0, "Right Arm", target);
+                if (aimHead)
+                {
+                    AgentBaseTask pointingHead = taskSystem.Tasks.PlayAnimation("NoAnimation", aimAtTime, "", 0, "Head", target);
+                }
+                if (aimLeftArm)
+                {
+                    AgentBaseTask pointingLeft = taskSystem.Tasks.PlayAnimation("PointingLeft", aimAtTime, "", 0, "Left Arm", target);
+                }
+                if (aimRightArm)
+                {
+                    AgentBaseTask pointingRight = taskSystem.Tasks.PlayAnimation("PointingRight", aimAtTime, "", 0, "Right Arm", target);
+                }
 
-                AgentBaseTask pointingLeft = taskSystem.Tasks.PlayAnimation("PointingLeft", aimAtTime, "", 0, "Left Arm", target);
 
-                AgentBaseTask pointingHead = taskSystem.Tasks.PlayAnimation("NoAnimation", aimAtTime, "", 0, "Head", target);
+
             }
             else
             {

@@ -1,10 +1,6 @@
-using Codice.CM.Common;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using static Codice.Client.Common.WebApi.WebApiEndpoints;
-using UnityEngine.Animations.Rigging;
 using System.Linq;
+using UnityEngine;
 
 namespace i5.VirtualAgents
 {
@@ -22,7 +18,7 @@ namespace i5.VirtualAgents
 
     public class LookAroundController : MonoBehaviour
     {
-        
+
         public float detectionRadius = 10f;
         public int maxNumberOfItemsInRange = 50;
 
@@ -44,13 +40,11 @@ namespace i5.VirtualAgents
         [Range(0f, 1f)]
         public float chanceIdealTime = 0.25f;
 
-        
+
 
         public float lookSpeed = 2f;
-        
-        ItemInfo currentlyMostInterestingItem;
 
-        MultiAimConstraint headAimConstraint;
+        ItemInfo currentlyMostInterestingItem;
 
         public LayerMask seeLayers;
         public LayerMask occlusionLayers = default;
@@ -60,11 +54,17 @@ namespace i5.VirtualAgents
         [Range(0f, 1f)]
         private float maxWeight = 0.8f;
 
+        private AimAtSomething aimScript;
+
         // Start is called before the first frame update
         void Start()
         {
 
-            headAimConstraint = GetComponentInChildren<MultiAimConstraint>();
+            aimScript = this.gameObject.AddComponent<AimAtSomething>();
+
+            aimScript.SetBonePreset("Head");
+            aimScript.SetShouldDestroyItself(false);
+            aimScript.lookSpeed = lookSpeed;
 
             //Normalize chances
             float sum = chanceFirstItem + chanceSecondItem + chanceThirdItem + chanceRandomItem + chanceIdealTime;
@@ -83,20 +83,48 @@ namespace i5.VirtualAgents
             }
 
         }
+        private void OnValidate()
+        {
+            if (aimScript != null)
+                aimScript.lookSpeed = lookSpeed;
+        }
 
         void Update()
         {
             //Check if the agent is walking
-            adjustIntervalBasedOnWalkingSpeed();
+            AdjustIntervalBasedOnWalkingSpeed();
 
             //Position of the Target is updated every frame in cases where it moves 
-            updatePositionOfTarget();
+            UpdatePositionOfTarget();
 
             //Every second check which items are nearby and invoke the function to calculate the most interesting item
-            checkWitchItemsAreNearbyAndSeeable();
+            CheckWitchItemsAreNearbyAndSeeable();
 
         }
-        private void checkWitchItemsAreNearbyAndSeeable()
+        private void AdjustIntervalBasedOnWalkingSpeed()
+        {
+            if (GetComponent<UnityEngine.AI.NavMeshAgent>().velocity.magnitude > 0.1f)
+            {
+                detectionInterval = detectionIntervalWhenWalking;
+            }
+            else
+            {
+                detectionInterval = detectionIntervalWhenIdle;
+            }
+        }
+
+        private void UpdatePositionOfTarget()
+        {
+            if (currentlyMostInterestingItem != null)
+            {
+                aimScript.SetTargetTransform(currentlyMostInterestingItem.item.transform);
+            }
+            else
+            {
+                aimScript.Stop();
+            }
+        }
+        private void CheckWitchItemsAreNearbyAndSeeable()
         {
             timer += Time.deltaTime;
             if (timer < detectionInterval)
@@ -156,9 +184,9 @@ namespace i5.VirtualAgents
                     //If the item is already in the array, update info
                     ItemInfo itemInfo = nearbyItems.Find(x => x.item == item);
                     itemInfo.distance = Vector3.Distance(transform.position, item.transform.position);
-                    
+
                     //If importance of the item increased, reset time looked at
-                    if(itemInfo.importance < item.importance)
+                    if (itemInfo.importance < item.importance)
                     {
                         itemInfo.novelty += (10 / detectionInterval);
                     }
@@ -166,7 +194,7 @@ namespace i5.VirtualAgents
                     itemInfo.isCurrentlyNearby = true;
                     //Decrease time looked at by the detection interval
                     itemInfo.timeLookedAt = Mathf.Max(0f, itemInfo.timeLookedAt - detectionInterval);
-                    
+
                 }
             }
             //Remove items that are not in the detection radius anymore
@@ -179,24 +207,12 @@ namespace i5.VirtualAgents
             }
 
             //Calculate the most interesting item and select one by chance from the list
-            calculateInterestInItemsAndSelectOne();
+            CalculateInterestInItemsAndSelectOne();
 
         }
 
-        private void adjustIntervalBasedOnWalkingSpeed()
-        {
-            if (GetComponent<UnityEngine.AI.NavMeshAgent>().velocity.magnitude > 0.1f)
-            {
-                detectionInterval = detectionIntervalWhenWalking;
-            }
-            else
-            {
-                detectionInterval = detectionIntervalWhenIdle;
-            }
-        }
 
-
-        public void calculateInterestInItemsAndSelectOne()
+        public void CalculateInterestInItemsAndSelectOne()
         {
             foreach (ItemInfo itemInfo in nearbyItems)
             {
@@ -204,16 +220,14 @@ namespace i5.VirtualAgents
             }
             nearbyItems.Sort((x, y) => y.calcValueOfInterest.CompareTo(x.calcValueOfInterest));
 
-            ItemInfo newItemOfInterest = selectFromListWithProbability();
+            ItemInfo newItemOfInterest = SelectFromListWithProbability();
 
-            
+
 
             if (newItemOfInterest != null)
             {
                 //Because the sourceObjects is a struct, we need to get the array, change it and then overwrite it again
-                var a = headAimConstraint.data.sourceObjects;
-                a.SetWeight(0, maxWeight);
-                headAimConstraint.data.sourceObjects = a;
+                aimScript.weight = maxWeight;
                 //Increase time looked at by the detection interval
                 newItemOfInterest.timeLookedAt += detectionInterval * 2;
                 //Decrease novelty over time
@@ -242,7 +256,7 @@ namespace i5.VirtualAgents
             return true;
         }
 
-        private ItemInfo selectFromListWithProbability()
+        private ItemInfo SelectFromListWithProbability()
         {
             if (nearbyItems.Count == 0)
             {
@@ -290,29 +304,6 @@ namespace i5.VirtualAgents
             }
         }
 
-        private void updatePositionOfTarget()
-        {
-            Vector3 targetPosition;
-            if (currentlyMostInterestingItem != null && headAimConstraint != null)
-            {
-                targetPosition = currentlyMostInterestingItem.item.transform.position;
-            }
-            else
-            {
-                //Return to standard look ahead
-                targetPosition = transform.position + transform.forward * 2f + new Vector3(0f, 1.5f, 0f);
 
-                //When target position of the standard look is reached, set weight to 0, so that other animations can take over
-                if (headAimConstraint.data.sourceObjects[0].transform.position == targetPosition)
-                {
-                    var a = headAimConstraint.data.sourceObjects;
-                    a.SetWeight(0, 0);
-                    headAimConstraint.data.sourceObjects = a;
-                }
-
-            }
-            //Transition the target position of the head aim constraint to the target position over time
-            headAimConstraint.data.sourceObjects[0].transform.position = Vector3.Lerp(headAimConstraint.data.sourceObjects[0].transform.position, targetPosition, Time.deltaTime * lookSpeed);
-        }
     }
 }

@@ -1,12 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DebugDrawSphere : MonoBehaviour
 {
+    [SerializeField]
+    public Color color = Color.green;
+    [SerializeField]
+    public float radius = 0.05f;
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 0.05f);
+        Gizmos.color = color;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }
