@@ -37,7 +37,7 @@ namespace i5.VirtualAgents.Examples
                 // The quickest and most intuitive way is to use the task shortcuts of the agent
                 if (waveRightArm)
                 {
-                    AgentBaseTask wave1 = taskSystem.Tasks.PlayAnimation("WaveRight", 2, "", 0, "Right Arm");
+                    AgentBaseTask wave1 = taskSystem.Tasks.PlayAnimation("WaveRight", 5, "", 0, "Right Arm");
                 }
 
                 //AgentBaseTask wave2 = taskSystem.Tasks.PlayAnimation("WaveLeft", 2, "", 0, "Left Arm");

@@ -936,13 +936,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RigLayers:
-  - m_Rig: {fileID: 0}
-    m_Active: 1
   - m_Rig: {fileID: 5593429887882419193}
     m_Active: 1
   - m_Rig: {fileID: 6236198718674910226}
-    m_Active: 1
-  - m_Rig: {fileID: 0}
     m_Active: 1
   m_Effectors: []
 --- !u!4 &447753056685965252 stripped

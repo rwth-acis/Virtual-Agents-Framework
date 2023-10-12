@@ -47,10 +47,10 @@ namespace i5.VirtualAgents.AgentTasks
 
 
                 aimScript = agent.gameObject.AddComponent<AimAtSomething>();
+                Debug.Log("Aimscript added to agent");
+                
+                agent.StartCoroutine(WaitForCurrentAnimationToFinishAndStartAimScript());
 
-                //Not sure if this does anything, lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
-                agent.StartCoroutine(WaitForCurrentAnimationToFinish());
-                aimScript.SetupAndStart(layer, aimtarget.transform);
             }
             agent.StartCoroutine(Wait(playTime));
         }
@@ -75,13 +75,11 @@ namespace i5.VirtualAgents.AgentTasks
         }
 
         // wait for current animation to finish
-        private IEnumerator WaitForCurrentAnimationToFinish()
+        private IEnumerator WaitForCurrentAnimationToFinishAndStartAimScript()
         {
+            //Pointat animation takes 26 frames to finish
             yield return new WaitForSeconds(0.5f);
-            while (animator.GetCurrentAnimatorStateInfo(1).normalizedTime < 1.0f)
-            {
-                yield return null;
-            }
+            aimScript.SetupAndStart(layer, aimtarget.transform);
         }
 
         public void Serialize(SerializationDataContainer serializer)
