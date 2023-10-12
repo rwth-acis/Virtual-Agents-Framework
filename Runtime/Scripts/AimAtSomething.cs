@@ -56,12 +56,7 @@ public class AimAtSomething : MonoBehaviour
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        Animator animator = GetComponent<Animator>();
-        boneTransforms = new Transform[humanBones.Length];
-        for (int i = 0; i < humanBones.Length; i++)
-        {
-            boneTransforms[i] = animator.GetBoneTransform(humanBones[i].bone);
-        }
+
     }
     // LateUpdate is called once per frame, after Update
     void LateUpdate()
@@ -439,7 +434,12 @@ public class AimAtSomething : MonoBehaviour
                 break;
         }
 
-        Start();
+        Animator animator = GetComponent<Animator>();
+        boneTransforms = new Transform[humanBones.Length];
+        for (int i = 0; i < humanBones.Length; i++)
+        {
+            boneTransforms[i] = animator.GetBoneTransform(humanBones[i].bone);
+        }
     }
 
     private void OnDrawGizmos()
