@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace i5.VirtualAgents.Examples
 {
-    public class AimingController : SampleScheduleController
+    public class AimingSampleController : SampleScheduleController
     {
         public List<Transform> waypoints;
         public Transform highPrioWaypoint;
@@ -63,15 +63,33 @@ namespace i5.VirtualAgents.Examples
             else
             {
                 // Alternative way: Create the tasks and schedule them explicitly
+                if (waveRightArm)
+                {
+                    AgentAnimationTask wave1 = new AgentAnimationTask("WaveRight", 5, "", "Right Arm");
+                    taskSystem.ScheduleTask(wave1, 0, "Right Arm");
+                }
 
-                AgentAnimationTask pointingRight = new AgentAnimationTask("PointingRight", 10, "", target, "Right Arm");
-                taskSystem.ScheduleTask(pointingRight, aimAtTime, "Right Arm");
+                if (aimHead)
+                {
+                    AgentAnimationTask pointingHead = new AgentAnimationTask("NoAnimation", aimAtTime, "", "Head", target);
+                    taskSystem.ScheduleTask(pointingHead, 0, "Head");
+                }
+                if (aimLeftArm)
+                {
+                    AgentAnimationTask pointingLeft = new AgentAnimationTask("PointingLeft", aimAtTime, "", "Left Arm", target);
+                    taskSystem.ScheduleTask(pointingLeft, 0, "Left Arm");
+                }
+                if (aimRightArm)
+                {
+                    AgentAnimationTask pointingRight = new AgentAnimationTask("PointingRight", aimAtTime, "", "Right Arm", target);
+                    taskSystem.ScheduleTask(pointingRight, 0, "Right Arm");
+                }
 
-                AgentAnimationTask pointingLeft = new AgentAnimationTask("PointingLeft", 10, "", target, "Left Arm");
-                taskSystem.ScheduleTask(pointingLeft, aimAtTime, "Left Arm");
 
-                AgentAnimationTask pointingHead = new AgentAnimationTask("NoAnimation", 10, "", target, "Head");
-                taskSystem.ScheduleTask(pointingHead, aimAtTime, "Head");
+
+
+
+
 
             }
         }

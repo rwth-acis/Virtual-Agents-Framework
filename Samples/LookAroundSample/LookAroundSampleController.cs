@@ -1,12 +1,16 @@
-using i5.VirtualAgents.ScheduleBasedExecution;
+using i5.VirtualAgents.AgentTasks;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace i5.VirtualAgents.Examples
 {
-    public class LookAroundSampleController: SampleScheduleController
+    public class LookAroundSampleController : SampleScheduleController
     {
         public List<GameObject> waypoints;
+
+        public GameObject target;
+        public bool overwriteLookAroundWithAimHead = false;
+        public int aimAtTime = 100;
 
         protected override void Start()
         {
@@ -16,8 +20,13 @@ namespace i5.VirtualAgents.Examples
             // AgentMovementTask and schedule it using agent.ScheduleTask.
             for (int i = 0; i < waypoints.Count; i++)
             {
-                taskSystem.Tasks.GoTo(waypoints[i],default);
+                taskSystem.Tasks.GoTo(waypoints[i], default);
             }
+            if (overwriteLookAroundWithAimHead)
+            {
+                AgentBaseTask pointingHead = taskSystem.Tasks.PlayAnimation("NoAnimation", aimAtTime, "", 0, "Head", target);
+            }
+
         }
     }
 }

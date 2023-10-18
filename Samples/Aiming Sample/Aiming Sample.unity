@@ -589,7 +589,7 @@ MonoBehaviour:
   aimHead: 1
   aimLeftArm: 1
   aimRightArm: 1
-  waveRightArm: 0
+  waveRightArm: 1
 --- !u!1 &1482337908
 GameObject:
   m_ObjectHideFlags: 0
@@ -2533,7 +2533,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6870636111335835452, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       propertyPath: m_WarningMessage
-      value: 
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'LowerArm.R'\n\tTransform 'Spine'\n\tTransform
+        'Hand.L'\n\tTransform 'Hand.R'\n\tTransform 'UpperArm.R'\n\tTransform 'LowerArm.R'\n\tTransform
+        'Spine'\n\tTransform 'Hand.L'\n\tTransform 'Hand.R'\n\tTransform 'UpperArm.R'\n\tand
+        more ..."
       objectReference: {fileID: 0}
     - target: {fileID: 6962911434214623804, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       propertyPath: m_LocalPosition.x

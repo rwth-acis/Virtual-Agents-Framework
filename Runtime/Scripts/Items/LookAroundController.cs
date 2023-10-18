@@ -19,6 +19,7 @@ namespace i5.VirtualAgents
     public class LookAroundController : MonoBehaviour
     {
 
+
         public float detectionRadius = 10f;
         public int maxNumberOfItemsInRange = 50;
 
@@ -44,7 +45,7 @@ namespace i5.VirtualAgents
 
         public float lookSpeed = 2f;
 
-        ItemInfo currentlyMostInterestingItem;
+        ItemInfo currentItemOfInterest;
 
         public LayerMask seeLayers;
         public LayerMask occlusionLayers = default;
@@ -83,6 +84,22 @@ namespace i5.VirtualAgents
             }
 
         }
+        public void Activate()
+        {
+            if (aimScript != null)
+                aimScript.enabled = true;
+
+            this.enabled = true;
+        }
+        public void Deactivate()
+        {
+            if (aimScript != null)
+                aimScript.enabled = false;
+
+            this.enabled = false;
+        }
+
+        //If changes are made to the lookSpeed in the inspector, update the aim script
         private void OnValidate()
         {
             if (aimScript != null)
@@ -94,11 +111,11 @@ namespace i5.VirtualAgents
             //Check if the agent is walking
             AdjustIntervalBasedOnWalkingSpeed();
 
-            //Position of the Target is updated every frame in cases where it moves 
-            UpdatePositionOfTarget();
-
             //Every second check which items are nearby and invoke the function to calculate the most interesting item
             CheckWitchItemsAreNearbyAndSeeable();
+
+            //Position of the Target is updated every frame in cases where it moves 
+            UpdatePositionOfTarget();
 
         }
         private void AdjustIntervalBasedOnWalkingSpeed()
@@ -115,9 +132,9 @@ namespace i5.VirtualAgents
 
         private void UpdatePositionOfTarget()
         {
-            if (currentlyMostInterestingItem != null)
+            if (currentItemOfInterest != null)
             {
-                aimScript.SetTargetTransform(currentlyMostInterestingItem.item.transform);
+                aimScript.SetTargetTransform(currentItemOfInterest.item.transform);
             }
             else
             {
@@ -226,20 +243,19 @@ namespace i5.VirtualAgents
 
             if (newItemOfInterest != null)
             {
-                //Because the sourceObjects is a struct, we need to get the array, change it and then overwrite it again
                 aimScript.weight = maxWeight;
                 //Increase time looked at by the detection interval
                 newItemOfInterest.timeLookedAt += detectionInterval * 2;
                 //Decrease novelty over time
                 newItemOfInterest.novelty = Mathf.Max(0f, newItemOfInterest.novelty - (1 / detectionInterval));
                 //Increase novalty if the item changed
-                if (currentlyMostInterestingItem != newItemOfInterest)
+                if (currentItemOfInterest != newItemOfInterest)
                 {
                     newItemOfInterest.novelty += (5 / detectionInterval);
                 }
             }
 
-            currentlyMostInterestingItem = newItemOfInterest;
+            currentItemOfInterest = newItemOfInterest;
         }
 
         public bool IsInSight(GameObject obj)

@@ -67,7 +67,6 @@ public class AimAtSomething : MonoBehaviour
         {
             UpdateTargetFollower();
 
-
             Vector3 targetPosition = CalculateWhereToLook();
 
             for (int i = 0; i < iterations; i++)
@@ -123,13 +122,16 @@ public class AimAtSomething : MonoBehaviour
             //Return to the starting posiont
             targetPosition = startingTransform.position;
 
-            //increase LookSpeed over time to finish up the movement
-            increasLookSpeedBy = Math.Min(10, increasLookSpeedBy + 0.7f);
-            weight = Math.Max(0, weight - 0.01f);
 
-            //When target position of the standard look is reached destroy this component
-            if (Vector3.Distance(targetFollower.position, targetPosition) < 0.05f)
+            if (Vector3.Distance(targetFollower.position, targetPosition) >= 0.05f)
             {
+                //increase LookSpeed over time to finish up the movement
+                increasLookSpeedBy = Math.Min(10, increasLookSpeedBy + 0.7f);
+                weight = Math.Max(0, weight - 0.01f);
+            }
+            else
+            {
+                //When target position of the standard look is reached destroy this component
                 weight = 0f;
                 if (shouldDestroyIteselfe)
                 {
@@ -179,16 +181,12 @@ public class AimAtSomething : MonoBehaviour
             DebugDrawSphere targetFollow = targetFollower.gameObject.AddComponent<DebugDrawSphere>();
             targetFollow.color = Color.red;
             targetFollow.radius = 0.50f;
+
             //Set starting position of targetFollower 1 unit along the current aiming direction getAimDirectionVektor() * 1f +
             this.startingTransform = new GameObject().transform;
             this.startingTransform.gameObject.name = "StartingPositon";
             this.startingTransform.position = aimTransform.position + (GetAimDirectionVektor() * 1f);
             this.startingTransform.parent = this.transform;
-
-            Transform debug = new GameObject().transform;
-            debug.gameObject.name = "Debug";
-            debug.position = startingTransform.position;
-            debug.gameObject.AddComponent<DebugDrawSphere>();
             this.targetFollower.position = startingTransform.position;
         }
 
@@ -388,12 +386,12 @@ public class AimAtSomething : MonoBehaviour
                 humanBones[0] = new HumanBone
                 {
                     bone = HumanBodyBones.Head,
-                    weight = 0.9f
+                    weight = 0.75f
                 };
                 humanBones[1] = new HumanBone
                 {
                     bone = HumanBodyBones.Neck,
-                    weight = 0.5f
+                    weight = 0.25f
                 };
                 humanBones[2] = new HumanBone
                 {

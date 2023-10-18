@@ -12,14 +12,15 @@ namespace i5.VirtualAgents.AgentTasks
         private string startTrigger;
         private string stopTrigger;
         private float playTime;
-        private GameObject aimtarget;
-        string layer;
+        private readonly GameObject aimtarget;
+        private readonly string layer;
 
         AimAtSomething aimScript;
 
+        LookAroundController lookAroundController;
         public AgentAnimationTask() { }
 
-        public AgentAnimationTask(string startTrigger, float playTime, string stopTrigger = "", GameObject aimTarget = null, string layer = "")
+        public AgentAnimationTask(string startTrigger, float playTime, string stopTrigger = "", string layer = "", GameObject aimTarget = null)
         {
             this.startTrigger = startTrigger;
             this.stopTrigger = stopTrigger;
@@ -35,6 +36,7 @@ namespace i5.VirtualAgents.AgentTasks
         public override void StartExecution(Agent agent)
         {
             animator = agent.GetComponent<Animator>();
+            lookAroundController = agent.GetComponent<LookAroundController>();
             animator.SetTrigger(startTrigger);
 
 
@@ -48,7 +50,7 @@ namespace i5.VirtualAgents.AgentTasks
 
                 aimScript = agent.gameObject.AddComponent<AimAtSomething>();
                 Debug.Log("Aimscript added to agent");
-                
+
                 agent.StartCoroutine(WaitForCurrentAnimationToFinishAndStartAimScript());
 
             }
@@ -63,6 +65,10 @@ namespace i5.VirtualAgents.AgentTasks
             if (aimtarget != null)
             {
                 aimScript.Stop();
+                if (lookAroundController != null && layer == "Head")
+                {
+                    lookAroundController.Activate();
+                }
             }
             animator.SetTrigger(stopTrigger != "" ? stopTrigger : startTrigger);
         }
@@ -80,6 +86,11 @@ namespace i5.VirtualAgents.AgentTasks
             //Pointat animation takes 26 frames to finish
             yield return new WaitForSeconds(0.5f);
             aimScript.SetupAndStart(layer, aimtarget.transform);
+            //If the agent is setup to look around, stop it while aiming with the head
+            if (lookAroundController != null && layer == "Head")
+            {
+                lookAroundController.Deactivate();
+            }
         }
 
         public void Serialize(SerializationDataContainer serializer)
