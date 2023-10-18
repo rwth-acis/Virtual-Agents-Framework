@@ -23,19 +23,19 @@ namespace i5.VirtualAgents.Examples
 
         private IEnumerator MoveLoop(float waittime)
         {
-            while (!item.isPickedUp)
+            while (!item.getIsPickedUp())
             {
                 yield return StartCoroutine(MoveLeft());
                 yield return new WaitForSeconds(waittime);
-                if (item.isPickedUp) break;
+                if (item.getIsPickedUp()) break;
 
                 yield return StartCoroutine(MoveForward());
                 yield return new WaitForSeconds(waittime);
-                if (item.isPickedUp) break;
+                if (item.getIsPickedUp()) break;
 
                 yield return StartCoroutine(MoveRight());
                 yield return new WaitForSeconds(waittime);
-                if (item.isPickedUp) break;
+                if (item.getIsPickedUp()) break;
 
                 yield return StartCoroutine(MoveBackward());
                 yield return new WaitForSeconds(waittime);
