@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class DebugDrawLine : MonoBehaviour
 {
-    [SerializeField] private bool drawGreenY;
-    [SerializeField] private bool drawRedX;
-    [SerializeField] private bool drawBlueZ;
+    [SerializeField] private bool drawGreenY = false;
+    [SerializeField] private bool drawRedX = false;
+    [SerializeField] private bool drawBlueZ = true;
 
     private void OnDrawGizmos()
     {

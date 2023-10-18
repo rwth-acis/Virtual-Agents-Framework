@@ -1,5 +1,4 @@
 using i5.VirtualAgents.AgentTasks;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace i5.VirtualAgents.ScheduleBasedExecution
@@ -54,7 +53,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <param name="follow">Decides if the Agent should follow the GameObject, dynamically, even if the path cannot reach the GameObject </param>
         public AgentBaseTask GoTo(GameObject destinationObject, Vector3 offset = default, int priority = 0, bool follow = false)
         {
-            if(follow)
+            if (follow)
             {
                 AgentMovementTask movementTask = new AgentMovementTask(destinationObject, default, follow);
                 scheduleTaskSystem.ScheduleTask(movementTask, priority);
@@ -64,7 +63,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             {
                 return GoTo(destinationObject.transform, offset, priority);
             }
-            
+
         }
 
         /// <summary>
@@ -93,7 +92,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <param name="layer"></param> The animation layer on which the task should be excuted
         public AgentBaseTask PlayAnimation(string startTrigger, float playTime, string stopTrigger = "", int priority = 0, string layer = "Base Layer", GameObject aimTarget = null)
         {
-            AgentAnimationTask animationTask = new AgentAnimationTask(startTrigger, playTime, stopTrigger, aimTarget, layer);
+            AgentAnimationTask animationTask = new AgentAnimationTask(startTrigger, playTime, stopTrigger, layer, aimTarget);
             scheduleTaskSystem.ScheduleTask(animationTask, priority, layer);
             return animationTask;
         }
@@ -121,7 +120,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <returns></returns>
         public AgentBaseTask GoToAndPickUp(GameObject destinationObject, int priority = 0)
         {
-            AgentBaseTask goToTask = GoTo(destinationObject, default, priority,true);
+            AgentBaseTask goToTask = GoTo(destinationObject, default, priority, true);
             AgentBaseTask pickUpTask = PickUp(destinationObject, priority);
             return pickUpTask;
         }
