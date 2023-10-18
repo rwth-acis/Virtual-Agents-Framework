@@ -28,7 +28,7 @@ namespace i5.VirtualAgents.AgentTasks
 		/// <summary>
 		/// Determines if the agent should follow the DestinationObject automatically, even when path is noncomplete 
 		/// </summary>
-		private bool followingGameObject;
+		public bool FollowingGameObject;
 
 		/// <summary>
 		/// Destination coordinates of the movement task
@@ -65,13 +65,19 @@ namespace i5.VirtualAgents.AgentTasks
 		{
 			Destination = destinationCoordinates;
 			TargetSpeed = targetSpeed;
-			followingGameObject = false;
+			FollowingGameObject = false;
 		}
-		public AgentMovementTask(GameObject destinationObject, float targetSpeed = -1, bool followGameObject = false)
+        /// <summary>
+        /// Create an AgentMovementTask using a destination object
+        /// </summary>
+        /// <param name="destinationObject">The object that the agent should move to or follow</param>
+        /// <param name="targetSpeed">The target speed of the agent, e.g. to set running or walking; if not set, the default value in the NavMeshAgent is taken</param>
+		/// <param name="followGameObject">Determines if the agent should follow the DestinationObject automatically, even when path is noncomplete</param>
+        public AgentMovementTask(GameObject destinationObject, float targetSpeed = -1, bool followGameObject = false)
 		{
 			DestinationObject = destinationObject;
 			TargetSpeed = targetSpeed;
-			followingGameObject = followGameObject;
+			FollowingGameObject = followGameObject;
 		}
 
 		/// <summary>
@@ -104,7 +110,7 @@ namespace i5.VirtualAgents.AgentTasks
 		public override TaskState EvaluateTaskState()
 		{
 			// we only need to recalculate the path if we are following a GameObject
-			if (followingGameObject)
+			if (FollowingGameObject)
 			{
 				if (timeOnCurrentPath >= PathUpdateInterval)
 				{
@@ -124,7 +130,7 @@ namespace i5.VirtualAgents.AgentTasks
 			if (navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
 				return TaskState.Failure; // The navmesh agent couldn't generate a complete and valid path
 										  // If the destination is at a stationary location, a partial path will also result in failure. Otherwise the agent will walk as closly to the GameObject as possible
-			if (DestinationObject == null || !followingGameObject)
+			if (DestinationObject == null || !FollowingGameObject)
 			{
 				if (navMeshAgent.pathStatus == NavMeshPathStatus.PathPartial)
 				{
@@ -163,7 +169,7 @@ namespace i5.VirtualAgents.AgentTasks
 		// Update the destination to the current location of the destination GameObject 
 		private void UpdateMovement()
 		{
-			if (followingGameObject && DestinationObject != null)
+			if (FollowingGameObject && DestinationObject != null)
 			{
 				// recalculate the path by restarting the movement from the current position
 				StartMovement();
@@ -183,13 +189,15 @@ namespace i5.VirtualAgents.AgentTasks
 			serializer.AddSerializedData("Destination Object", DestinationObject);
 			serializer.AddSerializedData("Destination", Destination);
 			serializer.AddSerializedData("TargetSpeed", TargetSpeed);
-		}
+            //serializer.AddSerializedData("FollowingGameObject", FollowingGameObject);
+        }
 
 		public void Deserialize(SerializationDataContainer serializer)
 		{
 			DestinationObject = serializer.GetSerializedGameobjects("Destination Object");
 			Destination = serializer.GetSerializedVector("Destination");
 			TargetSpeed = serializer.GetSerializedFloat("TargetSpeed");
+            //FollowingGameObject = serializer.GetSerializedBool("FollowingGameObject");
 		}
 	}
 }

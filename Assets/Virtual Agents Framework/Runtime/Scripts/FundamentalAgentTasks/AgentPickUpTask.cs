@@ -101,7 +101,7 @@ namespace i5.VirtualAgents.AgentTasks
             constraint.data.target.position = constraint.data.tip.position;
             constraint.data.target.rotation = constraint.data.tip.rotation;
             constraint.weight = 1;
-            item.isPickedUp = true;
+            item.setIsPickedUp(true);
 
             while (Vector3.Distance(constraint.data.target.position, item.gripTarget.position) > proximityThreshold)
             {

@@ -83,7 +83,7 @@ namespace i5.VirtualAgents.AgentTasks
         public void dropOneItem(Agent agent, Item item)
         {
             item.transform.SetParent(null, true);
-            item.isPickedUp = false;
+            item.setIsPickedUp(false);
         }
 
         public void Serialize(SerializationDataContainer serializer)

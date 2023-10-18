@@ -17,7 +17,7 @@ namespace i5.VirtualAgents.AgentTasks
 
         AimAtSomething aimScript;
 
-        LookAroundController lookAroundController;
+        LookAround lookAroundController;
         public AgentAnimationTask() { }
 
         public AgentAnimationTask(string startTrigger, float playTime, string stopTrigger = "", string layer = "", GameObject aimTarget = null)
@@ -36,7 +36,7 @@ namespace i5.VirtualAgents.AgentTasks
         public override void StartExecution(Agent agent)
         {
             animator = agent.GetComponent<Animator>();
-            lookAroundController = agent.GetComponent<LookAroundController>();
+            lookAroundController = agent.GetComponent<LookAround>();
             animator.SetTrigger(startTrigger);
 
 
