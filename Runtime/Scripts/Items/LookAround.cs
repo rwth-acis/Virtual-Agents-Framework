@@ -167,12 +167,16 @@ namespace i5.VirtualAgents
 
             int count = Physics.OverlapBoxNonAlloc(center, halfExtents, colliders, rotation, seeLayers);
             //Use Window > Analysis > Physics Debug > Queries to see the detection radius, decrease detection Interval to see the cube on every frame
-
+            if(count == maxNumberOfTargetsInRange)
+            {
+                Debug.LogWarning("Max number of targets in range reached. Increase the max number of targets in range or decrease the detection radius");
+            }
+            
             for (int i = 0; i < count; i++)
             {
                 PossibleLookAtTarget target = colliders[i].GetComponent<PossibleLookAtTarget>();
                 //Check that the object has an PossibleLookAtTarget component and that it is not picked up
-                if (target == null || target.canCurrentlyBeLookedAt)
+                if (target == null || !target.canCurrentlyBeLookedAt)
                 {
                     continue;
                 }
@@ -222,7 +226,6 @@ namespace i5.VirtualAgents
                     nearbyLookAtTargets.Remove(targetInfo);
                 }
             }
-
             //Calculate the most interesting target and select one by chance from the list
             CalculateInterestInTargetAndSelectOne();
 
