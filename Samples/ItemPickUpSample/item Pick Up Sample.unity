@@ -357,12 +357,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 186585919}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.493, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.49300003, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0.22049451}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 938036578}
+  m_Father: {fileID: 1644641974}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &431681849 stripped
@@ -942,11 +942,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 938036577}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.22}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0.22049451}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 186585920}
+  m_Children: []
   m_Father: {fileID: 1644641974}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1415,6 +1414,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ba2ac043a0776a4d846aaf6ba38a734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  title: 
+  description: 'This scene demonstrates how the agent can pick up objects, carry
+    them and drop them elsewhere. The ItemPickUpController Script that is attached
+    to the Controller Gameobject instructs the Pickup of the 2 items moving in the
+    scene.
+
+
+    Requirements:
+
+    1. The agent needs the "Mesh Sockets" and "Rig
+    Builder" components, as well as everything that is part of the "Animation Rigging"
+    child object in the agent prefab
+
+    2. Items that should be picked up need
+    the "Item" component
+
+    2.1. The Items "CanBePickedUp" Variable needs to be
+    true
+
+    2.2. (optional) A "grapTarget" can be defined, that''s where the agent
+    will move and attach its hand to, when picking the object up.
+
+
+    Use the scene
+    view during play mode to inspect the scene freely while the agent is walking
+    around.
+
+    If Objects are changed in the szene: Select the GameObject "NavMesh
+    Surfave" and bake the NavMesh again before running the scene.'
+  type: 0
+  url: 
 --- !u!4 &1264251852
 Transform:
   m_ObjectHideFlags: 0
@@ -1761,6 +1791,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 186585920}
   - {fileID: 938036578}
   m_Father: {fileID: 0}
   m_RootOrder: 8
@@ -1791,9 +1822,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9abe68a202d4764db7afc57549bd230, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPickedUp: 0
-  canBePickedUp: 1
   importance: 0.36
+  canCurrentlyBeLookedAt: 1
+  canBePickedUp: 1
   gripTarget: {fileID: 186585920}
 --- !u!65 &1644641977
 BoxCollider:
@@ -1879,9 +1910,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9abe68a202d4764db7afc57549bd230, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPickedUp: 0
-  canBePickedUp: 1
   importance: 0
+  canCurrentlyBeLookedAt: 1
+  canBePickedUp: 1
   gripTarget: {fileID: 580659664}
 --- !u!65 &1735457802
 BoxCollider:
@@ -2501,6 +2532,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2740390617059488121, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
+      propertyPath: m_Name
+      value: AnimationRigging
+      objectReference: {fileID: 0}
     - target: {fileID: 6236198718674910226, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       propertyPath: m_Effectors.Array.size
       value: 1
@@ -2575,20 +2610,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1747714758}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88c1ed013dd3e92439b19c5c699179c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   detectionRadius: 5
-  maxNumberOfItemsInRange: 50
+  maxNumberOfTargetsInRange: 50
   detectionIntervalWhenIdle: 3
   detectionIntervalWhenWalking: 0.5
-  chanceFirstItem: 0.5
-  chanceSecondItem: 0.1
-  chanceThirdItem: 0.1
-  chanceRandomItem: 0.05
-  chanceIdealTime: 0.25
+  chanceHigestedRankedTarget: 0.5
+  chanceSecondHigestedTarget: 0.1
+  chanceThirdHigestedTarget: 0.1
+  chanceRandomTarget: 0.05
+  chanceIdealTarget: 0.25
   lookSpeed: 2
   seeLayers:
     serializedVersion: 2

@@ -1,10 +1,5 @@
 using i5.Toolkit.Core.Utilities;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.Animations.Rigging;
-using System.Collections;
-using System.Collections.Generic;
-using static Codice.Client.Common.WebApi.WebApiEndpoints;
 
 namespace i5.VirtualAgents.AgentTasks
 {
@@ -43,20 +38,19 @@ namespace i5.VirtualAgents.AgentTasks
             base.StartExecution(agent);
             if (DropObject == null)
             {
-                dropAllItems(agent, agent.transform);
+                DropAllItems(agent, agent.transform);
                 Debug.Log("Objects were droped");
             }
             else
             {
-                Item item = DropObject.GetComponent<Item>();
-                if (item == null)
+                if (!DropObject.TryGetComponent<Item>(out var item))
                 {
                     State = TaskState.Failure;
                     i5Debug.LogError($"The drop object {DropObject.name} does not have a Item component. " +
                         $"Therefore, it cannot be dropped. Skipping this task.",
                         this);
                 }
-                dropOneItem(agent, item);
+                DropOneItem(agent, item);
                 Debug.Log("Object was droped");
             }
 
@@ -64,23 +58,21 @@ namespace i5.VirtualAgents.AgentTasks
         }
 
 
-        public void dropAllItems(Agent agent, Transform currentTransform)
+        public void DropAllItems(Agent agent, Transform currentTransform)
         {
             // Check if the current transform has the "ItemComponent"
-            Item item = currentTransform.GetComponent<Item>();
-
-            if (item != null)
+            if (currentTransform.TryGetComponent<Item>(out var item))
             {
-                dropOneItem(agent, item);
+                DropOneItem(agent, item);
             }
 
             // Recursively check each child
             foreach (Transform child in currentTransform)
             {
-                dropAllItems(agent, child);
+                DropAllItems(agent, child);
             }
         }
-        public void dropOneItem(Agent agent, Item item)
+        public void DropOneItem(Agent agent, Item item)
         {
             item.transform.SetParent(null, true);
             item.setIsPickedUp(false);
@@ -95,7 +87,7 @@ namespace i5.VirtualAgents.AgentTasks
         {
             DropObject = serializer.GetSerializedGameobjects("Drop Object");
         }
-        
+
 
     }
 }

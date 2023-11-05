@@ -1,39 +1,48 @@
+using i5.VirtualAgents;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MeshSocket : MonoBehaviour
 {
-    Transform attachPoint;
+    Transform attachPointOffset;
     public MeshSockets.SocketId socketId;
     // Start is called before the first frame update
     void Start()
     {
         //Get offset as attachPoint
-        attachPoint = transform.GetChild(0);
+        attachPointOffset = transform.GetChild(0);
     }
 
-    public void Attach(Transform objectTransform)
+    public void Attach(Item item)
     {
-        objectTransform.SetParent(attachPoint, false);
-        objectTransform.localPosition = Vector3.zero;
-        objectTransform.localRotation = Quaternion.identity;
-        StartCoroutine(stopFurtherMovement(objectTransform));
+        //item.gripTarget should be at the same position as the attachPoint
+        item.transform.SetParent(attachPointOffset, false);
+        item.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+
+        //Calculate the diffrerence between the attachPoint and the item's gripTarget
+        Vector3 offsetPosition = attachPointOffset.position - item.gripTarget.transform.position;
+        Quaternion offsetRotation = Quaternion.Inverse(attachPointOffset.transform.rotation) * item.gripTarget.transform.rotation;
+
+        //Move the attachPointOffset so that the attachPoint allignes with the attachPoint
+        attachPointOffset.transform.SetLocalPositionAndRotation(offsetPosition, offsetRotation);
+
+
+
+        StartCoroutine(StopFurtherMovement(item.transform));
     }
 
     //Incase there is any movement that hasn't stopped yet, local position and rotation will be set to zero as long as the object is moving
-    public IEnumerator stopFurtherMovement(Transform objectTransform)
+    public IEnumerator StopFurtherMovement(Transform objectTransform)
     {
         yield return new WaitForSeconds(0.025f);
         while (objectTransform.localPosition != Vector3.zero)
         {
-            objectTransform.localPosition = Vector3.zero;
-            objectTransform.localRotation = Quaternion.identity;
+            objectTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             yield return new WaitForSeconds(0.025f);
         }
     }
 
-    public void detach(Transform objectTransform)
+    public void Detach(Transform objectTransform)
     {
         objectTransform.SetParent(null, true);
     }
