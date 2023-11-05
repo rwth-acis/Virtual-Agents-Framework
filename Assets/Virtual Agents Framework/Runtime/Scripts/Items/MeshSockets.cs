@@ -1,4 +1,4 @@
-using System.Collections;
+using i5.VirtualAgents;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +11,7 @@ public class MeshSockets : MonoBehaviour
         LeftHand
     }
 
-    Dictionary<SocketId, MeshSocket> socketMap = new Dictionary<SocketId, MeshSocket>();
+    Dictionary<SocketId, MeshSocket> socketMap = new();
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +23,8 @@ public class MeshSockets : MonoBehaviour
         }
     }
 
-    public void Attach(Transform objectTransform, SocketId socketId)
+    public void Attach(Item item, SocketId socketId)
     {
-        socketMap[socketId].Attach(objectTransform);
+        socketMap[socketId].Attach(item);
     }
 }
