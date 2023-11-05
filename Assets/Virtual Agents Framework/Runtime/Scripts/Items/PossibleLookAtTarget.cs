@@ -12,6 +12,9 @@ namespace i5.VirtualAgents
         [Range(1f, 10f)]
         public float importance = 1f;
 
+        /// <summary>
+        /// Can be used to switch the objects perceivability off. This is de/activated by the item component, when the item is dropped/picked up.
+        /// </summary>
         public bool canCurrentlyBeLookedAt = true;
         
         private void Start()

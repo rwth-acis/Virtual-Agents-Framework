@@ -1,51 +1,51 @@
-using i5.VirtualAgents.AgentTasks;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace i5.VirtualAgents
 {
     //Item importes importance from 
-    public class Item : PossibleLookAtTarget
+    public class Item : MonoBehaviour
     {
 
         private bool isPickedUp = false;
         public bool canBePickedUp = false;
-        
+
 
         /// <summary>
         /// Grip is where IK of the Hand will be applied to, for example a handle of a cup. Initially it is the same as the object itself
         /// </summary>
         public Transform gripTarget;
 
+        private PossibleLookAtTarget possibleLookAtTargetScript;
+
         void Start()
         {
-            if(gripTarget == null)
+            if (gripTarget == null)
             {
                 gripTarget = transform;
             }
-            
-            isPickedUp = false;
-        }
 
-        // Update is called once per frame
-        void Update()
-        {
-        
+            isPickedUp = false;
+
+            possibleLookAtTargetScript = GetComponent<PossibleLookAtTarget>();
         }
-        public void setIsPickedUp(bool pickedUp)
+        public void SetIsPickedUp(bool pickedUp)
         {
             this.isPickedUp = pickedUp;
-            if(this.isPickedUp)
+
+            if (possibleLookAtTargetScript)
             {
-                canCurrentlyBeLookedAt = false;
+                if (this.isPickedUp)
+                {
+                    possibleLookAtTargetScript.canCurrentlyBeLookedAt = false;
+                }
+                else
+                {
+                    possibleLookAtTargetScript.canCurrentlyBeLookedAt = true;
+                }
             }
-            else
-            {
-                canCurrentlyBeLookedAt = true;
-            }
+
         }
-        public bool getIsPickedUp()
+        public bool GetIsPickedUp()
         {
             return this.isPickedUp;
         }
