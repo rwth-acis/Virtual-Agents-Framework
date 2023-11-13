@@ -4,21 +4,21 @@ using UnityEngine;
 
 namespace i5.VirtualAgents
 {
-    public class LookAtTargetInfo
+    /// <summary>
+    /// Defines a gaze behaviour that looks at gaze targets in the scene dynamiycally
+    /// </summary>
+    public class AdaptiveGaze : MonoBehaviour
     {
-        public PossibleLookAtTarget lookAtTarget = null;
-        public float distance = 0;
-        public float importance = 0;
-        public float timeLookedAt = 0;
-        public float novelty = 0;
-        public float calcValueOfInterest = 0;
-        public bool isCurrentlyNearby = false;
-    }
-
-
-    public class LookAround : MonoBehaviour
-    {
-
+        private class AdaptiveGazeTargetInfo
+        {
+            public AdaptiveGazeTarget lookAtTarget = null;
+            public float distance = 0;
+            public float importance = 0;
+            public float timeLookedAt = 0;
+            public float novelty = 0;
+            public float calcValueOfInterest = 0;
+            public bool isCurrentlyNearby = false;
+        }
 
         public float detectionRadius = 10f;
         public int maxNumberOfTargetsInRange = 50;
@@ -39,46 +39,46 @@ namespace i5.VirtualAgents
         [Range(0f, 1f)]
         public float chanceRandomTarget = 0.05f;
         [Range(0f, 1f)]
-        public float chanceIdealTarget = 0.25f;
+        public float chanceIdelTarget = 0.25f;
 
 
 
         public float lookSpeed = 2f;
 
-        LookAtTargetInfo currentTargetOfInterest;
+        AdaptiveGazeTargetInfo currentTargetOfInterest;
 
         public LayerMask seeLayers;
         public LayerMask occlusionLayers = default;
 
-        private List<LookAtTargetInfo> nearbyLookAtTargets = new List<LookAtTargetInfo>();
+        private List<AdaptiveGazeTargetInfo> nearbyLookAtTargets = new List<AdaptiveGazeTargetInfo>();
         private float timer = 0f;
         [Range(0f, 1f)]
         private float maxWeight = 0.8f;
 
-        private AimAtSomething aimScript;
+        private AimAt aimScript;
 
         // Start is called before the first frame update
         void Start()
         {
 
-            aimScript = this.gameObject.AddComponent<AimAtSomething>();
+            aimScript = this.gameObject.AddComponent<AimAt>();
 
             aimScript.SetBonePreset("Head");
             aimScript.SetShouldDestroyItself(false);
             aimScript.lookSpeed = lookSpeed;
 
             //Normalize chances
-            float sum = chanceHigestedRankedTarget + chanceSecondHigestedTarget + chanceThirdHigestedTarget + chanceRandomTarget + chanceIdealTarget;
+            float sum = chanceHigestedRankedTarget + chanceSecondHigestedTarget + chanceThirdHigestedTarget + chanceRandomTarget + chanceIdelTarget;
             chanceHigestedRankedTarget /= sum;
             chanceSecondHigestedTarget /= sum;
             chanceThirdHigestedTarget /= sum;
             chanceRandomTarget /= sum;
-            chanceIdealTarget /= sum;
+            chanceIdelTarget /= sum;
             chanceSecondHigestedTarget += chanceHigestedRankedTarget;
             chanceThirdHigestedTarget += chanceSecondHigestedTarget;
             chanceRandomTarget += chanceThirdHigestedTarget;
-            chanceIdealTarget += chanceRandomTarget;
-            if (chanceIdealTarget != 1f)
+            chanceIdelTarget += chanceRandomTarget;
+            if (chanceIdelTarget != 1f)
             {
                 Debug.LogWarning("Normalisation went wrong");
             }
@@ -151,7 +151,7 @@ namespace i5.VirtualAgents
             timer = 0f;
 
             // Old nearby targerts are marked as not nearby
-            foreach (LookAtTargetInfo targetInfo in nearbyLookAtTargets)
+            foreach (AdaptiveGazeTargetInfo targetInfo in nearbyLookAtTargets)
             {
                 targetInfo.isCurrentlyNearby = false;
             }
@@ -174,7 +174,7 @@ namespace i5.VirtualAgents
             
             for (int i = 0; i < count; i++)
             {
-                PossibleLookAtTarget target = colliders[i].GetComponent<PossibleLookAtTarget>();
+                AdaptiveGazeTarget target = colliders[i].GetComponent<AdaptiveGazeTarget>();
                 //Check that the object has an PossibleLookAtTarget component and that it is not picked up
                 if (target == null || !target.canCurrentlyBeLookedAt)
                 {
@@ -188,7 +188,7 @@ namespace i5.VirtualAgents
                 //If the target is not in the array yet, add it
                 if (nearbyLookAtTargets.Find(x => x.lookAtTarget == target) == null)
                 {
-                    LookAtTargetInfo targetInfo = new LookAtTargetInfo
+                    AdaptiveGazeTargetInfo targetInfo = new AdaptiveGazeTargetInfo
                     {
                         lookAtTarget = target,
                         distance = Vector3.Distance(transform.position, target.transform.position),
@@ -203,7 +203,7 @@ namespace i5.VirtualAgents
                 else
                 {
                     //If the target is already in the array, update info
-                    LookAtTargetInfo targetInfo = nearbyLookAtTargets.Find(x => x.lookAtTarget == target);
+                    AdaptiveGazeTargetInfo targetInfo = nearbyLookAtTargets.Find(x => x.lookAtTarget == target);
                     targetInfo.distance = Vector3.Distance(transform.position, target.transform.position);
 
                     //If importance of the target increased, reset time looked at
@@ -219,7 +219,7 @@ namespace i5.VirtualAgents
                 }
             }
             //Remove targets that are not in the detection radius anymore
-            foreach (LookAtTargetInfo targetInfo in nearbyLookAtTargets.ToList())
+            foreach (AdaptiveGazeTargetInfo targetInfo in nearbyLookAtTargets.ToList())
             {
                 if (targetInfo.isCurrentlyNearby == false)
                 {
@@ -234,13 +234,13 @@ namespace i5.VirtualAgents
 
         public void CalculateInterestInTargetAndSelectOne()
         {
-            foreach (LookAtTargetInfo targetInfo in nearbyLookAtTargets)
+            foreach (AdaptiveGazeTargetInfo targetInfo in nearbyLookAtTargets)
             {
                 targetInfo.calcValueOfInterest = targetInfo.importance - targetInfo.distance - targetInfo.timeLookedAt + targetInfo.novelty;
             }
             nearbyLookAtTargets.Sort((x, y) => y.calcValueOfInterest.CompareTo(x.calcValueOfInterest));
 
-            LookAtTargetInfo newTargetOfInterest = SelectFromListWithProbability();
+            AdaptiveGazeTargetInfo newTargetOfInterest = SelectFromListWithProbability();
 
 
 
@@ -275,7 +275,7 @@ namespace i5.VirtualAgents
             return true;
         }
 
-        private LookAtTargetInfo SelectFromListWithProbability()
+        private AdaptiveGazeTargetInfo SelectFromListWithProbability()
         {
             if (nearbyLookAtTargets.Count == 0)
             {
@@ -314,7 +314,7 @@ namespace i5.VirtualAgents
                     int randomIndex = Random.Range(0, nearbyLookAtTargets.Count);
                     return nearbyLookAtTargets[randomIndex];
                 }
-                else if (chanceRandomTarget < randomValue && randomValue <= chanceIdealTarget)
+                else if (chanceRandomTarget < randomValue && randomValue <= chanceIdelTarget)
                 {
                     // Select no target and idle
                     return null;

@@ -128,7 +128,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         }
 
         /// <summary>
-        /// Drop the an or all object(s) with the Item component that is currently attached to the agent
+        /// Drop one specified or all object that are currently attached to the agent and have the Item component
         /// Shortcut queue management function
         /// </summary>
         /// <param name="dropObject">The item that should be dropped, no item will result in all items being dropped</param>
@@ -141,7 +141,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             return dropTask;
         }
         /// <summary>
-        /// Go to coordinates and drop an or all object(s) with the Item component that is currently attached to the agent
+        /// Go to coordinates and drop one specified or all object that are currently attached to the agent and have the Item component
         /// Shortcut queue management function
         /// </summary>
         /// <param name="destinationCoordinates">Position the agent should go to</param>
@@ -155,7 +155,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             return dropTask;
         }
         /// <summary>
-        /// Go to a transform and drop an or all object(s) with the Item component that is currently attached to the agent
+        /// Go to a transform and drop one specified or all object that are currently attached to the agent and have the Item component
         /// Shortcut queue management function
         /// </summary>
         /// <param name="destinationTransform">Transform the agent should go to</param>

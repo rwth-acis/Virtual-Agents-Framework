@@ -27,4 +27,9 @@ public class MeshSockets : MonoBehaviour
     {
         socketMap[socketId].Attach(item);
     }
+    public void Detach(Item item)
+    {
+        item.transform.SetParent(null, true);
+        item.IsDropped();
+    }
 }

@@ -1,5 +1,6 @@
 using i5.Toolkit.Core.Utilities;
 using UnityEngine;
+using static MeshSockets;
 
 namespace i5.VirtualAgents.AgentTasks
 {
@@ -39,7 +40,6 @@ namespace i5.VirtualAgents.AgentTasks
             if (DropObject == null)
             {
                 DropAllItems(agent, agent.transform);
-                Debug.Log("Objects were droped");
             }
             else
             {
@@ -51,7 +51,6 @@ namespace i5.VirtualAgents.AgentTasks
                         this);
                 }
                 DropOneItem(agent, item);
-                Debug.Log("Object was droped");
             }
 
             FinishTask();
@@ -74,8 +73,8 @@ namespace i5.VirtualAgents.AgentTasks
         }
         public void DropOneItem(Agent agent, Item item)
         {
-            item.transform.SetParent(null, true);
-            item.setIsPickedUp(false);
+            MeshSockets meshSockets = agent.GetComponent<MeshSockets>();
+            meshSockets.Detach(item);
         }
 
         public void Serialize(SerializationDataContainer serializer)

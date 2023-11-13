@@ -133,8 +133,8 @@ GameObject:
   m_Component:
   - component: {fileID: 28373921}
   - component: {fileID: 28373920}
-  - component: {fileID: 28373919}
   - component: {fileID: 28373918}
+  - component: {fileID: 28373922}
   m_Layer: 6
   m_Name: Item Stick 1 (1)
   m_TagString: Untagged
@@ -163,22 +163,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &28373919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 28373917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9abe68a202d4764db7afc57549bd230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  importance: 10
-  canCurrentlyBeLookedAt: 1
-  canBePickedUp: 1
-  gripTarget: {fileID: 1632182825}
 --- !u!114 &28373920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,6 +195,20 @@ Transform:
   m_Father: {fileID: 1251000459}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &28373922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28373917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600ff3911b75ade408172fdb8bfe3a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  importance: 1
+  canCurrentlyBeLookedAt: 1
 --- !u!1 &31265745
 GameObject:
   m_ObjectHideFlags: 0
@@ -1887,8 +1885,8 @@ GameObject:
   m_Component:
   - component: {fileID: 713399640}
   - component: {fileID: 713399639}
-  - component: {fileID: 713399638}
   - component: {fileID: 713399637}
+  - component: {fileID: 713399641}
   m_Layer: 6
   m_Name: Item Stick 1 (2)
   m_TagString: Untagged
@@ -1917,22 +1915,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &713399638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 713399636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9abe68a202d4764db7afc57549bd230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  importance: 10
-  canCurrentlyBeLookedAt: 1
-  canBePickedUp: 1
-  gripTarget: {fileID: 1465452170}
 --- !u!114 &713399639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1965,6 +1947,20 @@ Transform:
   m_Father: {fileID: 1251000459}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &713399641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713399636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600ff3911b75ade408172fdb8bfe3a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  importance: 1
+  canCurrentlyBeLookedAt: 1
 --- !u!1 &767250290
 GameObject:
   m_ObjectHideFlags: 0
@@ -2326,8 +2322,8 @@ GameObject:
   m_Component:
   - component: {fileID: 909860824}
   - component: {fileID: 909860823}
-  - component: {fileID: 909860822}
   - component: {fileID: 909860821}
+  - component: {fileID: 909860825}
   m_Layer: 6
   m_Name: Item Stick 2 (2)
   m_TagString: Untagged
@@ -2356,22 +2352,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &909860822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 909860820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9abe68a202d4764db7afc57549bd230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  importance: 0
-  canCurrentlyBeLookedAt: 1
-  canBePickedUp: 1
-  gripTarget: {fileID: 1113904908}
 --- !u!114 &909860823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2404,6 +2384,20 @@ Transform:
   m_Father: {fileID: 1251000459}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &909860825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909860820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600ff3911b75ade408172fdb8bfe3a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  importance: 1
+  canCurrentlyBeLookedAt: 1
 --- !u!1 &957930905
 GameObject:
   m_ObjectHideFlags: 0
@@ -2555,7 +2549,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.11000001
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: edb25c60adb95ea42bb1e414091a5872, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 29744cef21d8a924fa58fb6b46427a2c, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &959590313
 Transform:
@@ -2613,8 +2607,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1043775861}
   - component: {fileID: 1043775860}
-  - component: {fileID: 1043775859}
   - component: {fileID: 1043775858}
+  - component: {fileID: 1043775862}
   m_Layer: 6
   m_Name: Item Stick 2 (1)
   m_TagString: Untagged
@@ -2643,22 +2637,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1043775859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1043775857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9abe68a202d4764db7afc57549bd230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  importance: 0
-  canCurrentlyBeLookedAt: 1
-  canBePickedUp: 1
-  gripTarget: {fileID: 1423165100}
 --- !u!114 &1043775860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2691,6 +2669,20 @@ Transform:
   m_Father: {fileID: 1251000459}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &1043775862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043775857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600ff3911b75ade408172fdb8bfe3a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  importance: 1
+  canCurrentlyBeLookedAt: 1
 --- !u!1 &1064405203
 GameObject:
   m_ObjectHideFlags: 0
@@ -3268,8 +3260,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1246956559}
-  - component: {fileID: 1246956558}
   - component: {fileID: 1246956557}
+  - component: {fileID: 1246956560}
   m_Layer: 6
   m_Name: Item Stick 3 (1)
   m_TagString: Untagged
@@ -3298,22 +3290,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1246956558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1246956556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9abe68a202d4764db7afc57549bd230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  importance: 10
-  canCurrentlyBeLookedAt: 1
-  canBePickedUp: 1
-  gripTarget: {fileID: 248702467}
 --- !u!4 &1246956559
 Transform:
   m_ObjectHideFlags: 0
@@ -3332,6 +3308,20 @@ Transform:
   m_Father: {fileID: 1251000459}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &1246956560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246956556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600ff3911b75ade408172fdb8bfe3a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  importance: 1
+  canCurrentlyBeLookedAt: 1
 --- !u!1 &1251000458
 GameObject:
   m_ObjectHideFlags: 0
@@ -3509,20 +3499,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: 
   description: "This scene demonstrates how the agent can automatically and dynamically
-    look at objects that the agent is seeing.\n\nTo enable this feature the following
-    needs to be added:\n1. The agent needs:\n1.1 a LookAround component \n1.2 LookAround
-    component should at least have a \"see layer\" specified, see dokumentation for
-    the other options\n\n2. Object that should be looked at need the following:\n2.1.
-    Either the PossibleLookAtTarget component or the Item component \n2.1. Need to
-    be on the \"see layer\" that was specified in the agent. The layer can be changed
-    in the top right coner of the inspector \n2.2 (optional) A collider that makes
-    sense for the Target, if no target is added a standard collider will be added,
-    see \"ExampleOfAutoCollider\" in the scene\n\nUse the scene view during play
-    mode to inspect the scene freely while the agent is walking around.\nIf Objects
-    are changed in the szene: Select the GameObject \"NavMesh Surfave\" and bake
-    the NavMesh again before running the scene."
+    look at objects that the agent is seeing. Here the agent walks past multiple
+    objects with the AdaptiveGazeTarget component and looks at them dynamically.
+    \r\nThe `adaptiveGazeSampleController` adds multiple waypoint where the agent
+    should walk. Optionally, the sample controller also provides options to overwrite
+    the adaptive gaze at the beginning for a specified `AimAtTime`.\n\nTo enable
+    this feature the following needs to be added:\n1. The agent needs a AdaptiveGaze
+    component :\n1.2 Targets that can be looked at need to be on specific layers,
+    specified in `seeLayers`\n1.3 Objects that should obstruct the view of the agent
+    need to be on specific layers, specified in `occlisonLayers`\n\n2 Objects that
+    should be looked at need the AdaptiveGazeTarget component\r\n 2.1 AdaptiveGazeTarget
+    needs to be on one of the `seeLayers` that was specified in the agent. The layer
+    can be changed in the top right corner of the inspector \r\n  2.2 (optional)
+    A collider that makes sense for the Target, if no target is added a standard
+    collider will be added, see `ExampleOfAutoCollider` in the sample scene\n\nUse
+    the scene view during play mode to inspect the scene freely while the agent is
+    walking around.\nIf Objects are changed in the szene: Select the GameObject \"NavMesh
+    Surfave\" and bake the NavMesh again before running the scene."
   type: 0
-  url: TODO Add dokumentation link
+  url: https://rwth-acis.github.io/Virtual-Agents-Framework/1.2.0/manual/adaptive-gaze.html
 --- !u!4 &1264251852
 Transform:
   m_ObjectHideFlags: 0
@@ -3695,8 +3690,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1298026674}
-  - component: {fileID: 1298026672}
   - component: {fileID: 1298026671}
+  - component: {fileID: 1298026675}
   m_Layer: 6
   m_Name: Item Stick 3
   m_TagString: Untagged
@@ -3725,22 +3720,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1298026672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298026670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9abe68a202d4764db7afc57549bd230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  importance: 10
-  canCurrentlyBeLookedAt: 1
-  canBePickedUp: 1
-  gripTarget: {fileID: 348289970}
 --- !u!4 &1298026674
 Transform:
   m_ObjectHideFlags: 0
@@ -3759,6 +3738,20 @@ Transform:
   m_Father: {fileID: 1251000459}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &1298026675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298026670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600ff3911b75ade408172fdb8bfe3a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  importance: 1
+  canCurrentlyBeLookedAt: 1
 --- !u!1 &1325811938
 GameObject:
   m_ObjectHideFlags: 0
@@ -3915,7 +3908,7 @@ MonoBehaviour:
   - {fileID: 1546542925}
   - {fileID: 347327955}
   target: {fileID: 1567253471}
-  overwriteLookAroundWithAimHead: 1
+  overwriteAdaptiveGazeWithAimHead: 0
   aimAtTime: 10
 --- !u!1 &1386483148
 GameObject:
@@ -4454,8 +4447,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1421478992}
   - component: {fileID: 1421478991}
-  - component: {fileID: 1421478990}
   - component: {fileID: 1421478989}
+  - component: {fileID: 1421478993}
   m_Layer: 6
   m_Name: Item Stick 2
   m_TagString: Untagged
@@ -4484,22 +4477,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1421478990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1421478988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9abe68a202d4764db7afc57549bd230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  importance: 0
-  canCurrentlyBeLookedAt: 1
-  canBePickedUp: 1
-  gripTarget: {fileID: 1778078415}
 --- !u!114 &1421478991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4532,6 +4509,20 @@ Transform:
   m_Father: {fileID: 1251000459}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &1421478993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421478988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600ff3911b75ade408172fdb8bfe3a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  importance: 1
+  canCurrentlyBeLookedAt: 1
 --- !u!1 &1423165099
 GameObject:
   m_ObjectHideFlags: 0
@@ -4791,8 +4782,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1547831363}
   - component: {fileID: 1547831362}
-  - component: {fileID: 1547831361}
   - component: {fileID: 1547831360}
+  - component: {fileID: 1547831364}
   m_Layer: 6
   m_Name: Item Stick 1 (3)
   m_TagString: Untagged
@@ -4821,22 +4812,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1547831361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547831359}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9abe68a202d4764db7afc57549bd230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  importance: 10
-  canCurrentlyBeLookedAt: 1
-  canBePickedUp: 1
-  gripTarget: {fileID: 356956328}
 --- !u!114 &1547831362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4869,6 +4844,20 @@ Transform:
   m_Father: {fileID: 1251000459}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &1547831364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547831359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600ff3911b75ade408172fdb8bfe3a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  importance: 1
+  canCurrentlyBeLookedAt: 1
 --- !u!1 &1557151312
 GameObject:
   m_ObjectHideFlags: 0
@@ -5216,9 +5205,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: 
-  description: This object has a PossibleLookAtTarget component, but no collider
-    assigned. To make looking at it still possable, it automaticlly gets a standard
-    collider.
+  description: This object has a AdaptiveGazeTarget component, but no collider assigned.
+    To make looking at it still possable, it automaticlly gets a standard collider.
   type: 0
   url: 
 --- !u!1 &1728622961
@@ -5336,8 +5324,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1735457799}
   - component: {fileID: 1735457800}
-  - component: {fileID: 1735457801}
   - component: {fileID: 1735457802}
+  - component: {fileID: 1735457803}
   m_Layer: 6
   m_Name: Item Stick 1
   m_TagString: Untagged
@@ -5377,22 +5365,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaitTime: 1
   MoveDistance: 0
---- !u!114 &1735457801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735457798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9abe68a202d4764db7afc57549bd230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  importance: 10
-  canCurrentlyBeLookedAt: 1
-  canBePickedUp: 1
-  gripTarget: {fileID: 580659664}
 --- !u!65 &1735457802
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5414,6 +5386,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1735457803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735457798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600ff3911b75ade408172fdb8bfe3a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  importance: 1
+  canCurrentlyBeLookedAt: 1
 --- !u!1 &1747714758 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
@@ -6367,7 +6353,7 @@ MonoBehaviour:
   chanceSecondHigestedTarget: 0.1
   chanceThirdHigestedTarget: 0.1
   chanceRandomTarget: 0.05
-  chanceIdealTarget: 0.25
+  chanceIdelTarget: 0.25
   lookSpeed: 2
   seeLayers:
     serializedVersion: 2
