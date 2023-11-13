@@ -387,6 +387,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ba2ac043a0776a4d846aaf6ba38a734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  title: 
+  description: 
+  type: 0
+  url: 
 --- !u!4 &1264251852
 Transform:
   m_ObjectHideFlags: 0
@@ -439,7 +443,6 @@ MonoBehaviour:
   highPrioWaypoint: {fileID: 1787573992}
   useTaskShortcuts: 1
   walk: 1
-  target: {fileID: 1749989800}
   pointAtTime: 50
 --- !u!4 &1351748439
 Transform:
@@ -610,6 +613,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e29903f517cc9743abd0db7f7221f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  color: {r: 0, g: 1, b: 0, a: 1}
+  radius: 0.05
 --- !u!4 &1749989802
 Transform:
   m_ObjectHideFlags: 0
@@ -656,24 +661,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1839148110 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 522367800934775636, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
-  m_PrefabInstance: {fileID: 1023428232005854918}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1839148112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1839148110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59d4ce2ed44c36f4bb33117f0b23060c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  arrow: Blue
 --- !u!1 &1896648545
 GameObject:
   m_ObjectHideFlags: 0
@@ -2828,9 +2815,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1023428232005854921}
-    - targetCorrespondingSourceObject: {fileID: 522367800934775636, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1839148112}
   m_SourcePrefab: {fileID: 100100000, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
 --- !u!1 &1023428232005854919 stripped
 GameObject:

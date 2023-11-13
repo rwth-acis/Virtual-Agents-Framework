@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.i5.toolkit.core": "1.9.0",
+    "com.i5.toolkit.core": "1.9.1",
     "com.unity.ai.navigation": "1.1.4",
     "com.unity.animation.rigging": "1.2.1",
     "com.unity.collab-proxy": "2.0.5",
