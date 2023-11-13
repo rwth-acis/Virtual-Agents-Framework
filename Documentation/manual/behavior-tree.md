@@ -1,0 +1,3 @@
+# Behavior tree
+
+The current version has a functionally limited behavior tree tool that can be used to schedule different task for the agent. The functionality and ease of use will be improved in an upcoming release of the Virtual Agents Framework, as of now this feature should be seen as experimental and compatibility with feature releases is not guaranteed. See the `BehaviorTree` sample for an example of the current state.
