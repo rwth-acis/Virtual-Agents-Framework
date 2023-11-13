@@ -104,19 +104,19 @@ namespace i5.VirtualAgents.AgentTasks
             var constraint = agent.GetComponentInChildren<TwoBoneIKConstraint>();
             constraint.data.target.SetPositionAndRotation(constraint.data.tip.position, constraint.data.tip.rotation);
             constraint.weight = 1;
-            item.setIsPickedUp(true);
+            item.SetIsPickedUp(true);
 
-            while (Vector3.Distance(constraint.data.target.position, item.gripTarget.position) > proximityThreshold)
+            while (Vector3.Distance(constraint.data.target.position, item.grapTarget.position) > proximityThreshold)
             {
-                constraint.data.target.position = Vector3.Lerp(constraint.data.target.position, item.gripTarget.position, Time.deltaTime * moveSpeed);
-                constraint.data.target.rotation = Quaternion.Lerp(constraint.data.target.rotation, item.gripTarget.rotation, Time.deltaTime * moveSpeed);
+                constraint.data.target.position = Vector3.Lerp(constraint.data.target.position, item.grapTarget.position, Time.deltaTime * moveSpeed);
+                constraint.data.target.rotation = Quaternion.Lerp(constraint.data.target.rotation, item.grapTarget.rotation, Time.deltaTime * moveSpeed);
 
                 yield return null;
 
                 //Update the target position and rotation of the IK constraint
             }
             // Set the target position and rotation to the exact values
-            constraint.data.target.SetPositionAndRotation(item.gripTarget.position, item.gripTarget.rotation);
+            constraint.data.target.SetPositionAndRotation(item.grapTarget.position, item.grapTarget.rotation);
             PickUpObject(agent, item);
         }
 
@@ -131,7 +131,6 @@ namespace i5.VirtualAgents.AgentTasks
             var constraint = agent.GetComponentInChildren<TwoBoneIKConstraint>();
             constraint.weight = 0;
 
-            Debug.Log("Object was picked up");
             FinishTask();
         }
 

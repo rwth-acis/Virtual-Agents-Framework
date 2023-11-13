@@ -5,26 +5,25 @@ namespace i5.VirtualAgents.Examples
 {
     public class ItemPickUpSampleController : SampleScheduleController
     {
-        public List<GameObject> waypoints;
+        public List<GameObject> pickUpObjects;
 
         protected override void Start()
         {
             base.Start();
-            // add walking tasks for each waypoint
-            // here, we use the TaskActions shortcut but we could also just create a new
-            // AgentMovementTask and schedule it using agent.ScheduleTask.
-            for (int i = 0; i < waypoints.Count; i++)
+            
+            // add a task to go to the first object and pick it up, then go to the second object and pick it up with the left hand
+            for (int i = 0; i < pickUpObjects.Count; i++)
             {
                 if (i % 2 != 1)
                 {
-                    taskSystem.Tasks.GoToAndPickUp(waypoints[i], default);
+                    taskSystem.Tasks.GoToAndPickUp(pickUpObjects[i], default);
                 }
                 else
-                    taskSystem.Tasks.GoToAndPickUp(waypoints[i], default, MeshSockets.SocketId.LeftHand);
+                    taskSystem.Tasks.GoToAndPickUp(pickUpObjects[i], default, MeshSockets.SocketId.LeftHand);
             }
 
             // add a task to go to the start an drop the first item
-            taskSystem.Tasks.GoToAndDropItem(Vector3.zero, waypoints[0]);
+            taskSystem.Tasks.GoToAndDropItem(Vector3.zero, pickUpObjects[0]);
 
             // add a task to move a bit and then drop all item
             taskSystem.Tasks.GoToAndDropItem(new Vector3(10, 0, 0));

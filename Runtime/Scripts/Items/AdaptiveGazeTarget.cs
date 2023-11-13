@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace i5.VirtualAgents
 {
-    public class PossibleLookAtTarget : MonoBehaviour
+    public class AdaptiveGazeTarget : MonoBehaviour
     {
         /// <summary>
         /// The importance of the item for the agent. The higher the value, the more liekly it is the agent to look at it. Increases during runtime resets novalty for the agent

@@ -15,9 +15,9 @@ namespace i5.VirtualAgents.AgentTasks
         private readonly GameObject aimtarget;
         private readonly string layer;
 
-        AimAtSomething aimScript;
+        AimAt aimScript;
 
-        LookAround lookAroundController;
+        AdaptiveGaze lookAroundController;
         public AgentAnimationTask() { }
 
         public AgentAnimationTask(string startTrigger, float playTime, string stopTrigger = "", string layer = "", GameObject aimTarget = null)
@@ -36,7 +36,7 @@ namespace i5.VirtualAgents.AgentTasks
         public override void StartExecution(Agent agent)
         {
             animator = agent.GetComponent<Animator>();
-            lookAroundController = agent.GetComponent<LookAround>();
+            lookAroundController = agent.GetComponent<AdaptiveGaze>();
             animator.SetTrigger(startTrigger);
 
 
@@ -48,8 +48,7 @@ namespace i5.VirtualAgents.AgentTasks
                 }
 
 
-                aimScript = agent.gameObject.AddComponent<AimAtSomething>();
-                Debug.Log("Aimscript added to agent");
+                aimScript = agent.gameObject.AddComponent<AimAt>();
 
                 agent.StartCoroutine(WaitForCurrentAnimationToFinishAndStartAimScript());
 

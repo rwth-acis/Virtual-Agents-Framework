@@ -13,33 +13,55 @@ namespace i5.VirtualAgents.Examples
         private Item item;
         private Vector3 startPos;
 
+        private int CurrentMovement = 0;
+
         private void Start()
         {
             item = GetComponent<Item>();
             startPos = transform.position;
-
+            item.dropEvent.AddListener(ItemWasDropped);
             StartCoroutine(MoveLoop(WaitTime));
+        }
+
+        private void ItemWasDropped()
+        {
+            //If item has a rigitbody component, activate it
+            if (GetComponent<Rigidbody>())
+            {
+                GetComponent<Rigidbody>().isKinematic = false;
+            }
         }
 
         private IEnumerator MoveLoop(float waittime)
         {
-            while (!item.getIsPickedUp())
+            while (!item.GetIsPickedUp())
             {
-                yield return StartCoroutine(MoveLeft());
-                yield return new WaitForSeconds(waittime);
-                if (item.getIsPickedUp()) break;
-
-                yield return StartCoroutine(MoveForward());
-                yield return new WaitForSeconds(waittime);
-                if (item.getIsPickedUp()) break;
-
-                yield return StartCoroutine(MoveRight());
-                yield return new WaitForSeconds(waittime);
-                if (item.getIsPickedUp()) break;
-
-                yield return StartCoroutine(MoveBackward());
+                yield return MoveInSquare();
                 yield return new WaitForSeconds(waittime);
 
+            }
+        }
+
+        private IEnumerator MoveInSquare()
+        {
+            switch (CurrentMovement)
+            {
+                case 0:
+                    yield return StartCoroutine(MoveLeft());
+                    CurrentMovement++;
+                    break;
+                case 1:
+                    yield return StartCoroutine(MoveForward());
+                    CurrentMovement++;
+                    break;
+                case 2:
+                    yield return StartCoroutine(MoveRight());
+                    CurrentMovement++;
+                    break;
+                case 3:
+                    yield return StartCoroutine(MoveBackward());
+                    CurrentMovement = 0;
+                    break;
             }
         }
 
@@ -73,7 +95,8 @@ namespace i5.VirtualAgents.Examples
 
 			while (t < 1)
 			{
-				t += Time.deltaTime;
+                if (item.GetIsPickedUp()) break;
+                t += Time.deltaTime;
 				transform.position = Vector3.Lerp(transform.position, targetPosition, t);
 				yield return null;
 			}

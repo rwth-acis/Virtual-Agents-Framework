@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace i5.VirtualAgents.Examples
 {
-    public class LookAroundSampleController : SampleScheduleController
+    public class AdaptiveGazeSampleController : SampleScheduleController
     {
         public List<GameObject> waypoints;
 
         public GameObject target;
-        public bool overwriteLookAroundWithAimHead = false;
+        public bool overwriteAdaptiveGazeWithAimHead = false;
         public int aimAtTime = 100;
 
         protected override void Start()
@@ -22,7 +22,7 @@ namespace i5.VirtualAgents.Examples
             {
                 taskSystem.Tasks.GoTo(waypoints[i], default);
             }
-            if (overwriteLookAroundWithAimHead)
+            if (overwriteAdaptiveGazeWithAimHead)
             {
                 AgentBaseTask pointingHead = taskSystem.Tasks.PlayAnimation("NoAnimation", aimAtTime, "", 0, "Head", target);
             }

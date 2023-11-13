@@ -1,46 +1,54 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace i5.VirtualAgents
 {
-    //Item importes importance from 
+    /// <summary>
+    /// Represents an item which can be picked up by an agent
+    /// </summary>
     public class Item : MonoBehaviour
     {
 
         private bool isPickedUp = false;
         public bool canBePickedUp = false;
 
+        /// <summary>
+        /// This event can be listend to, to get notified when the item is dropped
+        /// </summary>
+        public UnityEvent dropEvent = new();
 
         /// <summary>
-        /// Grip is where IK of the Hand will be applied to, for example a handle of a cup. Initially it is the same as the object itself
+        /// grap is where IK of the Hand will be applied to, for example a handle of a cup. Initially it is the same as the object itself
         /// </summary>
-        public Transform gripTarget;
+        public Transform grapTarget;
 
-        private PossibleLookAtTarget possibleLookAtTargetScript;
+        private AdaptiveGazeTarget adaptiveGazeTarget;
 
         void Start()
         {
-            if (gripTarget == null)
+
+            if (grapTarget == null)
             {
-                gripTarget = transform;
+                grapTarget = transform;
             }
 
             isPickedUp = false;
 
-            possibleLookAtTargetScript = GetComponent<PossibleLookAtTarget>();
+            adaptiveGazeTarget = GetComponent<AdaptiveGazeTarget>();
         }
         public void SetIsPickedUp(bool pickedUp)
         {
             this.isPickedUp = pickedUp;
 
-            if (possibleLookAtTargetScript)
+            if (adaptiveGazeTarget)
             {
                 if (this.isPickedUp)
                 {
-                    possibleLookAtTargetScript.canCurrentlyBeLookedAt = false;
+                    adaptiveGazeTarget.canCurrentlyBeLookedAt = false;
                 }
                 else
                 {
-                    possibleLookAtTargetScript.canCurrentlyBeLookedAt = true;
+                    adaptiveGazeTarget.canCurrentlyBeLookedAt = true;
                 }
             }
 
@@ -48,6 +56,12 @@ namespace i5.VirtualAgents
         public bool GetIsPickedUp()
         {
             return this.isPickedUp;
+        }
+
+        public void IsDropped()
+        {
+            SetIsPickedUp(false);
+            dropEvent.Invoke();
         }
     }
 }

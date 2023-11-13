@@ -15,13 +15,13 @@ public class MeshSocket : MonoBehaviour
 
     public void Attach(Item item)
     {
-        //item.gripTarget should be at the same position as the attachPoint
+        //item.grapTarget should be at the same position as the attachPoint
         item.transform.SetParent(attachPointOffset, false);
         item.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-        //Calculate the diffrerence between the attachPoint and the item's gripTarget
-        Vector3 offsetPosition = attachPointOffset.position - item.gripTarget.transform.position;
-        Quaternion offsetRotation = Quaternion.Inverse(attachPointOffset.transform.rotation) * item.gripTarget.transform.rotation;
+        //Calculate the diffrerence between the attachPoint and the item's grapTarget
+        Vector3 offsetPosition = attachPointOffset.position - item.grapTarget.transform.position;
+        Quaternion offsetRotation = Quaternion.Inverse(attachPointOffset.transform.rotation) * item.grapTarget.transform.rotation;
 
         //Move the attachPointOffset so that the attachPoint allignes with the attachPoint
         attachPointOffset.transform.SetLocalPositionAndRotation(offsetPosition, offsetRotation);
@@ -42,8 +42,5 @@ public class MeshSocket : MonoBehaviour
         }
     }
 
-    public void Detach(Transform objectTransform)
-    {
-        objectTransform.SetParent(null, true);
-    }
+    
 }
