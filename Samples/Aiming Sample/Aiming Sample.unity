@@ -283,10 +283,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9abe68a202d4764db7afc57549bd230, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPickedUp: 0
   canBePickedUp: 1
-  importance: 4.82
-  gripTarget: {fileID: 0}
+  dropEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  grapTarget: {fileID: 0}
 --- !u!4 &422503671
 Transform:
   m_ObjectHideFlags: 0
@@ -517,6 +518,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ba2ac043a0776a4d846aaf6ba38a734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  title: 
+  description: 'In this sample the agent aims at a moving target with its two hands
+    and its head.
+
+    
+
+    The `AimingSampleController` has the option to add
+    multiple waypoints where the agent should walk, while pointing at the targets.
+    If selected in the inspector the controller adds pointing tasks for the head,
+    the left arm and the right arm. It also allows to first play a wave animation
+    on the right arm. '
+  type: 0
+  url: https://rwth-acis.github.io/Virtual-Agents-Framework/1.2.0/manual/aiming.html
 --- !u!4 &1264251852
 Transform:
   m_ObjectHideFlags: 0
