@@ -39,6 +39,9 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public SocketId SocketId { get; protected set; }
 
+        private MeshSockets meshSockets;
+        private TwoBoneIKConstraint constraint;
+
         public AgentPickUpTask()
         {
         }
@@ -91,6 +94,11 @@ namespace i5.VirtualAgents.AgentTasks
                 FinishTask();
                 return;
             }
+
+            //Get the MeshSockets component of the agent for attaching the object and the IK constraints for the arms pickup animation
+            this.meshSockets = agent.GetComponent<MeshSockets>();
+
+
             //Active IK as grab animation
             //Start coroutine to increase IK weight over time
             agent.StartCoroutine(IKWeightIncrease(agent, item));
@@ -100,8 +108,16 @@ namespace i5.VirtualAgents.AgentTasks
         //Corutine for that increases the weight of the Two Bone IK constraint of Right Arm IK  over time as animation
         public IEnumerator IKWeightIncrease(Agent agent, Item item)
         {
-
-            var constraint = agent.GetComponentInChildren<TwoBoneIKConstraint>();
+            //select witch IK constraint should be used for the pickup, default is the right arm
+            if (this.SocketId == SocketId.LeftHand)
+            {
+                constraint = meshSockets.twoBoneIKConstraintLeftArm;
+            }
+            else
+            {
+                //SocketId == SocketId.LeftHand or SocketId == SocketId.Spine
+                constraint = meshSockets.twoBoneIKConstraintRightArm;
+            }   
             constraint.data.target.SetPositionAndRotation(constraint.data.tip.position, constraint.data.tip.rotation);
             constraint.weight = 1;
             item.SetIsPickedUp(true);
@@ -124,11 +140,9 @@ namespace i5.VirtualAgents.AgentTasks
         public void PickUpObject(Agent agent, Item item)
         {
             //Add object to mesh socket
-            MeshSockets meshSockets = agent.GetComponent<MeshSockets>();
             meshSockets.Attach(item, SocketId);
 
             //Deactivate IK
-            var constraint = agent.GetComponentInChildren<TwoBoneIKConstraint>();
             constraint.weight = 0;
 
             FinishTask();

@@ -11,7 +11,7 @@ With all methods a socket can be specified to which the item will be attached wh
 2. `MeshSockets.SocketId.LeftHand`
 3. `MeshSockets.SocketId.Spine`
 
-The default is the right hand, as that is also the hand that the [inverse kinematics](https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.3/manual/constraints/TwoBoneIKConstraint.html) (IK) animation of the hand will be played.
+When the LeftHand socket is selected a simple [inverse kinematics](https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.3/manual/constraints/TwoBoneIKConstraint.html) (IK) animation on the left hand will be played, for the Spine and RightHand socket, the animation will be played on the right Hand.
 The item can also specify a <xref:i5.VirtualAgents.Item.grapTarget>, this is where the IK animation will aim for and also what will we placed at the socket. Notice that the rotation of the agent's hand will match the <xref:i5.VirtualAgents.Item.grapTarget>'s rotation.
 
 Items can be dropped with a <xref:i5.VirtualAgents.AgentTasks.AgentDropTask> or the shortcut <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.DropItem*>. This will detach the item from the agent and invoke the <xref:i5.VirtualAgents.Item.dropEvent> of the Item. As seen in the [example](items.md#example-scenes) this could be used the reactive physics on the item.

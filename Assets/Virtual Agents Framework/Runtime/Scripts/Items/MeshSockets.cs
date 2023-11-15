@@ -1,6 +1,7 @@
 using i5.VirtualAgents;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class MeshSockets : MonoBehaviour
 {
@@ -10,6 +11,12 @@ public class MeshSockets : MonoBehaviour
         RightHand,
         LeftHand
     }
+
+    /// <summary>
+    /// Define the two bone IK constraints for the arms that is uses in the AgetPickUpTask
+    /// </summary>
+    public TwoBoneIKConstraint twoBoneIKConstraintRightArm;
+    public TwoBoneIKConstraint twoBoneIKConstraintLeftArm;
 
     Dictionary<SocketId, MeshSocket> socketMap = new();
     // Start is called before the first frame update
