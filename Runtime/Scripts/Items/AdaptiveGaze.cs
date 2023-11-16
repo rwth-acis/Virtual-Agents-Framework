@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace i5.VirtualAgents
 {
@@ -39,9 +40,7 @@ namespace i5.VirtualAgents
 		[Range(0f, 1f)]
 		public float chanceRandomTarget = 0.05f;
 		[Range(0f, 1f)]
-		public float chanceIdelTarget = 0.25f;
-
-
+		public float chanceIdleTarget = 0.25f;
 
 		public float lookSpeed = 2f;
 
@@ -67,17 +66,17 @@ namespace i5.VirtualAgents
 			aimScript.lookSpeed = lookSpeed;
 
 			// Normalize chances
-			float sum = chanceHigestedRankedTarget + chanceSecondHigestedTarget + chanceThirdHigestedTarget + chanceRandomTarget + chanceIdelTarget;
+			float sum = chanceHigestedRankedTarget + chanceSecondHigestedTarget + chanceThirdHigestedTarget + chanceRandomTarget + chanceIdleTarget;
 			chanceHigestedRankedTarget /= sum;
 			chanceSecondHigestedTarget /= sum;
 			chanceThirdHigestedTarget /= sum;
 			chanceRandomTarget /= sum;
-			chanceIdelTarget /= sum;
+			chanceIdleTarget /= sum;
 			chanceSecondHigestedTarget += chanceHigestedRankedTarget;
 			chanceThirdHigestedTarget += chanceSecondHigestedTarget;
 			chanceRandomTarget += chanceThirdHigestedTarget;
-			chanceIdelTarget += chanceRandomTarget;
-			if (chanceIdelTarget != 1f)
+			chanceIdleTarget += chanceRandomTarget;
+			if (chanceIdleTarget != 1f)
 			{
 				Debug.LogWarning("Normalisation went wrong");
 			}
@@ -312,7 +311,7 @@ namespace i5.VirtualAgents
 					int randomIndex = Random.Range(0, nearbyLookAtTargets.Count);
 					return nearbyLookAtTargets[randomIndex];
 				}
-				else if (chanceRandomTarget < randomValue && randomValue <= chanceIdelTarget)
+				else if (chanceRandomTarget < randomValue && randomValue <= chanceIdleTarget)
 				{
 					// Select no target and idle
 					return null;
