@@ -3,65 +3,64 @@ using UnityEngine.Events;
 
 namespace i5.VirtualAgents
 {
-    /// <summary>
-    /// Represents an item which can be picked up by an agent
-    /// </summary>
-    public class Item : MonoBehaviour
-    {
+	/// <summary>
+	/// Represents an item which can be picked up by an agent
+	/// </summary>
+	public class Item : MonoBehaviour
+	{
+		private bool isPickedUp = false;
+		public bool canBePickedUp = false;
 
-        private bool isPickedUp = false;
-        public bool canBePickedUp = false;
+		/// <summary>
+		/// This event can be listend to, to get notified when the item is dropped
+		/// </summary>
+		public UnityEvent dropEvent = new();
 
-        /// <summary>
-        /// This event can be listend to, to get notified when the item is dropped
-        /// </summary>
-        public UnityEvent dropEvent = new();
+		/// <summary>
+		/// grap is where IK of the Hand will be applied to, for example a handle of a cup. Initially it is the same as the object itself
+		/// </summary>
+		public Transform grapTarget;
 
-        /// <summary>
-        /// grap is where IK of the Hand will be applied to, for example a handle of a cup. Initially it is the same as the object itself
-        /// </summary>
-        public Transform grapTarget;
+		private AdaptiveGazeTarget adaptiveGazeTarget;
 
-        private AdaptiveGazeTarget adaptiveGazeTarget;
+		private void Start()
+		{
+			if (grapTarget == null)
+			{
+				grapTarget = transform;
+			}
 
-        void Start()
-        {
+			isPickedUp = false;
 
-            if (grapTarget == null)
-            {
-                grapTarget = transform;
-            }
+			adaptiveGazeTarget = GetComponent<AdaptiveGazeTarget>();
+		}
 
-            isPickedUp = false;
+		public void SetIsPickedUp(bool pickedUp)
+		{
+			this.isPickedUp = pickedUp;
 
-            adaptiveGazeTarget = GetComponent<AdaptiveGazeTarget>();
-        }
-        public void SetIsPickedUp(bool pickedUp)
-        {
-            this.isPickedUp = pickedUp;
+			if (adaptiveGazeTarget)
+			{
+				if (this.isPickedUp)
+				{
+					adaptiveGazeTarget.canCurrentlyBeLookedAt = false;
+				}
+				else
+				{
+					adaptiveGazeTarget.canCurrentlyBeLookedAt = true;
+				}
+			}
+		}
 
-            if (adaptiveGazeTarget)
-            {
-                if (this.isPickedUp)
-                {
-                    adaptiveGazeTarget.canCurrentlyBeLookedAt = false;
-                }
-                else
-                {
-                    adaptiveGazeTarget.canCurrentlyBeLookedAt = true;
-                }
-            }
+		public bool GetIsPickedUp()
+		{
+			return this.isPickedUp;
+		}
 
-        }
-        public bool GetIsPickedUp()
-        {
-            return this.isPickedUp;
-        }
-
-        public void IsDropped()
-        {
-            SetIsPickedUp(false);
-            dropEvent.Invoke();
-        }
-    }
+		public void IsDropped()
+		{
+			SetIsPickedUp(false);
+			dropEvent.Invoke();
+		}
+	}
 }
