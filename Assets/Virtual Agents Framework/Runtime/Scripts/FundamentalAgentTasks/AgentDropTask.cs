@@ -10,8 +10,6 @@ namespace i5.VirtualAgents.AgentTasks
     /// </summary>
     public class AgentDropTask : AgentBaseTask, ISerializable
     {
-
-
         /// <summary>
         /// Object that should be picked up
         /// </summary>
@@ -86,7 +84,5 @@ namespace i5.VirtualAgents.AgentTasks
         {
             DropObject = serializer.GetSerializedGameobjects("Drop Object");
         }
-
-
     }
 }

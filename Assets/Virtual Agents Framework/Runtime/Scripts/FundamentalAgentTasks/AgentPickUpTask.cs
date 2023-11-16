@@ -94,13 +94,11 @@ namespace i5.VirtualAgents.AgentTasks
             //Active IK as grab animation
             //Start coroutine to increase IK weight over time
             agent.StartCoroutine(IKWeightIncrease(agent, item));
-
-
         }
-        //Corutine for that increases the weight of the Two Bone IK constraint of Right Arm IK  over time as animation
+
+        // Coroutine that increases the weight of the Two Bone IK constraint of Right Arm IK over time as animation
         public IEnumerator IKWeightIncrease(Agent agent, Item item)
         {
-
             var constraint = agent.GetComponentInChildren<TwoBoneIKConstraint>();
             constraint.data.target.SetPositionAndRotation(constraint.data.tip.position, constraint.data.tip.rotation);
             constraint.weight = 1;
@@ -113,27 +111,26 @@ namespace i5.VirtualAgents.AgentTasks
 
                 yield return null;
 
-                //Update the target position and rotation of the IK constraint
+                // Update the target position and rotation of the IK constraint
             }
             // Set the target position and rotation to the exact values
             constraint.data.target.SetPositionAndRotation(item.grapTarget.position, item.grapTarget.rotation);
             PickUpObject(agent, item);
         }
 
-        //Pickup the object and attach it to the agent
+        // Pickup the object and attach it to the agent
         public void PickUpObject(Agent agent, Item item)
         {
-            //Add object to mesh socket
+            // Add object to mesh socket
             MeshSockets meshSockets = agent.GetComponent<MeshSockets>();
             meshSockets.Attach(item, SocketId);
 
-            //Deactivate IK
+            // Deactivate IK
             var constraint = agent.GetComponentInChildren<TwoBoneIKConstraint>();
             constraint.weight = 0;
 
             FinishTask();
         }
-
 
         public void Serialize(SerializationDataContainer serializer)
         {
@@ -144,7 +141,5 @@ namespace i5.VirtualAgents.AgentTasks
         {
             PickupObject = serializer.GetSerializedGameobjects("Pickup Object");
         }
-
-
     }
 }
