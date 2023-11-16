@@ -1,3 +1,4 @@
+using i5.VirtualAgents.Utilities;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
@@ -193,9 +194,9 @@ namespace i5.VirtualAgents
             {
                 targetFollower = new GameObject().transform;
                 targetFollower.gameObject.name = "TargetFollower";
-                DebugDrawSphere targetFollow = targetFollower.gameObject.AddComponent<DebugDrawSphere>();
-                targetFollow.color = Color.red;
-                targetFollow.radius = 0.50f;
+                DebugDrawTransformSphere targetVisualizer = targetFollower.gameObject.AddComponent<DebugDrawTransformSphere>();
+                targetVisualizer.color = Color.red;
+                targetVisualizer.radius = 0.50f;
 
                 // Set starting position of targetFollower 1 unit along the current aiming direction getAimDirectionVektor() * 1f +
                 this.startingTransform = new GameObject().transform;
