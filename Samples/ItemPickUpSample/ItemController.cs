@@ -4,23 +4,30 @@ using UnityEngine;
 
 namespace i5.VirtualAgents.Examples
 {
-    // controls the waypoint movement
+    // controls the item movement and listens to the drop event of the item
     public class ItemController : MonoBehaviour
     {
-
-        public float WaitTime;
-        public float MoveDistance = 3.5f; // Distance to move left and right from the start position
+        //Options related to the movement
+        public bool doesMove = true;
+        public float WaitTime; // Time to wait before moving again
+        public float MoveDistance = 3.5f; // Distance to move in each direction
+        
+        
+        
         private Item item;
         private Vector3 startPos;
-
         private int CurrentMovement = 0;
 
         private void Start()
         {
+            //Subscribe to the drop event of the item, so that physics can be activated when dropped
             item = GetComponent<Item>();
-            startPos = transform.position;
             item.dropEvent.AddListener(ItemWasDropped);
+
+
+            startPos = transform.position;
             StartCoroutine(MoveLoop(WaitTime));
+  
         }
 
         private void ItemWasDropped()
@@ -36,6 +43,8 @@ namespace i5.VirtualAgents.Examples
         {
             while (!item.GetIsPickedUp())
             {
+                if (!doesMove)
+                    break;
                 yield return MoveInSquare();
                 yield return new WaitForSeconds(waittime);
 
@@ -44,6 +53,7 @@ namespace i5.VirtualAgents.Examples
 
         private IEnumerator MoveInSquare()
         {
+            
             switch (CurrentMovement)
             {
                 case 0:
