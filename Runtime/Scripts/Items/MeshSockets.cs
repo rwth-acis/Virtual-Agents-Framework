@@ -23,7 +23,7 @@ public class MeshSockets : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Collect all the MeshSockets in the agent
+        // Collect all the MeshSockets in the agent
         MeshSocket[] sockets = GetComponentsInChildren<MeshSocket>();
         foreach (MeshSocket socket in sockets)
         {

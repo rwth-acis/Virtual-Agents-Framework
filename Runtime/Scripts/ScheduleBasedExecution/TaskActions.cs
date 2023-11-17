@@ -113,7 +113,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         }
         /// <summary>
         /// Go to an object with the Item component and pick it up when near enough
-        /// Might fail, when object is moving to fast
+        /// Might fail, when object is moving too fast
         /// Shortcut queue management function
         /// </summary>
         /// <param name="destinationObject">Object the agent should go to and pick up. Needs to have an item component and be reachable by the agent.</param>

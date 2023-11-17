@@ -19,25 +19,23 @@ public class MeshSocket : MonoBehaviour
 
     public void Attach(Item item)
     {
-        //Create new offset for the new item
+        // Create new offset for the new item
         Transform attachPointOffset = new GameObject().transform;
         attachPointOffset.name = "AttachPointOffsetBasedOnGrapTargetOf" + item.name;
-        //Add rigTransform component to the offset object
+        // Add rigTransform component to the offset object
         RigTransform rigTransform = attachPointOffset.gameObject.AddComponent<RigTransform>();
 
         offsetMap[item] = attachPointOffset;
         attachPointOffset.SetParent(this.transform);
-        //item.grapTarget should be at the same position as the attachPoint
+        // item.grapTarget should be at the same position as the attachPoint
         item.transform.SetParent(attachPointOffset, false);
         item.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-        //Calculate the diffrerence between the attachPoint and the item's grapTarget
+        // Calculate the diffrerence between the attachPoint and the item's grapTarget
         Vector3 offsetPosition =  item.grapTarget.transform.position - attachPointOffset.position;
         Quaternion offsetRotation = Quaternion.Inverse(attachPointOffset.transform.rotation) * item.grapTarget.transform.rotation;
         //Move the attachPointOffset so that the attachPoint allignes with the attachPoint
         attachPointOffset.transform.SetLocalPositionAndRotation(offsetPosition, offsetRotation);
-
-
 
         StartCoroutine(StopFurtherMovement(item.transform));
     }
@@ -51,7 +49,7 @@ public class MeshSocket : MonoBehaviour
         item.IsDropped();
     }
 
-    //Incase there is any movement that hasn't stopped yet, local position and rotation will be set to zero as long as the object is moving
+    // In case there is any movement that hasn't stopped yet, local position and rotation will be set to zero as long as the object is moving
     public IEnumerator StopFurtherMovement(Transform objectTransform)
     {
         yield return new WaitForSeconds(0.025f);
@@ -61,6 +59,4 @@ public class MeshSocket : MonoBehaviour
             yield return new WaitForSeconds(0.025f);
         }
     }
-
-    
 }
