@@ -16,7 +16,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// <summary>
         /// Minimum distance of the agent to the target so that the traget can be picked up
         /// </summary>
-        private const float minDistance = 1.20f;
+        private const float minDistance = 1f;
 
         /// <summary>
         /// Speed of IK animations
@@ -124,8 +124,15 @@ namespace i5.VirtualAgents.AgentTasks
 
             while (Vector3.Distance(constraint.data.target.position, item.grapTarget.position) > proximityThreshold)
             {
+
+                //calculate direction from which the grapTarget is approached
+                Quaternion direction = Quaternion.LookRotation(item.grapTarget.position - constraint.data.tip.position);
+                //Ajust direction so that the hand is rotated corectly: formulation was found by testing
+                direction = Quaternion.Euler(direction.eulerAngles.x + ((315- direction.eulerAngles.x)*2), direction.eulerAngles.y -180, direction.eulerAngles.z);
+   
+                //change position and roation of the target smoothly
                 constraint.data.target.position = Vector3.Lerp(constraint.data.target.position, item.grapTarget.position, Time.deltaTime * moveSpeed);
-                constraint.data.target.rotation = Quaternion.Lerp(constraint.data.target.rotation, item.grapTarget.rotation, Time.deltaTime * moveSpeed);
+                constraint.data.target.rotation = Quaternion.Lerp(constraint.data.target.rotation, direction, Time.deltaTime * moveSpeed);
 
                 yield return null;
 
