@@ -13,7 +13,7 @@ With all methods a socket can be specified to which the item will be attached wh
 3. `MeshSockets.SocketId.Spine`
 
 When the LeftHand socket is selected a simple [inverse kinematics](https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.3/manual/constraints/TwoBoneIKConstraint.html) (IK) animation on the left hand will be played, for the Spine and RightHand socket, the animation will be played on the right Hand.
-The item can also specify a <xref:i5.VirtualAgents.Item.grapTarget>, this is where the IK animation will aim for and also what will we placed at the socket. Notice that the rotation of the agent's hand will match the <xref:i5.VirtualAgents.Item.grapTarget>'s rotation.
+The item can also specify a <xref:i5.VirtualAgents.Item.grapTarget>, this is where the IK animation will aim for and also what will we placed at the socket. The hand of the agent will also automatically be rotated towards the <xref:i5.VirtualAgents.Item.grapTarget>.
 
 Items can be dropped with a <xref:i5.VirtualAgents.AgentTasks.AgentDropTask> or the shortcut <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.DropItem*>.
 This will detach the item from the agent and invoke the <xref:i5.VirtualAgents.Item.dropEvent> of the Item.
@@ -32,8 +32,8 @@ As seen in the [example](items.md#example-scenes) this could be used to reactiva
 The framework contains one example scene that demonstrates the ability to pickup and drop items.
 
 The samples contain a `ItemController` that controls the movement of the items in the scene, moving them in squares as long as there are not picked up. It also listens to the items <xref:i5.VirtualAgents.Item.dropEvent> and activates the rigidbody physics of the sword item when the event is invoked.
-The `ItemPickUpSampleController` first adds a movement task and a pickup task for each item in the scene, as defined in the controller object. Both items will be picked up with the right Hand (currently not changeable), but the second one will be stored in the left-hand socket.
-After that the first item, that looks like a sword is dropped at a specified point. The second item is dropped by calling the method that drops all items at a specific point.
+The `ItemPickUpSampleController` first adds a movement task and a pickup task for each item in the scene, as defined in the controller object. Two swords will be picked up by the right hand, the first one gets attached to the hand socket, while the second one gets attached to the spine socket. The third item is a ring that gets picked up and attached to the left hand. The last item is a pill formed item, that will be picked up and held in the left hand.
+After that the first item is dropped at a specified point. The second item is dropped by calling the method that drops all items at a specific point.
 
 ## Adaptive gaze
 
