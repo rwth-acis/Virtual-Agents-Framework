@@ -102,20 +102,19 @@ namespace i5.VirtualAgents.AgentTasks
             //Active IK as grab animation
             //Start coroutine to increase IK weight over time
             agent.StartCoroutine(IKWeightIncrease(agent, item));
-
-
         }
-        //Corutine for that increases the weight of the Two Bone IK constraint of Right Arm IK  over time as animation
+
+        // Coroutine that increases the weight of the Two Bone IK constraint of Right Arm IK over time as animation
         public IEnumerator IKWeightIncrease(Agent agent, Item item)
         {
-            //select witch IK constraint should be used for the pickup, default is the right arm
+            // Select witch IK constraint should be used for the pickup, default is the right arm
             if (this.SocketId == SocketId.LeftHand)
             {
                 constraint = meshSockets.twoBoneIKConstraintLeftArm;
             }
             else
             {
-                //SocketId == SocketId.LeftHand or SocketId == SocketId.Spine
+                // SocketId == SocketId.LeftHand or SocketId == SocketId.Spine
                 constraint = meshSockets.twoBoneIKConstraintRightArm;
             }   
             constraint.data.target.SetPositionAndRotation(constraint.data.tip.position, constraint.data.tip.rotation);
@@ -125,36 +124,35 @@ namespace i5.VirtualAgents.AgentTasks
             while (Vector3.Distance(constraint.data.target.position, item.grapTarget.position) > proximityThreshold)
             {
 
-                //calculate direction from which the grapTarget is approached
+                // Calculate direction from which the grapTarget is approached
                 Quaternion direction = Quaternion.LookRotation(item.grapTarget.position - constraint.data.tip.position);
-                //Ajust direction so that the hand is rotated corectly: formulation was found by testing
+                // Ajust direction so that the hand is rotated corectly: formulation was found by testing
                 direction = Quaternion.Euler(direction.eulerAngles.x + ((315- direction.eulerAngles.x)*2), direction.eulerAngles.y -180, direction.eulerAngles.z);
    
-                //change position and roation of the target smoothly
+                // Change position and roation of the target smoothly
                 constraint.data.target.position = Vector3.Lerp(constraint.data.target.position, item.grapTarget.position, Time.deltaTime * moveSpeed);
                 constraint.data.target.rotation = Quaternion.Lerp(constraint.data.target.rotation, direction, Time.deltaTime * moveSpeed);
 
                 yield return null;
 
-                //Update the target position and rotation of the IK constraint
+                // Update the target position and rotation of the IK constraint
             }
             // Set the target position and rotation to the exact values
             constraint.data.target.SetPositionAndRotation(item.grapTarget.position, item.grapTarget.rotation);
             PickUpObject(agent, item);
         }
 
-        //Pickup the object and attach it to the agent
+        // Pickup the object and attach it to the agent
         public void PickUpObject(Agent agent, Item item)
         {
-            //Add object to mesh socket
+            // Add object to mesh socket
             meshSockets.Attach(item, SocketId);
 
-            //Deactivate IK
+            // Deactivate IK
             constraint.weight = 0;
 
             FinishTask();
         }
-
 
         public void Serialize(SerializationDataContainer serializer)
         {
@@ -165,7 +163,5 @@ namespace i5.VirtualAgents.AgentTasks
         {
             PickupObject = serializer.GetSerializedGameobjects("Pickup Object");
         }
-
-
     }
 }

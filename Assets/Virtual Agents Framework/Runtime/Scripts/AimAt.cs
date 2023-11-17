@@ -1,20 +1,14 @@
+using i5.VirtualAgents.Utilities;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-[System.Serializable]
-public class HumanBone
-{
-    public HumanBodyBones bone;
-    [Range(0, 1)]
-    public float weight;
-}
 namespace i5.VirtualAgents
 {
-    /// <summary>
-    /// Implements the functunality of aiming at a target
-    /// </summary>
-    public class AimAt : MonoBehaviour
+	/// <summary>
+	/// Implements the functunality of aiming at a target
+	/// </summary>
+	public class AimAt : MonoBehaviour
     {
         /// <summary>
         /// The transform that should be aimed at
@@ -25,7 +19,7 @@ namespace i5.VirtualAgents
         /// The Transform of the agent childobjects that should directly aim at the target
         /// </summary>
         public Transform aimTransform;
-        //Axis of the aimTransform that should aim at the target
+        // Axis of the aimTransform that should aim at the target
         private AimDirection aimDirection = AimDirection.Y;
         /// <summary>
         /// The Transform that is acutally looked at and will follow the target smootly
@@ -34,7 +28,7 @@ namespace i5.VirtualAgents
 
         public float lookSpeed = 2f;
         private float currentLookSpeed = 2f;
-        private float increasLookSpeedBy = 0f;
+        private float increaseLookSpeedBy = 0f;
 
         NavMeshAgent navMeshAgent;
 
@@ -43,10 +37,10 @@ namespace i5.VirtualAgents
         public float weight = 0.8f;
 
         public float angleLimit = 180.0f;
-        //clostest distance at which an object will be aimed at
+        // closest distance at which an object will be aimed at
         public float distanceLimit = 1.5f;
 
-        //The postion where the targetFollower should be placed when no target is set
+        // The postion where the targetFollower should be placed when no target is set
         public Transform startingTransform;
 
         public HumanBone[] humanBones;
@@ -55,30 +49,30 @@ namespace i5.VirtualAgents
 
 
         /// <summary>
-        /// <see langword="true"/> if the component should destroy itselfe, when the aiming stops and the aim is back at the starting position
+        /// <see langword="true"/> if the component should destroy itself, when the aiming stops and the aim is back at the starting position
         /// </summary>
-        bool shouldDestroyItselfe = true;
+        bool shouldDestroyItself = true;
 
         // Start is called before the first frame update
-        void Start()
+        protected virtual void Start()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
-
         }
+
         /// <summary>
-        /// Startes the aiming at the target with the given layer and target
+        /// Starts the aiming at the target with the given layer and target
         /// </summary>
-        /// <param name="layer">The layer of the bodie that should be animated and aimed at the tarket. Supported are "Right Arm", "Left Arm", "Head", "Right Leg", "Left Leg" and "Base Layer" (spine)</param>
+        /// <param name="layer">The layer of the bodie that should be animated and aimed at the target. Supported are "Right Arm", "Left Arm", "Head", "Right Leg", "Left Leg" and "Base Layer" (spine)</param>
         /// <param name="target">The transform of the object that should be aimed at</param>
-        public void SetupAndStart(string layer, Transform target, bool shouldDestroyIteselfe = true)
+        public void SetupAndStart(string layer, Transform target, bool shouldDestroyIteself = true)
         {
             SetBonePreset(layer);
-            SetShouldDestroyItself(shouldDestroyIteselfe);
+            SetShouldDestroyItself(shouldDestroyIteself);
             SetTargetTransform(target);
         }
 
         /// <summary>
-        /// Removes the targerTransform, which results in the aim to return to the starting position, if shouldDestroyItselfe is set to true, the component will be destroyed after the aim is back at the starting position
+        /// Removes the targetTransform, which results in the aim to return to the starting position, if shouldDestroyItself is set to true, the component will be destroyed after the aim is back at the starting position
         /// </summary>
         public void Stop()
         {
@@ -86,9 +80,9 @@ namespace i5.VirtualAgents
         }
 
         // LateUpdate is called once per frame, after Update
-        void LateUpdate()
+        private void LateUpdate()
         {
-            TemporarlyIncreaseLookSpeed(navMeshAgent.velocity.magnitude);
+            TemporarilyIncreaseLookSpeed(navMeshAgent.velocity.magnitude);
 
             if (targetFollower != null)
             {
@@ -107,15 +101,14 @@ namespace i5.VirtualAgents
 
                 }
             }
-
         }
 
-        //Calculates where to aim at based on the target and the angle and distance limit
-        Vector3 CalculateWhereToLook()
+        // Calculates where to aim at based on the target and the angle and distance limit
+        private Vector3 CalculateWhereToLook()
         {
 
             Vector3 targetDirection = targetFollower.position - aimTransform.position;
-            Vector3 aimDirection = GetAimDirectionVektor();
+            Vector3 aimDirection = GetAimDirectionVector();
             float blendOut = 0.0f;
             float targetAngle = Vector3.Angle(targetDirection, aimDirection);
             if (targetAngle > angleLimit)
@@ -133,61 +126,56 @@ namespace i5.VirtualAgents
             Vector3 direction = Vector3.Slerp(targetDirection, aimDirection, blendOut);
             return aimTransform.position + direction;
         }
-        void UpdateTargetFollower()
+        private void UpdateTargetFollower()
         {
-
             Vector3 targetPosition;
 
-            //If targetTransform was not removed in Stop()
+            // If targetTransform was not removed in Stop()
             if (targetTransform != null)
             {
                 targetPosition = targetTransform.position;
-                increasLookSpeedBy = 1;
+                increaseLookSpeedBy = 1;
             }
             else
             {
-                //Return to the starting posiont
+                // Return to the starting posiont
                 targetPosition = startingTransform.position;
 
 
                 if (Vector3.Distance(targetFollower.position, targetPosition) >= 0.05f)
                 {
-                    //increase LookSpeed over time to finish up the movement
-                    increasLookSpeedBy = Math.Min(10, increasLookSpeedBy + 0.7f);
+                    // increase LookSpeed over time to finish up the movement
+                    increaseLookSpeedBy = Math.Min(10, increaseLookSpeedBy + 0.7f);
                     weight = Math.Max(0, weight - 0.01f);
                 }
                 else
                 {
-                    //When target position of the standard look is reached destroy this component
+                    // When target position of the standard look is reached destroy this component
                     weight = 0f;
-                    if (shouldDestroyItselfe)
+                    if (shouldDestroyItself)
                     {
                         Destroy(targetFollower.gameObject);
                         Destroy(this);
                     }
-
                 }
 
             }
 
-            //Smooth transition to target position
-            targetFollower.transform.position = Vector3.Lerp(targetFollower.transform.position, targetPosition, Time.deltaTime * (currentLookSpeed * increasLookSpeedBy));
-
-
-
+            // Smooth transition to target position
+            targetFollower.transform.position = Vector3.Lerp(targetFollower.transform.position, targetPosition, Time.deltaTime * (currentLookSpeed * increaseLookSpeedBy));
         }
 
 
         private void AimAtTarget(Transform bone, Vector3 targetPosition, float weight)
         {
-            Vector3 aimDirection = GetAimDirectionVektor();
+            Vector3 aimDirection = GetAimDirectionVector();
             Vector3 targetDirection = targetPosition - aimTransform.position;
             Quaternion aimTowards = Quaternion.FromToRotation(aimDirection, targetDirection);
             Quaternion blendedRotation = Quaternion.Slerp(Quaternion.identity, aimTowards, weight);
             bone.rotation = blendedRotation * bone.rotation;
         }
 
-        private Vector3 GetAimDirectionVektor()
+        private Vector3 GetAimDirectionVector()
         {
             if (this.aimDirection == AimDirection.Y)
                 return aimTransform.up.normalized;
@@ -201,45 +189,45 @@ namespace i5.VirtualAgents
 
         public void SetTargetTransform(Transform targetTransform)
         {
-            //If there is no targetFollower, create one
+            // If there is no targetFollower, create one
             if (targetFollower == null)
             {
                 targetFollower = new GameObject().transform;
                 targetFollower.gameObject.name = "TargetFollower";
-                DebugDrawSphere targetFollow = targetFollower.gameObject.AddComponent<DebugDrawSphere>();
-                targetFollow.color = Color.red;
-                targetFollow.radius = 0.50f;
+                DebugDrawTransformSphere targetVisualizer = targetFollower.gameObject.AddComponent<DebugDrawTransformSphere>();
+                targetVisualizer.color = Color.red;
+                targetVisualizer.radius = 0.50f;
 
-                //Set starting position of targetFollower 1 unit along the current aiming direction getAimDirectionVektor() * 1f +
+                // Set starting position of targetFollower 1 unit along the current aiming direction getAimDirectionVektor() * 1f +
                 this.startingTransform = new GameObject().transform;
                 this.startingTransform.gameObject.name = "StartingPositon";
-                this.startingTransform.position = aimTransform.position + (GetAimDirectionVektor() * 1f);
+                this.startingTransform.position = aimTransform.position + (GetAimDirectionVector() * 1f);
                 this.startingTransform.parent = this.transform;
                 this.targetFollower.position = startingTransform.position;
             }
 
             this.targetTransform = targetTransform;
         }
-        public void TemporarlyIncreaseLookSpeed(float increase)
+        public void TemporarilyIncreaseLookSpeed(float increase)
         {
             this.currentLookSpeed = lookSpeed + increase;
         }
-        public void SetShouldDestroyItself(bool shouldDestroyIteselfe)
+        public void SetShouldDestroyItself(bool shouldDestroyItself)
         {
-            this.shouldDestroyItselfe = shouldDestroyIteselfe;
+            this.shouldDestroyItself = shouldDestroyItself;
         }
 
         /// <summary>
         /// Instead of using a bone preset, the bones can be selected and weighted manually
         /// </summary>
         /// <param name="humanBones">The bones and weights that should be moved to accomplish the aiming</param>
-        /// <param name="aimdirection">The direction going out of the aimTransform that should directly point at the target</param>
+        /// <param name="aimDirection">The direction going out of the aimTransform that should directly point at the target</param>
         /// <param name="aimTransform">The last point of the bones that should directly point at the target</param>
         /// <param name="angleLimit">The limit at which pointing will be stopped, i.e. 90f to only aim when target is somewhere in front of the agent</param>
-        public void UseNewBoneset(HumanBone[] humanBones, AimDirection aimdirection, Transform aimTransform, float angleLimit)
+        public void UseNewBoneset(HumanBone[] humanBones, AimDirection aimDirection, Transform aimTransform, float angleLimit)
         {
             this.humanBones = humanBones;
-            SetAimDirection(aimdirection);
+            SetAimDirection(aimDirection);
             SetAimTransform(aimTransform);
             this.angleLimit = angleLimit;
 
@@ -459,11 +447,11 @@ namespace i5.VirtualAgents
                     break;
             }
 
-            getBoneTransformsFromAnimatior();
+            GetBoneTransformsFromAnimatior();
         }
 
 
-        private void getBoneTransformsFromAnimatior()
+        private void GetBoneTransformsFromAnimatior()
         {
             Animator animator = GetComponent<Animator>();
             boneTransforms = new Transform[humanBones.Length];
@@ -472,6 +460,7 @@ namespace i5.VirtualAgents
                 boneTransforms[i] = animator.GetBoneTransform(humanBones[i].bone);
             }
         }
+
         private void SetAimTransform(Transform aimTransform)
         {
             this.aimTransform = aimTransform;
@@ -490,9 +479,6 @@ namespace i5.VirtualAgents
                 Gizmos.DrawWireSphere(startingTransform.position, 0.25f);
                 Gizmos.DrawLine(aimTransform.position, startingTransform.position);
             }
-
-
         }
     }
-
 }
