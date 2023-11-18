@@ -1,6 +1,8 @@
 using i5.VirtualAgents;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
+using static MeshSockets;
 
 public class MeshSockets : MonoBehaviour
 {
@@ -10,6 +12,12 @@ public class MeshSockets : MonoBehaviour
         RightHand,
         LeftHand
     }
+
+    /// <summary>
+    /// Define the two bone IK constraints for the arms that is uses in the AgetPickUpTask
+    /// </summary>
+    public TwoBoneIKConstraint twoBoneIKConstraintRightArm;
+    public TwoBoneIKConstraint twoBoneIKConstraintLeftArm;
 
     Dictionary<SocketId, MeshSocket> socketMap = new();
     // Start is called before the first frame update
@@ -29,7 +37,9 @@ public class MeshSockets : MonoBehaviour
     }
     public void Detach(Item item)
     {
-        item.transform.SetParent(null, true);
-        item.IsDropped();
+        //Get the socketId of the socket that the item is attached to
+        SocketId socketId = item.transform.parent.parent.GetComponent<MeshSocket>().socketId;
+
+        socketMap[socketId].Detach(item);
     }
 }

@@ -19,7 +19,8 @@ namespace i5.VirtualAgents.AgentTasks
 		/// <summary>
 		/// Minimum distance of the agent to the target so that the task is considered finished
 		/// </summary>
-		private const float minDistance = 0.01f;
+		public float minDistance = 0.01f;
+
 		/// <summary>
 		/// Number of seconds spent on current path
 		/// </summary>

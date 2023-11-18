@@ -119,10 +119,13 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <param name="destinationObject">Object the agent should go to and pick up. Needs to have an item component and be reachable by the agent.</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
         /// <param name="bodyAttachPoint">Bodypart that the object should be attached to, standard is the right Hand</param>
+        /// <param name="minDistance">Distance at which the the agent will try to pick up the object</param>
         /// <returns></returns>
-        public AgentBaseTask GoToAndPickUp(GameObject destinationObject, int priority = 0, SocketId bodyAttachPoint = SocketId.RightHand)
+        public AgentBaseTask GoToAndPickUp(GameObject destinationObject, int priority = 0, SocketId bodyAttachPoint = SocketId.RightHand, float minDistance = 0.3f)
         {
-            AgentBaseTask goToTask = GoTo(destinationObject, default, priority, true);
+            AgentMovementTask goToTask = (AgentMovementTask) GoTo(destinationObject, default, priority, true);
+            goToTask.minDistance = minDistance;
+
             AgentBaseTask pickUpTask = PickUp(destinationObject, priority, bodyAttachPoint);
             return pickUpTask;
         }

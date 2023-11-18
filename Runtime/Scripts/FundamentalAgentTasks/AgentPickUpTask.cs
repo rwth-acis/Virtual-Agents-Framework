@@ -16,7 +16,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// <summary>
         /// Minimum distance of the agent to the target so that the traget can be picked up
         /// </summary>
-        private const float minDistance = 1.20f;
+        private const float minDistance = 1f;
 
         /// <summary>
         /// Speed of IK animations
@@ -38,6 +38,9 @@ namespace i5.VirtualAgents.AgentTasks
         /// Bodypart that the object should attached to
         /// </summary>
         public SocketId SocketId { get; protected set; }
+
+        private MeshSockets meshSockets;
+        private TwoBoneIKConstraint constraint;
 
         public AgentPickUpTask()
         {
@@ -91,6 +94,11 @@ namespace i5.VirtualAgents.AgentTasks
                 FinishTask();
                 return;
             }
+
+            //Get the MeshSockets component of the agent for attaching the object and the IK constraints for the arms pickup animation
+            this.meshSockets = agent.GetComponent<MeshSockets>();
+
+
             //Active IK as grab animation
             //Start coroutine to increase IK weight over time
             agent.StartCoroutine(IKWeightIncrease(agent, item));
@@ -99,15 +107,31 @@ namespace i5.VirtualAgents.AgentTasks
         // Coroutine that increases the weight of the Two Bone IK constraint of Right Arm IK over time as animation
         public IEnumerator IKWeightIncrease(Agent agent, Item item)
         {
-            var constraint = agent.GetComponentInChildren<TwoBoneIKConstraint>();
+            // Select witch IK constraint should be used for the pickup, default is the right arm
+            if (this.SocketId == SocketId.LeftHand)
+            {
+                constraint = meshSockets.twoBoneIKConstraintLeftArm;
+            }
+            else
+            {
+                // SocketId == SocketId.LeftHand or SocketId == SocketId.Spine
+                constraint = meshSockets.twoBoneIKConstraintRightArm;
+            }   
             constraint.data.target.SetPositionAndRotation(constraint.data.tip.position, constraint.data.tip.rotation);
             constraint.weight = 1;
             item.SetIsPickedUp(true);
 
             while (Vector3.Distance(constraint.data.target.position, item.grapTarget.position) > proximityThreshold)
             {
+
+                // Calculate direction from which the grapTarget is approached
+                Quaternion direction = Quaternion.LookRotation(item.grapTarget.position - constraint.data.tip.position);
+                // Ajust direction so that the hand is rotated corectly: formulation was found by testing
+                direction = Quaternion.Euler(direction.eulerAngles.x + ((315- direction.eulerAngles.x)*2), direction.eulerAngles.y -180, direction.eulerAngles.z);
+   
+                // Change position and roation of the target smoothly
                 constraint.data.target.position = Vector3.Lerp(constraint.data.target.position, item.grapTarget.position, Time.deltaTime * moveSpeed);
-                constraint.data.target.rotation = Quaternion.Lerp(constraint.data.target.rotation, item.grapTarget.rotation, Time.deltaTime * moveSpeed);
+                constraint.data.target.rotation = Quaternion.Lerp(constraint.data.target.rotation, direction, Time.deltaTime * moveSpeed);
 
                 yield return null;
 
@@ -122,11 +146,9 @@ namespace i5.VirtualAgents.AgentTasks
         public void PickUpObject(Agent agent, Item item)
         {
             // Add object to mesh socket
-            MeshSockets meshSockets = agent.GetComponent<MeshSockets>();
             meshSockets.Attach(item, SocketId);
 
             // Deactivate IK
-            var constraint = agent.GetComponentInChildren<TwoBoneIKConstraint>();
             constraint.weight = 0;
 
             FinishTask();
