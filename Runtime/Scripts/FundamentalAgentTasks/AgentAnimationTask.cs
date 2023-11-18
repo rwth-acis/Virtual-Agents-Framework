@@ -12,7 +12,7 @@ namespace i5.VirtualAgents.AgentTasks
         private string startTrigger;
         private string stopTrigger;
         private float playTime;
-        private readonly GameObject aimtarget;
+        private readonly GameObject aimTarget;
         private readonly string layer;
 
         AimAt aimScript;
@@ -25,7 +25,7 @@ namespace i5.VirtualAgents.AgentTasks
             this.startTrigger = startTrigger;
             this.stopTrigger = stopTrigger;
             this.playTime = playTime;
-            this.aimtarget = aimTarget;
+            this.aimTarget = aimTarget;
             this.layer = layer;
         }
 
@@ -40,7 +40,7 @@ namespace i5.VirtualAgents.AgentTasks
             animator.SetTrigger(startTrigger);
 
 
-            if (aimtarget != null)
+            if (aimTarget != null)
             {
                 if (layer == "")
                 {
@@ -61,7 +61,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public override void StopExecution()
         {
-            if (aimtarget != null)
+            if (aimTarget != null)
             {
                 aimScript.Stop();
                 if (lookAroundController != null && layer == "Head")
@@ -82,10 +82,11 @@ namespace i5.VirtualAgents.AgentTasks
         // wait for current animation to finish
         private IEnumerator WaitForCurrentAnimationToFinishAndStartAimScript()
         {
-            //Pointat animation takes 26 frames to finish
+            // TODO: this value is currently hardcoded. We should look for a solution where the animation is played and we are notified once it is done.
+            // Pointing animation takes 26 frames to finish
             yield return new WaitForSeconds(0.5f);
-            aimScript.SetupAndStart(layer, aimtarget.transform);
-            //If the agent is setup to look around, stop it while aiming with the head
+            aimScript.SetupAndStart(layer, aimTarget.transform);
+            // If the agent is setup to look around, stop it while aiming with the head
             if (lookAroundController != null && layer == "Head")
             {
                 lookAroundController.Deactivate();

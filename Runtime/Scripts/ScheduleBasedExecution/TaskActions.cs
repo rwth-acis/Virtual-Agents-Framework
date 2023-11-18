@@ -124,7 +124,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         public AgentBaseTask GoToAndPickUp(GameObject destinationObject, int priority = 0, SocketId bodyAttachPoint = SocketId.RightHand, float minDistance = 0.3f)
         {
             AgentMovementTask goToTask = (AgentMovementTask) GoTo(destinationObject, default, priority, true);
-            goToTask.minDistance = minDistance;
+            goToTask.MinDistance = minDistance;
 
             AgentBaseTask pickUpTask = PickUp(destinationObject, priority, bodyAttachPoint);
             return pickUpTask;

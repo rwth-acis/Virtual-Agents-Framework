@@ -13,14 +13,15 @@ namespace i5.VirtualAgents.AgentTasks
         /// <summary>
         /// Object that should be picked up
         /// </summary>
-        public GameObject DropObject { get; protected set; }
+        public GameObject DropObject { get; private set; }
 
         public AgentDropTask()
         {
         }
 
         /// <summary>
-        /// Create an AgentDropTask using the object that is currently carried and should be dropped, if no object is given, the agent will drop all objects that are currently carried
+        /// Create an AgentDropTask using the object that is currently carried and should be dropped,
+        /// if no object is given, the agent will drop all objects that are currently carried
         /// </summary>
         /// <param name="dropObject">The object that the agent should drop</param>
         public AgentDropTask(GameObject dropObject = null)
@@ -45,7 +46,7 @@ namespace i5.VirtualAgents.AgentTasks
                 {
                     State = TaskState.Failure;
                     i5Debug.LogError($"The drop object {DropObject.name} does not have a Item component. " +
-                        $"Therefore, it cannot be dropped. Skipping this task.",
+                        "Therefore, it cannot be dropped. Skipping this task.",
                         this);
                 }
                 DropOneItem(agent, item);
@@ -55,7 +56,7 @@ namespace i5.VirtualAgents.AgentTasks
         }
 
 
-        public void DropAllItems(Agent agent, Transform currentTransform)
+        private void DropAllItems(Agent agent, Transform currentTransform)
         {
             // Check if the current transform has the "ItemComponent"
             if (currentTransform.TryGetComponent<Item>(out var item))
@@ -69,7 +70,8 @@ namespace i5.VirtualAgents.AgentTasks
                 DropAllItems(agent, child);
             }
         }
-        public void DropOneItem(Agent agent, Item item)
+
+        private void DropOneItem(Agent agent, Item item)
         {
             MeshSockets meshSockets = agent.GetComponent<MeshSockets>();
             meshSockets.Detach(item);
