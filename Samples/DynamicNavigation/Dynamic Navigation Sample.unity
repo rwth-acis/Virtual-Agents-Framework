@@ -1137,7 +1137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: 
-  description: 'This scene demonstrates how the agent can follow gameObjects dynamiclly
+  description: 'This scene demonstrates how the agent can follow gameObjects dynamically
     when they move, by setting the follow attribute to true.
 
 

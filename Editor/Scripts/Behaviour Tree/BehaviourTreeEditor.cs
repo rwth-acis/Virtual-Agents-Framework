@@ -16,7 +16,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         private InspectorView inspectorView;
         private Label treeViewOccludeLabel;
 
-        [MenuItem("i5 Toolkit/Behaviour Tree Editor")]
+        [MenuItem("Virtual Agents Framework/Behaviour Tree Editor")]
         public static void ShowWindow()
         {
             BehaviourTreeEditor window = GetWindow<BehaviourTreeEditor>();

@@ -10,7 +10,7 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
     /// <summary>
     /// Asset that can be used to create behaviour trees that are saved persistently. The tree is not executable, but an executable abstract copy can be retrived.
     /// </summary>
-    [CreateAssetMenu(menuName = "i5 Toolkit/Behaviour Tree")]
+    [CreateAssetMenu(menuName = "Virtual Agents Framework/Behaviour Tree")]
     public class BehaviorTreeAsset : ScriptableObject
     {
         private VisualNode rootNode;

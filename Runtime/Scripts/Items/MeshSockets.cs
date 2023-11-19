@@ -5,7 +5,7 @@ using UnityEngine.Animations.Rigging;
 namespace i5.VirtualAgents
 {
 	/// <summary>
-	/// Advertises the available mesh sockets to the 
+	/// Collects and advertises the available mesh sockets to other scripts
 	/// </summary>
 	public class MeshSockets : MonoBehaviour
     {
