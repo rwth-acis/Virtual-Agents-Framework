@@ -5,11 +5,12 @@ namespace i5.VirtualAgents.Examples
 {
     public class ItemPickUpSampleController : SampleScheduleController
     {
-        public List<GameObject> pickUpObjects;
+        [SerializeField] private List<GameObject> pickUpObjects;
 
-        public Transform dropFirstItemHere;
+        [SerializeField] private Transform dropFirstItemHere;
 
-        public Transform dropAllOtherItemsHere;
+        [SerializeField] private Transform dropAllOtherItemsHere;
+
         protected override void Start()
         {
             base.Start();
@@ -40,8 +41,6 @@ namespace i5.VirtualAgents.Examples
 
             //move away from the items
             taskSystem.Tasks.GoTo(dropAllOtherItemsHere);
-
-
         }
     }
 }

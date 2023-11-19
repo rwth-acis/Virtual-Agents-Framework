@@ -3441,7 +3441,7 @@ MonoBehaviour:
   description: "This scene demonstrates how the agent can automatically and dynamically
     look at objects that the agent is seeing. Here the agent walks past multiple
     objects with the AdaptiveGazeTarget component and looks at them dynamically.
-    \r\nThe `adaptiveGazeSampleController` adds multiple waypoint where the agent
+    \r\nThe `AdaptiveGazeSampleController` adds multiple waypoint where the agent
     should walk. Optionally, the sample controller also provides options to overwrite
     the adaptive gaze at the beginning for a specified `AimAtTime`.\n\nTo enable
     this feature the following needs to be added:\n1. The agent needs a AdaptiveGaze
@@ -5116,7 +5116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: 
   description: This object has a AdaptiveGazeTarget component, but no collider assigned.
-    To make looking at it still possable, it automaticlly gets a standard collider.
+    To make looking at it still possible, it automatically gets a standard collider.
   type: 0
   url: 
 --- !u!1 &1728622961
@@ -6228,6 +6228,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96bc75292d584fe4598ab674a7c7ddfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TwoBoneIKConstraintRightArm>k__BackingField: {fileID: 0}
+  <TwoBoneIKConstraintLeftArm>k__BackingField: {fileID: 0}
 --- !u!114 &1023428232005854991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6244,9 +6246,9 @@ MonoBehaviour:
   maxNumberOfTargetsInRange: 50
   detectionIntervalWhenIdle: 3
   detectionIntervalWhenWalking: 0.5
-  chanceHigestedRankedTarget: 0.5
-  chanceSecondHigestedTarget: 0.1
-  chanceThirdHigestedTarget: 0.1
+  chanceHighestRankedTarget: 0.5
+  chanceSecondHighestTarget: 0.1
+  chanceThirdHighestTarget: 0.1
   chanceRandomTarget: 0.05
   chanceIdleTarget: 0.25
   lookSpeed: 2

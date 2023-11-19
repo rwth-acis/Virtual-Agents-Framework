@@ -1,18 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace i5.VirtualAgents.Examples
 {
-    // controls the item movement and listens to the drop event of the item
-    public class ItemController : MonoBehaviour
+	// controls the item movement and listens to the drop event of the item
+	public class ItemController : MonoBehaviour
     {
         //Options related to the movement
-        public bool doesMove = true;
-        public float WaitTime; // Time to wait before moving again
-        public float MoveDistance = 3.5f; // Distance to move in each direction
-        
-        
+        [SerializeField] private bool doesMove = true;
+        [SerializeField] private float WaitTime; // Time to wait before moving again
+        [SerializeField] private float MoveDistance = 3.5f; // Distance to move in each direction
         
         private Item item;
         private Vector3 startPos;
@@ -20,19 +17,17 @@ namespace i5.VirtualAgents.Examples
 
         private void Start()
         {
-            //Subscribe to the drop event of the item, so that physics can be activated when dropped
+            // Subscribe to the drop event of the item, so that physics can be activated when dropped
             item = GetComponent<Item>();
             item.dropEvent.AddListener(ItemWasDropped);
 
-
             startPos = transform.position;
             StartCoroutine(MoveLoop(WaitTime));
-  
         }
 
         private void ItemWasDropped()
         {
-            //If item has a rigitbody component, activate it
+            // If item has a rigidbody component, activate it
             if (GetComponent<Rigidbody>())
             {
                 GetComponent<Rigidbody>().isKinematic = false;
@@ -41,19 +36,17 @@ namespace i5.VirtualAgents.Examples
 
         private IEnumerator MoveLoop(float waittime)
         {
-            while (!item.GetIsPickedUp())
+            while (!item.IsPickedUp)
             {
                 if (!doesMove)
                     break;
                 yield return MoveInSquare();
                 yield return new WaitForSeconds(waittime);
-
             }
         }
 
         private IEnumerator MoveInSquare()
         {
-            
             switch (CurrentMovement)
             {
                 case 0:
@@ -105,7 +98,7 @@ namespace i5.VirtualAgents.Examples
 
 			while (t < 1)
 			{
-                if (item.GetIsPickedUp()) break;
+                if (item.IsPickedUp) break;
                 t += Time.deltaTime;
 				transform.position = Vector3.Lerp(transform.position, targetPosition, t);
 				yield return null;

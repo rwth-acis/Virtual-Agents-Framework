@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95b872d6d8715e746b23014fd2b11372, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  socketId: 1
+  <SocketId>k__BackingField: 1
 --- !u!114 &2576688657566015180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +196,7 @@ GameObject:
   m_Component:
   - component: {fileID: 485173572849798641}
   m_Layer: 0
-  m_Name: AnimationRiggging
+  m_Name: AnimationRigging
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -464,7 +464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95b872d6d8715e746b23014fd2b11372, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  socketId: 0
+  <SocketId>k__BackingField: 0
 --- !u!114 &5400835780731983978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,7 +641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95b872d6d8715e746b23014fd2b11372, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  socketId: 2
+  <SocketId>k__BackingField: 2
 --- !u!114 &2390701178335476336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -933,8 +933,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96bc75292d584fe4598ab674a7c7ddfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  twoBoneIKConstraintRightArm: {fileID: 480406094898911219}
-  twoBoneIKConstraintLeftArm: {fileID: 2009437644724414400}
+  <TwoBoneIKConstraintRightArm>k__BackingField: {fileID: 480406094898911219}
+  <TwoBoneIKConstraintLeftArm>k__BackingField: {fileID: 2009437644724414400}
 --- !u!114 &1372687343423552459
 MonoBehaviour:
   m_ObjectHideFlags: 0
