@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Adaptive Gaze | Documentation of the Virtual Agents Framework </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Adaptive Gaze | Documentation of the Virtual Agents Framework ">
+    <meta name="generator" content="docfx 2.59.2.0">
+    
+    <link rel="shortcut icon" href="../resources/Logos/Logo_whiteBg.svg">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../resources/Logos/Logo_whiteBg.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="adaptive-gaze">Adaptive Gaze</h1>
+
+<p>To make an agent look more life like it can automatically look at objects in front of him, swerve between the objects, idle in between and pick up on sudden interest changes, like objects that start to move.
+To get this functionally the <a class="xref" href="../api/i5.VirtualAgents.AdaptiveGaze.html">AdaptiveGaze</a> component needs to be added to the agent.
+The automatic gaze is automatically overwritten if a <a class="xref" href="../api/i5.VirtualAgents.AgentTasks.AgentAnimationTask.html">AgentAnimationTask</a> is played on the head layer of the agent and will be reactivated when the animation ends.</p>
+<h2 id="algorithm">Algorithm</h2>
+<p>The agent checks if there are any <a class="xref" href="../api/i5.VirtualAgents.AdaptiveGazeTarget.html">AdaptiveGazeTarget</a>s in front of him and then checks if they are seeable.
+For calculating the value of interest to the agent, the distance to the target, the importance defined by the target, the time that the agent already looks at the target and the perceived novelty is used. </p>
+<p><code>timeLookedAt</code> is modified in two ways:</p>
+<ul>
+<li><code>timeLookedAt</code> increases every time that the item is looked at.</li>
+<li><code>timeLookedAt</code> decreases every time that the item is not looked at.</li>
+</ul>
+<p><code>novelty</code> is modified in two ways:</p>
+<ul>
+<li><code>novelty</code> increases by 5 if the item has not been looked at before.</li>
+<li><code>novelty</code> increases by 10 if the importance of the item increased since last seeing it.</li>
+<li><code>novelty</code> decreases by 1 every time that the item is looked at.</li>
+</ul>
+<h2 id="setup-requirements">Setup Requirements</h2>
+<ul>
+<li>The agent needs the <a class="xref" href="../api/i5.VirtualAgents.AdaptiveGaze.html">AdaptiveGaze</a> component.<ul>
+<li>Targets that can be looked at need to be on specific layers, specified in <code>seeLayers</code>.</li>
+<li>Objects that should obstruct the view of the agent need to be on specific layers, specified in <code>occlusonLayers</code>.</li>
+</ul>
+</li>
+<li>Objects that should be looked at need the <a class="xref" href="../api/i5.VirtualAgents.AdaptiveGazeTarget.html">AdaptiveGazeTarget</a> component.<ul>
+<li><a class="xref" href="../api/i5.VirtualAgents.AdaptiveGazeTarget.html">AdaptiveGazeTarget</a> needs to be on one of the <code>seeLayers</code> that was specified in the agent.
+The layer can be changed in the top right corner of the inspector.</li>
+<li>(optional) A collider that makes sense for the Target, if no target is added a standard collider will be added, see <code>ExampleOfAutoCollider</code> in the sample scene.</li>
+</ul>
+</li>
+</ul>
+<h2 id="options---xrefi5virtualagentsadaptivegaze">Options - <a class="xref" href="../api/i5.VirtualAgents.AdaptiveGaze.html">AdaptiveGaze</a></h2>
+<p>The <a class="xref" href="../api/i5.VirtualAgents.AdaptiveGaze.html">AdaptiveGaze</a> component has several options that can be modified to fit the agents purpose or personality:</p>
+<ul>
+<li><code>detectionRadius</code> defines how big the detection cube in which items can be seen in front of the agent is.
+Use Window &gt; Analysis &gt; Physics Debug &gt; Queries to see the detection radius, decrease detection Interval to see the cube on every frame.</li>
+<li><code>maxNumberOfTargetsInRange</code> should be an upper limit of how many items can be in front of the agent, otherwise undefined behavior.</li>
+<li><code>detectionIntervalWhenWalking</code> and <code>detectionIntervalWhenIdle</code> is the detection interval in which the detection cube is checked for items in seconds.
+Longer intervals allow the agent to look after items that move, even when they move outside the detection cube.</li>
+<li><code>chanceHighestRankedTarget</code>, <code>chanceSecondHighestTarget</code>, <code>chanceThirdHighestTarget</code> define the chances for looking at the most interesting, second interesting and third interesting item based on the calculated interest value.</li>
+<li><code>chanceRandomTarget</code> defines the chance for looking at a random item in sight.</li>
+<li><code>chanceIdleTarget</code> defines the chance for the agent to not look at anything specific and to play the ideal animation instead.</li>
+</ul>
+<h2 id="options---xrefi5virtualagentsadaptivegazetarget">Options - <a class="xref" href="../api/i5.VirtualAgents.AdaptiveGazeTarget.html">AdaptiveGazeTarget</a></h2>
+<ul>
+<li><code>Importance</code> defines how important the object is to any agent from 1-10.
+If the <code>Importance</code> increases since the agent last looked at it, the <code>novelty</code> for that target will also be increased for that agent.</li>
+<li><code>CanCurrentlyBeLookedAt</code> can be used to switch the objects perceivability off.
+This is used by the <code>Item</code> component when the item is picked up or dropped.</li>
+</ul>
+<h2 id="example-scenes">Example Scenes</h2>
+<p>The framework contains one example scene that demonstrates the adaptive gaze functionality.
+In that the agent walks past multiple objects with the <a class="xref" href="../api/i5.VirtualAgents.AdaptiveGazeTarget.html">AdaptiveGazeTarget</a> component and looks at them dynamically.
+The <code>AdaptiveGazeSampleController</code> adds multiple waypoints where the agent should walk. Optionally, the sample controller also provides options to overwrite the adaptive gaze at the beginning for a specified <code>AimAtTime</code>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/rwth-acis/Virtual-Agents-Framework/blob/items/Documentation/manual/adaptive-gaze.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Documentation of the Virtual Agents Framework
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

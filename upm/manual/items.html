@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Items | Documentation of the Virtual Agents Framework </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Items | Documentation of the Virtual Agents Framework ">
+    <meta name="generator" content="docfx 2.59.2.0">
+    
+    <link rel="shortcut icon" href="../resources/Logos/Logo_whiteBg.svg">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../resources/Logos/Logo_whiteBg.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="items">Items</h1>
+
+<p>Objects that an agent can interact with in any way, should get the <a class="xref" href="../api/i5.VirtualAgents.Item.html">Item</a> component.
+Currently, this allows items to be picked up and dropped.</p>
+<h2 id="picking-up-and-dropping-items">Picking Up and Dropping Items</h2>
+<p>Items can be picked up with a <a class="xref" href="../api/i5.VirtualAgents.AgentTasks.AgentPickUpTask.html">AgentPickUpTask</a> or <a class="xref" href="../api/i5.VirtualAgents.ScheduleBasedExecution.TaskActions.html#i5_VirtualAgents_ScheduleBasedExecution_TaskActions_PickUp_">PickUp</a> when they are close enough, the task will fail if the object is not near enough or if <a class="xref" href="../api/i5.VirtualAgents.Item.html#i5_VirtualAgents_Item_CanBePickedUp">CanBePickedUp</a> of the items return false.
+To bring an agent easily in the reach of an item the shortcut <a class="xref" href="../api/i5.VirtualAgents.ScheduleBasedExecution.TaskActions.html#i5_VirtualAgents_ScheduleBasedExecution_TaskActions_GoToAndPickUp_">GoToAndPickUp</a> can be used.
+With all methods a socket can be specified to which the item will be attached when after it is picked up.
+Currently, the following sockets are supported:</p>
+<ol>
+<li><code>MeshSockets.SocketId.RightHand</code></li>
+<li><code>MeshSockets.SocketId.LeftHand</code></li>
+<li><code>MeshSockets.SocketId.Spine</code></li>
+</ol>
+<p>When the LeftHand socket is selected a simple <a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.3/manual/constraints/TwoBoneIKConstraint.html">inverse kinematics</a> (IK) animation on the left hand will be played, for the Spine and RightHand socket, the animation will be played on the right hand.
+The item can also specify a <a class="xref" href="../api/i5.VirtualAgents.Item.html#i5_VirtualAgents_Item_GrabTarget">GrabTarget</a>, this is where the IK animation will aim for and also what will we placed at the socket.
+The hand of the agent will also automatically be rotated towards the <a class="xref" href="../api/i5.VirtualAgents.Item.html#i5_VirtualAgents_Item_GrabTarget">GrabTarget</a>.</p>
+<p>Items can be dropped with a <a class="xref" href="../api/i5.VirtualAgents.AgentTasks.AgentDropTask.html">AgentDropTask</a> or the shortcut <a class="xref" href="../api/i5.VirtualAgents.ScheduleBasedExecution.TaskActions.html#i5_VirtualAgents_ScheduleBasedExecution_TaskActions_DropItem_">DropItem</a>.
+This will detach the item from the agent and invoke the <a class="xref" href="../api/i5.VirtualAgents.Item.html#i5_VirtualAgents_Item_dropEvent">dropEvent</a> of the Item.
+As seen in the <a href="items.html#example-scenes">example</a> this could be used to reactivate physics on the item.</p>
+<h2 id="requirements">Requirements</h2>
+<ol>
+<li>The agent needs the <code>MeshSockets</code> and <code>RigBuilder</code> components, as well as everything that is part of the <code>AnimationRigging</code> child object in the agent prefab, in which the Sockets for the item positions are defined as well as the inverse kinematics animation for the grab animation.
+For more information on the used Unity Package see <a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.3/manual/index.html">animation rigging package</a>.</li>
+<li>Items that should be picked up need the <a class="xref" href="../api/i5.VirtualAgents.Item.html">Item</a> component.<ol>
+<li>The Items <a class="xref" href="../api/i5.VirtualAgents.Item.html#i5_VirtualAgents_Item_CanBePickedUp">CanBePickedUp</a> method needs to return true.</li>
+<li>(optional) A <a class="xref" href="../api/i5.VirtualAgents.Item.html#i5_VirtualAgents_Item_GrabTarget">GrabTarget</a> can be defined, that&#39;s where the agent will move its hand position and rotation wise and what attaches to the specified socked when picking the object up. The default is the local zero coordinates of the item.</li>
+</ol>
+</li>
+</ol>
+<h2 id="example-scenes">Example Scenes</h2>
+<p>The framework contains an example scene that demonstrates the ability to pick up and drop items.</p>
+<p>The samples contain a <code>ItemController</code> that controls the movement of the items in the scene, moving them in squares as long as there are not picked up.
+It also listens to the items <a class="xref" href="../api/i5.VirtualAgents.Item.html#i5_VirtualAgents_Item_dropEvent">dropEvent</a> and activates the rigidbody physics of the sword item when the event is invoked.
+The <code>ItemPickUpSampleController</code> first adds a movement task and a pickup task for each item in the scene, as defined in the controller object.
+Two swords will be picked up by the right hand, the first one gets attached to the hand socket, while the second one gets attached to the spine socket.
+The third item is a ring that gets picked up and attached to the left hand.
+The last item is a pill formed item, that will be picked up and held in the left hand.
+After that the first item is dropped at a specified point.
+The second item is dropped by calling the method that drops all items at a specific point.</p>
+<h2 id="adaptive-gazeadaptive-gazemd"><a href="adaptive-gaze.html">Adaptive Gaze</a></h2>
+<p>To make an agent appear more life-like it can automatically look at objects and items in front of him, swerve between the objects, idle in between and pick up on sudden interest changes, like objects that start to move.
+To make the agent look at objects that are about to be picked up the <a class="xref" href="../api/i5.VirtualAgents.AdaptiveGazeTarget.html">AdaptiveGazeTarget</a> component can be added to the object.
+It will automatically be deactivated when the object is picked up.</p>
+<p>See <a href="adaptive-gaze.html">adaptive gaze</a> for more information.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/rwth-acis/Virtual-Agents-Framework/blob/items/Documentation/manual/items.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Documentation of the Virtual Agents Framework
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

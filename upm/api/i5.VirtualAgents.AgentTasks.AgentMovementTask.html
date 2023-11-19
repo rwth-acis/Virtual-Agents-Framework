@@ -1,0 +1,561 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class AgentMovementTask
+   | Documentation of the Virtual Agents Framework </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class AgentMovementTask
+   | Documentation of the Virtual Agents Framework ">
+    <meta name="generator" content="docfx 2.59.2.0">
+    
+    <link rel="shortcut icon" href="../resources/Logos/Logo_whiteBg.svg">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../resources/Logos/Logo_whiteBg.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask">
+  
+  
+  <h1 id="i5_VirtualAgents_AgentTasks_AgentMovementTask" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask" class="text-break">Class AgentMovementTask
+  </h1>
+  <div class="markdown level0 summary"><p>Defines movement tasks for walking and running
+Uses the NavMeshAgent component</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level1"><a class="xref" href="i5.VirtualAgents.BaseTask.html">BaseTask</a></div>
+    <div class="level2"><a class="xref" href="i5.VirtualAgents.AgentTasks.AgentBaseTask.html">AgentBaseTask</a></div>
+    <div class="level3"><span class="xref">AgentMovementTask</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="i5.VirtualAgents.AgentTasks.IAgentTask.html">IAgentTask</a></div>
+    <div><a class="xref" href="i5.VirtualAgents.ITask.html">ITask</a></div>
+    <div><a class="xref" href="i5.VirtualAgents.AgentTasks.ISerializable.html">ISerializable</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="i5.VirtualAgents.AgentTasks.AgentBaseTask.html#i5_VirtualAgents_AgentTasks_AgentBaseTask_DependsOnTasks">AgentBaseTask.DependsOnTasks</a>
+    </div>
+    <div>
+      <a class="xref" href="i5.VirtualAgents.AgentTasks.AgentBaseTask.html#i5_VirtualAgents_AgentTasks_AgentBaseTask_CanStart">AgentBaseTask.CanStart</a>
+    </div>
+    <div>
+      <a class="xref" href="i5.VirtualAgents.AgentTasks.AgentBaseTask.html#i5_VirtualAgents_AgentTasks_AgentBaseTask_IsFinished">AgentBaseTask.IsFinished</a>
+    </div>
+    <div>
+      <a class="xref" href="i5.VirtualAgents.AgentTasks.AgentBaseTask.html#i5_VirtualAgents_AgentTasks_AgentBaseTask_FinishTask">AgentBaseTask.FinishTask()</a>
+    </div>
+    <div>
+      <a class="xref" href="i5.VirtualAgents.AgentTasks.AgentBaseTask.html#i5_VirtualAgents_AgentTasks_AgentBaseTask_WaitFor_i5_VirtualAgents_AgentTasks_AgentBaseTask___">AgentBaseTask.WaitFor(AgentBaseTask[])</a>
+    </div>
+    <div>
+      <a class="xref" href="i5.VirtualAgents.BaseTask.html#i5_VirtualAgents_BaseTask_State">BaseTask.State</a>
+    </div>
+    <div>
+      <a class="xref" href="i5.VirtualAgents.BaseTask.html#i5_VirtualAgents_BaseTask_StopAsFailed">BaseTask.StopAsFailed()</a>
+    </div>
+    <div>
+      <a class="xref" href="i5.VirtualAgents.BaseTask.html#i5_VirtualAgents_BaseTask_StopAsSucceeded">BaseTask.StopAsSucceeded()</a>
+    </div>
+    <div>
+      <a class="xref" href="i5.VirtualAgents.BaseTask.html#i5_VirtualAgents_BaseTask_Tick_i5_VirtualAgents_Agent_">BaseTask.Tick(Agent)</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="i5.VirtualAgents.AgentTasks.html">i5.VirtualAgents.AgentTasks</a></h6>
+  <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
+  <h5 id="i5_VirtualAgents_AgentTasks_AgentMovementTask_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class AgentMovementTask : AgentBaseTask, IAgentTask, ITask, ISerializable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="i5_VirtualAgents_AgentTasks_AgentMovementTask__ctor_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.#ctor*"></a>
+  <h4 id="i5_VirtualAgents_AgentTasks_AgentMovementTask__ctor" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.#ctor">AgentMovementTask()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AgentMovementTask()</code></pre>
+  </div>
+  
+  
+  <a id="i5_VirtualAgents_AgentTasks_AgentMovementTask__ctor_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.#ctor*"></a>
+  <h4 id="i5_VirtualAgents_AgentTasks_AgentMovementTask__ctor_GameObject_System_Single_System_Boolean_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.#ctor(GameObject,System.Single,System.Boolean)">AgentMovementTask(GameObject, Single, Boolean)</h4>
+  <div class="markdown level1 summary"><p>Create an AgentMovementTask using a destination object</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AgentMovementTask(GameObject destinationObject, float targetSpeed = -1F, bool followGameObject = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">GameObject</span></td>
+        <td><span class="parametername">destinationObject</span></td>
+        <td><p>The object that the agent should move to or follow</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">Single</a></td>
+        <td><span class="parametername">targetSpeed</span></td>
+        <td><p>The target speed of the agent, e.g. to set running or walking; if not set, the default value in the NavMeshAgent is taken</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">followGameObject</span></td>
+        <td><p>Determines if the agent should follow the DestinationObject automatically, even when path is noncomplete</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="i5_VirtualAgents_AgentTasks_AgentMovementTask__ctor_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.#ctor*"></a>
+  <h4 id="i5_VirtualAgents_AgentTasks_AgentMovementTask__ctor_Vector3_System_Single_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.#ctor(Vector3,System.Single)">AgentMovementTask(Vector3, Single)</h4>
+  <div class="markdown level1 summary"><p>Create an AgentMovementTask using destination coordinates</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AgentMovementTask(Vector3 destinationCoordinates, float targetSpeed = -1F)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Vector3</span></td>
+        <td><span class="parametername">destinationCoordinates</span></td>
+        <td><p>The position to which the agent should move</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">Single</a></td>
+        <td><span class="parametername">targetSpeed</span></td>
+        <td><p>The target speed of the agent, e.g. to set running or walking; if not set, the default value in the NavMeshAgent is taken</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="i5_VirtualAgents_AgentTasks_AgentMovementTask_navMeshAgent" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.navMeshAgent">navMeshAgent</h4>
+  <div class="markdown level1 summary"><p>Reference to the NavMeshAgent component</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected NavMeshAgent navMeshAgent</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">NavMeshAgent</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="i5_VirtualAgents_AgentTasks_AgentMovementTask_Destination_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.Destination*"></a>
+  <h4 id="i5_VirtualAgents_AgentTasks_AgentMovementTask_Destination" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.Destination">Destination</h4>
+  <div class="markdown level1 summary"><p>Destination coordinates of the movement task</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector3 Destination { get; protected set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Vector3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="i5_VirtualAgents_AgentTasks_AgentMovementTask_DestinationObject_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.DestinationObject*"></a>
+  <h4 id="i5_VirtualAgents_AgentTasks_AgentMovementTask_DestinationObject" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.DestinationObject">DestinationObject</h4>
+  <div class="markdown level1 summary"><p>Destination Object of the movement task</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameObject DestinationObject { get; protected set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">GameObject</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="i5_VirtualAgents_AgentTasks_AgentMovementTask_MinDistance_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.MinDistance*"></a>
+  <h4 id="i5_VirtualAgents_AgentTasks_AgentMovementTask_MinDistance" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.MinDistance">MinDistance</h4>
+  <div class="markdown level1 summary"><p>Minimum distance of the agent to the target so that the task is considered finished</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float MinDistance { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">Single</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="i5_VirtualAgents_AgentTasks_AgentMovementTask_PathUpdateInterval_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.PathUpdateInterval*"></a>
+  <h4 id="i5_VirtualAgents_AgentTasks_AgentMovementTask_PathUpdateInterval" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.PathUpdateInterval">PathUpdateInterval</h4>
+  <div class="markdown level1 summary"><p>Number of seconds after which the path will be recalculated</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float PathUpdateInterval { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">Single</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="i5_VirtualAgents_AgentTasks_AgentMovementTask_TargetSpeed_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.TargetSpeed*"></a>
+  <h4 id="i5_VirtualAgents_AgentTasks_AgentMovementTask_TargetSpeed" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.TargetSpeed">TargetSpeed</h4>
+  <div class="markdown level1 summary"><p>The target movement speed of the agent
+If negative, the default value set in the NavMeshAgent is taken</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float TargetSpeed { get; protected set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">Single</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="i5_VirtualAgents_AgentTasks_AgentMovementTask_Deserialize_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.Deserialize*"></a>
+  <h4 id="i5_VirtualAgents_AgentTasks_AgentMovementTask_Deserialize_i5_VirtualAgents_AgentTasks_SerializationDataContainer_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.Deserialize(i5.VirtualAgents.AgentTasks.SerializationDataContainer)">Deserialize(SerializationDataContainer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Deserialize(SerializationDataContainer serializer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="i5.VirtualAgents.AgentTasks.SerializationDataContainer.html">SerializationDataContainer</a></td>
+        <td><span class="parametername">serializer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="i5_VirtualAgents_AgentTasks_AgentMovementTask_EvaluateTaskState_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.EvaluateTaskState*"></a>
+  <h4 id="i5_VirtualAgents_AgentTasks_AgentMovementTask_EvaluateTaskState" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.EvaluateTaskState">EvaluateTaskState()</h4>
+  <div class="markdown level1 summary"><p>Checks every frame whether the agent has reached the target</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override TaskState EvaluateTaskState()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="i5.VirtualAgents.TaskState.html">TaskState</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="i5.VirtualAgents.BaseTask.html#i5_VirtualAgents_BaseTask_EvaluateTaskState">BaseTask.EvaluateTaskState()</a></div>
+  
+  
+  <a id="i5_VirtualAgents_AgentTasks_AgentMovementTask_Serialize_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.Serialize*"></a>
+  <h4 id="i5_VirtualAgents_AgentTasks_AgentMovementTask_Serialize_i5_VirtualAgents_AgentTasks_SerializationDataContainer_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.Serialize(i5.VirtualAgents.AgentTasks.SerializationDataContainer)">Serialize(SerializationDataContainer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Serialize(SerializationDataContainer serializer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="i5.VirtualAgents.AgentTasks.SerializationDataContainer.html">SerializationDataContainer</a></td>
+        <td><span class="parametername">serializer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="i5_VirtualAgents_AgentTasks_AgentMovementTask_StartExecution_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.StartExecution*"></a>
+  <h4 id="i5_VirtualAgents_AgentTasks_AgentMovementTask_StartExecution_i5_VirtualAgents_Agent_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.StartExecution(i5.VirtualAgents.Agent)">StartExecution(Agent)</h4>
+  <div class="markdown level1 summary"><p>Starts the movement task</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void StartExecution(Agent agent)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="i5.VirtualAgents.Agent.html">Agent</a></td>
+        <td><span class="parametername">agent</span></td>
+        <td><p>The agent which should execute the movement task</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="i5.VirtualAgents.BaseTask.html#i5_VirtualAgents_BaseTask_StartExecution_i5_VirtualAgents_Agent_">BaseTask.StartExecution(Agent)</a></div>
+  
+  
+  <a id="i5_VirtualAgents_AgentTasks_AgentMovementTask_StopExecution_" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.StopExecution*"></a>
+  <h4 id="i5_VirtualAgents_AgentTasks_AgentMovementTask_StopExecution" data-uid="i5.VirtualAgents.AgentTasks.AgentMovementTask.StopExecution">StopExecution()</h4>
+  <div class="markdown level1 summary"><p>Finish the task</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void StopExecution()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="i5.VirtualAgents.BaseTask.html#i5_VirtualAgents_BaseTask_StopExecution">BaseTask.StopExecution()</a></div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="i5.VirtualAgents.AgentTasks.IAgentTask.html">IAgentTask</a>
+  </div>
+  <div>
+      <a class="xref" href="i5.VirtualAgents.ITask.html">ITask</a>
+  </div>
+  <div>
+      <a class="xref" href="i5.VirtualAgents.AgentTasks.ISerializable.html">ISerializable</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Documentation of the Virtual Agents Framework
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
