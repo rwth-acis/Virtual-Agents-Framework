@@ -31,7 +31,7 @@ It is recommended to choose the default "StandardAnimationController" which is p
 
 Usually, it suffices to take the existing standard controller as a basis.
 T extend the animation range of the agent, it is recommended to copy the existing controller and to extend it rather than starting with a blank controller.
-Howver, to create a controller from scratch, it needs to follow these guidelines:
+However, to create a controller from scratch, it needs to follow these guidelines:
 There needs to be a blend tree that mixes an idle and a walking animation so that the agent can walk.
 The blend tree is driven by an input parameter called "Speed".
 If you choose a different name, also adapt the parameter name on the AnimationSynchronizer component.

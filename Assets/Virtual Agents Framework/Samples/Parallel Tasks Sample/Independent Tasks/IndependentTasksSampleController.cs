@@ -30,14 +30,14 @@ namespace i5.VirtualAgents.Examples
                 taskSystem.Tasks.WaitForSeconds(3, 0, "Left Arm");
 
                 // Schedule waving for 5 seconds on arm layer
-                taskSystem.Tasks.PlayAnimation("Wave", 5, "", 0, "Left Arm");
+                taskSystem.Tasks.PlayAnimation("WaveLeft", 5, "", 0, "Left Arm");
 
                 // Schedule shake head for 5 seconds on head layer
                 taskSystem.Tasks.PlayAnimation("ShakeHead", 5, "", 0, "Head");
 
                 // Wait and wave on arm layer
                 taskSystem.Tasks.WaitForSeconds(2, 0, "Left Arm");
-                taskSystem.Tasks.PlayAnimation("Wave", 5, "", 0, "Left Arm");
+                taskSystem.Tasks.PlayAnimation("WaveLeft", 5, "", 0, "Left Arm");
             }
             else
             {
@@ -49,7 +49,7 @@ namespace i5.VirtualAgents.Examples
                 taskSystem.ScheduleTask(wait, 0, "Left Arm");
 
                 // Schedule waving for 5 seconds on arm layer
-                IAgentTask animationTask = new AgentAnimationTask("Wave", 5);
+                IAgentTask animationTask = new AgentAnimationTask("WaveLeft", 5);
                 taskSystem.ScheduleTask(animationTask, 0, "Left Arm");
 
                 // Schedule shake head for 5 seconds on head layer
@@ -60,7 +60,7 @@ namespace i5.VirtualAgents.Examples
                 wait = new AgentWaitTask(2);
                 taskSystem.ScheduleTask(wait, 0, "Left Arm");
 
-                animationTask = new AgentAnimationTask("Wave", 5);
+                animationTask = new AgentAnimationTask("WaveLeft", 5);
                 taskSystem.ScheduleTask(animationTask, 0, "Left Arm");
             }
         }

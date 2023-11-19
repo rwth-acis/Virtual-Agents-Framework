@@ -403,6 +403,92 @@ MonoBehaviour:
           - Key: Destination Object
             Value: {fileID: 0}
         serializationOrder: 
+    - Key: 3c07eacf856d6c448aa1ae8e3cb6a633
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: TargetSpeed
+            Value: -1
+          - Key: TargetSpeed
+            Value: -1
+          - Key: TargetSpeed
+            Value: -1
+          - Key: TargetSpeed
+            Value: -1
+          - Key: TargetSpeed
+            Value: -1
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 1644641973}
+          - Key: Destination Object
+            Value: {fileID: 1735457798}
+          - Key: Destination Object
+            Value: {fileID: 0}
+          - Key: Destination Object
+            Value: {fileID: 0}
+          - Key: Destination Object
+            Value: {fileID: 0}
+        serializationOrder: 
+    - Key: 2a66b511be8c55e40a5ddcef02ae6c09
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: TargetSpeed
+            Value: -1
+          - Key: TargetSpeed
+            Value: -1
+          - Key: TargetSpeed
+            Value: -1
+          - Key: TargetSpeed
+            Value: -1
+          - Key: TargetSpeed
+            Value: -1
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 1644641973}
+          - Key: Destination Object
+            Value: {fileID: 1735457798}
+          - Key: Destination Object
+            Value: {fileID: 0}
+          - Key: Destination Object
+            Value: {fileID: 0}
+          - Key: Destination Object
+            Value: {fileID: 0}
+        serializationOrder: 
 --- !u!1 &256232410
 GameObject:
   m_ObjectHideFlags: 0
@@ -1075,22 +1161,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: 
-  description: 'This scene demonstrates how to schedule walking tasks so that the
-    agent navigates a series of waypoints.
-
-    The script on the Controller object
-    issues walking tasks to the agent on startup.
-
-
-    Use the scene view during
-    play mode to inspect the scene freely while the agent is walking around.
-
-
-    If
-    Objects are changed in the szene: Select the GameObject "NavMesh Surfave" and
-    bake the NavMesh again before running the scene.'
+  description: "This scene demonstrates how to use a behavior Tree to command the
+    agent.\n\nThe \"Behavior Tree Runner\" Component of the agent is where the behavior
+    Tree is added and pupulated. \n\nTo create a new behavior Tree: Right click in
+    the Project files > Create > i5 Toolkit > Behavior Tree\n\nThe functionality
+    and ease of use of the behavior tree will be improved in an upcoming release
+    of the Virtual Agents Framework, as of now this feature should be seen as experimental
+    and compatibility with feature releases is not guaranteed.\n\nUse the scene view
+    during play mode to inspect the scene freely while the agent is walking around.\n\nIf
+    Objects are changed in the szene: Select the GameObject \"NavMesh Surfave\" and
+    bake the NavMesh again before running the scene."
   type: 0
-  url: 
+  url: https://rwth-acis.github.io/Virtual-Agents-Framework/1.2.0/manual/behavior-tree.html
 --- !u!4 &1264251852
 Transform:
   m_ObjectHideFlags: 0

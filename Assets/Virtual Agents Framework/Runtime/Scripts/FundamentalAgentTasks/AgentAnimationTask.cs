@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace i5.VirtualAgents.AgentTasks
@@ -14,14 +12,21 @@ namespace i5.VirtualAgents.AgentTasks
         private string startTrigger;
         private string stopTrigger;
         private float playTime;
+        private readonly GameObject aimTarget;
+        private readonly string layer;
 
-        public AgentAnimationTask(){}
+        AimAt aimScript;
 
-        public AgentAnimationTask(string startTrigger, float playTime, string stopTrigger = "")
+        AdaptiveGaze lookAroundController;
+        public AgentAnimationTask() { }
+
+        public AgentAnimationTask(string startTrigger, float playTime, string stopTrigger = "", string layer = "", GameObject aimTarget = null)
         {
             this.startTrigger = startTrigger;
             this.stopTrigger = stopTrigger;
             this.playTime = playTime;
+            this.aimTarget = aimTarget;
+            this.layer = layer;
         }
 
         /// <summary>
@@ -31,7 +36,23 @@ namespace i5.VirtualAgents.AgentTasks
         public override void StartExecution(Agent agent)
         {
             animator = agent.GetComponent<Animator>();
+            lookAroundController = agent.GetComponent<AdaptiveGaze>();
             animator.SetTrigger(startTrigger);
+
+
+            if (aimTarget != null)
+            {
+                if (layer == "")
+                {
+                    Debug.LogError("When aming at a target a layer coresponding to the body area that should aim at the target has to be choosen.");
+                }
+
+
+                aimScript = agent.gameObject.AddComponent<AimAt>();
+
+                agent.StartCoroutine(WaitForCurrentAnimationToFinishAndStartAimScript());
+
+            }
             agent.StartCoroutine(Wait(playTime));
         }
 
@@ -40,6 +61,14 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public override void StopExecution()
         {
+            if (aimTarget != null)
+            {
+                aimScript.Stop();
+                if (lookAroundController != null && layer == "Head")
+                {
+                    lookAroundController.Activate();
+                }
+            }
             animator.SetTrigger(stopTrigger != "" ? stopTrigger : startTrigger);
         }
 
@@ -48,6 +77,20 @@ namespace i5.VirtualAgents.AgentTasks
         {
             yield return new WaitForSeconds(timeInSeconds);
             FinishTask();
+        }
+
+        // wait for current animation to finish
+        private IEnumerator WaitForCurrentAnimationToFinishAndStartAimScript()
+        {
+            // TODO: this value is currently hardcoded. We should look for a solution where the animation is played and we are notified once it is done.
+            // Pointing animation takes 26 frames to finish
+            yield return new WaitForSeconds(0.5f);
+            aimScript.SetupAndStart(layer, aimTarget.transform);
+            // If the agent is setup to look around, stop it while aiming with the head
+            if (lookAroundController != null && layer == "Head")
+            {
+                lookAroundController.Deactivate();
+            }
         }
 
         public void Serialize(SerializationDataContainer serializer)
