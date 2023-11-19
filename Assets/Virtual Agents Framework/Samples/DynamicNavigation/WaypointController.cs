@@ -1,21 +1,20 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace i5.VirtualAgents.Examples
 {
-    // controls the waypoint movement
-    public class WaypointController : MonoBehaviour
+	// controls the waypoint movement
+	public class WaypointController : MonoBehaviour
     {
-        public float WaitTime;
-        public float MoveDistance = 3.5f; // Distance to move left and right from the start position
+        [SerializeField] private float waitTime;
+        [SerializeField] private float moveDistance = 3.5f; // Distance to move left and right from the start position
         private Vector3 startPos;
 
         private void Start()
         {
             startPos = transform.position;
 
-            StartCoroutine(MoveLoop(WaitTime));
+            StartCoroutine(MoveLoop(waitTime));
         }
 
         private IEnumerator MoveLoop(float waittime)
@@ -35,25 +34,25 @@ namespace i5.VirtualAgents.Examples
 
         private IEnumerator MoveLeft()
         {
-            Vector3 targetPosition = new Vector3(startPos.x - MoveDistance, transform.position.y, transform.position.z);
+            Vector3 targetPosition = new Vector3(startPos.x - moveDistance, transform.position.y, transform.position.z);
             yield return PerformMovement(targetPosition);
         }
 
         private IEnumerator MoveRight()
         {
-            Vector3 targetPosition = new Vector3(startPos.x + MoveDistance, transform.position.y, transform.position.z);
+            Vector3 targetPosition = new Vector3(startPos.x + moveDistance, transform.position.y, transform.position.z);
             yield return PerformMovement(targetPosition);
         }
 
         private IEnumerator MoveForward()
         {
-            Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, startPos.z + MoveDistance);
+            Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, startPos.z + moveDistance);
             yield return PerformMovement(targetPosition);
         }
 
         private IEnumerator MoveBackward()
         {
-            Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, startPos.z - MoveDistance);
+            Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, startPos.z - moveDistance);
             yield return PerformMovement(targetPosition);
         }
 

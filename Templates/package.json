@@ -6,7 +6,8 @@
     "unity": "2020.3",
     "unityRelease": "13f1",
     "dependencies": {
-        "com.i5.toolkit.core": "1.8.1"
+        "com.i5.toolkit.core": "1.9.1",
+        "com.unity.animation.rigging": "1.2.1"
     },
     "keywords": [
         "Unity",

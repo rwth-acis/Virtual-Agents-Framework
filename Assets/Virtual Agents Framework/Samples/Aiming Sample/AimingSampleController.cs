@@ -6,17 +6,17 @@ namespace i5.VirtualAgents.Examples
 {
 	public class AimingSampleController : SampleScheduleController
 	{
-		public List<Transform> waypoints;
-		public Transform highPrioWaypoint;
-		public bool useTaskShortcuts;
-		public bool walk = true;
-		public GameObject target;
-		public int aimAtTime = 5;
+		[SerializeField] private List<Transform> waypoints;
+		[SerializeField] private Transform highPrioWaypoint;
+		[SerializeField] private bool useTaskShortcuts;
+		[SerializeField] private bool walk = true;
+		[SerializeField] private GameObject target;
+		[SerializeField] private int aimAtTime = 5;
 
-		public bool aimHead = true;
-		public bool aimLeftArm = true;
-		public bool aimRightArm = true;
-		public bool waveRightArm = true;
+		[SerializeField] private bool aimHead = true;
+		[SerializeField] private bool aimLeftArm = true;
+		[SerializeField] private bool aimRightArm = true;
+		[SerializeField] private bool waveRightArm = true;
 
 		protected override void Start()
 		{
@@ -39,8 +39,6 @@ namespace i5.VirtualAgents.Examples
 				{
 					AgentBaseTask wave1 = taskSystem.Tasks.PlayAnimation("WaveRight", 5, "", 0, "Right Arm");
 				}
-
-				//AgentBaseTask wave2 = taskSystem.Tasks.PlayAnimation("WaveLeft", 2, "", 0, "Left Arm");
 
 				// A target can be added to all animations but works best with no animation or animations that are meant for aiming (eg. "startAimAt") 
 

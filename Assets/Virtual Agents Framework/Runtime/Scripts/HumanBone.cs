@@ -10,5 +10,4 @@ namespace i5.VirtualAgents
 		[Range(0, 1)]
 		public float weight;
 	}
-
 }

@@ -1,45 +1,65 @@
-using i5.VirtualAgents;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using static MeshSockets;
 
-public class MeshSockets : MonoBehaviour
+namespace i5.VirtualAgents
 {
-    public enum SocketId
+	/// <summary>
+	/// Advertises the available mesh sockets to the 
+	/// </summary>
+	public class MeshSockets : MonoBehaviour
     {
-        Spine,
-        RightHand,
-        LeftHand
-    }
-
-    /// <summary>
-    /// Define the two bone IK constraints for the arms that is uses in the AgetPickUpTask
-    /// </summary>
-    public TwoBoneIKConstraint twoBoneIKConstraintRightArm;
-    public TwoBoneIKConstraint twoBoneIKConstraintLeftArm;
-
-    Dictionary<SocketId, MeshSocket> socketMap = new();
-    // Start is called before the first frame update
-    void Start()
-    {
-        // Collect all the MeshSockets in the agent
-        MeshSocket[] sockets = GetComponentsInChildren<MeshSocket>();
-        foreach (MeshSocket socket in sockets)
+        // TODO: we should make this class extendable by more sockets than the pre-defined IDs
+        public enum SocketId
         {
-            socketMap[socket.socketId] = socket;
+            Spine,
+            RightHand,
+            LeftHand
         }
-    }
 
-    public void Attach(Item item, SocketId socketId)
-    {
-        socketMap[socketId].Attach(item);
-    }
-    public void Detach(Item item)
-    {
-        //Get the socketId of the socket that the item is attached to
-        SocketId socketId = item.transform.parent.parent.GetComponent<MeshSocket>().socketId;
+        /// <summary>
+        /// Define the two bone IK constraints for the arms that is uses in the AgetPickUpTask
+        /// </summary>
+        [field: SerializeField]
+        public TwoBoneIKConstraint TwoBoneIKConstraintRightArm { get; private set; }
+        [field: SerializeField]
+        public TwoBoneIKConstraint TwoBoneIKConstraintLeftArm { get; private set; }
 
-        socketMap[socketId].Detach(item);
+        Dictionary<SocketId, MeshSocket> socketMap = new();
+
+        // Initializes the component and collects the MeshSockets
+        private void Start()
+        {
+            // Collect all the MeshSockets in the agent
+            MeshSocket[] sockets = GetComponentsInChildren<MeshSocket>();
+            foreach (MeshSocket socket in sockets)
+            {
+                socketMap[socket.SocketId] = socket;
+            }
+        }
+
+        /// <summary>
+        /// Attaches an item to the socket with the given ID
+        /// </summary>
+        /// <param name="item">The item to attach</param>
+        /// <param name="socketId">The ID by which the socket can be found</param>
+        public void Attach(Item item, SocketId socketId)
+        {
+            // TODO: null check
+            socketMap[socketId].Attach(item);
+        }
+
+        /// <summary>
+        /// Detaches an item from its socket
+        /// </summary>
+        /// <param name="item">The item to detach</param>
+        public void Detach(Item item)
+        {
+            // Get the socketId of the socket that the item is attached to
+            // TODO: maybe we could store the MeshSocket to which an item is currently attached as this would be more stable against changes in the hierarchy
+            SocketId socketId = item.transform.parent.parent.GetComponent<MeshSocket>().SocketId;
+
+            socketMap[socketId].Detach(item);
+        }
     }
 }

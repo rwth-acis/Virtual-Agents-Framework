@@ -85,3 +85,5 @@ crashlytics-build.properties
 
 # Samples from imported packages
 /Assets/Samples/*
+/Assets/Virtual Agents Framework/Editor/Scripts/Behaviour Tree/obj
+/Assets/Virtual Agents Framework/Editor/Scripts/Behaviour Tree/obj.meta

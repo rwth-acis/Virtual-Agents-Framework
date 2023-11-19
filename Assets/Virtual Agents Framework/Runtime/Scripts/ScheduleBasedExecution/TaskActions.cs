@@ -1,6 +1,6 @@
 using i5.VirtualAgents.AgentTasks;
 using UnityEngine;
-using static MeshSockets;
+using static i5.VirtualAgents.MeshSockets;
 
 namespace i5.VirtualAgents.ScheduleBasedExecution
 {
@@ -51,7 +51,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// </summary>
         /// <param name="destinationObject">GameObject the agent should go to</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
-        /// <param name="follow">Decides if the Agent should follow the GameObject, dynamically, even if the path cannot reach the GameObject </param>
+        /// <param name="follow">Decides if the Agent should follow the GameObject, dynamically, even if the path cannot reach the GameObject</param>
         public AgentBaseTask GoTo(GameObject destinationObject, Vector3 offset = default, int priority = 0, bool follow = false)
         {
             if (follow)
@@ -90,6 +90,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <param name="stopTrigger"> Trigger that stops the animation. If not provided, start trigger is used again</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
         /// <param name="layer"> The animation layer on which the task should be excuted </param>
+        /// <param name="aimTarget">The target at which the agent should aim while playing the animation</param>
         public AgentBaseTask PlayAnimation(string startTrigger, float playTime, string stopTrigger = "", int priority = 0, string layer = "Base Layer", GameObject aimTarget = null)
         {
             AgentAnimationTask animationTask = new AgentAnimationTask(startTrigger, playTime, stopTrigger, layer, aimTarget);
@@ -112,8 +113,8 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             return pickUpTask;
         }
         /// <summary>
-        /// Go to an object with the Item component and pick it up when near enough
-        /// Might fail, when object is moving too fast
+        /// Go to an object with the Item component and pick it up when near enough.
+        /// Might fail, when object is moving too fast.
         /// Shortcut queue management function
         /// </summary>
         /// <param name="destinationObject">Object the agent should go to and pick up. Needs to have an item component and be reachable by the agent.</param>

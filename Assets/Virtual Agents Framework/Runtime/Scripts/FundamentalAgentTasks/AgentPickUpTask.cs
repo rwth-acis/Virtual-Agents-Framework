@@ -2,17 +2,16 @@ using i5.Toolkit.Core.Utilities;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using static MeshSockets;
+using static i5.VirtualAgents.MeshSockets;
 
 namespace i5.VirtualAgents.AgentTasks
 {
-    /// <summary>
-    /// Defines pick up tasks for picking up objects that are near to the agent
-    /// Uses the NavMeshAgent component
-    /// </summary>
-    public class AgentPickUpTask : AgentBaseTask, ISerializable
+	/// <summary>
+	/// Defines pick up tasks for picking up objects that are near to the agent
+	/// Uses the NavMeshAgent component
+	/// </summary>
+	public class AgentPickUpTask : AgentBaseTask, ISerializable
     {
-
         /// <summary>
         /// Minimum distance of the agent to the target so that the traget can be picked up
         /// </summary>
@@ -69,17 +68,17 @@ namespace i5.VirtualAgents.AgentTasks
             {
                 State = TaskState.Failure;
                 i5Debug.LogError($"The pickup object {PickupObject.name} does not have a Item component. " +
-                    $"Therefore, it cannot be picket up. Skipping this task.",
+                    "Therefore, it cannot be picked up. Skipping this task.",
                     this);
 
                 FinishTask();
                 return;
             }
-            if (!item.canBePickedUp)
+            if (!item.CanBePickedUp)
             {
                 State = TaskState.Failure;
                 i5Debug.LogError($"The pickup object {PickupObject.name} does not allow the item to be picked up. canBePickedUp = false " +
-                    $"Therefore, it cannot be picket up. Skipping this task.",
+                    "Therefore, it cannot be picked up. Skipping this task.",
                     this);
 
                 FinishTask();
@@ -89,18 +88,18 @@ namespace i5.VirtualAgents.AgentTasks
             float distance = Vector3.Distance(agent.transform.position, PickupObject.transform.position);
             if (distance > minDistance)
             {
+                // TODO: we should consider adding a functionality that the agent automatically walks to the item if it is not close enough
                 State = TaskState.Failure;
                 Debug.LogWarning("Object was not close enough for pickup:" + distance + " > " + minDistance);
                 FinishTask();
                 return;
             }
 
-            //Get the MeshSockets component of the agent for attaching the object and the IK constraints for the arms pickup animation
+            // Get the MeshSockets component of the agent for attaching the object and the IK constraints for the arms pickup animation
             this.meshSockets = agent.GetComponent<MeshSockets>();
 
-
-            //Active IK as grab animation
-            //Start coroutine to increase IK weight over time
+            // Active IK as grab animation
+            // Start coroutine to increase IK weight over time
             agent.StartCoroutine(IKWeightIncrease(agent, item));
         }
 
@@ -110,27 +109,27 @@ namespace i5.VirtualAgents.AgentTasks
             // Select witch IK constraint should be used for the pickup, default is the right arm
             if (this.SocketId == SocketId.LeftHand)
             {
-                constraint = meshSockets.twoBoneIKConstraintLeftArm;
+                constraint = meshSockets.TwoBoneIKConstraintLeftArm;
             }
             else
             {
                 // SocketId == SocketId.LeftHand or SocketId == SocketId.Spine
-                constraint = meshSockets.twoBoneIKConstraintRightArm;
-            }   
+                constraint = meshSockets.TwoBoneIKConstraintRightArm;
+            }
             constraint.data.target.SetPositionAndRotation(constraint.data.tip.position, constraint.data.tip.rotation);
             constraint.weight = 1;
-            item.SetIsPickedUp(true);
+            item.IsPickedUp = true;
 
-            while (Vector3.Distance(constraint.data.target.position, item.grapTarget.position) > proximityThreshold)
+            while (Vector3.Distance(constraint.data.target.position, item.GrabTarget.position) > proximityThreshold)
             {
 
                 // Calculate direction from which the grapTarget is approached
-                Quaternion direction = Quaternion.LookRotation(item.grapTarget.position - constraint.data.tip.position);
+                Quaternion direction = Quaternion.LookRotation(item.GrabTarget.position - constraint.data.tip.position);
                 // Ajust direction so that the hand is rotated corectly: formulation was found by testing
                 direction = Quaternion.Euler(direction.eulerAngles.x + ((315- direction.eulerAngles.x)*2), direction.eulerAngles.y -180, direction.eulerAngles.z);
    
                 // Change position and roation of the target smoothly
-                constraint.data.target.position = Vector3.Lerp(constraint.data.target.position, item.grapTarget.position, Time.deltaTime * moveSpeed);
+                constraint.data.target.position = Vector3.Lerp(constraint.data.target.position, item.GrabTarget.position, Time.deltaTime * moveSpeed);
                 constraint.data.target.rotation = Quaternion.Lerp(constraint.data.target.rotation, direction, Time.deltaTime * moveSpeed);
 
                 yield return null;
@@ -138,7 +137,7 @@ namespace i5.VirtualAgents.AgentTasks
                 // Update the target position and rotation of the IK constraint
             }
             // Set the target position and rotation to the exact values
-            constraint.data.target.SetPositionAndRotation(item.grapTarget.position, item.grapTarget.rotation);
+            constraint.data.target.SetPositionAndRotation(item.GrabTarget.position, item.GrabTarget.rotation);
             PickUpObject(agent, item);
         }
 

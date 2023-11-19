@@ -21,14 +21,14 @@ namespace i5.VirtualAgents
 			public bool isCurrentlyNearby = false;
 		}
 
+		// TODO: add an overwrite option so that the agent can look at a pre-determined object
+
 		[SerializeField] private float detectionRadius = 10f;
 		[SerializeField] private int maxNumberOfTargetsInRange = 50;
 
 		[SerializeField] private float detectionIntervalWhenIdle = 3f;
 		[SerializeField] private float detectionIntervalWhenWalking = 0.5f;
 		private float detectionInterval = 3f;
-
-
 
 		// Define the chances for target selection, e.g. chance for the second most interesting target in the list to be looked at
 		[Range(0f, 1f)]
@@ -44,7 +44,7 @@ namespace i5.VirtualAgents
 
 		[SerializeField] private float lookSpeed = 2f;
 
-		AdaptiveGazeTargetInfo currentTargetOfInterest;
+		private AdaptiveGazeTargetInfo currentTargetOfInterest;
 
 		[SerializeField] private LayerMask seeLayers;
 		[SerializeField] private LayerMask occlusionLayers = default;
@@ -231,7 +231,7 @@ namespace i5.VirtualAgents
 		}
 
 
-		public void CalculateInterestInTargetAndSelectOne()
+		private void CalculateInterestInTargetAndSelectOne()
 		{
 			foreach (AdaptiveGazeTargetInfo targetInfo in nearbyLookAtTargets)
 			{
@@ -258,7 +258,7 @@ namespace i5.VirtualAgents
 			currentTargetOfInterest = newTargetOfInterest;
 		}
 
-		public bool IsInSight(GameObject obj)
+		private bool IsInSight(GameObject obj)
 		{
 			Vector3 origin = transform.position + transform.forward;
 			origin.y += 1.5f;

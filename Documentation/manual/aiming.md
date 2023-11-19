@@ -1,9 +1,9 @@
 # Aiming
-The frameworks provides the capabilities to have an agent point or aim at something in the scene.
+The framework provides the capabilities to have an agent point or aim at something in the scene.
 The provided aiming capabilities are used by the [adaptive gaze](adaptive-gaze.md) and the inverse kinematics pointing/aiming animation, that can be used by specifying a target in the <xref:i5.VirtualAgents.AgentTasks.AgentAnimationTask> or in the shortcut <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.PlayAnimation(System.String,System.Single,System.String,System.Int32,System.String,GameObject)>.
 All of these automatically add a <xref:i5.VirtualAgents.AimAt> to the agent.
 
-## AimAt script
+## <xref:i5.VirtualAgents.AimAt> Script
 The <xref:i5.VirtualAgents.AimAt> script defines what the target is, what part(s) of the agent should point at the target, and what bones move to accomplish the pointing.
 There are several bone presets, for example `Right Arm` that can be selected by specifying a layer.
 As of now the aiming animation has predefined options for the following:

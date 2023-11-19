@@ -6,11 +6,11 @@ namespace i5.VirtualAgents.Examples
 {
     public class AdaptiveGazeSampleController : SampleScheduleController
     {
-        public List<GameObject> waypoints;
+        [SerializeField] private List<GameObject> waypoints;
 
-        public GameObject target;
-        public bool overwriteAdaptiveGazeWithAimHead = false;
-        public int aimAtTime = 100;
+        [SerializeField] private GameObject target;
+        [SerializeField] private bool overwriteAdaptiveGazeWithAimHead = false;
+        [SerializeField] private int aimAtTime = 100;
 
         protected override void Start()
         {
@@ -26,7 +26,6 @@ namespace i5.VirtualAgents.Examples
             {
                 AgentBaseTask pointingHead = taskSystem.Tasks.PlayAnimation("NoAnimation", aimAtTime, "", 0, "Head", target);
             }
-
         }
     }
 }

@@ -1,14 +1,13 @@
 using i5.Toolkit.Core.Utilities;
 using UnityEngine;
-using static MeshSockets;
 
 namespace i5.VirtualAgents.AgentTasks
 {
-    /// <summary>
-    /// Defines pick up tasks for picking up objects that are near to the agent
-    /// Uses the NavMeshAgent component
-    /// </summary>
-    public class AgentDropTask : AgentBaseTask, ISerializable
+	/// <summary>
+	/// Defines pick up tasks for picking up objects that are near to the agent
+	/// Uses the NavMeshAgent component
+	/// </summary>
+	public class AgentDropTask : AgentBaseTask, ISerializable
     {
         /// <summary>
         /// Object that should be picked up
