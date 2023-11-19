@@ -39,6 +39,31 @@
             "displayName": "Parallel Tasks Sample",
             "description": "Two example scenes which demonstrates the scheduling of independent tasks on multiple body parts in parallel. One of them shows tasks that do not depend on another and in the second scene tasks wait for the completion of other tasks.",
             "path": "Samples~/Parallel Tasks Sample"
+        },
+        {
+            "displayName": "Adaptive Gaze Sample",
+            "description": "Example scene which demonstrates how the automatic gazing behavior of the agent can be set up. With this behavior, the agent can autonomously look at items in the environment.",
+            "path": "Samples~/AdaptiveGazeSample"
+        },
+        {
+            "displayName": "Aiming Sample",
+            "description": "Example scene which shows how to set up inverse kinematics-based aiming. This, e.g., allows the agent to point at objects.",
+            "path": "Samples~/Aiming Sample"
+        },
+        {
+            "displayName": "Behavior Tree Sample",
+            "description": "Example scene where the agent's behavior is defined using the framework's behavior tree editor.",
+            "path": "Samples~/BehaviorTree"
+        },
+        {
+            "displayName": "Dynamic Navigation Sample",
+            "description": "Example scene where the agent follows to moving objects.",
+            "path": "Samples~/DynamicNavigation"
+        },
+        {
+            "displayName": "Item Pickup Sample",
+            "description": "Example scene which demonstrates how the agent can pick up and drop items that are placed in the environment.",
+            "path": "Samples~/ItemPickUpSample"
         }
     ]
 }
