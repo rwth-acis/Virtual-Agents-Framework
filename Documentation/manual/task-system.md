@@ -75,3 +75,7 @@ Specifying a GameObject as an `aimTarget` for the animation, will start inverse 
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.DropItem*>: Drop the specified item if it is currently hold be the agent, if no item is specified, all items are dropped.
 
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoToAndDropItem*>: Schedules an GoTo Task that makes the agent walk to the specified coordinates or transform before dropping the specified item or all items, if no item is specified.
+
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StartAdaptiveGazeAsTask*>: Schedule a task that starts [adaptive gazing](adaptive-gazing.md) for the specified time and then deactivates it
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StartAdaptiveGaze*>: Start [adaptive gazing](adaptive-gazing.md) without a task indefinitely, also adds a <xref:i5.VirtualAgents.AdaptiveGaze> component if the agent doesn't have one automatically
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StopAdaptiveGaze*>: Stops the [adaptive gazing](adaptive-gazing.md) directly
