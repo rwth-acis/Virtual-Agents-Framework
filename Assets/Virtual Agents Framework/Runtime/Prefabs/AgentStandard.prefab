@@ -867,6 +867,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 26f8cd740528f3b469c4f32fe28b8306, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1372687343423552459}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 26f8cd740528f3b469c4f32fe28b8306, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2054765473159481603}
   m_SourcePrefab: {fileID: 100100000, guid: 26f8cd740528f3b469c4f32fe28b8306, type: 3}
 --- !u!1 &212402951927973884 stripped
 GameObject:
@@ -953,6 +956,34 @@ MonoBehaviour:
   - m_Rig: {fileID: 6236198718674910226}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &2054765473159481603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 212402951927973884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88c1ed013dd3e92439b19c5c699179c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 2.5
+  maxNumberOfTargetsInRange: 50
+  detectionIntervalWhenIdle: 3
+  detectionIntervalWhenWalking: 0.5
+  chanceHighestRankedTarget: 0.5
+  chanceSecondHighestTarget: 0.1
+  chanceThirdHighestTarget: 0.1
+  chanceRandomTarget: 0.05
+  chanceIdleTarget: 0.25
+  lookSpeed: 2
+  seeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  occlusionLayers:
+    serializedVersion: 2
+    m_Bits: 129
 --- !u!4 &447753056685965252 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8645416474800241303, guid: 26f8cd740528f3b469c4f32fe28b8306, type: 3}
