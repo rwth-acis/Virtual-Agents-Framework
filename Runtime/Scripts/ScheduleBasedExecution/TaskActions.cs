@@ -124,7 +124,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <returns></returns>
         public AgentBaseTask GoToAndPickUp(GameObject destinationObject, int priority = 0, SocketId bodyAttachPoint = SocketId.RightHand, float minDistance = 0.3f)
         {
-            AgentMovementTask goToTask = (AgentMovementTask) GoTo(destinationObject, default, priority, true);
+            AgentMovementTask goToTask = (AgentMovementTask)GoTo(destinationObject, default, priority, true);
             goToTask.MinDistance = minDistance;
 
             AgentBaseTask pickUpTask = PickUp(destinationObject, priority, bodyAttachPoint);
@@ -171,6 +171,51 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             AgentBaseTask goToTask = GoTo(destinationTransform, default, priority);
             AgentBaseTask dropTask = DropItem(dropObject, priority);
             return dropTask;
+        }
+
+        /// <summary>
+        /// Creates an adaptiveGazeTask that activates the AdaptiveGaze component on the agent (or creates a new one) for a given time and then stops it. This task is meant to be used when the adavtive gaze should be used in a sequence of tasks.
+        /// </summary>
+        /// <param name="playTime">Time in seconds after which the gazing should stop</param>
+        /// <returns></returns>
+        public AgentBaseTask StartAdaptiveGazeAsTask(float playTime, int priority = 0)
+        {
+            AgentBaseTask adaptiveGazeTask = new AgentAdaptiveGazeTask(playTime);
+            scheduleTaskSystem.ScheduleTask(adaptiveGazeTask, priority, "Head");
+            return adaptiveGazeTask;
+        }
+        /// <summary>
+        /// Activates the AdaptiveGaze component on the agent if it exists or adds one to the agent
+        /// </summary>
+        /// <returns></returns>
+        public void StartAdaptiveGaze()
+        {
+            Agent agent = scheduleTaskSystem.GetComponent<Agent>();
+            //Check if there is an and adaptiveGaze component, if not add one to the agent
+            if (!agent.TryGetComponent<AdaptiveGaze>(out var adaptiveGaze))
+            {
+                Debug.Log("No AdaptiveGaze component found, adding one. It is recommended to add one to the agent in the inspector.");
+                adaptiveGaze = agent.gameObject.AddComponent<AdaptiveGaze>();
+            }
+            else
+            {
+                adaptiveGaze = agent.GetComponent<AdaptiveGaze>();
+            }
+            adaptiveGaze.Activate();
+        }
+        /// <summary>
+        /// Deactivated the AdaptiveGaze component on the agent if it exists
+        /// </summary>
+        /// <returns></returns>
+        public void StopAdaptiveGaze()
+        {
+            Agent agent = scheduleTaskSystem.GetComponent<Agent>();
+            AdaptiveGaze adaptiveGaze = agent.GetComponent<AdaptiveGaze>();
+            if (adaptiveGaze != null)
+            {
+                adaptiveGaze.Deactivate();
+            }
+
         }
     }
 }
