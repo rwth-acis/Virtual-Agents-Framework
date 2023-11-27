@@ -20,8 +20,10 @@ namespace i5.VirtualAgents
 			public float calcValueOfInterest = 0;
 			public bool isCurrentlyNearby = false;
 		}
-
-		// TODO: add an overwrite option so that the agent can look at a pre-determined object
+		/// <summary>
+		/// When this transform is set, the gaze target is overwritten and the agent looks at this transform constantly without interruption (within the boundaries specified by the AimAt Script, e.g. distanceLimit and angleLimit)
+		/// </summary>
+		public Transform OverwriteGazeTarget = null;
 
 		[SerializeField] private float detectionRadius = 10f;
 		[SerializeField] private int maxNumberOfTargetsInRange = 50;
@@ -81,7 +83,9 @@ namespace i5.VirtualAgents
 				Debug.LogWarning("Normalisation of gaze chances went wrong");
 			}
 		}
-
+		/// <summary>
+		/// This funtion has to be called to start the adaptive gaze, after has been stopped with the deactivate function
+		/// </summary>
 		public void Activate()
 		{
 			if (aimScript != null)
@@ -90,10 +94,13 @@ namespace i5.VirtualAgents
 			this.enabled = true;
 		}
 
-		public void Deactivate()
+        /// <summary>
+        /// This funtion has to be called to stop the adaptive gaze
+        /// </summary>
+        public void Deactivate()
 		{
 			if (aimScript != null)
-				aimScript.enabled = false;
+				aimScript.Stop();
 
 			this.enabled = false;
 		}
@@ -131,7 +138,11 @@ namespace i5.VirtualAgents
 
 		private void UpdatePositionOfTarget()
 		{
-			if (currentTargetOfInterest != null)
+			if(OverwriteGazeTarget != null)
+				{
+					aimScript.SetTargetTransform(OverwriteGazeTarget);
+				}
+			else if (currentTargetOfInterest != null)
 			{
 				aimScript.SetTargetTransform(currentTargetOfInterest.lookAtTarget.transform);
 			}

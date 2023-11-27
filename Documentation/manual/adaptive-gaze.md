@@ -2,8 +2,7 @@
 
 To make an agent look more life like it can automatically look at objects in front of him, swerve between the objects, idle in between and pick up on sudden interest changes, like objects that start to move.
 To get this functionally the <xref:i5.VirtualAgents.AdaptiveGaze> component needs to be added to the agent.
-The automatic gaze is automatically overwritten if a <xref:i5.VirtualAgents.AgentTasks.AgentAnimationTask> is played on the head layer of the agent and will be reactivated when the animation ends.
-
+The automatic gaze is automatically overwritten if a <xref:i5.VirtualAgents.AgentTasks.AgentAnimationTask> is played on the head layer of the agent and will be reactivated when the animation ends. The selection of a gaze Target can also be overwritten, so that the agent looks constantly at the object specified in <xref:i5.VirtualAgents.AdaptiveGaze.OverwriteGazeTarget>.
 
 ## Algorithm
 The agent checks if there are any <xref:i5.VirtualAgents.AdaptiveGazeTarget>s in front of him and then checks if they are seeable.
@@ -29,6 +28,16 @@ For calculating the value of interest to the agent, the distance to the target, 
 	The layer can be changed in the top right corner of the inspector.
   - (optional) A collider that makes sense for the Target, if no target is added a standard collider will be added, see `ExampleOfAutoCollider` in the sample scene.
 
+## Starting and stopping adaptive gazing
+<xref:i5.VirtualAgents.AdaptiveGaze.Activate> and <xref:i5.VirtualAgents.AdaptiveGaze.Deactivate> can be used to start and stop the adaptive gazing directly on the <xref:i5.VirtualAgents.AdaptiveGaze> component. 
+
+The following shortcuts that are part of the task actions are also available:
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StartAdaptiveGazeAsTask*>: Schedule a task that starts adaptive gazing for the specified time and then deactivates it
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StartAdaptiveGaze*>: Start adaptive gazing without a task indefinitely, also adds a <xref:i5.VirtualAgents.AdaptiveGaze> component if the agent doesn't have one automatically
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StopAdaptiveGaze*>: Stops the adaptive gazing directly
+
+Starting the adaptive gaze as a task can be useful as it e.g. allows for the task to be scheduled or wait for a different task to finish using the <xref:i5.VirtualAgents.AgentTasks.AgentBaseTask.WaitFor*> function, see example scene.
+
 ## Options - <xref:i5.VirtualAgents.AdaptiveGaze>
 The <xref:i5.VirtualAgents.AdaptiveGaze> component has several options that can be modified to fit the agents purpose or personality:
 - `detectionRadius` defines how big the detection cube in which items can be seen in front of the agent is.
@@ -39,6 +48,7 @@ The <xref:i5.VirtualAgents.AdaptiveGaze> component has several options that can 
 - `chanceHighestRankedTarget`, `chanceSecondHighestTarget`, `chanceThirdHighestTarget` define the chances for looking at the most interesting, second interesting and third interesting item based on the calculated interest value.
 - `chanceRandomTarget` defines the chance for looking at a random item in sight.
 - `chanceIdleTarget` defines the chance for the agent to not look at anything specific and to play the ideal animation instead.
+- <xref:i5.VirtualAgents.AdaptiveGaze.OverwriteGazeTarget> defines a target that the agent will look at as long is it is set
 
 ## Options - <xref:i5.VirtualAgents.AdaptiveGazeTarget>
 - `Importance` defines how important the object is to any agent from 1-10.
@@ -50,4 +60,8 @@ The <xref:i5.VirtualAgents.AdaptiveGaze> component has several options that can 
 
 The framework contains one example scene that demonstrates the adaptive gaze functionality.
 In that the agent walks past multiple objects with the <xref:i5.VirtualAgents.AdaptiveGazeTarget> component and looks at them dynamically.
-The `AdaptiveGazeSampleController` adds multiple waypoints where the agent should walk. Optionally, the sample controller also provides options to overwrite the adaptive gaze at the beginning for a specified `AimAtTime`.
+The `AdaptiveGazeSampleController` adds multiple waypoints where the agent should walk. 
+Optionally, the sample controller also provides options to overwrite the adaptive gaze at the beginning for a specified `AimAtTime`. 
+Alternatively, while in play mode any object can be dragged into the <xref:i5.VirtualAgents.AdaptiveGaze.OverwriteGazeTarget> attribute of <xref:i5.VirtualAgents.AdaptiveGaze> to make the agent look at it constantly.
+
+The example scene also demonstrates how the Shortcut Task actions can be used to activate adaptive gazing. Activate `useTaskActionsForAdaptiveGaze` on the controller to use that example in playmode.
