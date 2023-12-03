@@ -174,48 +174,32 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         }
 
         /// <summary>
-        /// Creates an adaptiveGazeTask that activates the AdaptiveGaze component on the agent (or creates a new one) for a given time and then stops it. This task is meant to be used when the adavtive gaze should be used in a sequence of tasks.
+        /// Creates an adaptiveGazeTask that activates the AdaptiveGaze component, then a wait task on the head and then a task that deactivates the AdaptiveGaze component. These a scheduled so that they play one after another.
         /// </summary>
-        /// <param name="playTime">Time in seconds after which the gazing should stop</param>
-        /// <returns></returns>
-        public AgentBaseTask StartAdaptiveGazeAsTask(float playTime, int priority = 0)
+        /// <param name="seconds">Time in seconds after which the gazing should stop</param>
+        /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
+        /// <returns>Returs a AgentBaseTask array with two elements. The first has the starting Task (e.g. for startTask.waitFor(diffrentTask), and the second the stop Task ((e.g. for diffrentTask.waitFor(stopTask))</returns>
+        public AgentBaseTask[] StartAdaptiveGazeForTime(float seconds, int priority = 0)
         {
-            AgentBaseTask adaptiveGazeTask = new AgentAdaptiveGazeTask(playTime);
+            AgentBaseTask adaptiveGazeTaskStart = new AgentAdaptiveGazeTask(true);
+            scheduleTaskSystem.ScheduleTask(adaptiveGazeTaskStart, priority, "Head");
+            AgentBaseTask waitHead = WaitForSeconds(seconds, priority, "Head");
+            waitHead.WaitFor(adaptiveGazeTaskStart);
+            AgentBaseTask adaptiveGazeTaskStop = new AgentAdaptiveGazeTask(false);
+            adaptiveGazeTaskStop.WaitFor(waitHead);
+            scheduleTaskSystem.ScheduleTask(adaptiveGazeTaskStop, priority, "Head");
+            return new AgentBaseTask[] { adaptiveGazeTaskStart, adaptiveGazeTaskStop };
+        }
+        /// <summary>
+        /// Creates an adaptiveGazeTask that activates or deactivates the AdaptiveGaze component on the agent
+        /// </summary>
+        /// <param name="shouldStartOrStop">If true, will start adaptive Gaze. If false will stop adaptive gaze</param>
+        /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
+        /// <returns></returns>
+        public void ActivateOrDeactivateAdaptiveGaze(bool shouldStartOrStop, int priority = 0)
+        {
+            AgentBaseTask adaptiveGazeTask = new AgentAdaptiveGazeTask(shouldStartOrStop);
             scheduleTaskSystem.ScheduleTask(adaptiveGazeTask, priority, "Head");
-            return adaptiveGazeTask;
-        }
-        /// <summary>
-        /// Activates the AdaptiveGaze component on the agent if it exists or adds one to the agent
-        /// </summary>
-        /// <returns></returns>
-        public void StartAdaptiveGaze()
-        {
-            Agent agent = scheduleTaskSystem.GetComponent<Agent>();
-            //Check if there is an and adaptiveGaze component, if not add one to the agent
-            if (!agent.TryGetComponent<AdaptiveGaze>(out var adaptiveGaze))
-            {
-                Debug.Log("No AdaptiveGaze component found, adding one. It is recommended to add one to the agent in the inspector.");
-                adaptiveGaze = agent.gameObject.AddComponent<AdaptiveGaze>();
-            }
-            else
-            {
-                adaptiveGaze = agent.GetComponent<AdaptiveGaze>();
-            }
-            adaptiveGaze.Activate();
-        }
-        /// <summary>
-        /// Deactivated the AdaptiveGaze component on the agent if it exists
-        /// </summary>
-        /// <returns></returns>
-        public void StopAdaptiveGaze()
-        {
-            Agent agent = scheduleTaskSystem.GetComponent<Agent>();
-            AdaptiveGaze adaptiveGaze = agent.GetComponent<AdaptiveGaze>();
-            if (adaptiveGaze != null)
-            {
-                adaptiveGaze.Deactivate();
-            }
-
         }
     }
 }
