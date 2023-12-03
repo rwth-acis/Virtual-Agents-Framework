@@ -1,68 +1,66 @@
-using System.Collections;
 using UnityEngine;
 
 namespace i5.VirtualAgents.AgentTasks
 {
     /// <summary>
-    /// Starts adaptive gaze on the agent for a given time and then stops it. This task is meant to be used when the adavtive gaze should be used in a sequence of tasks.
+    /// Starts or stops adaptive gaze on the agent and marks the task as completet afterwards. 
     /// </summary>
     public class AgentAdaptiveGazeTask : AgentBaseTask, ISerializable
     {
-        private float playTime;
+
+        private readonly bool shouldStartOrStop;
 
         AdaptiveGaze adaptiveGazeScript;
         public AgentAdaptiveGazeTask() { }
-
-        public AgentAdaptiveGazeTask(float playTime)
+        /// <summary>
+        /// Constructor for the adaptive gaze task
+        /// </summary>
+        /// <param name="shouldStartOrStop">If true, will start adaptive Gaze. If false will stop adaptive gaze</param>
+        public AgentAdaptiveGazeTask(bool shouldStartOrStop)
         {
-            this.playTime = playTime;
+            this.shouldStartOrStop = shouldStartOrStop;
         }
 
         /// <summary>
-        /// Starts the execution of the task; starts the animation
+        /// Starts the execution of the task; starts or stops the adaptive gaze
         /// </summary>
         /// <param name="agent">The agent on which the task is executed</param>
         public override void StartExecution(Agent agent)
-        {
+        {   
             //Check if there is an and adaptiveGaze component, if not add one to the agent
             if (!agent.TryGetComponent<AdaptiveGaze>(out adaptiveGazeScript))
             {
-                Debug.Log("No AdaptiveGaze component found, adding one. It is recommended to add one to the agent in the inspector.");
-                adaptiveGazeScript = agent.gameObject.AddComponent<AdaptiveGaze>();
+                if (shouldStartOrStop == true)
+                {
+                    Debug.Log("No AdaptiveGaze component found, adding one. It is recommended to add one to the agent in the inspector.");
+                    adaptiveGazeScript = agent.gameObject.AddComponent<AdaptiveGaze>();
+                }
+
             }
             else
             {
                 adaptiveGazeScript = agent.GetComponent<AdaptiveGaze>();
             }
-
-            adaptiveGazeScript.Activate();
-            agent.StartCoroutine(Wait(playTime));
-        }
-
-        /// <summary>
-        /// Stops the animation
-        /// </summary>
-        public override void StopExecution()
-        {
-            adaptiveGazeScript.Deactivate();
-        }
-
-        // wait for the given time and then finish the task
-        private IEnumerator Wait(float timeInSeconds)
-        {
-            yield return new WaitForSeconds(timeInSeconds);
+            //Start or stop the adaptive gaze
+            if (shouldStartOrStop == true)
+            {
+                adaptiveGazeScript.Activate();
+            }
+            else
+            {
+                adaptiveGazeScript.Deactivate();
+            }
             FinishTask();
         }
 
         public void Serialize(SerializationDataContainer serializer)
         {
-            serializer.AddSerializedData("Play Time", playTime);
+            //TODO: add shouldStartOrStop when bool types are supported
         }
 
         public void Deserialize(SerializationDataContainer serializer)
         {
-            playTime = serializer.GetSerializedFloat("Play Time");
+            //TODO: add shouldStartOrStop when bool types are supported
         }
-
     }
 }

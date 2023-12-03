@@ -36,25 +36,29 @@ namespace i5.VirtualAgents.Examples
             if (useTaskActionsForAdaptiveGaze)
             {
                 //First stop the adaptive gaze if it is running from the beginning
-                taskSystem.Tasks.StopAdaptiveGaze();
+                taskSystem.Tasks.ActivateOrDeactivateAdaptiveGaze(false);
                 //Start the adaptive gaze after the first waypoint is reached
-                AgentBaseTask adaptiveGazeTask = taskSystem.Tasks.StartAdaptiveGazeAsTask(gazeTime);
-                adaptiveGazeTask.WaitFor(agentTasks[0]);
+                AgentBaseTask[] adaptiveGazeTask = taskSystem.Tasks.StartAdaptiveGazeForTime(gazeTime);
+
+                //The first task in the array is the start task that waits for the first waypoint to be reached
+                adaptiveGazeTask[0].WaitFor(agentTasks[0]);
                 Debug.Log("Adaptive gaze will be started when first waypoint is reached and then run for " + gazeTime + " seconds.");
 
-                StartCoroutine(WaitBeforeStartingAgainIn(gazeTime, adaptiveGazeTask));
+                //The second task in the array is the task that stops the adaptive gaze after the gazeTime has passed, which we wait for in the following coroutine
+                StartCoroutine(WaitBeforeStartingAgainIn(gazeTime, adaptiveGazeTask[1]));
             }
         }
         IEnumerator WaitBeforeStartingAgainIn(float waittime, AgentBaseTask task)
         {
+
             while (!task.IsFinished)
             {
                 yield return null;
             }
-            Debug.Log("Adaptive gaze has run for " + gazeTime + " Seconds, and is now deactivated. It will be activated in "+ waittime + " Seconds again.");;
+            Debug.Log("Adaptive gaze has run for " + gazeTime + " Seconds, and is now deactivated. It will be activated in " + waittime + " Seconds again."); ;
             yield return new WaitForSeconds(waittime);
             Debug.Log("Adaptive gaze activated for enternity.");
-            taskSystem.Tasks.StartAdaptiveGaze();
+            taskSystem.Tasks.ActivateOrDeactivateAdaptiveGaze(true);
         }
     }
 }

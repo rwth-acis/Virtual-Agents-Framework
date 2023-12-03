@@ -31,10 +31,9 @@ For calculating the value of interest to the agent, the distance to the target, 
 ## Starting and stopping adaptive gazing
 <xref:i5.VirtualAgents.AdaptiveGaze.Activate> and <xref:i5.VirtualAgents.AdaptiveGaze.Deactivate> can be used to start and stop the adaptive gazing directly on the <xref:i5.VirtualAgents.AdaptiveGaze> component. 
 
-The following shortcuts that are part of the task actions are also available:
-- <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StartAdaptiveGazeAsTask*>: Schedule a task that starts adaptive gazing for the specified time and then deactivates it
-- <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StartAdaptiveGaze*>: Start adaptive gazing without a task indefinitely, also adds a <xref:i5.VirtualAgents.AdaptiveGaze> component if the agent doesn't have one automatically
-- <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StopAdaptiveGaze*>: Stops the adaptive gazing directly
+The following shortcuts that are part of the task actions are also available to schedule adaptive gazing as a [task](task-system.md) :
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.ActivateOrDeactivateAdaptiveGaze*>: Start or stops adaptive gazing until it is stopped or started again. This is realized with a task that only runs once. This also automatically adds a <xref:i5.VirtualAgents.AdaptiveGaze> component if the agent doesn't have one.
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StartAdaptiveGazeForTime*>: Schedule a task that starts adaptive gazing for the specified time and then deactivates it by scheduling a wait task between a start and stop task. This will also stop adaptive gazing, when it was started with <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.ActivateOrDeactivateAdaptiveGaze*> before.
 
 Starting the adaptive gaze as a task can be useful as it e.g. allows for the task to be scheduled or wait for a different task to finish using the <xref:i5.VirtualAgents.AgentTasks.AgentBaseTask.WaitFor*> function, see example scene.
 
