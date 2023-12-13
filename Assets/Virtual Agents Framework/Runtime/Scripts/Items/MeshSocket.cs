@@ -59,7 +59,7 @@ namespace i5.VirtualAgents
         // In case there is any movement that hasn't stopped yet, local position and rotation will be set to zero as long as the object is moving
         private IEnumerator StopFurtherMovement(Transform objectTransform)
         {
-            // TODO: consider yield return null to run this coroutine every frame
+            //a wait time of 0.025 seconds is used to avoid edge cases where the object doesn't move on every frame or not on the same frame as the coroutine is executed
             yield return new WaitForSeconds(0.025f);
             while (objectTransform.localPosition != Vector3.zero)
             {

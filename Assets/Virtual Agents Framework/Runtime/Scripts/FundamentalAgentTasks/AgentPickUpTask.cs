@@ -88,7 +88,6 @@ namespace i5.VirtualAgents.AgentTasks
             float distance = Vector3.Distance(agent.transform.position, PickupObject.transform.position);
             if (distance > minDistance)
             {
-                // TODO: we should consider adding a functionality that the agent automatically walks to the item if it is not close enough
                 State = TaskState.Failure;
                 Debug.LogWarning("Object was not close enough for pickup:" + distance + " > " + minDistance);
                 FinishTask();
