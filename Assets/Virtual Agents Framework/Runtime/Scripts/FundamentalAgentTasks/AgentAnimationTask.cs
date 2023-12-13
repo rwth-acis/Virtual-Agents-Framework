@@ -47,8 +47,32 @@ namespace i5.VirtualAgents.AgentTasks
                     Debug.LogError("When aming at a target a layer coresponding to the body area that should aim at the target has to be choosen.");
                 }
 
+                switch (layer)
+                {
+                    case "Right Arm":
+                        aimScript = agent.gameObject.AddComponent<RightArmPreset>();
+                        break;
+                    case "Left Arm":
+                        aimScript = agent.gameObject.AddComponent<LeftArmPreset>();
+                        break;
+                    case "Right Leg":
+                        aimScript = agent.gameObject.AddComponent<RightLegPreset>();
+                        break;
+                    case "Left Leg":
+                        aimScript = agent.gameObject.AddComponent<LeftLegPreset>();
+                        break;
+                    case "Head":
+                        aimScript = agent.gameObject.AddComponent<HeadPreset>();
+                        break;
+                    case "Base Layer":
+                        aimScript = agent.gameObject.AddComponent<BaseLayerPreset>();
+                        break;
+                    default:
+                        Debug.LogWarning("No boneset avaiable for the layer named:" + layer);
+                        break;
+                }
 
-                aimScript = agent.gameObject.AddComponent<AimAt>();
+                
 
                 agent.StartCoroutine(WaitForCurrentAnimationToFinishAndStartAimScript());
 
@@ -94,7 +118,7 @@ namespace i5.VirtualAgents.AgentTasks
                 yield return null;
             }
 
-            aimScript.SetupAndStart(layer, aimTarget.transform);
+            aimScript.SetupAndStart(aimTarget.transform);
             // If the agent is setup to look around, stop it while aiming with the head
             if (lookAroundController != null && layer == "Head")
             {

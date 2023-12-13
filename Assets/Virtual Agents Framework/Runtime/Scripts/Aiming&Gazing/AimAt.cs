@@ -8,40 +8,40 @@ namespace i5.VirtualAgents
 	/// <summary>
 	/// Implements the functionality of aiming at a target
 	/// </summary>
-	public class AimAt : MonoBehaviour
+	public abstract class AimAt : MonoBehaviour
 	{
 		/// <summary>
 		/// The transform that should be aimed at
 		/// </summary>
-		[SerializeField] private Transform targetTransform;
+		[SerializeField] protected Transform targetTransform;
 
 		/// <summary>
 		/// The Transform of the agent childobjects that should directly aim at the target
 		/// </summary>
-		[SerializeField] private Transform aimTransform;
+		[SerializeField] protected Transform aimTransform;
 		// Axis of the aimTransform that should aim at the target
-		private AimDirection aimDirection = AimDirection.Y;
+		protected AimDirection aimDirection = AimDirection.Y;
 		/// <summary>
 		/// The Transform that is acutally looked at and will follow the target smootly
 		/// </summary>
-		private Transform targetFollower;
+		protected Transform targetFollower;
 
-		private float currentLookSpeed = 2f;
-		private float increaseLookSpeedBy = 0f;
+		protected float currentLookSpeed = 2f;
+		protected float increaseLookSpeedBy = 0f;
 
-		private NavMeshAgent navMeshAgent;
+		protected NavMeshAgent navMeshAgent;
 
-		[SerializeField] private int iterations = 10;
+		[SerializeField] protected int iterations = 10;
 
-		[SerializeField] private float angleLimit = 180.0f;
+		[SerializeField] protected float angleLimit = 180.0f;
 		// closest distance at which an object will be aimed at
-		[SerializeField] private float distanceLimit = 1.5f;
+		[SerializeField] protected float distanceLimit = 1.5f;
 
 		// The postion where the targetFollower should be placed when no target is set
-		[SerializeField] private Transform startingTransform;
+		[SerializeField] protected Transform startingTransform;
 
-		[SerializeField] private HumanBone[] humanBones;
-		private Transform[] boneTransforms;
+		[SerializeField] protected HumanBone[] humanBones;
+		protected Transform[] boneTransforms;
 		public enum AimDirection { Y, X, Z };
 
 
@@ -63,14 +63,14 @@ namespace i5.VirtualAgents
 			navMeshAgent = GetComponent<NavMeshAgent>();
 		}
 
-		/// <summary>
-		/// Starts the aiming at the target with the given layer and target
-		/// </summary>
-		/// <param name="layer">The layer of the bodie that should be animated and aimed at the target. Supported are "Right Arm", "Left Arm", "Head", "Right Leg", "Left Leg" and "Base Layer" (spine)</param>
-		/// <param name="target">The transform of the object that should be aimed at</param>
-		public void SetupAndStart(string layer, Transform target, bool shouldDestroyItself = true)
+        /// <summary>
+        /// Starts the aiming at the target with the given layer and target
+        /// </summary>
+        /// <param name="target">The transform of the object that should be aimed at</param>
+        /// <param name="shouldDestroyItself">If the component should destroy itself after aiming is stopped</param>
+        public void SetupAndStart(Transform target, bool shouldDestroyItself = true)
 		{
-			SetBonePreset(layer);
+			SetBonePreset();
 			this.ShouldDestroyItself = shouldDestroyItself;
 			SetTargetTransform(target);
 		}
@@ -84,7 +84,7 @@ namespace i5.VirtualAgents
 		}
 
 		// LateUpdate is called once per frame, after Update
-		private void LateUpdate()
+		protected void LateUpdate()
 		{
 			TemporarilyIncreaseLookSpeed(navMeshAgent.velocity.magnitude);
 
@@ -107,7 +107,7 @@ namespace i5.VirtualAgents
 		}
 
 		// Calculates where to aim at based on the target and the angle and distance limit
-		private Vector3 CalculateWhereToLook()
+		protected Vector3 CalculateWhereToLook()
 		{
 
 			Vector3 targetDirection = targetFollower.position - aimTransform.position;
@@ -130,7 +130,7 @@ namespace i5.VirtualAgents
 			return aimTransform.position + direction;
 		}
 
-		private void UpdateTargetFollower()
+		protected void UpdateTargetFollower()
 		{
 			Vector3 targetPosition;
 
@@ -170,7 +170,7 @@ namespace i5.VirtualAgents
 		}
 
 
-		private void AimAtTarget(Transform bone, Vector3 targetPosition, float weight)
+		protected void AimAtTarget(Transform bone, Vector3 targetPosition, float weight)
 		{
 			Vector3 aimDirection = GetAimDirectionVector();
 			Vector3 targetDirection = targetPosition - aimTransform.position;
@@ -179,7 +179,7 @@ namespace i5.VirtualAgents
 			bone.rotation = blendedRotation * bone.rotation;
 		}
 
-		private Vector3 GetAimDirectionVector()
+		protected Vector3 GetAimDirectionVector()
 		{
 			if (this.aimDirection == AimDirection.Y)
 				return aimTransform.up.normalized;
@@ -236,45 +236,10 @@ namespace i5.VirtualAgents
 		/// To set up the aiming at a specific body part, a preset of bones and weights and related settings can be selected
 		/// </summary>
 		/// <param name="layer">Which bonepreset should be selected based on the layer of the human body</param>
-		public void SetBonePreset(string layer)
-		{
-			//TODO: Automatically look for IAimAtBonePresets classes that fit the layer?
-			switch (layer)
-			{
-				case "Right Arm":
-					RightArmPreset rightArmPreset = new RightArmPreset();
-					rightArmPreset.ApplyPresets(transform, out humanBones, out aimDirection, out aimTransform, out angleLimit);
-					break;
-				case "Left Arm":
-					LeftArmPreset leftArmPreset = new LeftArmPreset();
-					leftArmPreset.ApplyPresets(transform, out humanBones, out aimDirection, out aimTransform, out angleLimit);
-					break;
-				case "Right Leg":
-					RightLegPreset rightLegPreset = new RightLegPreset();
-					rightLegPreset.ApplyPresets(transform, out humanBones, out aimDirection, out aimTransform, out angleLimit);
-					break;
-				case "Left Leg":
-					LeftLegPreset leftLegPreset = new LeftLegPreset();
-					leftLegPreset.ApplyPresets(transform, out humanBones, out aimDirection, out aimTransform, out angleLimit);
-					break;
-				case "Head":
-					HeadPreset headPreset = new HeadPreset();
-					headPreset.ApplyPresets(transform, out humanBones, out aimDirection, out aimTransform, out angleLimit);
-					break;
-				case "Base Layer":
-					BaseLayerPreset baseLayerPreset = new BaseLayerPreset();
-					baseLayerPreset.ApplyPresets(transform, out humanBones, out aimDirection, out aimTransform, out angleLimit);
-					break;
-				default:
-					Debug.LogWarning("No boneset avaiable for the layer named:" + layer);
-					break;
-			}
-
-			GetBoneTransformsFromAnimatior();
-		}
+		public abstract void SetBonePreset();
 
 
-		private void GetBoneTransformsFromAnimatior()
+		protected void GetBoneTransformsFromAnimatior()
 		{
 			Animator animator = GetComponent<Animator>();
 			boneTransforms = new Transform[humanBones.Length];
@@ -284,7 +249,7 @@ namespace i5.VirtualAgents
 			}
 		}
 
-		private void OnDrawGizmos()
+		protected void OnDrawGizmos()
 		{
 			Gizmos.color = Color.green;
 			if (startingTransform)
