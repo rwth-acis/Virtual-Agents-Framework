@@ -12,9 +12,28 @@ namespace i5.VirtualAgents
         // TODO: we should make this class extendable by more sockets than the pre-defined IDs
         public enum SocketId
         {
-            Spine,
             RightHand,
-            LeftHand
+            LeftHand,
+            RightLowerArm,
+            LeftLowerArm,
+            LeftUpperArm,
+            RightUpperArm,
+            RightBack,
+            LeftBack,
+            HipsFrontLeft,
+            HipsFrontRight,
+            HipsBackLeft,
+            HipsBackRight,    
+            AdditionalSocket1,
+            AdditionalSocket2,
+            AdditionalSocket3,
+            AdditionalSocket4,
+            AdditionalSocket5,
+            AdditionalSocket6,
+            AdditionalSocket7,
+            AdditionalSocket8,
+            AdditionalSocket9,
+            AdditionalSocket10
         }
 
         /// <summary>

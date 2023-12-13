@@ -25,9 +25,13 @@ namespace i5.VirtualAgents.Examples
                 }
                 else if(i == 1)
                 {
-                    taskSystem.Tasks.GoToAndPickUp(pickUpObjects[i], default, MeshSockets.SocketId.Spine);
+                    taskSystem.Tasks.GoToAndPickUp(pickUpObjects[i], default, MeshSockets.SocketId.LeftBack);
                 }
-                else
+                else if (i == 2)
+                {
+                    taskSystem.Tasks.GoToAndPickUp(pickUpObjects[i], default, MeshSockets.SocketId.RightLowerArm);
+                }
+                else 
                 {
                     taskSystem.Tasks.GoToAndPickUp(pickUpObjects[i], default, MeshSockets.SocketId.LeftHand);
                 }   
