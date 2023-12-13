@@ -61,9 +61,9 @@ namespace i5.VirtualAgents
 		// initialization of the script
 		private void Start()
 		{
-			aimScript = this.gameObject.AddComponent<AimAt>();
+			aimScript = this.gameObject.AddComponent<HeadPreset>();
 
-			aimScript.SetBonePreset("Head");
+			aimScript.SetBonePreset();
 			aimScript.ShouldDestroyItself = false;
 			aimScript.LookSpeed = lookSpeed;
 

@@ -728,7 +728,7 @@ Transform:
   m_GameObject: {fileID: 264528167}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.304, y: 0.5, z: 4}
+  m_LocalPosition: {x: 0.286, y: 0.5, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1755,7 +1755,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1083162462}
   m_Layer: 0
-  m_Name: dropAllOther
+  m_Name: dropAllOtherItemsWaypoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2163,7 +2163,7 @@ Transform:
   m_GameObject: {fileID: 1270390227}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.101, y: -0.166, z: 0.003}
+  m_LocalPosition: {x: 0.062, y: -0.008, z: 0.003}
   m_LocalScale: {x: 0.028656375, y: 0.051666003, z: 0.092541955}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2827,7 +2827,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1671340876}
   m_Layer: 0
-  m_Name: dropFirstItem
+  m_Name: dropFirstItemWaypoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3753,6 +3753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88c1ed013dd3e92439b19c5c699179c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OverwriteGazeTarget: {fileID: 0}
   detectionRadius: 5
   maxNumberOfTargetsInRange: 50
   detectionIntervalWhenIdle: 3

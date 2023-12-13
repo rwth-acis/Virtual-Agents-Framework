@@ -3,14 +3,9 @@ using static i5.VirtualAgents.AimAt;
 
 namespace i5.VirtualAgents
 {
-    public interface IAimAtBonePresets
+    public class RightArmPreset : AimAt
     {
-        // Start is called before the first frame update
-        void ApplyPresets(Transform agentTransform, out HumanBone[] humanBones, out AimAt.AimDirection aimDirection, out Transform aimTransform, out float angleLimit);
-    }
-    public class RightArmPreset : IAimAtBonePresets
-    {
-        public void ApplyPresets(Transform agentTransform, out HumanBone[] humanBones, out AimAt.AimDirection aimDirection, out Transform aimTransform, out float angleLimit)
+        public override void SetBonePreset()
         {
             humanBones = new HumanBone[6];
             humanBones[0] = new HumanBone
@@ -50,13 +45,14 @@ namespace i5.VirtualAgents
             };
             aimDirection = AimDirection.Y;
             angleLimit = 180f;
-            aimTransform = agentTransform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest/Shoulder.R/UpperArm.R/LowerArm.R/Hand.R/Palm1.R/IndexProximal.R/IndexIntermediate.R/IndexDistal.R/IndexDistal.R_end");
+            aimTransform = transform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest/Shoulder.R/UpperArm.R/LowerArm.R/Hand.R/Palm1.R/IndexProximal.R/IndexIntermediate.R/IndexDistal.R/IndexDistal.R_end");
 
+            GetBoneTransformsFromAnimatior();
         }
     }
-    public class LeftArmPreset : IAimAtBonePresets
+    public class LeftArmPreset : AimAt
     {
-        public void ApplyPresets(Transform agentTransform, out HumanBone[] humanBones, out AimAt.AimDirection aimDirection, out Transform aimTransform, out float angleLimit)
+        public override void SetBonePreset()
         {
             humanBones = new HumanBone[6];
             humanBones[0] = new HumanBone
@@ -97,14 +93,15 @@ namespace i5.VirtualAgents
 
             aimDirection = AimDirection.Y;
             angleLimit = 180f;
-            aimTransform = agentTransform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest/Shoulder.L/UpperArm.L/LowerArm.L/Hand.L/Palm1.L/IndexProximal.L/IndexIntermediate.L/IndexDistal.L/IndexDistal.L_end");
+            aimTransform = transform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest/Shoulder.L/UpperArm.L/LowerArm.L/Hand.L/Palm1.L/IndexProximal.L/IndexIntermediate.L/IndexDistal.L/IndexDistal.L_end");
 
+            GetBoneTransformsFromAnimatior();
         }
     }
 
-    public class RightLegPreset : IAimAtBonePresets
+    public class RightLegPreset : AimAt
     {
-        public void ApplyPresets(Transform agentTransform, out HumanBone[] humanBones, out AimAt.AimDirection aimDirection, out Transform aimTransform, out float angleLimit)
+        public override void SetBonePreset()
         {
             humanBones = new HumanBone[5];
 
@@ -140,13 +137,13 @@ namespace i5.VirtualAgents
 
             aimDirection = AimDirection.Y;
             angleLimit = 180f;
-            aimTransform = agentTransform.Find("MeshDeformRig/Hips/UpperLeg.R/LowerLeg.R/Foot.R/Toes.R/Toes.R_end");
-
+            aimTransform = transform.Find("MeshDeformRig/Hips/UpperLeg.R/LowerLeg.R/Foot.R/Toes.R/Toes.R_end");
+            GetBoneTransformsFromAnimatior();
         }
     }
-    public class LeftLegPreset : IAimAtBonePresets
+    public class LeftLegPreset : AimAt
     {
-        public void ApplyPresets(Transform agentTransform, out HumanBone[] humanBones, out AimAt.AimDirection aimDirection, out Transform aimTransform, out float angleLimit)
+        public override void SetBonePreset()
         {
             humanBones = new HumanBone[5];
 
@@ -181,14 +178,14 @@ namespace i5.VirtualAgents
             };
             aimDirection = AimDirection.Y;
             angleLimit = 180f;
-            aimTransform = agentTransform.Find("MeshDeformRig/Hips/UpperLeg.L/LowerLeg.L/Foot.L/Toes.L/Toes.L_end");
-
+            aimTransform = transform.Find("MeshDeformRig/Hips/UpperLeg.L/LowerLeg.L/Foot.L/Toes.L/Toes.L_end");
+            GetBoneTransformsFromAnimatior();
         }
     }
 
-    public class HeadPreset : IAimAtBonePresets
+    public class HeadPreset : AimAt
     {
-        public void ApplyPresets(Transform agentTransform, out HumanBone[] humanBones, out AimAt.AimDirection aimDirection, out Transform aimTransform, out float angleLimit)
+        public override void SetBonePreset()
         {
             humanBones = new HumanBone[3];
             humanBones[0] = new HumanBone
@@ -210,13 +207,13 @@ namespace i5.VirtualAgents
             angleLimit = 100f;
             aimDirection = AimDirection.Z;
 
-            aimTransform = agentTransform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest/Neck/Head");
-
+            aimTransform = transform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest/Neck/Head");
+            GetBoneTransformsFromAnimatior();
         }
     }
-    public class BaseLayerPreset : IAimAtBonePresets
+    public class BaseLayerPreset : AimAt
     {
-        public void ApplyPresets(Transform agentTransform, out HumanBone[] humanBones, out AimAt.AimDirection aimDirection, out Transform aimTransform, out float angleLimit)
+        public override void SetBonePreset()
         {
             humanBones = new HumanBone[3];
             humanBones[0] = new HumanBone
@@ -238,7 +235,8 @@ namespace i5.VirtualAgents
             angleLimit = 90.0f;
             aimDirection = AimDirection.Z;
 
-            aimTransform = agentTransform.Find("MeshDeformRig/Hips/Spine/Chest");
+            aimTransform = transform.Find("MeshDeformRig/Hips/Spine/Chest");
+            GetBoneTransformsFromAnimatior();
         }
     }
 }
