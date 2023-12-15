@@ -39,9 +39,9 @@ namespace i5.VirtualAgents
         /// Define the two bone IK constraints for the arms that is uses in the AgetPickUpTask
         /// </summary>
         [field: SerializeField]
-        public TwoBoneIKConstraint TwoBoneIKConstraintRightArm { get; private set; }
+        public TwoBoneIKConstraint TwoBoneIKConstraintRightArm { get; set; }
         [field: SerializeField]
-        public TwoBoneIKConstraint TwoBoneIKConstraintLeftArm { get; private set; }
+        public TwoBoneIKConstraint TwoBoneIKConstraintLeftArm { get; set; }
 
         Dictionary<SocketId, MeshSocket> socketMap = new();
         Dictionary<Item, SocketId> itemSocketMap = new();

@@ -2,7 +2,8 @@
     "name": "i5.VirtualAgents.Editor",
     "rootNamespace": "i5.VirtualAgents.Editor",
     "references": [
-        "GUID:0e6adb5e6365e85488ce0c09f981fdee"
+        "GUID:0e6adb5e6365e85488ce0c09f981fdee",
+        "GUID:7f7d1af65c2641843945d409d28f2e20"
     ],
     "includePlatforms": [
         "Editor"
