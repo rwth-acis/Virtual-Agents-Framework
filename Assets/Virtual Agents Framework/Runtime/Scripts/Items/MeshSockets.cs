@@ -9,7 +9,6 @@ namespace i5.VirtualAgents
 	/// </summary>
 	public class MeshSockets : MonoBehaviour
     {
-        // TODO: we should make this class extendable by more sockets than the pre-defined IDs
         public enum SocketId
         {
             RightHand,

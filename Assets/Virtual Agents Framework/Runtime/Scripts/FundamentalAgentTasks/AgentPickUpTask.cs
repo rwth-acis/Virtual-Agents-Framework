@@ -66,31 +66,28 @@ namespace i5.VirtualAgents.AgentTasks
 
             if (!PickupObject.TryGetComponent<Item>(out var item))
             {
-                State = TaskState.Failure;
                 i5Debug.LogError($"The pickup object {PickupObject.name} does not have a Item component. " +
                     "Therefore, it cannot be picked up. Skipping this task.",
                     this);
 
-                FinishTask();
+                FinishTaskAsFailed();
                 return;
             }
             if (!item.CanBePickedUp)
             {
-                State = TaskState.Failure;
                 i5Debug.LogError($"The pickup object {PickupObject.name} does not allow the item to be picked up. canBePickedUp = false " +
                     "Therefore, it cannot be picked up. Skipping this task.",
                     this);
 
-                FinishTask();
+                FinishTaskAsFailed();
                 return;
             }
 
             float distance = Vector3.Distance(agent.transform.position, PickupObject.transform.position);
             if (distance > minDistance)
             {
-                State = TaskState.Failure;
                 Debug.LogWarning("Object was not close enough for pickup:" + distance + " > " + minDistance);
-                FinishTask();
+                FinishTaskAsFailed();
                 return;
             }
 
@@ -114,6 +111,12 @@ namespace i5.VirtualAgents.AgentTasks
             {
                 // SocketId == SocketId.LeftHand or SocketId == SocketId.Spine
                 constraint = meshSockets.TwoBoneIKConstraintRightArm;
+            }
+            if(constraint == null)
+            {
+                Debug.LogError("No TwoBoneIKConstraint found on the meshSockets component ");
+                FinishTaskAsFailed();
+                yield break;
             }
             constraint.data.target.SetPositionAndRotation(constraint.data.tip.position, constraint.data.tip.rotation);
             constraint.weight = 1;

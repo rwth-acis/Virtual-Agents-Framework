@@ -93,12 +93,10 @@ namespace i5.VirtualAgents.AgentTasks
 			// only proceed on agents with a NavMeshAgent
 			if (navMeshAgent == null)
 			{
-				State = TaskState.Failure;
 				i5Debug.LogError($"The agent {agent.name} does not have a NavMeshAgent component. " +
 					$"Therefore, it cannot move. Skipping this task.",
 					this);
-
-				FinishTask();
+                FinishTaskAsFailed();
 				return;
 			}
 
