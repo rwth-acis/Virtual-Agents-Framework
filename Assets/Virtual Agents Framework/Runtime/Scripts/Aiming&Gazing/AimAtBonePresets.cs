@@ -44,10 +44,9 @@ namespace i5.VirtualAgents
                 weight = 0.01f
             };
             aimDirection = AimDirection.Y;
-            angleLimit = 180f;
-            aimTransform = transform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest/Shoulder.R/UpperArm.R/LowerArm.R/Hand.R/Palm1.R/IndexProximal.R/IndexIntermediate.R/IndexDistal.R/IndexDistal.R_end");
+            angleLimit = 180f;  
 
-            GetBoneTransformsFromAnimatior();
+            GetBoneTransformsFromAnimatior(HumanBodyBones.RightIndexDistal);
         }
     }
     public class LeftArmPreset : AimAt
@@ -93,9 +92,8 @@ namespace i5.VirtualAgents
 
             aimDirection = AimDirection.Y;
             angleLimit = 180f;
-            aimTransform = transform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest/Shoulder.L/UpperArm.L/LowerArm.L/Hand.L/Palm1.L/IndexProximal.L/IndexIntermediate.L/IndexDistal.L/IndexDistal.L_end");
 
-            GetBoneTransformsFromAnimatior();
+            GetBoneTransformsFromAnimatior(HumanBodyBones.LeftIndexDistal);
         }
     }
 
@@ -137,8 +135,7 @@ namespace i5.VirtualAgents
 
             aimDirection = AimDirection.Y;
             angleLimit = 180f;
-            aimTransform = transform.Find("MeshDeformRig/Hips/UpperLeg.R/LowerLeg.R/Foot.R/Toes.R/Toes.R_end");
-            GetBoneTransformsFromAnimatior();
+            GetBoneTransformsFromAnimatior(HumanBodyBones.RightToes);
         }
     }
     public class LeftLegPreset : AimAt
@@ -178,8 +175,7 @@ namespace i5.VirtualAgents
             };
             aimDirection = AimDirection.Y;
             angleLimit = 180f;
-            aimTransform = transform.Find("MeshDeformRig/Hips/UpperLeg.L/LowerLeg.L/Foot.L/Toes.L/Toes.L_end");
-            GetBoneTransformsFromAnimatior();
+            GetBoneTransformsFromAnimatior(HumanBodyBones.LeftToes);
         }
     }
 
@@ -207,8 +203,7 @@ namespace i5.VirtualAgents
             angleLimit = 100f;
             aimDirection = AimDirection.Z;
 
-            aimTransform = transform.Find("MeshDeformRig/Hips/Spine/Chest/UpperChest/Neck/Head");
-            GetBoneTransformsFromAnimatior();
+            GetBoneTransformsFromAnimatior(HumanBodyBones.Head);
         }
     }
     public class BaseLayerPreset : AimAt
@@ -235,8 +230,7 @@ namespace i5.VirtualAgents
             angleLimit = 90.0f;
             aimDirection = AimDirection.Z;
 
-            aimTransform = transform.Find("MeshDeformRig/Hips/Spine/Chest");
-            GetBoneTransformsFromAnimatior();
+            GetBoneTransformsFromAnimatior(HumanBodyBones.Chest);
         }
     }
 }
