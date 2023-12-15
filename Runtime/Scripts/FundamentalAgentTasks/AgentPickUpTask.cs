@@ -118,6 +118,23 @@ namespace i5.VirtualAgents.AgentTasks
                 FinishTaskAsFailed();
                 yield break;
             }
+            if(constraint.data.tip == null || constraint.data.mid == null || constraint.data.root == null)
+            {
+                // Add correct Root, Mid and Tip to CharacterRig for IK animation
+                if (!agent.TryGetComponent<Animator>(out var animator))
+                {
+                    Debug.LogWarning("Agent has no Animator component.");
+
+                }
+                meshSockets.TwoBoneIKConstraintLeftArm.data.root = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
+                meshSockets.TwoBoneIKConstraintLeftArm.data.mid = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
+                meshSockets.TwoBoneIKConstraintLeftArm.data.tip = animator.GetBoneTransform(HumanBodyBones.LeftHand);
+
+                meshSockets.TwoBoneIKConstraintRightArm.data.root = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
+                meshSockets.TwoBoneIKConstraintRightArm.data.mid = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
+                meshSockets.TwoBoneIKConstraintRightArm.data.tip = animator.GetBoneTransform(HumanBodyBones.RightHand);
+            }
+
             constraint.data.target.SetPositionAndRotation(constraint.data.tip.position, constraint.data.tip.rotation);
             constraint.weight = 1;
             item.IsPickedUp = true;
