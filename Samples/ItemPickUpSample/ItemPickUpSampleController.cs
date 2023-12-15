@@ -38,13 +38,13 @@ namespace i5.VirtualAgents.Examples
             }
 
             // add a task to go to the start an drop the first item
-            taskSystem.Tasks.GoToAndDropItem(Vector3.zero, pickUpObjects[0]);
+            taskSystem.Tasks.GoToAndDropItem(dropFirstItemHere, pickUpObjects[0]);
 
             // add a task to move a bit and then drop all item
-            taskSystem.Tasks.GoToAndDropItem(dropFirstItemHere);
+            taskSystem.Tasks.GoToAndDropItem(dropAllOtherItemsHere);
 
             //move away from the items
-            taskSystem.Tasks.GoTo(dropAllOtherItemsHere);
+            taskSystem.Tasks.GoTo(Vector3.zero);
         }
     }
 }
