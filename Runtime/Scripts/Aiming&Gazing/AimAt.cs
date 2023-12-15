@@ -239,7 +239,7 @@ namespace i5.VirtualAgents
 		public abstract void SetBonePreset();
 
 
-		protected void GetBoneTransformsFromAnimatior()
+		protected void GetBoneTransformsFromAnimatior(HumanBodyBones aimingTip)
 		{
 			Animator animator = GetComponent<Animator>();
 			boneTransforms = new Transform[humanBones.Length];
@@ -247,7 +247,9 @@ namespace i5.VirtualAgents
 			{
 				boneTransforms[i] = animator.GetBoneTransform(humanBones[i].bone);
 			}
-		}
+            aimTransform = animator.GetBoneTransform(aimingTip);
+
+        }
 
 		protected void OnDrawGizmos()
 		{
