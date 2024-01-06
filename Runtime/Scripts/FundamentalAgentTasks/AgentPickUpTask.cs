@@ -118,6 +118,7 @@ namespace i5.VirtualAgents.AgentTasks
                 FinishTaskAsFailed();
                 yield break;
             }
+
             if(constraint.data.tip == null || constraint.data.mid == null || constraint.data.root == null)
             {
                 // Add correct Root, Mid and Tip to CharacterRig for IK animation
@@ -133,8 +134,10 @@ namespace i5.VirtualAgents.AgentTasks
                 meshSockets.TwoBoneIKConstraintRightArm.data.root = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
                 meshSockets.TwoBoneIKConstraintRightArm.data.mid = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
                 meshSockets.TwoBoneIKConstraintRightArm.data.tip = animator.GetBoneTransform(HumanBodyBones.RightHand);
+                //TODO: This is a computatioal heavy operation, it would be advisable to not do this during runtime
+                RigBuilder rigs = agent.GetComponent<RigBuilder>();
+                rigs.Build();
             }
-
             constraint.data.target.SetPositionAndRotation(constraint.data.tip.position, constraint.data.tip.rotation);
             constraint.weight = 1;
             item.IsPickedUp = true;
