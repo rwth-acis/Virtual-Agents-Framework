@@ -51,7 +51,7 @@ namespace i5.VirtualAgents
 
             // Create a copy of the selected object that can be used to move the children out, just copieng the children wouldn't keep the connections between the children
             GameObject copyOfSelectedObject = Instantiate(selectedObject);
-            
+
             // Create a list to store the children
             List<Transform> childrenToMove = new List<Transform>();
 
@@ -71,7 +71,7 @@ namespace i5.VirtualAgents
             // Destroy the clonedObject
             DestroyImmediate(copyOfSelectedObject);
             // Set the position of the instantiated prefab next to the position of the original selected object
-            instantiatedPrefab.transform.position = selectedObject.transform.position + new Vector3(0,0, selectedObject.transform.localScale.y);
+            instantiatedPrefab.transform.position = selectedObject.transform.position + new Vector3(0, 0, selectedObject.transform.localScale.y);
             instantiatedPrefab.transform.rotation = selectedObject.transform.rotation;
             instantiatedPrefab.transform.localScale = selectedObject.transform.localScale;
 
@@ -82,12 +82,12 @@ namespace i5.VirtualAgents
 
 
         }
-        [MenuItem("Virtual Agents Framework/Custom Agent Model Import/2. Change Animator Avatar & Assign Bones")]
+        [MenuItem("Virtual Agents Framework/Custom Agent Model Import/2. Change Animator Avatar \uff06 Assign Bones")]
         public static void changeAnimatorAvatar()
         {
             GameObject selectedObject = Selection.activeGameObject;
-            
-            if(selectedObject == null)
+
+            if (selectedObject == null)
             {
                 Debug.LogWarning("Please select the parent object of the agent that has been created in the first step. Normally, it is named AgendBasedOnXYZ.");
                 return;
@@ -108,9 +108,9 @@ namespace i5.VirtualAgents
             Debug.Log("Checking if the Avatar " + animator.avatar.name + " fits the provided model: ");
             if (animator.GetBoneTransform(HumanBodyBones.Hips) == null && animator.GetBoneTransform(HumanBodyBones.RightLowerArm) == null)
             {
-                Debug.LogError("The Avatar " + animator.avatar.name + " doesn't fit the provided model. Please change the Avatar to the Avatar that comes with the Avatar, i.g. MaxculineAnimationAvatar.");
+                Debug.LogError("The Avatar " + animator.avatar.name + " doesn't fit the provided model. Please change the Avatar to the Avatar that comes with the Avatar, i.g. MaxculineAnimationAvatar. See Warning above.");
             }
-            else 
+            else
             {
                 Debug.Log("The Avatar " + animator.avatar.name + " fits the provided model. Mesh Sockets and Animation Rigging will be set up according to that.");
                 fixAnimationRiggingBasedOnAnimatoravatar(selectedObject, animator);
@@ -118,7 +118,7 @@ namespace i5.VirtualAgents
 
         }
 
-        
+
         private static void fixAnimationRiggingBasedOnAnimatoravatar(GameObject selectedObject, Animator animator)
         {
             //Add correct Source Objects to MeshSockets
@@ -146,6 +146,15 @@ namespace i5.VirtualAgents
 
             selectedObject.transform.Find("AnimationRigging/MeshSockets/HipsFrontRightSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
 
+            //TODO: The following changes only show up once in the inspector/editor and are not actually saved afterwards for yet unkown reasons. For now this is fixed by an automatic failsave in AgentPickUpTask which is computationally heavy  
+            MeshSockets meshSockets = selectedObject.GetComponent<MeshSockets>();
+            meshSockets.TwoBoneIKConstraintLeftArm.data.root = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
+            meshSockets.TwoBoneIKConstraintLeftArm.data.mid = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
+            meshSockets.TwoBoneIKConstraintLeftArm.data.tip = animator.GetBoneTransform(HumanBodyBones.LeftHand);
+
+            meshSockets.TwoBoneIKConstraintRightArm.data.root = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
+            meshSockets.TwoBoneIKConstraintRightArm.data.mid = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
+            meshSockets.TwoBoneIKConstraintRightArm.data.tip = animator.GetBoneTransform(HumanBodyBones.RightHand);
         }
     }
 }
