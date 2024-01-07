@@ -12,8 +12,8 @@ namespace i5.VirtualAgents
     {
 
 
-        [MenuItem("Virtual Agents Framework/Custom Agent Model Import/1. Create Agent from Humanoid Model")]
-        public static void turnAvataraIntoAgent()
+        [MenuItem("Virtual Agents Framework/Custom Agent Model Import/Create Agent from Humanoid Model")]
+        public static void TurnAvataraIntoAgent()
         {
             // Get the selected GameObject
             GameObject selectedObject = Selection.activeGameObject;
@@ -26,15 +26,28 @@ namespace i5.VirtualAgents
 
             // Specify the name to the existing prefab
             string prefabName = "AgentWithoutModel";
+            string customPrefabName = "CustomAgentWithoutModel";
 
             // Find the prefab by name within the project
             string[] prefabGuids = AssetDatabase.FindAssets(prefabName + " t:Prefab");
+            string[] customPrefabGuids = AssetDatabase.FindAssets(customPrefabName + " t:Prefab");
 
-            if (prefabGuids.Length == 0)
+            // If a custom Prefab is defined by the user, use that one, otherwise use the default one
+            if (customPrefabGuids.Length == 0)
             {
-                Debug.LogError("Prefab not found: " + prefabName);
-                return;
+                Debug.Log("Using default preset prefab. Optianally a prefab named \"CustomAgentWithoutModel\" based on the \"com.i5.virtualagents/Runtime/Prefabs/AgentWithoutModel.prefab\" can be used to modify all following imports. ");
+                if (prefabGuids.Length == 0)
+                {
+                    Debug.LogError("Prefab not found: " + prefabName);
+                    return;
+                }
             }
+            else
+            {
+                prefabGuids = customPrefabGuids;
+                Debug.Log("Using custom preset prefab from: " + AssetDatabase.GUIDToAssetPath(prefabGuids[0]));
+            }
+
 
             // Load the prefab
             string prefabPath = AssetDatabase.GUIDToAssetPath(prefabGuids[0]);
@@ -49,11 +62,11 @@ namespace i5.VirtualAgents
             // Instantiate the prefab into the scene
             GameObject instantiatedPrefab = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
 
-            // Create a copy of the selected object that can be used to move the children out, just copieng the children wouldn't keep the connections between the children
+            // Create a copy of the selected object that can be used to move the children out, just copying the children wouldn't keep the connections between the children
             GameObject copyOfSelectedObject = Instantiate(selectedObject);
 
             // Create a list to store the children
-            List<Transform> childrenToMove = new List<Transform>();
+            List<Transform> childrenToMove = new();
 
             // Iterate over the children and add them to the list
             foreach (Transform child in copyOfSelectedObject.transform)
@@ -67,62 +80,69 @@ namespace i5.VirtualAgents
                 child.SetParent(instantiatedPrefab.transform, false);
             }
 
+            // If imported model already has a animator component with a avatar, use that one, otherwise use the default avatar
+            if (selectedObject.TryGetComponent<Animator>(out var animator))
+            {
+                if (animator.avatar != null)
+                {
+                    Debug.Log("Using Animator avatar provided by the model. ");
+                    instantiatedPrefab.GetComponent<Animator>().avatar = animator.avatar;
+                }
+                // Otherwise the default avatar thats specified in the prefab will be used
+            }
+            else
+            {
+                Debug.LogWarning("No Animator component found. Using default animator. This is usally a problem. It is recommended to add a Animator Component with a fitting avatar, usually this happens automatically when importing the model into unity. ");
+            }
 
-            // Destroy the clonedObject
+
+            // Destroy the cloned object
             DestroyImmediate(copyOfSelectedObject);
             // Set the position of the instantiated prefab next to the position of the original selected object
-            instantiatedPrefab.transform.position = selectedObject.transform.position + new Vector3(0, 0, selectedObject.transform.localScale.y);
-            instantiatedPrefab.transform.rotation = selectedObject.transform.rotation;
+            instantiatedPrefab.transform.SetPositionAndRotation(selectedObject.transform.position + new Vector3(0, 0, selectedObject.transform.localScale.y), selectedObject.transform.rotation);
             instantiatedPrefab.transform.localScale = selectedObject.transform.localScale;
 
             Selection.activeGameObject = instantiatedPrefab;
             Selection.activeGameObject.name = "AgentBasedOn" + selectedObject.name;
-            Debug.Log("Children added to the existing prefab and instantiated in the scene. Please keep the new agent selected and continue with step 2.");
 
-
-
+            CheckAnimatorAvatar();
         }
-        [MenuItem("Virtual Agents Framework/Custom Agent Model Import/2. Change Animator Avatar \uff06 Assign Bones")]
-        public static void changeAnimatorAvatar()
+
+        private static void CheckAnimatorAvatar()
         {
             GameObject selectedObject = Selection.activeGameObject;
 
-            if (selectedObject == null)
-            {
-                Debug.LogWarning("Please select the parent object of the agent that has been created in the first step. Normally, it is named AgendBasedOnXYZ.");
-                return;
-            }
-
             if (!selectedObject.TryGetComponent<Agent>(out _))
             {
-                Debug.LogWarning("Please select the parent object of the agent that has been created in the first step. Normally, it is named AgendBasedOnXYZ.");
+                selectedObject.name = "Failed" + selectedObject.name;
+                Debug.LogError("No agent component found. Please check that the CustomAgentWithoutModel prefab has an agent component.");
                 return;
             }
             if (!selectedObject.TryGetComponent<Animator>(out var animator))
             {
-                Debug.LogWarning("Please select the parent object of the agent that has been created in the first step. Normally, it is named AgendBasedOnXYZ.");
+                selectedObject.name = "Failed" + selectedObject.name;
+                Debug.LogError("No Animator component found. Please check that the CustomAgentWithoutModel prefab has an Animator component.");
                 return;
             }
-
-            Debug.LogWarning("This step has to be done manually: To change the Animator Avatar select the AgendBasedOnX Gameobject and the Animator component. In the Animator change the Avatar to the Avatar that comes with the Avatar, i.g. MaxculineAnimationAvatar.");
             Debug.Log("Checking if the Avatar " + animator.avatar.name + " fits the provided model: ");
             if (animator.GetBoneTransform(HumanBodyBones.Hips) == null && animator.GetBoneTransform(HumanBodyBones.RightLowerArm) == null)
             {
-                Debug.LogError("The Avatar " + animator.avatar.name + " doesn't fit the provided model. Please change the Avatar to the Avatar that comes with the Avatar, i.g. MaxculineAnimationAvatar. See Warning above.");
+                selectedObject.name = "Failed" + selectedObject.name;
+                Debug.LogError("The Avatar " + animator.avatar.name + " doesn't fit the provided model. Please change the Avatar to the Avatar that comes with the Model, i.g. MaxculineAnimationAvatar.");
             }
             else
             {
                 Debug.Log("The Avatar " + animator.avatar.name + " fits the provided model. Mesh Sockets and Animation Rigging will be set up according to that.");
-                fixAnimationRiggingBasedOnAnimatoravatar(selectedObject, animator);
+                FixAnimationRiggingBasedOnAnimatoravatar(selectedObject, animator);
             }
 
         }
 
 
-        private static void fixAnimationRiggingBasedOnAnimatoravatar(GameObject selectedObject, Animator animator)
+        private static void FixAnimationRiggingBasedOnAnimatoravatar(GameObject selectedObject, Animator animator)
         {
             //Add correct Source Objects to MeshSockets
-            WeightedTransform weightedTransform = new WeightedTransform(animator.GetBoneTransform(HumanBodyBones.RightHand), 1.0f);
+            WeightedTransform weightedTransform = new(animator.GetBoneTransform(HumanBodyBones.RightHand), 1.0f);
             selectedObject.transform.Find("AnimationRigging/MeshSockets/RightHandSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
             weightedTransform = new WeightedTransform(animator.GetBoneTransform(HumanBodyBones.LeftHand), 1.0f);
             selectedObject.transform.Find("AnimationRigging/MeshSockets/LeftHandSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
