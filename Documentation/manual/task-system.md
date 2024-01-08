@@ -20,7 +20,8 @@ Currently, the following tasks exist and can already be used:
 - <xref:i5.VirtualAgents.AgentTasks.AgentMovementTask>: Let the agent walk to a given location or follow an object dynamically
 - <xref:i5.VirtualAgents.AgentTasks.AgentWaitTask>: Let the agent wait for a specific amount of time
 - <xref:i5.VirtualAgents.AgentTasks.AgentPickUpTask>: Let the agent pickup an object next to them
-- <xref:i5.VirtualAgents.AgentTasks.AgentPickUpTask>: Let the agent drop an object or all objects that the agent is holding
+- <xref:i5.VirtualAgents.AgentTasks.AgentDropTask>: Let the agent drop an object or all objects that the agent is holding
+- <xref:i5.VirtualAgents.AgentTasks.AgentAdaptiveGazeTask>: Starts or stops the [adaptive gaze](adaptive-gaze.md) feature.
 ### Adding Own Tasks
 
 In addition to the pre-implemented tasks, developers can also add own tasks that implement the <xref:i5.VirtualAgents.AgentTasks.IAgentTask> interface.

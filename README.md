@@ -112,6 +112,10 @@ Usually, each sample contains a sample scene as the starting point.
 Within the scene, there is a documentation object, indicated by an information icon.
 If you click on it, there are further descriptions about the scene in the inspector.
 
+## Quickstart Guide
+
+As part of the documentation a quickstart guide can be found [here](https://rwth-acis.github.io/Virtual-Agents-Framework/1.2.1/manual/task-system.html).
+
 ## Licensing
 
 The package's code is distributed under the [MIT license](https://github.com/rwth-acis/Virtual-Agents-Framework/blob/master/LICENSE).

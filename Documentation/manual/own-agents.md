@@ -47,7 +47,7 @@ With a lower value, the agent will not be able to walk at the full speed as inte
 A higher value will cause foot sliding as the animation is too slow to keep up with the movement speed.
 
 ## Importing Custom Models from Ready Player Me
-[Ready Player Me](readyplayer.me) is a service that provides easy assess to custom avatars that can be used for rapid prototyping or as an avatar system. As an example we will show here how an avatar created on [Ready Player Me](readyplayer.me) can be turned into an agent.
+[Ready Player Me](https://readyplayer.me/) is a service that provides easy assess to custom avatars that can be used for rapid prototyping or as an avatar system. As an example we will show here how an avatar created on [Ready Player Me](https://readyplayer.me/) can be turned into an agent.
 1. Create a Ready Player Me avatar [here](https://readyplayer.me/en/hub/avatars)
 To easily import the avatar, the Ready Player Me SDK for Unity can be used. Optionally the Avatar can also be downloaded as a gbl file and turned into a fbx file with programs like blender to import the avatar normally as in the steps above.
 2. Copy the provided .gbl URL after avatar creation

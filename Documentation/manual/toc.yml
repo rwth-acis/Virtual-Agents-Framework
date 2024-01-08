@@ -1,3 +1,5 @@
+- name: Quickstart Guide
+  href: quickstart-guide.md
 - name: Agent Behavior
   items:
     - name: Task System
