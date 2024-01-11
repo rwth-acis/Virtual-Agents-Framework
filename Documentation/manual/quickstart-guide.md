@@ -7,7 +7,6 @@ After importing the package this page is meant to get you going and introduce ba
 2. Add the standard agent prefab from ``Packages/com.i5.virtualagents/Runtime/Prefabs/AgentStandard.prefab`` to the scene.
 3. Add a NavMesh Surface to the scene by right-clicking the hierarchy and selecting ``AI > NevMesh Surface``. 
 4. Select the NavMesh Surface and press on `Bake` to create the NavMesh Data. The NavMesh represents wher the agent can walk, so this has to be repeated after every change to the possible walking space of the agent.
-5. Select ``AgentStandard`` in the scene. Add the component `ScheduledBasedTaskSystem`. As explained on [Task System](task-system.md), this component can be changed to custom implementations but the pre implemented `ScheduledBasedTaskSystem` should be enough for most cases.
 ## Adding Tasks to an agent
 1. Add an empty GameObject to the scene that will function as a controller object.
 2. Select the controller object and add a new script. This script will add different tasks to the agents schedule. We will call it ``ScheduleController``. To start, the script should look like this:
