@@ -83,6 +83,7 @@ crashlytics-build.properties
 /Assets/Virtual Agents Framework/Runtime/Scripts/obj
 /Assets/Virtual Agents Framework/Runtime/Scripts/obj.meta
 
-# Temporary auto-generated Android Assets
-apikeys.json
-apikeys.json.meta
+# Samples from imported packages
+/Assets/Samples/*
+/Assets/Virtual Agents Framework/Editor/Scripts/Behaviour Tree/obj
+/Assets/Virtual Agents Framework/Editor/Scripts/Behaviour Tree/obj.meta
