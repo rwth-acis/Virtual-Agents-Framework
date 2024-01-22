@@ -1,11 +1,12 @@
 {
-    "name": "i5.VirtualAgents.Examples",
-    "rootNamespace": "i5.VirtualAgents.Examples",
+    "name": "i5.VirtualAgents.LLM",
+    "rootNamespace": "i5.VirtualAgents.LLM",
     "references": [
-        "GUID:0e6adb5e6365e85488ce0c09f981fdee",
+        "GUID:f32d19dcd8c86204c933aa66960594a6",
         "GUID:6055be8ebefd69e48b49212b09b47b2f",
-        "GUID:640ea5081a1d0f6468d38f2d52808a5a",
         "GUID:0437d04145d432340be34960e6f19b74",
+        "GUID:0e6adb5e6365e85488ce0c09f981fdee",
+        "GUID:640ea5081a1d0f6468d38f2d52808a5a",
         "GUID:c6727c2813289de4890fc141925806e5"
     ],
     "includePlatforms": [],
