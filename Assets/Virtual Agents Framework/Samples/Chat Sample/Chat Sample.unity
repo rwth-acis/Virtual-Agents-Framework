@@ -558,16 +558,16 @@ MonoBehaviour:
   textField: {fileID: 1168599029}
   inputField: {fileID: 1676567223}
   okButton: {fileID: 1101662664}
-  systemMessage: You are an honorable, friendly guide of the RWTH Aachen University.
+  systemMessage: You are an honorable, friendly guide of the RWTH Aachen University.    
     You will teach students about the processes of the RWTH if they ask.
   startString: Hello! I am here to help you with any questions about the RWTH Aachen.
   costSaving: 1
   useDummyMessage: 1
-  dummyMessage: "The RWTH Aachen has approximately 45,000 students. doWave() doHeadshake()\r\n\r\nSELECT
+  dummyMessage: "The RWTH Aachen has approximately 45,000 students. doWave() \r\n\r\nSELECT
     ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2196 ?studentCount .\r\n}"
   useQuery: 1
   doAnimation: 1
-  agent: {fileID: 323802891}
+  agent: {fileID: 0}
 --- !u!114 &323802896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1468,7 +1468,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: Virtual Agents Framework > Open AI > Add unofficial package
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1495,7 +1495,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.15
+  m_fontSize: 14.75
   m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 1

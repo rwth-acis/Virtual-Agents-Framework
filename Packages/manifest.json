@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "com.i5.toolkit.core": "1.9.0",
-    "com.srcnalt.openai-unity": "https://github.com/srcnalt/OpenAI-Unity.git",
     "com.unity.ai.navigation": "1.1.4",
     "com.unity.collab-proxy": "2.0.5",
     "com.unity.ide.rider": "3.0.24",

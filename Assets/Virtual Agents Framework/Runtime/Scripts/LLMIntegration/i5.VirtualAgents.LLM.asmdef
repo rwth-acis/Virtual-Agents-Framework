@@ -16,6 +16,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.srcnalt.openai-unity",
+            "expression": "0.2",
+            "define": "USE_OPENAI_API"
+        }
+    ],
     "noEngineReferences": false
 }

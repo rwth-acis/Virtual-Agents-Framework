@@ -1,18 +1,22 @@
+
+
 using i5.VirtualAgents.AgentTasks;
 using i5.VirtualAgents.ScheduleBasedExecution;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using OpenAI;
 
+#if USE_OPENAI_API
+using OpenAI;
+using Newtonsoft.Json.Linq;
+#endif
 
 namespace i5.VirtualAgents
 {
-    
+
     /// <summary>
     /// This script should be attached to an agent or any controller object to integrate chat GPT. If attached to an agent the chat bot can command animations.
     /// Uses Text Field, Imput Field and Ok Button for Text message interaction.
@@ -22,7 +26,9 @@ namespace i5.VirtualAgents
         public TMP_Text textField;
         public TMP_InputField inputField;
         public Button okButton;
-        
+
+        [Space(10)]
+
         [Tooltip("How the chat agent should behave and what it has know.")]
         public string systemMessage;
         [Tooltip("How the chat bot should start the conservation.")]
@@ -30,22 +36,28 @@ namespace i5.VirtualAgents
         [Tooltip("Chat bot is told to keep responeses short and simple for cost saving.")]
         public bool costSaving = true;
 
-        [Tooltip("Response will always be the dummyMessage instead of actually contacting the API")]
-        public bool useDummyMessage = true;
-        public string dummyMessage = "The RWTH Aachen has approximately 45,000 students. doWave() \r\n\r\nSELECT ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2191 ?studentCount .\r\n}";
-
         [Tooltip("Chat bot is told to generate a SPARQL query")]
         public bool useQuery = true;
         public ISparqlAPI sparqlAPI;
 
         [Tooltip("Chat bot is told to animate when appropriate")]
-
         public bool doAnimation = true;
         [Tooltip("The agent and its taskSystem that the animations are called on. Is automatically set to the agent on the game object if no agent is provided.")]
         public Agent agent = null;
         protected ScheduleBasedTaskSystem taskSystem;
+        [Space(10)]
+        [Tooltip("Response will always be the dummyMessage instead of actually contacting the API")]
+        public bool useDummyMessage = true;
+        public string dummyMessage = "The RWTH Aachen has approximately 45,000 students. doWave() \r\n\r\nSELECT ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2191 ?studentCount .\r\n}";
 
+#if !USE_OPENAI_API
+        private void Start()
+        {
+            Debug.LogError("OpenAIController: OpenAI API is not installed. Please press Virtual Agents Framework > Open AI > Add unofficial OpenAI helper package.");
+        }
+#endif
 
+#if USE_OPENAI_API
         private OpenAIApi api;
         private readonly List<ChatMessage> messages = new();
 
@@ -337,6 +349,6 @@ namespace i5.VirtualAgents
             }
             return message;
         }
+#endif
     }
-
 }
