@@ -22,30 +22,32 @@ namespace i5.VirtualAgents
         public TMP_Text textField;
         public TMP_InputField inputField;
         public Button okButton;
-        //How the chat agent should behave and what it has know.
+        
+        [Tooltip("How the chat agent should behave and what it has know.")]
         public string systemMessage;
-        //How the chat bot should behave.
+        [Tooltip("How the chat bot should start the conservation.")]
         public string startString;
-        //Chat bot is told to keep responeses short and simple for cost saving.
+        [Tooltip("Chat bot is told to keep responeses short and simple for cost saving.")]
         public bool costSaving = true;
 
-        //Response will always be the dummyMessage instead of actually contacting the API
+        [Tooltip("Response will always be the dummyMessage instead of actually contacting the API")]
         public bool useDummyMessage = true;
         public string dummyMessage = "The RWTH Aachen has approximately 45,000 students. doWave() \r\n\r\nSELECT ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2191 ?studentCount .\r\n}";
 
-        //Chat bot is told to generate a SPARQL query
+        [Tooltip("Chat bot is told to generate a SPARQL query")]
         public bool useQuery = true;
         public ISparqlAPI sparqlAPI;
 
-        //Chat bot is told to animate when appropriate
+        [Tooltip("Chat bot is told to animate when appropriate")]
+
         public bool doAnimation = true;
-        //The agent and its taskSystem that the animations are called on. Is automatically set to the agent on the game object if no agent is provided.
+        [Tooltip("The agent and its taskSystem that the animations are called on. Is automatically set to the agent on the game object if no agent is provided.")]
         public Agent agent = null;
         protected ScheduleBasedTaskSystem taskSystem;
 
 
         private OpenAIApi api;
-        private List<ChatMessage> messages = new List<ChatMessage>();
+        private readonly List<ChatMessage> messages = new();
 
         // Start is called before the first frame update
         void Start()
@@ -80,8 +82,7 @@ namespace i5.VirtualAgents
             if (useQuery)
             {
 
-                sparqlAPI = (ISparqlAPI)GetComponent(typeof(ISparqlAPI));
-                if (sparqlAPI == null)
+                if (!TryGetComponent<ISparqlAPI>(out sparqlAPI))
                 {
                     Debug.LogWarning("OpenAIController: No ISparqlAPI component found on the game object. Queries will be disabled.");
                     useQuery = false;
@@ -176,13 +177,15 @@ namespace i5.VirtualAgents
             okButton.enabled = false;
 
             // Fill the user message from the input field
-            ChatMessage userMessage = new ChatMessage();
-            userMessage.Role = "user";
-            userMessage.Content = inputField.text;
+            ChatMessage userMessage = new()
+            {
+                Role = "user",
+                Content = inputField.text
+            };
             if (userMessage.Content.Length > 100)
             {
                 // Limit messages to 100 characters
-                userMessage.Content = userMessage.Content.Substring(0, 100);
+                userMessage.Content = userMessage.Content[..100];
             }
             Debug.Log(string.Format("{0}: {1}", userMessage.Role, userMessage.Content));
 
@@ -196,7 +199,7 @@ namespace i5.VirtualAgents
             inputField.text = "";
 
 
-            ChatMessage responseMessage = new ChatMessage();
+            ChatMessage responseMessage = new();
 
             if (useDummyMessage == false)
             {
@@ -224,7 +227,7 @@ namespace i5.VirtualAgents
             Debug.Log(string.Format("{0}: {1}", responseMessage.Role, responseMessage.Content));
 
             //Split message into acutal message and included query
-            string[] splittedMessage = extractQueryFromMessage(responseMessage.Content);
+            string[] splittedMessage = ExtractQueryFromMessage(responseMessage.Content);
             string query = splittedMessage[0];
             responseMessage.Content = splittedMessage[1];
 
@@ -234,18 +237,19 @@ namespace i5.VirtualAgents
             //If there is a quere, process that query and ask the chat bot to incorporate the new information.
             if (query != null & query != "")
             {
-                string queryResult = "";
-                queryResult = await sparqlAPI.SparqlQueryToAPI(query);
+                string queryResult = await sparqlAPI.SparqlQueryToAPI(query);
                 //If request failed skip sending another message and just present normal answer
-                if(queryResult != "")
+                if (queryResult != "")
                 {
-                    ChatMessage queryResultMessage = new ChatMessage();
-                    queryResultMessage.Role = "system";
-                    queryResultMessage.Content = "The quere results is:\n" + queryResult + "Incorporate this new information in your answear. And don't include the querie again.";
+                    ChatMessage queryResultMessage = new()
+                    {
+                        Role = "system",
+                        Content = "The quere results is:\n" + queryResult + "Incorporate this new information in your answear. And don't include the querie again."
+                    };
                     if (queryResultMessage.Content.Length > 200)
                     {
                         // Limit messages to 100 characters
-                        queryResultMessage.Content = queryResultMessage.Content.Substring(0, 100);
+                        queryResultMessage.Content = queryResultMessage.Content[..100];
                     }
                     Debug.Log(string.Format("{0}: {1}", queryResultMessage.Role, queryResultMessage.Content));
 
@@ -276,19 +280,19 @@ namespace i5.VirtualAgents
                     }
                     Debug.Log(string.Format("{0}: {1}", responseMessage.Role, responseMessage.Content));
 
-                    responseMessage.Content = extractQueryFromMessage(responseMessage.Content)[1];
+                    responseMessage.Content = ExtractQueryFromMessage(responseMessage.Content)[1];
                     messages.Add(responseMessage);
                 } 
             }
             //Check for animation calls, play them and remove them from the message
-            responseMessage.Content = checkMessageForAnimationPromptsAndCallThem(responseMessage.Content);
+            responseMessage.Content = CheckMessageForAnimationPromptsAndCallThem(responseMessage.Content);
             // Update the text field with the response
             textField.text = responseMessage.Content;
 
             // Re-enable the OK button
             okButton.enabled = true;
         }
-        private string[] extractQueryFromMessage(string message)
+        private string[] ExtractQueryFromMessage(string message)
         {
             Debug.Log("Extracting from: " + message);
             // Get the SPARKL query from the message.
@@ -309,7 +313,7 @@ namespace i5.VirtualAgents
             return new string[] { sparqlQuery, text };
         }
 
-        private string checkMessageForAnimationPromptsAndCallThem(string message)
+        private string CheckMessageForAnimationPromptsAndCallThem(string message)
         {
             string[] animations = { "doHeadshake()", "doWave()" };
             foreach (string animation in animations)
