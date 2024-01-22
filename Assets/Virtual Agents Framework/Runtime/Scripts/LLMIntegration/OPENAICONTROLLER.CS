@@ -66,7 +66,18 @@ namespace i5.VirtualAgents
         {
 
             string APIKey = ReadOutAPIKey();
-            api = new OpenAIApi(APIKey);
+           
+            if(APIKey == "" || APIKey == null)
+            {
+                Debug.Log("No API Key found in environment variable. Will try to read from JSON in user directory.");
+                api = new OpenAIApi();
+            }
+            else
+            {
+                Debug.Log("OpenAI API Key found in environment variable.");
+                api = new OpenAIApi(APIKey);
+            }
+
             StartConversation();
             okButton.onClick.AddListener(() => GetResponse());
 
@@ -112,7 +123,7 @@ namespace i5.VirtualAgents
 
         }
         /// <summary>
-        /// Reads out the OpenAI API Key from the windows environment varaiable or a json file
+        /// Reads out the OpenAI API Key from the windows environment varaiable
         /// </summary>
         /// <returns>The API Key for OpenAI</returns>
         private string ReadOutAPIKey()
@@ -128,23 +139,6 @@ namespace i5.VirtualAgents
                 Debug.Log("An error occurred while trying to read OPENAI_API_KEY. This could be expected on some operating systems. Will try to read from JSON file now. " + ex.Message);
             }
 
-            if (apikey == null || apikey == "")
-            {
-                try
-                {
-                    // Read the JSON file
-                    string jsonFilePath = "Assets\\Virtual Agents Framework\\Runtime\\Scripts\\GptIntegration\\apikeys.json";
-                    string jsonData = File.ReadAllText(jsonFilePath);
-                    // Deserialize JSON data
-                    JObject jsonObject = JObject.Parse(jsonData);
-                    // Get the API key
-                    apikey = (string)jsonObject["OpenAIKey"];
-                }
-                catch (Exception ex)
-                {
-                    Debug.LogError("An error occurred while trying to read json file: " + ex.Message);
-                }
-            }
             return apikey;
 
         }
@@ -227,7 +221,7 @@ namespace i5.VirtualAgents
 
                 responseMessage.Role = chatResult.Choices[0].Message.Role;
                 responseMessage.Content = chatResult.Choices[0].Message.Content;
-                Debug.Log("Tokens used" + chatResult.Usage.CompletionTokens);
+                Debug.Log("Tokens used " + chatResult.Usage.CompletionTokens);
             }
             else
             {
@@ -282,7 +276,7 @@ namespace i5.VirtualAgents
 
                         responseMessage.Role = chatResult.Choices[0].Message.Role;
                         responseMessage.Content = chatResult.Choices[0].Message.Content;
-                        Debug.Log("Tokens used" + chatResult.Usage.CompletionTokens);
+                        Debug.Log("Tokens used " + chatResult.Usage.CompletionTokens);
                     }
                     else
                     {

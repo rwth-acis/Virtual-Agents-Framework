@@ -562,12 +562,12 @@ MonoBehaviour:
     You will teach students about the processes of the RWTH if they ask.
   startString: Hello! I am here to help you with any questions about the RWTH Aachen.
   costSaving: 1
-  useDummyMessage: 1
-  dummyMessage: "The RWTH Aachen has approximately 45,000 students. doWave() \r\n\r\nSELECT
-    ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2196 ?studentCount .\r\n}"
   useQuery: 1
   doAnimation: 1
   agent: {fileID: 0}
+  useDummyMessage: 1
+  dummyMessage: "The RWTH Aachen has approximately 45,000 students. doWave() \r\n\r\nSELECT
+    ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2196 ?studentCount .\r\n}"
 --- !u!114 &323802896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,6 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae77ec4c78e9c8c49985505ea1ec7b94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  email: 
 --- !u!1 &348047730
 GameObject:
   m_ObjectHideFlags: 0
