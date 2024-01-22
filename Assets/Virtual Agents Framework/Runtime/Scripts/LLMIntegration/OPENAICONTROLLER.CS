@@ -236,47 +236,49 @@ namespace i5.VirtualAgents
             {
                 string queryResult = "";
                 queryResult = await sparqlAPI.SparqlQueryToAPI(query);
-
-                // Fill the user message from the input field
-                ChatMessage queryResultMessage = new ChatMessage();
-                userMessage.Role = "user";
-                userMessage.Content = "The quere results is:\n" + queryResult + "Incorporate this new information in your answear. And don't include the querie again.";
-                if (userMessage.Content.Length > 200)
+                //If request failed skip sending another message and just present normal answer
+                if(queryResult != "")
                 {
-                    // Limit messages to 100 characters
-                    userMessage.Content = userMessage.Content.Substring(0, 100);
-                }
-                Debug.Log(string.Format("{0}: {1}", userMessage.Role, userMessage.Content));
-
-                // Add the message to the list
-                messages.Add(userMessage);
-
-                if (useDummyMessage == false)
-                {
-                    // Send the entire chat to OpenAI to get the next message
-                    var chatResult = await api.CreateChatCompletion(new CreateChatCompletionRequest()
+                    ChatMessage queryResultMessage = new ChatMessage();
+                    queryResultMessage.Role = "system";
+                    queryResultMessage.Content = "The quere results is:\n" + queryResult + "Incorporate this new information in your answear. And don't include the querie again.";
+                    if (queryResultMessage.Content.Length > 200)
                     {
-                        Model = "gpt-3.5-turbo-1106",
-                        Temperature = 0.9f,
-                        MaxTokens = 100,
-                        Messages = messages
-                    });
-                    // Get the response message
+                        // Limit messages to 100 characters
+                        queryResultMessage.Content = queryResultMessage.Content.Substring(0, 100);
+                    }
+                    Debug.Log(string.Format("{0}: {1}", queryResultMessage.Role, queryResultMessage.Content));
 
-                    responseMessage.Role = chatResult.Choices[0].Message.Role;
-                    responseMessage.Content = chatResult.Choices[0].Message.Content;
-                    Debug.Log("Tokens used" + chatResult.Usage.CompletionTokens);
-                }
-                else
-                {
-                    //Insert dummy message
-                    responseMessage.Role = "assistant";
-                    responseMessage.Content = dummyMessage + queryResult;
-                }
-                Debug.Log(string.Format("{0}: {1}", responseMessage.Role, responseMessage.Content));
+                    // Add the message to the list
+                    messages.Add(queryResultMessage);
 
-                responseMessage.Content = extractQueryFromMessage(responseMessage.Content)[1];
-                messages.Add(responseMessage);
+                    if (useDummyMessage == false)
+                    {
+                        // Send the entire chat to OpenAI to get the next message
+                        var chatResult = await api.CreateChatCompletion(new CreateChatCompletionRequest()
+                        {
+                            Model = "gpt-3.5-turbo-1106",
+                            Temperature = 0.9f,
+                            MaxTokens = 100,
+                            Messages = messages
+                        });
+                        // Get the response message
+
+                        responseMessage.Role = chatResult.Choices[0].Message.Role;
+                        responseMessage.Content = chatResult.Choices[0].Message.Content;
+                        Debug.Log("Tokens used" + chatResult.Usage.CompletionTokens);
+                    }
+                    else
+                    {
+                        //Insert dummy message
+                        responseMessage.Role = "assistant";
+                        responseMessage.Content = dummyMessage + queryResult;
+                    }
+                    Debug.Log(string.Format("{0}: {1}", responseMessage.Role, responseMessage.Content));
+
+                    responseMessage.Content = extractQueryFromMessage(responseMessage.Content)[1];
+                    messages.Add(responseMessage);
+                } 
             }
             //Check for animation calls, play them and remove them from the message
             responseMessage.Content = checkMessageForAnimationPromptsAndCallThem(responseMessage.Content);
@@ -288,7 +290,7 @@ namespace i5.VirtualAgents
         }
         private string[] extractQueryFromMessage(string message)
         {
-            Debug.Log(message);
+            Debug.Log("Extracting from: " + message);
             // Get the SPARKL query from the message.
             int splitIndex = message.IndexOf("SELECT");
             if (splitIndex < 0)
@@ -299,8 +301,8 @@ namespace i5.VirtualAgents
             string sparqlQuery = message.Substring(splitIndex);
 
             // Remove any whitespace from the SPARKL query.
-            sparqlQuery = sparqlQuery.Trim().Replace("\n", "").Replace("\r", "");
-            Debug.Log(sparqlQuery);
+            sparqlQuery = sparqlQuery.Trim().Replace("\n", " ").Replace("\r", " ").Replace("`", "");
+            Debug.Log("Extracted sparqlQuery: " + sparqlQuery);
 
 
             // Return the SPARKL query.
