@@ -8,15 +8,16 @@ using UnityEngine;
 
 namespace i5.VirtualAgents
 {
-    
     public class WikiDataAPI :  MonoBehaviour, ISparqlAPI
     {
-        private readonly string email = "";
+        [SerializeField]
+        [Tooltip("Please enter your email address here. This is required by the WikiData API to idetify spam.")]
+        private string email = "";
         //https://www.mediawiki.org/wiki/Wikidata_Query_Service/User_Manual#SPARQL_endpoint
         public async Task<string> SparqlQueryToAPI(string sparqlQuery)
         {
             if(email == ""){
-                Debug.LogError("Please enter your email address in the wikiDataAPI script");
+                Debug.LogError("Please enter your email address in the wikiDataAPI script, that should be attached to the same GameObject as the OpenAIController.");
                 return "";
             }
             string apiUrl = $"https://query.wikidata.org/bigdata/namespace/wdq/sparql?query={Uri.EscapeDataString(sparqlQuery)}";
