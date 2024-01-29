@@ -4,7 +4,12 @@
       "src": [
         {
           "src": "..",
-          "files": [ "**.cs" ]
+          "files": [
+                        "Assets/**/*.cs"
+                    ],
+                    "exclude": [
+                        "Assets/Plugins/**"
+                    ]
         }
       ],
       "globalNamespaceId": "Global",
@@ -30,7 +35,12 @@
         "dest": "api"
       },
       {
-        "files": [ "manual/toc.yml", "manual/**.md" ]
+        "src": "manual",
+ "files": [
+ "toc.yml",
+ "*.md"
+ ],
+ "dest": "manual"
       }
     ],
     "overwrite": [
@@ -53,7 +63,7 @@
         }
       }
     },
-    "xref": [ "https://normanderwan.github.io/UnityXrefMaps/2018.4/xrefmap.yml" ],
+    "xref": [ "https://normanderwan.github.io/UnityXrefMaps/2022.3/xrefmap.yml" ],
     "xrefService": [ "https://xref.docs.microsoft.com/query?uid={uid}" ],
     "dest": "../_site"
   }

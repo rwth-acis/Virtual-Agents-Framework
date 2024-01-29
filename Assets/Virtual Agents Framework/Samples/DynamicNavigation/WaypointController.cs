@@ -1,24 +1,23 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace i5.VirtualAgents.Examples
 {
-    // controls the waypoint movement
-    public class WaypointController : MonoBehaviour
+	// controls the waypoint movement
+	public class WaypointController : MonoBehaviour
     {
-        public float WaitTime;
-        public float MoveDistance = 3.5f; // Distance to move left and right from the start position
+        [SerializeField] private float waitTime;
+        [SerializeField] private float moveDistance = 3.5f; // Distance to move left and right from the start position
         private Vector3 startPos;
 
-        void Start()
+        private void Start()
         {
             startPos = transform.position;
 
-            StartCoroutine(MoveLoop(WaitTime));
+            StartCoroutine(MoveLoop(waitTime));
         }
 
-        IEnumerator MoveLoop(float waittime)
+        private IEnumerator MoveLoop(float waittime)
         {
             while (true)
             {
@@ -33,68 +32,43 @@ namespace i5.VirtualAgents.Examples
             }
         }
 
-        IEnumerator MoveLeft()
+        private IEnumerator MoveLeft()
         {
-            Vector3 targetPosition = new Vector3(startPos.x - MoveDistance, transform.position.y, transform.position.z);
-            float t = 0;
-
-            while (t < 1)
-            {
-                t += Time.deltaTime;
-                transform.position = Vector3.Lerp(transform.position, targetPosition, t);
-                yield return null;
-            }
-
-            // Ensure that the object reaches exactly the target position
-            transform.position = targetPosition;
+            Vector3 targetPosition = new Vector3(startPos.x - moveDistance, transform.position.y, transform.position.z);
+            yield return PerformMovement(targetPosition);
         }
 
-        IEnumerator MoveRight()
+        private IEnumerator MoveRight()
         {
-            Vector3 targetPosition = new Vector3(startPos.x + MoveDistance, transform.position.y, transform.position.z);
-            float t = 0;
-
-            while (t < 1)
-            {
-                t += Time.deltaTime;
-                transform.position = Vector3.Lerp(transform.position, targetPosition, t);
-                yield return null;
-            }
-
-            // Ensure that the object reaches exactly the target position
-            transform.position = targetPosition;
+            Vector3 targetPosition = new Vector3(startPos.x + moveDistance, transform.position.y, transform.position.z);
+            yield return PerformMovement(targetPosition);
         }
 
-        IEnumerator MoveForward()
+        private IEnumerator MoveForward()
         {
-            Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, startPos.z + MoveDistance);
-            float t = 0;
-
-            while (t < 1)
-            {
-                t += Time.deltaTime;
-                transform.position = Vector3.Lerp(transform.position, targetPosition, t);
-                yield return null;
-            }
-
-            // Ensure that the object reaches exactly the target position
-            transform.position = targetPosition;
+            Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, startPos.z + moveDistance);
+            yield return PerformMovement(targetPosition);
         }
 
-        IEnumerator MoveBackward()
+        private IEnumerator MoveBackward()
         {
-            Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, startPos.z - MoveDistance);
-            float t = 0;
-
-            while (t < 1)
-            {
-                t += Time.deltaTime;
-                transform.position = Vector3.Lerp(transform.position, targetPosition, t);
-                yield return null;
-            }
-
-            // Ensure that the object reaches exactly the target position
-            transform.position = targetPosition;
+            Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, startPos.z - moveDistance);
+            yield return PerformMovement(targetPosition);
         }
+
+        private IEnumerator PerformMovement(Vector3 targetPosition)
+        {
+			float t = 0;
+
+			while (t < 1)
+			{
+				t += Time.deltaTime;
+				transform.position = Vector3.Lerp(transform.position, targetPosition, t);
+				yield return null;
+			}
+
+			// Ensure that the object reaches exactly the target position
+			transform.position = targetPosition;
+		}
     }
 }

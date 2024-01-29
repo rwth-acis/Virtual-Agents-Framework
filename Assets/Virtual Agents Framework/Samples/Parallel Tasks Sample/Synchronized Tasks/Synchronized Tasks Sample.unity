@@ -388,20 +388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: 
-  description: 'This scene demonstrates how to schedule walking tasks so that the
-    agent navigates a series of waypoints.
-
-    The script on the Controller object
-    issues walking tasks to the agent on startup.
-
-
-    Use the scene view during
-    play mode to inspect the scene freely while the agent is walking around.
-
-
-    If
-    Objects are changed in the szene: Select the GameObject "NavMesh Surfave" and
-    bake the NavMesh again before running the scene.'
+  description: 
   type: 0
   url: 
 --- !u!4 &1264251852
@@ -454,7 +441,9 @@ MonoBehaviour:
   - {fileID: 1644641974}
   - {fileID: 717973402}
   highPrioWaypoint: {fileID: 1787573992}
-  useTaskShortcuts: 0
+  useTaskShortcuts: 1
+  walk: 1
+  pointAtTime: 50
 --- !u!4 &1351748439
 Transform:
   m_ObjectHideFlags: 0
@@ -595,6 +584,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1749989800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1749989802}
+  - component: {fileID: 1749989801}
+  m_Layer: 0
+  m_Name: Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1749989801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749989800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e29903f517cc9743abd0db7f7221f0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 1, b: 0, a: 1}
+  radius: 0.05
+--- !u!4 &1749989802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749989800}
+  m_LocalRotation: {x: -0, y: -0.31255558, z: -0, w: 0.9498995}
+  m_LocalPosition: {x: -0.05, y: 1.5933, z: 3.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: -36.427, z: 0}
 --- !u!1 &1787573991
 GameObject:
   m_ObjectHideFlags: 0

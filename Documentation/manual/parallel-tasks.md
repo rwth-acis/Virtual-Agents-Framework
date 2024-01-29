@@ -7,11 +7,13 @@ To realize this, the Virtual Agents Framework provides a parallel tasks structur
 ## Parallel Structure
 
 The agent consists of a series of task managers which determine which task to execute next.
-By calling <xref:i5.VirtualAgents.Agent.ScheduleTask*> without specifying a layer, the task, by default, affects the entire body.
+By calling <xref:i5.VirtualAgents.ScheduleBasedExecution.ScheduleBasedTaskSystem.ScheduleTask*> without specifying a layer, the task, by default, affects the entire body.
 Apart from this, there is a separate task manager for each relevant body region of the agent.
 Currently, this includes the following body regions:
 -	Left Arm
 -	Right Arm
+-   Left Leg
+-   Right Leg
 -	Head
 
 When applying parallel tasks, the main use case is to layer animations.
@@ -23,20 +25,20 @@ As a result, the agent displays the full walking movements and only its arm is c
 ## Synchronizing Task Layers
 
 In some cases, tasks need to wait for each other to start synchronously.
-In more complex tasks, this can be achieved by implementing a start condition on the tasks using the <xref:i5.VirtualAgents.TaskSystem.IAgentTask.CanStart*> property.
+In more complex tasks, this can be achieved by implementing a start condition on the tasks using the <xref:i5.VirtualAgents.AgentTasks.IAgentTask.CanStart*> property.
 This pre-condition can contain any Boolean expression.
 A task can, e.g., wait for another task but it can also wait for a specific condition in the agent's environment to become true.
 
-Apart from this general purpose start-condition, the <xref:i5.VirtualAgents.TaskSystem.AgentTasks.AgentBaseTask> also implements a dependency system where tasks can automatically wait for each other.
-If task `a` depends on the completion of task `b` and both inherit from <xref:i5.VirtualAgents.TaskSystem.AgentTasks.AgentBaseTask>, call `a.WaitFor(b)`.
-Internally, <xref:i5.VirtualAgents.TaskSystem.AgentTasks.AgentBaseTask.WaitFor*> creates a pre-condition for task `a`.
-The <xref:i5.VirtualAgents.TaskSystem.IAgentTask.CanStart*> property of `a` will only become `true`, once `b` has finished its execution, indicated by its <xref:i5.VirtualAgents.TaskSystem.IAgentTask.IsFinished> property.
+Apart from this general purpose start-condition, the <xref:i5.VirtualAgents.AgentTasks.AgentBaseTask> also implements a dependency system where tasks can automatically wait for each other.
+If task `a` depends on the completion of task `b` and both inherit from <xref:i5.VirtualAgents.AgentTasks.AgentBaseTask>, call `a.WaitFor(b)`.
+Internally, <xref:i5.VirtualAgents.AgentTasks.AgentBaseTask.WaitFor*> creates a pre-condition for task `a`.
+The <xref:i5.VirtualAgents.AgentTasks.IAgentTask.CanStart*> property of `a` will only become `true`, once `b` has finished its execution, indicated by its <xref:i5.VirtualAgents.AgentTasks.AgentBaseTask.IsFinished> property.
 
-If task `a` depends on multiple tasks `b` and `c`, they can quickly be defined in <xref:i5.VirtualAgents.TaskSystem.AgentTasks.AgentBaseTask.WaitFor*> by listing all depending tasks as `a.WaitFor(b, c)`.
+If task `a` depends on multiple tasks `b` and `c`, they can quickly be defined in <xref:i5.VirtualAgents.AgentTasks.AgentBaseTask.WaitFor*> by listing all depending tasks as `a.WaitFor(b, c)`.
 
 ## Example Scenes
 
-The framework contains two example scenes: One of them demonstrates the independent execution of parallel tasks.
+The framework contains two example scenes for parallel tasks: One of them demonstrates the independent execution of parallel tasks.
 Here, the agent is assigned a series of walking tasks on its base layer and a combination of waiting and waving tasks on its left arm layer, as well as a head-shaking animation for the head.
 The tasks are just executed but do not contain any synchronization.
 In contract to this, the synchronization sample contains the same task sequence but here, the second waving animation will wait for the head shaking animation to complete.

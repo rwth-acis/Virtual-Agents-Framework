@@ -125,10 +125,12 @@ All art assets (e.g. files located in the folders "3D Models" and "Animations" i
 - Benedikt Hensen
 - Danylo Bekhter
 - Sebastian Meinberger
+- David Terhürne
 
 ### 3D Models & Animations:
 
 - Benedikt Hensen
+- David Terhürne
 
 ## Related Projects
 
