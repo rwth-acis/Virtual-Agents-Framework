@@ -4,14 +4,12 @@ using i5.VirtualAgents.AgentTasks;
 using i5.VirtualAgents.ScheduleBasedExecution;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 #if USE_OPENAI_API
 using OpenAI;
-using Newtonsoft.Json.Linq;
 #endif
 
 namespace i5.VirtualAgents
@@ -30,15 +28,15 @@ namespace i5.VirtualAgents
         [Space(10)]
 
         [Tooltip("How the chat agent should behave and what it has know.")]
-        public string systemMessage;
+        public string systemMessage = "You are an honorable, friendly guide of the RWTH Aachen University.You will teach students about the processes of the RWTH if they ask.";
         [Tooltip("How the chat bot should start the conservation.")]
-        public string startString;
+        public string startString = "Hello! I am here to help you with any questions about the RWTH Aachen.";
         [Tooltip("Chat bot is told to keep responeses short and simple for cost saving.")]
         public bool costSaving = true;
 
-        [Tooltip("Chat bot is told to generate a SPARQL query")]
+        [Tooltip("Chat bot is told to generate a query that retrives relevant infromation.")]
         public bool useQuery = true;
-        public ISparqlAPI sparqlAPI;
+        public IQueryAPI queryAPI;
 
         [Tooltip("Chat bot is told to animate when appropriate")]
         public bool doAnimation = true;
@@ -46,10 +44,11 @@ namespace i5.VirtualAgents
         public Agent agent = null;
         protected ScheduleBasedTaskSystem taskSystem;
         [Space(10)]
-        [Tooltip("Response will always be the dummyMessage instead of actually contacting the API")]
+        [Tooltip("Response will always be the dummyMessage instead of actually contacting the OpenAPI")]
         public bool useDummyMessage = true;
-        public string dummyMessage = "The RWTH Aachen has approximately 45,000 students. doWave() \r\n\r\nSELECT ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2191 ?studentCount .\r\n}";
-
+        public string dummyMessage = "The RWTH Aachen has approximately 45,000 students. doWave() \r\n\r\n SPARQL-Query:\r\n SELECT ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2196 ?studentCount .\r\n}";
+        [Tooltip("Model of the ChatGPT AI that is uses, see OpenAI documentation for model names")]
+        public string model = "gpt-3.5-turbo-1106";
 #if !USE_OPENAI_API
         private void Start()
         {
@@ -66,10 +65,10 @@ namespace i5.VirtualAgents
         {
 
             string APIKey = ReadOutAPIKey();
-           
-            if(APIKey == "" || APIKey == null)
+
+            if (APIKey == "" || APIKey == null)
             {
-                Debug.Log("No API Key found in environment variable. Will try to read from JSON in user directory.");
+                Debug.Log("No API Key found in environment variable. Will try to read from JSON in user directory, see documentation.");
                 api = new OpenAIApi();
             }
             else
@@ -78,7 +77,6 @@ namespace i5.VirtualAgents
                 api = new OpenAIApi(APIKey);
             }
 
-            StartConversation();
             okButton.onClick.AddListener(() => GetResponse());
 
             //If animations are used, check if responding components are existing
@@ -105,20 +103,22 @@ namespace i5.VirtualAgents
             if (useQuery)
             {
 
-                if (!TryGetComponent<ISparqlAPI>(out sparqlAPI))
+                if (!TryGetComponent<IQueryAPI>(out queryAPI))
                 {
-                    Debug.LogWarning("OpenAIController: No ISparqlAPI component found on the game object. Queries will be disabled.");
+                    Debug.LogWarning("OpenAIController: No IQueryAPI component found on the game object. Queries will be disabled.");
                     useQuery = false;
                 }
                 else
                 {
-                    if (!sparqlAPI.isReady())
+                    if (!queryAPI.IsReady())
                     {
-                        Debug.LogWarning("OpenAIController: ISparqlAPI component found on the game object, but is not ready to be used. Queries will be disabled.");
+                        Debug.LogWarning("OpenAIController: IQueryAPI component found on the game object, but is not ready to be used. Queries will be disabled.");
                         useQuery = false;
                     }
                 }
             }
+
+            StartConversation();
 
 
         }
@@ -136,7 +136,7 @@ namespace i5.VirtualAgents
             }
             catch (Exception ex)
             {
-                Debug.Log("An error occurred while trying to read OPENAI_API_KEY. This could be expected on some operating systems. Will try to read from JSON file now. " + ex.Message);
+                Debug.Log("An error occurred while trying to read OPENAI_API_KEY. This could be expected on some operating systems. Will try to read from JSON file now, see documentation." + ex.Message);
             }
 
             return apikey;
@@ -154,7 +154,7 @@ namespace i5.VirtualAgents
             }
             if (useQuery)
             {
-                systemMessage += " For each prompt answer the prompt as the guide and then add a SPARQL query that could retrieve information from Wikidata which would be beneficial to your answear. The RWTH Aachen is Q273263 in wikidata.";
+                systemMessage += " For each prompt answer the prompt as the guide and then add a " + queryAPI.QueryTypeName + " query that could retrieve information from " + queryAPI.ServiceName + " which would be beneficial to your answear. " + queryAPI.ExampleData + " Its very important that you write \"" + queryAPI.QueryTypeName + "-Query: \" in the row before each querie.";
             }
 
             Debug.Log("SystemMessage: " + systemMessage);
@@ -212,7 +212,7 @@ namespace i5.VirtualAgents
                 // Send the entire chat to OpenAI to get the next message
                 var chatResult = await api.CreateChatCompletion(new CreateChatCompletionRequest()
                 {
-                    Model = "gpt-3.5-turbo-1106",
+                    Model = model,
                     Temperature = 0.5f,
                     MaxTokens = 100,
                     Messages = messages
@@ -243,14 +243,14 @@ namespace i5.VirtualAgents
             //If there is a quere, process that query and ask the chat bot to incorporate the new information.
             if (query != null & query != "")
             {
-                string queryResult = await sparqlAPI.SparqlQueryToAPI(query);
+                string queryResult = await queryAPI.SendQueryToAPI(query);
                 //If request failed skip sending another message and just present normal answer
                 if (queryResult != "")
                 {
                     ChatMessage queryResultMessage = new()
                     {
                         Role = "system",
-                        Content = "The quere results is:\n" + queryResult + "Incorporate this new information in your answear. And don't include the querie again."
+                        Content = "The quere results is:\n" + queryResult + " Incorporate this new information in your answear. The last message has not been sent by the user so don't refere to it again."
                     };
                     if (queryResultMessage.Content.Length > 200)
                     {
@@ -267,7 +267,7 @@ namespace i5.VirtualAgents
                         // Send the entire chat to OpenAI to get the next message
                         var chatResult = await api.CreateChatCompletion(new CreateChatCompletionRequest()
                         {
-                            Model = "gpt-3.5-turbo-1106",
+                            Model = model,
                             Temperature = 0.9f,
                             MaxTokens = 100,
                             Messages = messages
@@ -288,7 +288,7 @@ namespace i5.VirtualAgents
 
                     responseMessage.Content = ExtractQueryFromMessage(responseMessage.Content)[1];
                     messages.Add(responseMessage);
-                } 
+                }
             }
             //Check for animation calls, play them and remove them from the message
             responseMessage.Content = CheckMessageForAnimationPromptsAndCallThem(responseMessage.Content);
@@ -301,22 +301,24 @@ namespace i5.VirtualAgents
         private string[] ExtractQueryFromMessage(string message)
         {
             Debug.Log("Extracting from: " + message);
-            // Get the SPARKL query from the message.
-            int splitIndex = message.IndexOf("SELECT");
+            string startingString = queryAPI.QueryTypeName + "-Query:";
+            // Get the query from the message.
+            int splitIndex = message.IndexOf(startingString);
             if (splitIndex < 0)
             {
+                Debug.Log("No query found.");
                 return new string[] { "", message };
             }
-            string text = message.Substring(0, splitIndex);
-            string sparqlQuery = message.Substring(splitIndex);
+            string text = message.Substring(0, splitIndex).Replace(queryAPI.QueryTypeName + "-Query:", "").Replace("SPARQL:", "").Replace("`", "").Replace("Query", "");
+            string query = message.Substring(splitIndex + startingString.Length);
 
-            // Remove any whitespace from the SPARKL query.
-            sparqlQuery = sparqlQuery.Trim().Replace("\n", " ").Replace("\r", " ").Replace("`", "");
-            Debug.Log("Extracted sparqlQuery: " + sparqlQuery);
+            // Remove any whitespace from the query.
+            query = query.Trim().Replace("\n", null).Replace("\r", null).Replace("```", "").Replace("´´´", ""); ;
+            Debug.Log("Extracted Query: " + query);
 
 
             // Return the SPARKL query.
-            return new string[] { sparqlQuery, text };
+            return new string[] { query, text };
         }
 
         private string CheckMessageForAnimationPromptsAndCallThem(string message)

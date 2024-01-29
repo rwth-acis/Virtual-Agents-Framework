@@ -558,16 +558,18 @@ MonoBehaviour:
   textField: {fileID: 1168599029}
   inputField: {fileID: 1676567223}
   okButton: {fileID: 1101662664}
-  systemMessage: You are an honorable, friendly guide of the RWTH Aachen University.    
-    You will teach students about the processes of the RWTH if they ask.
+  systemMessage: You are an honorable, friendly guide of the RWTH Aachen University.You
+    will teach students about the processes of the RWTH if they ask.
   startString: Hello! I am here to help you with any questions about the RWTH Aachen.
   costSaving: 1
   useQuery: 1
   doAnimation: 1
   agent: {fileID: 0}
-  useDummyMessage: 1
-  dummyMessage: "The RWTH Aachen has approximately 45,000 students. doWave() \r\n\r\nSELECT
-    ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2196 ?studentCount .\r\n}"
+  useDummyMessage: 0
+  dummyMessage: "The RWTH Aachen has approximately 45,000 students. doWave() \r\n\r\n
+    SPARQL-Query:\r\n SELECT ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2196 ?studentCount
+    .\r\n}"
+  model: gpt-3.5-turbo-1106
 --- !u!114 &323802896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1158,6 +1160,58 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 26.29, y: 0, z: 0}
+--- !u!1 &822938920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 822938922}
+  - component: {fileID: 822938921}
+  m_Layer: 0
+  m_Name: Documentation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &822938921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822938920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba2ac043a0776a4d846aaf6ba38a734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: 
+  description: "This scene demonstrates how a Agent can utelize a LLM to provide
+    helpful information to the player/user. The Virtual Agents Framework provides
+    a script to easily utelise the ChatGPT models provided by OpenAI. \n\nExplanation
+    of External Package\n\nExplanation of API\n\nExplanation of all the Options\n\nExplanation
+    of SPARQL\n\n\n\n\n"
+  type: 0
+  url: 
+--- !u!4 &822938922
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822938920}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.16, y: 4.3, z: -0.28}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &826273864
 GameObject:
   m_ObjectHideFlags: 0

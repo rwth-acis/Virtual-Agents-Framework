@@ -1,22 +1,35 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.Http.Headers;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using UnityEngine;
 
 namespace i5.VirtualAgents
 {
-    public class WikiDataAPI :  MonoBehaviour, ISparqlAPI
+    public class WikiDataAPI : MonoBehaviour, IQueryAPI
     {
+        [Tooltip("Query type name that will be provided to the LLM to build the a query with the correct syntax.")]
+        public string QueryTypeName { get; set; }
+        [Tooltip("Service name that will be provided to the LLM so that it could use datapoints known by the LLM.")]
+        public string ServiceName { get; set; }
+        [Tooltip("This example data can provided further examples for the LLM of how a query should look like, what the specifed service name offers or include additional ids of datapoints.")]
+        public string ExampleData { get; set; }
+
         [SerializeField]
-        [Tooltip("Please enter your email address here. This is required by the WikiData API to idetify spam.")]
+        [Tooltip("Please enter your email address here. This is required by the WikiData API to idetify spam, see Wikidata Query Service User Manuel SPARQL Endpoint.")]
         private string email = "";
         //https://www.mediawiki.org/wiki/Wikidata_Query_Service/User_Manual#SPARQL_endpoint
-        public async Task<string> SparqlQueryToAPI(string sparqlQuery)
+
+        public WikiDataAPI()
         {
-            if(email == ""){
+            QueryTypeName = "SPARQL";
+            ServiceName = "WikiData";
+            ExampleData = "The RWTH Aachen is Q273263 in wikidata.";
+        }
+        public async Task<string> SendQueryToAPI(string sparqlQuery)
+        {
+            if (email == "")
+            {
                 Debug.LogError("Please enter your email address in the wikiDataAPI script, that should be attached to the same GameObject as the OpenAIController.");
                 return "";
             }
@@ -50,7 +63,7 @@ namespace i5.VirtualAgents
                 }
             }
         }
-        public bool isReady()
+        public bool IsReady()
         {
             if (email == "")
             {
