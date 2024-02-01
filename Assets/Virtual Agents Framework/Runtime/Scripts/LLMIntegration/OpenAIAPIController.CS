@@ -7,6 +7,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
+using System.Threading;
+
+
+
 
 #if USE_OPENAI_API
 using OpenAI;
@@ -49,6 +54,9 @@ namespace i5.VirtualAgents
         public string dummyMessage = "The RWTH Aachen has approximately 45,000 students. doWave() \r\n\r\n SPARQL-Query:\r\n SELECT ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2196 ?studentCount .\r\n}";
         [Tooltip("Model of the ChatGPT AI that is uses, see OpenAI documentation for model names")]
         public string model = "gpt-3.5-turbo-1106";
+        [Tooltip("If true the response will be streamed, one word after another.")]
+        public bool streamResponse = false;
+        private CancellationTokenSource token = new CancellationTokenSource();
 #if !USE_OPENAI_API
         private void Start()
         {
@@ -77,7 +85,15 @@ namespace i5.VirtualAgents
                 api = new OpenAIApi(APIKey);
             }
 
-            okButton.onClick.AddListener(() => GetResponse());
+            if (!streamResponse)
+            {
+                okButton.onClick.AddListener(() => GetResponse());
+            }
+            else
+            {
+                okButton.onClick.AddListener(() => GetResponseStream());
+            }
+
 
             //If animations are used, check if responding components are existing
             if (doAnimation)
@@ -115,6 +131,20 @@ namespace i5.VirtualAgents
                         Debug.LogWarning("OpenAIController: IQueryAPI component found on the game object, but is not ready to be used. Queries will be disabled.");
                         useQuery = false;
                     }
+                }
+            }
+
+            if (streamResponse)
+            {
+                if (useQuery)
+                {
+                    Debug.LogWarning("OpenAIController: Stream response is not supported with queries. Will use normal response.");
+                    streamResponse = false;
+                }
+                if (doAnimation)
+                {
+                    Debug.LogWarning("OpenAIController: Stream response is not supported with animations. Will use normal response.");
+                    streamResponse = false;
                 }
             }
 
@@ -170,6 +200,8 @@ namespace i5.VirtualAgents
             textField.text = startString;
             Debug.Log(startString);
         }
+
+
 
         private async void GetResponse()
         {
@@ -319,6 +351,102 @@ namespace i5.VirtualAgents
 
             // Return the SPARKL query.
             return new string[] { query, text };
+        }
+
+        private void GetResponseStream()
+        {
+            //Check if there was an input
+            if (inputField.text.Length < 1)
+            {
+                return;
+            }
+
+            // Disable the OK button
+            okButton.enabled = false;
+
+            // Fill the user message from the input field
+            ChatMessage userMessage = new()
+            {
+                Role = "user",
+                Content = inputField.text
+            };
+            if (userMessage.Content.Length > 100)
+            {
+                // Limit messages to 100 characters
+                userMessage.Content = userMessage.Content[..100];
+            }
+            Debug.Log(string.Format("{0}: {1}", userMessage.Role, userMessage.Content));
+
+            // Add the message to the list
+            messages.Add(userMessage);
+
+            // Update the text field with the user message
+            textField.text = string.Format("You: {0}", userMessage.Content);
+
+            // Clear the input field
+            inputField.text = "";
+
+
+            ChatMessage responseMessage = new();
+
+            if (useDummyMessage == false)
+            {
+                // Send the entire chat to OpenAI to get the next message
+                api.CreateChatCompletionAsync(new CreateChatCompletionRequest()
+                {
+                    Model = model,
+                    Temperature = 0.5f,
+                    MaxTokens = 100,
+                    Messages = messages,
+                    Stream = true
+                }, HandleResponse, CompletionDone, token);
+
+            }
+            else
+            {
+                //Insert dummy message
+                responseMessage.Role = "assistant";
+                responseMessage.Content = dummyMessage;
+
+                //Split message into acutal message and included query
+                string[] splittedMessage = ExtractQueryFromMessage(responseMessage.Content);
+                responseMessage.Content = splittedMessage[1];
+                // Update the text field with the response
+                textField.text = responseMessage.Content;
+
+                Debug.Log(string.Format("{0}: {1}", responseMessage.Role, responseMessage.Content));
+
+                // Add the response to the list of messages
+                messages.Add(responseMessage);
+
+                // Re-enable the OK button
+                okButton.enabled = true;
+            }
+
+
+        }
+        private void HandleResponse(List<CreateChatCompletionResponse> responses)
+        {
+            Debug.Log(string.Join("", responses.Select(r => r.Choices[0].Delta.Content)));
+            textField.text = string.Join("", responses.Select(r => r.Choices[0].Delta.Content));
+
+        }
+        private void CompletionDone()
+        {
+            ChatMessage responseMessage = new();
+            responseMessage.Role = "assistant";
+            responseMessage.Content = textField.text;
+            Debug.Log(string.Format("{0}: {1}", responseMessage.Role, responseMessage.Content));
+
+            // Add the response to the list of messages
+            messages.Add(responseMessage);
+
+            // Re-enable the OK button
+            okButton.enabled = true;
+        }
+        private void OnDestroy()
+        {
+            token.Cancel();
         }
 
         private string CheckMessageForAnimationPromptsAndCallThem(string message)
