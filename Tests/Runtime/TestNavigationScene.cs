@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using System.Collections;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -31,7 +30,7 @@ namespace i5.VirtualAgents
             yield return new WaitForSeconds(65);
 
             var Waypoint = GameObject.Find("Waypoint3");
-            
+
             var vector3 = Agent.transform.position;
             var expected = Waypoint.transform.position;
             Assert.That(vector3, Is.EqualTo(expected).Using(new Vector3EqualityComparer(1f)));
