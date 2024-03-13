@@ -3,14 +3,15 @@
 After importing the package this page is meant to get you going and introduce basic functionality.
 
 ## Setting up the scene
-1. Have or add a ground to your scene that the agent will walk on, i.e. by right-clicking in thr hierarchy and selecting ``3D Object > Plane``.
+1. Have or add a ground to your scene that the agent will walk on, i.e. by right-clicking in the hierarchy and selecting ``3D Object > Plane``.
 2. Add the standard agent prefab from ``Packages/com.i5.virtualagents/Runtime/Prefabs/AgentStandard.prefab`` to the scene.
-3. Add a NavMesh Surface to the scene by right-clicking the hierarchy and selecting ``AI > NevMesh Surface``. 
-4. Select the NavMesh Surface and press on `Bake` to create the NavMesh Data. The NavMesh represents wher the agent can walk, so this has to be repeated after every change to the possible walking space of the agent.
+3. Add a NavMesh Surface to the scene by right-clicking the hierarchy and selecting ``AI > NavMesh Surface``. 
+4. Select the NavMesh Surface and press on `Bake` to create the NavMesh Data. The NavMesh represents where the agent can walk, so this has to be repeated after every change to the possible walking space of the agent.
 ## Adding Tasks to an agent
 1. Add an empty GameObject to the scene that will function as a controller object.
 2. Select the controller object and add a new script. This script will add different tasks to the agents schedule. We will call it ``ScheduleController``. To start, the script should look like this:
 
+```C#
         using UnityEngine;
         using i5.VirtualAgents;
         using i5.VirtualAgents.ScheduleBasedExecution;
@@ -30,7 +31,9 @@ After importing the package this page is meant to get you going and introduce ba
                 //...
             }
         }
-3. To add tasks for the agent multiple TaskActions are available, that can be used like this:
+```
+
+4. To add tasks for the agent multiple TaskActions are available, that can be used like this:
     ```taskSystem.Tasks.GoTo(Vector3.zero);```
 This line can be added in the ``Start()`` function to call it once or anywhere else in the Script.
 With ``GoTo(Vector3.zero)`` a walking Task is added to the agent, that will make him walk to the origin of the scene.
@@ -44,9 +47,9 @@ At this point it is recommended to take a look at the samples provided with the 
 4. On the right side, expand the samples section.
    Here, you can find a list of available examples.
 5. Click the import button to download the samples.
-   They are saved in your Assets folder in a folder "Samples/Virtual Agents Framework/1.2.1". Every sample provides one or more documentation object that explains how the scene and the functions behind that scene work, and also links to recommended manual pages here.
+   They are saved in your Assets folder in a folder ``Samples/Virtual Agents Framework/1.2.0``. Every sample provides one or more documentation object that explains how the scene and the functions behind that scene work, and also links to recommended manual pages here.
 
-Going from less to more complex, it is recommended to look at the samples in the following order: 
+Going from least to most complex, it is recommended to look at the samples in the following order: 
 1. Navigation Sample
 2. Wait Sample
 3. Dynamic Navigation Sample
