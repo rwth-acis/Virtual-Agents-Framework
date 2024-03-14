@@ -35,7 +35,7 @@ namespace i5.VirtualAgents
             // If a custom Prefab is defined by the user, use that one, otherwise use the default one
             if (customPrefabGuids.Length == 0)
             {
-                Debug.Log("Using default preset prefab. Optianally a prefab named \"CustomAgentWithoutModel\" based on the \"com.i5.virtualagents/Runtime/Prefabs/AgentWithoutModel.prefab\" can be used to modify all following imports. ");
+                Debug.Log("Using default preset prefab. Optionally a prefab named \"CustomAgentWithoutModel\" based on the \"com.i5.virtualagents/Runtime/Prefabs/AgentWithoutModel.prefab\" can be used to modify all following imports. ");
                 if (prefabGuids.Length == 0)
                 {
                     Debug.LogError("Prefab not found: " + prefabName);
@@ -115,7 +115,7 @@ namespace i5.VirtualAgents
             if (!selectedObject.TryGetComponent<Agent>(out _))
             {
                 selectedObject.name = "Failed" + selectedObject.name;
-                Debug.LogError("No agent component found. Please check that the CustomAgentWithoutModel prefab has an agent component.");
+                Debug.LogError("No agent component found. Please check that the CustomAgentWithoutModel prefab has an Agent component.");
                 return;
             }
             if (!selectedObject.TryGetComponent<Animator>(out var animator))
@@ -128,7 +128,7 @@ namespace i5.VirtualAgents
             if (animator.GetBoneTransform(HumanBodyBones.Hips) == null && animator.GetBoneTransform(HumanBodyBones.RightLowerArm) == null)
             {
                 selectedObject.name = "Failed" + selectedObject.name;
-                Debug.LogError("The Avatar " + animator.avatar.name + " doesn't fit the provided model. Please change the Avatar to the Avatar that comes with the Model, i.g. MaxculineAnimationAvatar.");
+                Debug.LogError("The Avatar " + animator.avatar.name + " doesn't fit the provided model. Please change the Avatar to the Avatar that comes with the Model, e.g. MasculineAnimationAvatar.");
             }
             else
             {
@@ -141,7 +141,7 @@ namespace i5.VirtualAgents
 
         private static void FixAnimationRiggingBasedOnAnimatoravatar(GameObject selectedObject, Animator animator)
         {
-            //Add correct Source Objects to MeshSockets
+            // Add correct Source Objects to MeshSockets
             WeightedTransform weightedTransform = new(animator.GetBoneTransform(HumanBodyBones.RightHand), 1.0f);
             selectedObject.transform.Find("AnimationRigging/MeshSockets/RightHandSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
             weightedTransform = new WeightedTransform(animator.GetBoneTransform(HumanBodyBones.LeftHand), 1.0f);
