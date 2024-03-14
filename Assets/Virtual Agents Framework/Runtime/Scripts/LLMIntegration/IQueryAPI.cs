@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace i5.VirtualAgents
+namespace i5.VirtualAgents.LLM
 {
     /// <summary>
     /// Interface that should be used to implement more query APIs, these could be offline or online

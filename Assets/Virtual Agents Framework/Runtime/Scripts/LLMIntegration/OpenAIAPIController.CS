@@ -17,11 +17,11 @@ using System.Threading;
 using OpenAI;
 #endif
 
-namespace i5.VirtualAgents
+namespace i5.VirtualAgents.LLM
 {
 
     /// <summary>
-    /// This script should be attached to an agent or any controller object to integrate chat GPT. If attached to an agent the chat bot can command animations.
+    /// This script should be attached to an agent or any controller object to integrate chatGPT. If attached to an agent the chat bot can command animations.
     /// Uses Text Field, Imput Field and Ok Button for Text message interaction.
     /// </summary>
     public class OpenAIController : MonoBehaviour
@@ -31,29 +31,58 @@ namespace i5.VirtualAgents
         public Button okButton;
 
         [Space(10)]
-
+        /// <summary>
+        /// How the chat agent should behave and what it has know.
+        /// </summary>
         [Tooltip("How the chat agent should behave and what it has know.")]
         public string systemMessage = "You are an honorable, friendly guide of the RWTH Aachen University.You will teach students about the processes of the RWTH if they ask.";
+        /// <summary>
+        /// How the chat bot should start the conservation.
+        /// </summary>
         [Tooltip("How the chat bot should start the conservation.")]
         public string startString = "Hello! I am here to help you with any questions about the RWTH Aachen.";
+        /// <summary>
+        /// Chat bot is told to keep responeses short and simple for cost saving.
+        /// </summary>
         [Tooltip("Chat bot is told to keep responeses short and simple for cost saving.")]
         public bool costSaving = true;
-
+        /// <summary>
+        /// Chat bot is told to generate a query that retrives relevant infromation.
+        /// </summary>
         [Tooltip("Chat bot is told to generate a query that retrives relevant infromation.")]
         public bool useQuery = true;
+        /// <summary>
+        /// Interface that is used to get information about the query language and evaluate the query.
+        /// </summary>
+        [Tooltip("Interface that is used to get information about the query language and evaluate the query.")]
         public IQueryAPI queryAPI;
+        /// <summary>
+        /// Chat bot is told to animate when appropriate
+        /// </summary>
 
         [Tooltip("Chat bot is told to animate when appropriate")]
         public bool doAnimation = true;
+        /// <summary>
+        /// The agent and its taskSystem that the animations are called on. Is automatically set to the agent on the game object if no agent is provided.
+        /// </summary>
         [Tooltip("The agent and its taskSystem that the animations are called on. Is automatically set to the agent on the game object if no agent is provided.")]
         public Agent agent = null;
         protected ScheduleBasedTaskSystem taskSystem;
         [Space(10)]
-        [Tooltip("Response will always be the dummyMessage instead of actually contacting the OpenAPI")]
+        /// <summary>
+        /// If true the response will always be the dummyMessage instead of actually contacting the OpenAPI
+        /// </summary>
+        [Tooltip("If true response will always be the dummyMessage instead of actually contacting the OpenAPI")]
         public bool useDummyMessage = true;
         public string dummyMessage = "The RWTH Aachen has approximately 45,000 students. doWave() \r\n\r\n SPARQL-Query:\r\n SELECT ?studentCount WHERE {\r\n  wd:Q273263 wdt:P2196 ?studentCount .\r\n}";
+        /// <summary>
+        /// Model of the ChatGPT AI that is uses, see OpenAI documentation for model names
+        /// </summary>
         [Tooltip("Model of the ChatGPT AI that is uses, see OpenAI documentation for model names")]
         public string model = "gpt-3.5-turbo-1106";
+        /// <summary>
+        /// If true the response will be streamed, one word after another.
+        /// </summary>
         [Tooltip("If true the response will be streamed, one word after another.")]
         public bool streamResponse = false;
         private CancellationTokenSource token = new CancellationTokenSource();
@@ -345,7 +374,7 @@ namespace i5.VirtualAgents
             string query = message.Substring(splitIndex + startingString.Length);
 
             // Remove any whitespace from the query.
-            query = query.Trim().Replace("\n", null).Replace("\r", null).Replace("```", "").Replace("´´´", ""); ;
+            query = query.Trim().Replace("\n", null).Replace("\r", null).Replace("```", "").Replace("ï¿½ï¿½ï¿½", ""); ;
             Debug.Log("Extracted Query: " + query);
 
 

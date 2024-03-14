@@ -14,6 +14,8 @@
       href: adaptive-gaze.md
     - name: Aiming and Pointing
       href: aiming.md
+    - name: OpenAI Integration
+      href: open-ai-integration.md
 - name: Customization
   items:
     - name: Adding Own Agent Models and Animations
