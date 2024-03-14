@@ -19,12 +19,12 @@ Usually, you do not need to worry about them but if you want your agent to be mo
 
 ## Setup in the Scene
 
-After finishing the setup, you can add the character to your scene. To configure the character correctly the Virtual Agents Framework provides an automatic import functionality.
+After finishing the setup, you can add the character to your scene. The character should now be similar to the standard agent's 3D model that the framework provides in `Virtual Agents Framework/Runtime/3D Models/AgentStandard.fbx`. To configure the character correctly to work as an agent the Virtual Agents Framework provides an automatic import functionality. After that your character should be similar to the prefab of the working standard agent that can be found in `Assets/Virtual Agents Framework/Runtime/Prefabs/AgentStandard.prefab`.
 
 Select the parent GameObject of your character in the scene and in the top menu of Unity click `Virtual Agents Framework` > `Custom Model Agent Import` > `Create Agent from Humanoid Model`.
 Now a GameObject called `AgentBasedOnCharacterObjectName` should be selected in the scene. The character is now ready to be used as an agent with all functionalities.
 
-The automatic import function uses an agent prefab without a model found at `Packages/com.i5.virtualagents/Runtime/Prefabs/AgentWithoutModel.prefab`. To make the import of multiple agents that all need the same changes easier, the `AgentWithoutModel.prefab` can be copied and named ``CustomAgentWithoutModel.prefab``. If that prefab is anywhere in the project the import function always uses the ``CustomAgentWithoutModel.prefab`` to configurate the new agents.
+The automatic import function uses an agent prefab without a model found at `Packages/com.i5.virtualagents/Runtime/Prefabs/AgentWithoutModel.prefab`. To make the import of multiple agents that all need the same changes easier, the `AgentWithoutModel.prefab` can be copied and named ``CustomAgentWithoutModel.prefab``. If that prefab is anywhere in the project the import function always uses the ``CustomAgentWithoutModel.prefab`` to configure the new agents.
 
 ## Optional: Adjust Animation Controller
 
