@@ -6,14 +6,14 @@ using UnityEngine.Animations.Rigging;
 namespace i5.VirtualAgents
 {
     /// <summary>
-    /// 
+    /// This script provides a menu item to create an agent from a humanoid model
     /// </summary>
     public class AgentImportMenu : EditorWindow
     {
 
 
         [MenuItem("Virtual Agents Framework/Custom Agent Model Import/Create Agent from Humanoid Model")]
-        public static void TurnAvataraIntoAgent()
+        public static void TurnAvatarIntoAgent()
         {
             // Get the selected GameObject
             GameObject selectedObject = Selection.activeGameObject;
@@ -86,13 +86,20 @@ namespace i5.VirtualAgents
                 if (animator.avatar != null)
                 {
                     Debug.Log("Using Animator avatar provided by the model. ");
+                    // Set the avatar to null to avoid problems when the new avatar is the same as the old one
+                    instantiatedPrefab.GetComponent<Animator>().avatar = null;
+                    // Making sure that the avatar was set to null and that the previous line was not optimized away by the compiler
+                    if (instantiatedPrefab.GetComponent<Animator>().avatar != null)
+                    {
+                        Debug.LogError("Avatar was not successfully set to null, this causes problems, when the new avatar is the same and result in Unity not updating the HumanBones correctly. ");
+                    }
                     instantiatedPrefab.GetComponent<Animator>().avatar = animator.avatar;
                 }
                 // Otherwise the default avatar thats specified in the prefab will be used
             }
             else
             {
-                Debug.LogWarning("No Animator component found. Using default animator. This is usally a problem. It is recommended to add a Animator Component with a fitting avatar, usually this happens automatically when importing the model into unity. ");
+                Debug.LogWarning("No Animator component found. Using default animator. This is usually a problem. It is recommended to add a Animator Component with a fitting avatar, usually this happens automatically when importing the model into unity. ");
             }
 
 
@@ -133,13 +140,13 @@ namespace i5.VirtualAgents
             else
             {
                 Debug.Log("The Avatar " + animator.avatar.name + " fits the provided model. Mesh Sockets and Animation Rigging will be set up according to that.");
-                FixAnimationRiggingBasedOnAnimatoravatar(selectedObject, animator);
+                FixAnimationRiggingBasedOnAnimatorAvatar(selectedObject, animator);
             }
 
         }
 
 
-        private static void FixAnimationRiggingBasedOnAnimatoravatar(GameObject selectedObject, Animator animator)
+        private static void FixAnimationRiggingBasedOnAnimatorAvatar(GameObject selectedObject, Animator animator)
         {
             // Add correct Source Objects to MeshSockets
             WeightedTransform weightedTransform = new(animator.GetBoneTransform(HumanBodyBones.RightHand), 1.0f);
@@ -166,7 +173,7 @@ namespace i5.VirtualAgents
 
             selectedObject.transform.Find("AnimationRigging/MeshSockets/HipsFrontRightSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
 
-            //TODO: The following changes only show up once in the inspector/editor and are not actually saved afterwards for yet unkown reasons. For now this is fixed by an automatic failsave in AgentPickUpTask which is computationally heavy  
+            //TODO: The following changes only show up once in the inspector/editor and are not actually saved afterwards for yet unknown reasons. For now this is fixed by an automatic failsafe in AgentPickUpTask which is computationally heavy  
             MeshSockets meshSockets = selectedObject.GetComponent<MeshSockets>();
             meshSockets.TwoBoneIKConstraintLeftArm.data.root = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
             meshSockets.TwoBoneIKConstraintLeftArm.data.mid = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
