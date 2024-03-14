@@ -604,6 +604,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   importance: 1
   canCurrentlyBeLookedAt: 1
+--- !u!4 &231601984 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2260048411347863196, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
+  m_PrefabInstance: {fileID: 1023428232005854918}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &264528167
 GameObject:
   m_ObjectHideFlags: 0
@@ -2045,7 +2050,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 75
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -2071,13 +2076,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1165018408}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.22875227, y: -0.6690833, z: 0.22875227, w: 0.6690833}
-  m_LocalPosition: {x: 22.72, y: 16.28, z: -0.42}
+  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
+  m_LocalPosition: {x: 0, y: 0.015, z: -0.015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 37.75, y: -90, z: 0}
+  m_Father: {fileID: 231601984}
+  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
 --- !u!1 &1264251850
 GameObject:
   m_ObjectHideFlags: 0
@@ -3720,14 +3725,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2260048411347863196, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 1165018411}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       insertIndex: 5
       addedObject: {fileID: 1023428232005854926}
-    - targetCorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1023428232005854991}
   m_SourcePrefab: {fileID: 100100000, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
 --- !u!114 &1023428232005854926
 MonoBehaviour:
@@ -3741,41 +3746,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afa2f315da5127e47a996e328f4ffff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1023428232005854991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1747714758}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88c1ed013dd3e92439b19c5c699179c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OverwriteGazeTarget: {fileID: 0}
-  detectionRadius: 5
-  maxNumberOfTargetsInRange: 50
-  detectionIntervalWhenIdle: 3
-  detectionIntervalWhenWalking: 0.5
-  chanceHighestRankedTarget: 0.5
-  chanceSecondHighestTarget: 0.1
-  chanceThirdHighestTarget: 0.1
-  chanceRandomTarget: 0.05
-  chanceIdleTarget: 0.25
-  lookSpeed: 2
-  seeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  occlusionLayers:
-    serializedVersion: 2
-    m_Bits: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1264251852}
-  - {fileID: 1165018411}
   - {fileID: 683335275}
   - {fileID: 1351748439}
   - {fileID: 52754176}
