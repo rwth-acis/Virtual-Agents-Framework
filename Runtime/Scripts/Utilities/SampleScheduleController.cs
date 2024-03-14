@@ -18,7 +18,7 @@ namespace i5.VirtualAgents.Examples
         {
             if (agent == null)
             {
-                Debug.LogError("No agent set in the inspector. Please set an agent or implement your own version of the SampleScheduleController to set agent in code.s");
+                Debug.LogError("No agent set in the inspector. Please set an agent or implement your own version of the SampleScheduleController to set agent in code.");
             }
             taskSystem = (ScheduleBasedTaskSystem)agent.TaskSystem;
         }
