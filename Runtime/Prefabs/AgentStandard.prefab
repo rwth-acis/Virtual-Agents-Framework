@@ -1866,7 +1866,7 @@ MonoBehaviour:
   lookSpeed: 2
   seeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   occlusionLayers:
     serializedVersion: 2
     m_Bits: 1
