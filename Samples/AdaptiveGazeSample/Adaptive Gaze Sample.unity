@@ -2596,7 +2596,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.11000001
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 29744cef21d8a924fa58fb6b46427a2c, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 96f04726b0e04cd459ab46305f7a15da, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &959590313
 Transform:
@@ -3935,7 +3935,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1351748437}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffaee846fa795884a9e5ff4b21d42163, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d2c4f55dff697b44a0eb2e098d737fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1747714761}
@@ -3945,7 +3945,7 @@ MonoBehaviour:
   - {fileID: 1546542925}
   - {fileID: 347327955}
   target: {fileID: 1567253471}
-  aimAtTime: 10
+  aimAtTime: 100
   useTaskActionsForAdaptiveGaze: 0
   overwriteAdaptiveGazeWithAimHead: 0
 --- !u!1 &1386483148
