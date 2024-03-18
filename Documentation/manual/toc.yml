@@ -8,8 +8,6 @@
       href: parallel-tasks.md
     - name: Items
       href: items.md
-    - name: Behavior Tree
-      href: behavior-tree.md
     - name: Adaptive Gaze
       href: adaptive-gaze.md
     - name: Aiming and Pointing
