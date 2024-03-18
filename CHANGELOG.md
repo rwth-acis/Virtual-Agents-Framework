@@ -5,19 +5,22 @@ This document keeps track of the changes between versions of the framework.
 ## 1.2.1 (2024-03-18)
 
 ### Added
-- Target transform property for forcing the agent to look at a given object
-- New tasks for gaze control
+- Quality of life enhancements regarding the AdaptiveGaze feature
+	- Start and Stop tasks
+	- Autonomous gaze behavior can be overwritten with a specific target object
 - Item pickup system now offers additional generic mesh sockets for less common item storage positions
-- Top menu in the Unity editor which allows developers to convert humanoid avatars to agents
+- Automatic import feature for humanoid 3D models to turn them into fully functional agents
+- Quick start guide introducing the first concepts and further documentation
 - Documentation example for importing ReadyPlayerMe avatars and converting them to agents
 
 ### Changes
+- Streamlined the setup process of a new agent
 - AI navigation package is now correctly defined in the package dependencies
 - Temporarily removed the behavior tree implementation so that compilations for devices work
 - Aiming during animation tasks now considers the animation length
 - Bone presets for aiming are not organized into own classes instead of string comparisons
 - Unit tests now ensure the functionality of the sample scenes
-- The quickstart guide in the documentation was revised
+- Documentation and sample scenes were updated
 
 ## 1.2.0 (2023-11-19)
 
