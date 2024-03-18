@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Quickstart-guide | Documentation of the Virtual Agents Framework </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Quickstart-guide | Documentation of the Virtual Agents Framework ">
+    <meta name="generator" content="docfx 2.59.2.0">
+    
+    <link rel="shortcut icon" href="../resources/Logos/Logo_whiteBg.svg">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../resources/Logos/Logo_whiteBg.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="quickstart-guide">Quickstart-guide</h1>
+
+<p>After importing the package this page is meant to get you going and introduce basic functionality.</p>
+<h2 id="setting-up-the-scene">Setting up the scene</h2>
+<ol>
+<li>Have or add a ground to your scene that the agent will walk on, i.e. by right-clicking in the hierarchy and selecting <code>3D Object &gt; Plane</code>.</li>
+<li>Add the standard agent prefab from <code>Packages/com.i5.virtualagents/Runtime/Prefabs/AgentStandard.prefab</code> to the scene.</li>
+<li>Add a NavMesh Surface to the scene by right-clicking the hierarchy and selecting <code>AI &gt; NavMesh Surface</code>. </li>
+<li>Select the NavMesh Surface and press on <code>Bake</code> to create the NavMesh Data. The NavMesh represents where the agent can walk, so this has to be repeated after every change to the possible walking space of the agent.
+## Adding Tasks to an agent</li>
+<li>Add an empty GameObject to the scene that will function as a controller object.</li>
+<li>Select the controller object and add a new script. This script will add different tasks to the agents schedule. We will call it <code>ScheduleController</code>. To start, the script should look like this:</li>
+</ol>
+<pre><code class="lang-C#">        using UnityEngine;
+        using i5.VirtualAgents;
+        using i5.VirtualAgents.ScheduleBasedExecution;
+        public class ScheduleController : MonoBehaviour
+        {
+            // The agent which is controlled by this controller, set in the inspector
+            public Agent agent;
+            // The taskSystem of the agent
+            protected ScheduleBasedTaskSystem taskSystem;
+
+            protected void Start()
+            {
+                // Get the task system of the agent
+                taskSystem = (ScheduleBasedTaskSystem)agent.TaskSystem;
+
+                //Add tasks below
+                //...
+            }
+        }
+</code></pre><ol>
+<li>To add tasks for the agent multiple TaskActions are available, that can be used like this:
+ <code>taskSystem.Tasks.GoTo(Vector3.zero);</code>
+This line can be added in the <code>Start()</code> function to call it once or anywhere else in the Script.
+With <code>GoTo(Vector3.zero)</code> a walking Task is added to the agent, that will make him walk to the origin of the scene.
+To find more explanations of different TaskActions and how tasks work generally see <a href="task-system.html#shortcuts">here</a>.</li>
+</ol>
+<h2 id="samples">Samples</h2>
+<p>At this point it is recommended to take a look at the samples provided with the package. To access them, follow these steps:</p>
+<ol>
+<li>In Unity, go to &quot;Window &gt; Package Manager&quot;.</li>
+<li>Make sure that the dropdown menu in the top left of the package manager window is set to &quot;Packages: In Project&quot;.</li>
+<li>Click on the entry for the Virtual Agents Framework in the list.</li>
+<li>On the right side, expand the samples section.
+Here, you can find a list of available examples.</li>
+<li>Click the import button to download the samples.
+They are saved in your Assets folder in a folder <code>Samples/Virtual Agents Framework/1.2.0</code>. Every sample provides one or more documentation object that explains how the scene and the functions behind that scene work, and also links to recommended manual pages here.</li>
+</ol>
+<p>Going from least to most complex, it is recommended to look at the samples in the following order: </p>
+<ol>
+<li>Navigation Sample</li>
+<li>Wait Sample</li>
+<li>Dynamic Navigation Sample</li>
+<li>Parallel Task Sample (<a href="parallel-tasks.html">manual page</a>)</li>
+<li>Aiming Sample (<a href="aiming.html">manual page</a>)</li>
+<li>Adaptive Gaze Sample (<a href="adaptive-gaze.html">manual page</a>)</li>
+<li>Item Pickup Sample (<a href="items.html">manual page</a>)</li>
+</ol>
+<h2 id="customization-of-agents">Customization of agents</h2>
+<p>To make the application look more appealing from the beginning custom agent models can be used, see <a href="own-agents.html">Adding Own Agent Models and Animations</a> for that.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/rwth-acis/Virtual-Agents-Framework/blob/develop/Documentation/manual/quickstart-guide.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Documentation of the Virtual Agents Framework
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
