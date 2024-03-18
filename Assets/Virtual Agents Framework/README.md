@@ -4,7 +4,7 @@
 
 A Unity package for creating virtual agents.
 
-![1.2.0](https://img.shields.io/badge/version-1.2.0-blue)
+![1.2.1](https://img.shields.io/badge/version-1.2.1-blue)
 
 [![openupm](https://img.shields.io/npm/v/com.i5.virtualagents?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.i5.virtualagents/)
 
@@ -37,7 +37,7 @@ After that, we can add the package in Unity's package manager window.
 6. Click the small plus button at the left top of the window.
    Select ""Add package by name..." or "Add package from git URL..." depending on your Unity version.
 7. Enter `com.i5.virtualagents` in the text field.
-8. If the package manager asks for a version number, enter the latest one, so `1.2.0`.
+8. If the package manager asks for a version number, enter the latest one, so `1.2.1`.
 9. Click the add button and wait for the download to finish.
 
 As an alternative to steps 7 - 8, the package should also be available in the list if you switch the dropdown next to the plus button from "Packages: Unity Registry" to "Packages: My Registries".
@@ -66,7 +66,7 @@ Integrate the following json string into the manifest.json file:
         }
     ],
     "dependencies": {
-        "com.i5.virtualagents": "1.2.0"
+        "com.i5.virtualagents": "1.2.1"
     }
 }
 ```
@@ -75,7 +75,7 @@ If your manifest.json file already contains a scopedRegistries array, make sure 
 If your scopedRegistries array already contains an entry with the name "package.openupm.com", just add the given scopes to that list.
 In that case, there is no need to create a second "package.openupm.com" entry.
 
-The entry `"com.i5.virtualagents": "1.2.0"` can be inserted anywhere in the dependencies object with the other installed packages that are already listed there.
+The entry `"com.i5.virtualagents": "1.2.1"` can be inserted anywhere in the dependencies object with the other installed packages that are already listed there.
 
 ### Alternative 3: Git Package
 
@@ -86,12 +86,16 @@ This step needs to happen first - otherwise there is an error message as Unity c
 
 1. In Unity, go to "Window > Package Manager" to open the package manager window.
 2. Click the plus button in the top left corner and select "Add package from git URL...".
-3. Enter https://github.com/rwth-acis/Virtual-Agents-Framework.git#[version] into the text field where [version] is replaced with "v", followed by the release number, e.g. "v1.2.0" or upm for the latest version.
+3. Enter https://github.com/rwth-acis/Virtual-Agents-Framework.git#[version] into the text field where [version] is replaced with "v", followed by the release number, e.g. "v1.2.1" or upm for the latest version.
    Confirm the download by clicking on the "add" button.
 
 If you specify "upm" to get the latest version, be aware that the package is not automatically updated and you will not be notified about updates automatically.
 This command just pulls the latest version which is available at that time.
 To update to the newest current version, remove the package again and re-download it.
+
+## Quickstart Guide
+
+As part of the documentation a quickstart guide can be found [here](https://rwth-acis.github.io/Virtual-Agents-Framework/1.2.1/manual/task-system.html).
 
 ## Documentation
 
@@ -106,7 +110,7 @@ To access them, follow these steps:
 4. On the right side, expand the samples section.
    Here, you can find a list of available examples.
 5. Click the import button to download the samples.
-   They are saved in your Assets folder in a folder "Samples/Virtual Agents Framework/1.2.0".
+   They are saved in your Assets folder in a folder "Samples/Virtual Agents Framework/1.2.1".
 
 Usually, each sample contains a sample scene as the starting point.
 Within the scene, there is a documentation object, indicated by an information icon.
@@ -126,6 +130,7 @@ All art assets (e.g. files located in the folders "3D Models" and "Animations" i
 - Danylo Bekhter
 - Sebastian Meinberger
 - David Terhürne
+- Lena Linke
 
 ### 3D Models & Animations:
 
