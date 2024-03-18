@@ -9,6 +9,8 @@ namespace i5.VirtualAgents
 {
     public class TestAgentReachingEndOfPath
     {
+#if !SAMPLES_PACKAGED
+
         [SetUp]
         public void Setup()
         {
@@ -141,5 +143,6 @@ namespace i5.VirtualAgents
 
             //TODO: Add more sample specific asserts 
         }
-    }
+#endif
+	}
 }
