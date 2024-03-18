@@ -20,7 +20,8 @@ Currently, the following tasks exist and can already be used:
 - <xref:i5.VirtualAgents.AgentTasks.AgentMovementTask>: Let the agent walk to a given location or follow an object dynamically
 - <xref:i5.VirtualAgents.AgentTasks.AgentWaitTask>: Let the agent wait for a specific amount of time
 - <xref:i5.VirtualAgents.AgentTasks.AgentPickUpTask>: Let the agent pickup an object next to them
-- <xref:i5.VirtualAgents.AgentTasks.AgentPickUpTask>: Let the agent drop an object or all objects that the agent is holding
+- <xref:i5.VirtualAgents.AgentTasks.AgentDropTask>: Let the agent drop an object or all objects that the agent is holding
+- <xref:i5.VirtualAgents.AgentTasks.AgentAdaptiveGazeTask>: Starts or stops the [adaptive gaze](adaptive-gaze.md) feature.
 ### Adding Own Tasks
 
 In addition to the pre-implemented tasks, developers can also add own tasks that implement the <xref:i5.VirtualAgents.AgentTasks.IAgentTask> interface.
@@ -73,5 +74,6 @@ Specifying a GameObject as an `aimTarget` for the animation, will start inverse 
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.PickUp*>: Pick up an item that is currently in reach of the agent, see [items](items.md) for more information
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoToAndPickUp*>: Schedules an GoTo Task that makes the agent walk to the item before trying to pick it up
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.DropItem*>: Drop the specified item if it is currently hold be the agent, if no item is specified, all items are dropped.
-
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoToAndDropItem*>: Schedules an GoTo Task that makes the agent walk to the specified coordinates or transform before dropping the specified item or all items, if no item is specified.
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.ActivateOrDeactivateAdaptiveGaze*>: Start or stops adaptive gazing until it is stopped or started again. This is realized with a task that only runs once. This also automatically adds a <xref:i5.VirtualAgents.AdaptiveGaze> component if the agent doesn't have one.
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StartAdaptiveGazeForTime*>: Schedule a task that starts adaptive gazing for the specified time and then deactivates it by scheduling a wait task between a start and stop task.

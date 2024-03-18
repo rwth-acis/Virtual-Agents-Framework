@@ -11,9 +11,23 @@ Currently, the following sockets are supported:
 
 1. `MeshSockets.SocketId.RightHand`
 2. `MeshSockets.SocketId.LeftHand`
-3. `MeshSockets.SocketId.Spine`
+3. `MeshSockets.SocketId.RightLowerArm`
+4. `MeshSockets.SocketId.LeftLowerArm`
+5. `MeshSockets.SocketId.RightUpperArm`
+6. `MeshSockets.SocketId.LeftUpperArm`
+7. `MeshSockets.SocketId.RightBack`
+8. `MeshSockets.SocketId.LeftBack`
+9. `MeshSockets.SocketId.HipsFrontLeft`
+10. `MeshSockets.SocketId.HipsFrontRight`
+11. `MeshSockets.SocketId.HipsBackLeft`
+12. `MeshSockets.SocketId.HipsBackRight`
+13. `MeshSockets.SocketId.LeftLowerArm`
+14. `MeshSockets.SocketId.AdditionalSocket1` to `MeshSockets.SocketId.AdditionalSocket10`
 
-When the LeftHand socket is selected a simple [inverse kinematics](https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.3/manual/constraints/TwoBoneIKConstraint.html) (IK) animation on the left hand will be played, for the Spine and RightHand socket, the animation will be played on the right hand.
+The position and rotation of existing sockets can be changed by modifying the corresponding game objects in the Agent Prefab under `Agent > AnimationRigging > MeshSockets`. Up to 10 additional Sockets can also be added there, by creating a new game object with a `Multi-Parent Constraint` and the <xref:i5.VirtualAgents.MeshSocket> component. In the <xref:i5.VirtualAgents.MeshSocket> component one of the 10 `MeshSockets.SocketId.AdditionalSocketX` can be selected and then also be used in the code.
+
+
+When the LeftHand or RightHand socket is selected a simple [inverse kinematics](https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.3/manual/constraints/TwoBoneIKConstraint.html) (IK) animation on the hand will be played, for all other sockets the animation will be played on the right hand.
 The item can also specify a <xref:i5.VirtualAgents.Item.GrabTarget>, this is where the IK animation will aim for and also what will we placed at the socket.
 The hand of the agent will also automatically be rotated towards the <xref:i5.VirtualAgents.Item.GrabTarget>.
 

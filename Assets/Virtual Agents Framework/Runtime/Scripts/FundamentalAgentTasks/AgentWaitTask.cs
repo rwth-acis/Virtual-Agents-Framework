@@ -44,7 +44,7 @@ namespace i5.VirtualAgents.AgentTasks
                 {
                     i5Debug.LogWarning($"Skipping waiting task as it was provided with a negative time of {WaitTimeInSeconds} seconds given.", this);
                 }
-                FinishTask();
+                FinishTaskAsFailed();
                 return;
             }
 

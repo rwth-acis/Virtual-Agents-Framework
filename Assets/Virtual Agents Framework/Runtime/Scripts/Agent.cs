@@ -30,7 +30,7 @@ namespace i5.VirtualAgents
             // If one of its implementations is enforced, it is harder to use one of the other implemetations.
             if (TaskSystem == null)
             {
-                Debug.LogWarning("Agent has no TaskSystem attached. Attach a component that inherits the TaskSystem class.");
+                Debug.LogWarning("Agent has no TaskSystem attached. Attach a component that inherits the TaskSystem class. For example the standard component called \"ScheduledBasedTaskSystem\".");
             }
         }
 

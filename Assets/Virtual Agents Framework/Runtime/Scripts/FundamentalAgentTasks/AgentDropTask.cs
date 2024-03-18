@@ -43,10 +43,10 @@ namespace i5.VirtualAgents.AgentTasks
             {
                 if (!DropObject.TryGetComponent<Item>(out var item))
                 {
-                    State = TaskState.Failure;
                     i5Debug.LogError($"The drop object {DropObject.name} does not have a Item component. " +
                         "Therefore, it cannot be dropped. Skipping this task.",
                         this);
+                    FinishTaskAsFailed();
                 }
                 DropOneItem(agent, item);
             }
