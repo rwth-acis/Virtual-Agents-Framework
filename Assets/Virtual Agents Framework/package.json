@@ -52,11 +52,6 @@
             "path": "Samples~/Aiming Sample"
         },
         {
-            "displayName": "Behavior Tree Sample",
-            "description": "Example scene where the agent's behavior is defined using the framework's behavior tree editor.",
-            "path": "Samples~/BehaviorTree"
-        },
-        {
             "displayName": "Dynamic Navigation Sample",
             "description": "Example scene where the agent follows to moving objects.",
             "path": "Samples~/DynamicNavigation"
