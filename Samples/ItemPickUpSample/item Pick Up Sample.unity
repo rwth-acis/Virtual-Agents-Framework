@@ -604,11 +604,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   importance: 1
   canCurrentlyBeLookedAt: 1
---- !u!4 &231601984 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2260048411347863196, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
-  m_PrefabInstance: {fileID: 1023428232005854918}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &264528167
 GameObject:
   m_ObjectHideFlags: 0
@@ -2076,12 +2071,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1165018408}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
-  m_LocalPosition: {x: 0, y: 0.015, z: -0.015}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.24218692, y: 0.000000029802319, z: 0.0000000074505797, w: 0.9702296}
+  m_LocalPosition: {x: 0, y: 2.5743885, z: -1.3028343}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 231601984}
+  m_Father: {fileID: 1023428232005854919}
   m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
 --- !u!1 &1264251850
 GameObject:
@@ -3726,14 +3721,19 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2260048411347863196, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
-      insertIndex: 0
+    - targetCorrespondingSourceObject: {fileID: 700674713753034054, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1165018411}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       insertIndex: 5
       addedObject: {fileID: 1023428232005854926}
   m_SourcePrefab: {fileID: 100100000, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
+--- !u!4 &1023428232005854919 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 700674713753034054, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
+  m_PrefabInstance: {fileID: 1023428232005854918}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1023428232005854926
 MonoBehaviour:
   m_ObjectHideFlags: 0
