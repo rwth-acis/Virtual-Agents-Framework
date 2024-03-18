@@ -1404,7 +1404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffafd52c2faa0834d8caee3c9a237a6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 4
+  waitTime: 8
   moveDistance: 3
 --- !u!1 &1735457798
 GameObject:
