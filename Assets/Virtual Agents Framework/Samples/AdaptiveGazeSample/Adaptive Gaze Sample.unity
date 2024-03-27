@@ -3538,9 +3538,9 @@ MonoBehaviour:
     the adaptive gaze at the beginning for a specified `AimAtTime`. Alternatively,
     while in play mode any object can be dragged into the `OverwriteGazeTarget` attribute
     of the adaptive gaze component to make the agent look at it constantly.\nThe
-    `AdaptiveGazeSampleController` also showes an example of how the Shortcut Taskactions
-    can be used to adaptiv gazin. Activate `useTaskActionsForAdaptiveGaze` to use
-    that example in playmode.\n\nTo enable this feature the following needs to be
+    `AdaptiveGazeSampleController` also shows an example of how the Shortcut Taskactions
+    can be used to start and stop adaptive gaze. Activate `useTaskActionsForAdaptiveGaze` to use
+    that example in Playmode.\n\nTo enable this feature the following needs to be
     configured:\n1. The agent needs a AdaptiveGaze component :\n1.2 Targets that
     can be looked at need to be on specific layers, specified in `seeLayers`\n1.3
     Objects that should obstruct the view of the agent need to be on specific layers,
@@ -3551,7 +3551,7 @@ MonoBehaviour:
     sense for the Target, if no target is added a standard collider will be added,
     see `ExampleOfAutoCollider` in the sample scene\n\nUse the scene view during
     play mode to inspect the scene freely while the agent is walking around.\nIf
-    Objects are changed in the szene: Select the GameObject \"NavMesh Surfave\" and
+    Objects are changed in the scene: Select the GameObject \"NavMesh Surface\" and
     bake the NavMesh again before running the scene."
   type: 0
   url: https://rwth-acis.github.io/Virtual-Agents-Framework/1.2.1/manual/adaptive-gaze.html

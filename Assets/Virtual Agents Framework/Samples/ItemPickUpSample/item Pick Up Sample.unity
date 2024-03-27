@@ -2119,7 +2119,7 @@ MonoBehaviour:
     (optional) A \"grapTarget\" can be defined, that's where the agent will move
     and attach its hand to, when picking the object up.\n\nUse the scene view during
     play mode to inspect the scene freely while the agent is walking around.\nIf
-    Objects are changed in the szene: Select the GameObject \"NavMesh Surface\" and
+    Objects are changed in the scene: Select the GameObject \"NavMesh Surface\" and
     bake the NavMesh again before running the scene."
   type: 0
   url: https://rwth-acis.github.io/Virtual-Agents-Framework/1.2.0/manual/items.html
