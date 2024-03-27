@@ -14,6 +14,7 @@ namespace InternalTools
         static void RenameForRelease()
         {
             Directory.Move(path + "/Samples", path + "/Samples~");
+            Directory.Delete(path + "/Samples~.meta");
             AssetDatabase.Refresh();
         }
         [MenuItem("Virtual Agents Framework/Rename sample~ to sample")]
