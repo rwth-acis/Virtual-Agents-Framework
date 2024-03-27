@@ -94,7 +94,7 @@ namespace i5.VirtualAgents
             var Agent = GameObject.Find("AgentStandard");
             Assert.That(Agent, Is.Not.Null);
 
-            yield return new WaitForSeconds(50);
+            yield return new WaitForSeconds(25);
 
             //TODO: Add more sample specific asserts 
         }

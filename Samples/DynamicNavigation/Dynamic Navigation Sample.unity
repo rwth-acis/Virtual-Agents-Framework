@@ -1146,8 +1146,8 @@ MonoBehaviour:
     around.
 
 
-    If Objects are changed in the szene: Select the GameObject "NavMesh
-    Surfave" and bake the NavMesh again before running the scene.'
+    If Objects are changed in the scene: Select the GameObject "NavMesh
+    Surface" and bake the NavMesh again before running the scene.'
   type: 0
   url: 
 --- !u!4 &1264251852
