@@ -9,18 +9,17 @@ namespace InternalTools
 {
     public class PackageExporter: EditorWindow
     {
+        static string path = "Assets/Virtual Agents Framework";
         [MenuItem("Virtual Agents Framework/Rename sample to sample~")]
         static void RenameForRelease()
         {
-            string path = "Assets/Virtual Agents Framework";
-            Debug.Log(AssetDatabase.RenameAsset(path + "/Samples", "Samples~"));
+            Directory.Move(path + "/Samples", path + "/Samples~");
+            AssetDatabase.Refresh();
         }
         [MenuItem("Virtual Agents Framework/Rename sample~ to sample")]
         static void RenameForDevelopment()
         {
-            
-            string path = "Assets/Virtual Agents Framework";
-            Directory.Move(path + "/Samples~", path + "/Samples");
+             Directory.Move(path + "/Samples~", path + "/Samples");
             AssetDatabase.Refresh();
         }
 
