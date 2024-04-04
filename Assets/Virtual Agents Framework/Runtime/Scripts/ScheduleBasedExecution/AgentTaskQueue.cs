@@ -82,6 +82,8 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         {
             public IAgentTask task;
             public int priority;
+            // May be null if the task is not part of a bundle
+            public TaskBundle taskBundle;
         }
     }
 
