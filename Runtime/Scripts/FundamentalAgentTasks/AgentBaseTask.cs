@@ -53,14 +53,14 @@ namespace i5.VirtualAgents.AgentTasks
 
         public virtual void FinishTask()
         {
-            PreemptivelySuccedTask();
+            StopAsSucceeded();
             IsFinished = true;
             DependsOnTasks.Clear();
         }
 
         public virtual void FailTask()
         {
-            PreemptivelyFailTask();
+            StopAsFailed();
             IsFinished = true;
             DependsOnTasks.Clear();
         }

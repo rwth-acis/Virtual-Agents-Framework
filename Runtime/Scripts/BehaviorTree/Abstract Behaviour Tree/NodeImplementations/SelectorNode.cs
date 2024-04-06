@@ -17,7 +17,7 @@ namespace i5.VirtualAgents.BehaviourTrees
 
         public override void StartExecution(Agent executingAgent)
         {
-            base.Execute(executingAgent);
+            base.StartExecution(executingAgent);
             current = 0;
         }
 

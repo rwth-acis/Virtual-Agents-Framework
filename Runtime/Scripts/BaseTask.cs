@@ -91,7 +91,7 @@ namespace i5.VirtualAgents
         {
             if (State == TaskState.Running)
             {
-                Stop();
+                StopExecution();
             }
             State = TaskState.Waiting;
         }

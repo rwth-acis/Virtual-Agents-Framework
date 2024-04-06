@@ -13,21 +13,21 @@ namespace i5.VirtualAgents.AgentTasks
             return TaskState.Success;
         }
 
-        public override void Execute(Agent executingAgent)
+        public override void StartExecution(Agent executingAgent)
         {
-            base.Execute(executingAgent);
+            base.StartExecution(executingAgent);
             switch (Check())
             {
                 case TaskState.Success:
-                    PreemptivelySuccedTask();
+                    StopAsSucceeded();
                     break;
                 case TaskState.Failure:
-                    PreemptivelyFailTask();
+                    StopAsFailed();
                     break;
             }
         }
 
-        public override TaskState Update()
+        public override TaskState EvaluateTaskState()
         {
             // Check is still pending, repeate it.
             return Check();

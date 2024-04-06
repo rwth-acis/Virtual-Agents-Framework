@@ -9,9 +9,9 @@ namespace i5.VirtualAgents.BehaviourTrees
     public class InverterNode : DecoratorNode, ISerializable
     {
 
-        public override TaskState Update()
+        public override TaskState EvaluateTaskState()
         {
-            switch (Child.FullUpdate(executingAgent))
+            switch (Child.Tick(executingAgent))
             {
                 // When not finished, just pass state through
                 case TaskState.Waiting:

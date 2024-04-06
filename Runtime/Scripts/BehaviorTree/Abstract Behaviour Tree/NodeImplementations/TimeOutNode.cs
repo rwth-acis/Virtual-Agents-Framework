@@ -13,9 +13,9 @@ namespace i5.VirtualAgents.BehaviourTrees
         private Coroutine timeOutRoutine;
 
 
-        public override TaskState Update()
+        public override TaskState EvaluateTaskState()
         {
-            TaskState state = Child.FullUpdate(executingAgent);
+            TaskState state = Child.Tick(executingAgent);
             if (state == TaskState.Success || state == TaskState.Failure)
             {
                 // Task finished faster than the timeout time, stop routine to prevent the task from being stopped multiple times
@@ -24,9 +24,9 @@ namespace i5.VirtualAgents.BehaviourTrees
             return state;
         }
 
-        public override void Execute(Agent executingAgent)
+        public override void StartExecution(Agent executingAgent)
         {
-            base.Execute(executingAgent);
+            base.StartExecution(executingAgent);
             if (timeOutRoutine != null)
             {
                 executingAgent.StopCoroutine(timeOutRoutine);
@@ -38,7 +38,7 @@ namespace i5.VirtualAgents.BehaviourTrees
         private IEnumerator TimeOut(float timeInSeconds)
         {
             yield return new WaitForSeconds(timeInSeconds);
-            PreemptivelyFailTask();
+            StopAsFailed();
         }
 
         public void Deserialize(SerializationDataContainer serializer)

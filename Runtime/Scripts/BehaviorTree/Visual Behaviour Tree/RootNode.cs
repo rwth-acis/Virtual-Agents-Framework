@@ -4,9 +4,9 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
 {
     public class RootNode : DecoratorNode, IRootNode, ISerializable
     {
-        public override TaskState Update()
+        public override TaskState EvaluateTaskState()
         {
-            return Child.FullUpdate(executingAgent);
+            return Child.Tick(executingAgent);
         }
 
         public void Deserialize(SerializationDataContainer serializer)

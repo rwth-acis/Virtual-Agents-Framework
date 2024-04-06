@@ -8,9 +8,9 @@ namespace i5.VirtualAgents.BehaviourTrees
     /// </summary>
     public class AlwaysSucceedNode : DecoratorNode, ISerializable
     {
-        public override TaskState Update()
+        public override TaskState EvaluateTaskState()
         {
-            TaskState childState = Child.FullUpdate(executingAgent);
+            TaskState childState = Child.Tick(executingAgent);
             if (childState == TaskState.Failure)
             {
                 return TaskState.Success;
