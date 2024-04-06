@@ -28,7 +28,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// Starts the execution of the task; starts the animation
         /// </summary>
         /// <param name="agent">The agent on which the task is executed</param>
-        public override void Execute(Agent agent)
+        public override void StartExecution(Agent agent)
         {
             animator = agent.GetComponent<Animator>();
             animator.SetTrigger(startTrigger);
@@ -38,7 +38,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// <summary>
         /// Stops the animation
         /// </summary>
-        public override void Stop()
+        public override void StopExecution()
         {
             animator.SetTrigger(stopTrigger != "" ? stopTrigger : startTrigger);
         }

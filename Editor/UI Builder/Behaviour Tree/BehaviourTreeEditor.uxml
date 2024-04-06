@@ -9,7 +9,7 @@
             <i5.VirtualAgents.Editor.BehaviourTrees.InspectorView />
         </ui:VisualElement>
         <ui:VisualElement name="right_panel">
-            <ui:Label text="&#10;&lt;size=30&gt;&#10;Select a Behaviour Tree&#10;in the Project Window &lt;/size&gt;" display-tooltip-when-elided="true" name="treeViewOccludeLabel" style="height: 193px; width: 451px; flex-direction: column; left: auto; top: auto; right: auto; bottom: auto; position: relative;" />
+            <ui:Label text="Select a Behaviour Tree&#10;in the Project Window" display-tooltip-when-elided="true" name="treeViewOccludeLabel" style="height: 193px; width: 451px; flex-direction: column; left: auto; top: auto; right: auto; bottom: auto; position: relative;" />
             <i5.VirtualAgents.Editor.BehaviourTrees.BehaviourTreeView focusable="true" style="flex-grow: 1;" />
         </ui:VisualElement>
     </i5.VirtualAgents.Editor.SplitView>

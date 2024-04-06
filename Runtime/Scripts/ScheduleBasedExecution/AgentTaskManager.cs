@@ -135,7 +135,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
                     RequestNextTask(); // request new tasks
                     break;
                 case TaskManagerState.busy:
-                    TaskState taskState = CurrentTask.FullUpdate(ExecutingAgent); // perform frame-to-frame updates required by the current task
+                    TaskState taskState = CurrentTask.Tick(ExecutingAgent); // perform frame-to-frame updates required by the current task
                     if (taskState == TaskState.Success || taskState == TaskState.Failure)
                     {
                         CurrentState = TaskManagerState.idle;

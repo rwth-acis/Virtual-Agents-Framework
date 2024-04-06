@@ -7,7 +7,7 @@ using UnityEditor;
 namespace i5.VirtualAgents.AgentTasks
 {
     /// <summary>
-    /// Allows a task be be serialized. Neccesarry in order to use them with the visual Behaviour Tree editor.
+    /// Allows a task be be serialized. Neccessary in order to use them with the visual Behaviour Tree editor.
     /// </summary>
     public interface ISerializable
     {

@@ -9,7 +9,7 @@ namespace i5.VirtualAgents.Examples
         public List<Transform> waypoints;
         public Transform highPrioWaypoint;
 
-        public override void Start()
+        protected override void Start()
         {
             base.Start();
             // add walking tasks for each waypoint

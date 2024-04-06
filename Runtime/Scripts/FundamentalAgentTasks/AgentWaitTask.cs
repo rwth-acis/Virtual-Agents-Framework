@@ -30,9 +30,9 @@ namespace i5.VirtualAgents.AgentTasks
         /// Called by the agent
         /// </summary>
         /// <param name="agent">The agent which executes this task</param>
-        public override void Execute(Agent agent)
+        public override void StartExecution(Agent agent)
         {
-            base.Execute(agent);
+            base.StartExecution(agent);
 
             if (WaitTimeInSeconds <= 0)
             {

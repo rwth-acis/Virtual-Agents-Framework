@@ -12,7 +12,7 @@ namespace i5.VirtualAgents.Examples
         public Transform highPrioWaypoint;
         public bool useTaskShortcuts;
 
-        public override void Start()
+        protected override void Start()
         {
             base.Start();
 

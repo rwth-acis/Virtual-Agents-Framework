@@ -10,7 +10,7 @@ namespace i5.VirtualAgents.Examples
         public Agent agent;
         protected ScheduleBasedTaskSystem taskSystem;
 
-        public virtual void Start()
+        protected virtual void Start()
         {
             taskSystem = (ScheduleBasedTaskSystem)agent.TaskSystem;
         }

@@ -24,7 +24,7 @@ namespace i5.VirtualAgents
         private void Awake()
         {
             Animator = GetComponent<Animator>();
-            TaskSystem = GetComponent<ScheduleBasedExecution.TaskSystem>();
+            TaskSystem = GetComponent<TaskSystem>();
             // Since there are multiple TaskSystems, enforcing one with RequireComponent is not advisable.
             // If the parent class TaskSystem is enforced, an agent will automatically get a component that implemenets no own functionallity, that can not easily be deleted and that can be confused with the actual task system.
             // If one of its implementations is enforced, it is harder to use one of the other implemetations.

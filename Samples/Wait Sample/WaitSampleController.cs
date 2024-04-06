@@ -8,7 +8,7 @@ namespace i5.VirtualAgents.Examples
     {
         public Transform[] waypoints;
 
-        public override void Start()
+        protected override void Start()
         {
             base.Start();
             taskSystem.Tasks.GoTo(waypoints[0]);

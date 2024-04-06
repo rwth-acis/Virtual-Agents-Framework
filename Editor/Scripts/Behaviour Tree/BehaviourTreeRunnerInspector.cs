@@ -18,7 +18,7 @@ namespace i5.VirtualAgents.Editor
         private VisualElement inspector;
 
         // The property fields used to display the propertys of the currently selected node
-        private List<PropertyField> propertyFieldsForCurrendNode = new List<PropertyField>();
+        private List<PropertyField> propertyFieldsForCurrentNode = new List<PropertyField>();
 
         public override VisualElement CreateInspectorGUI()
         {
@@ -35,7 +35,7 @@ namespace i5.VirtualAgents.Editor
             behaviourTreeView.OnNodeSelect = OnNodeSelectionChanged; // Register callback on node select in order to display the corrsponding property fields for the node
             BehaviorTreeAsset tree = (target as BehaviorTreeRunner).Tree;
 
-            void setupNewTree(BehaviorTreeAsset tree)
+            void SetupNewTree(BehaviorTreeAsset tree)
             {
                 if (tree != null)
                 {
@@ -44,12 +44,12 @@ namespace i5.VirtualAgents.Editor
                 }
             }
 
-            setupNewTree(tree);
+            SetupNewTree(tree);
 
 
             // Setup tree when a new one is selected
             PropertyField treePropertyField = inspector.Query<PropertyField>("tree");
-            treePropertyField.RegisterValueChangeCallback( (x) => setupNewTree(x.changedProperty.objectReferenceValue as BehaviorTreeAsset) );
+            treePropertyField.RegisterValueChangeCallback( (x) => SetupNewTree(x.changedProperty.objectReferenceValue as BehaviorTreeAsset) );
 
             // Return the finished inspector UI
             return inspector;
@@ -80,11 +80,11 @@ namespace i5.VirtualAgents.Editor
             // Create Property fields for the overwrite data
 
             // Clear old property fields
-            foreach (var propertyField in propertyFieldsForCurrendNode)
+            foreach (var propertyField in propertyFieldsForCurrentNode)
             {
                 propertyField.RemoveFromHierarchy();
             }
-            propertyFieldsForCurrendNode.Clear();
+            propertyFieldsForCurrentNode.Clear();
 
             // Create new ones for current node data
             VisualNode targetNode = view.node;
@@ -234,7 +234,7 @@ namespace i5.VirtualAgents.Editor
             field.label = targetNode.Data.GetKeyByIndex(counter, type);
             field.BindProperty(serializedObject);
             inspector.Add(field);
-            propertyFieldsForCurrendNode.Add(field);
+            propertyFieldsForCurrentNode.Add(field);
             counter++;
         }
     }
