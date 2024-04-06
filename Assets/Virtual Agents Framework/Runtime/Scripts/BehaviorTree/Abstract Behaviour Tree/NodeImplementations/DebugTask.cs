@@ -13,7 +13,7 @@ namespace i5.VirtualAgents.AgentTasks
     {
         public string message = "Debug task executed";
 
-        public override void Execute(Agent agent)
+        public override void StartExecution(Agent agent)
         {
             Debug.Log(message);
             FinishTask();

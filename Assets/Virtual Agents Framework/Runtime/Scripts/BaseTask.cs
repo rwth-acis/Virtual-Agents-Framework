@@ -14,7 +14,7 @@ namespace i5.VirtualAgents
         /// Performs frame-to-frame task execution updates
         /// This is e.g. useful for tracking movements towards a target and determinig when the agent has reached the target
         /// </summary>
-        public virtual TaskState Update()
+        public virtual TaskState EvaluateTaskState()
         {
             return State;
         }
@@ -24,7 +24,7 @@ namespace i5.VirtualAgents
         /// Starts the task's execution
         /// </summary>
         /// <param name="agent">The agent which should execute this task</param>
-        public virtual void Execute(Agent executingAgent)
+        public virtual void StartExecution(Agent executingAgent)
         {
             this.executingAgent = executingAgent;
         }
@@ -32,27 +32,27 @@ namespace i5.VirtualAgents
         /// <summary>
         /// Called when the task succeedes or fails
         /// </summary>
-        public virtual void Stop() { }
+        public virtual void StopExecution() { }
 
         /// <summary>
         /// Can be used to fail the task outside of its Update method
         /// </summary>
-        public void PreemptivelyFailTask()
+        public void StopAsFailed()
         {
             State = TaskState.Failure;
-            Stop();
+            StopExecution();
         }
 
         /// <summary>
         /// Can be used to let the task succseed outside of its Update method
         /// </summary>
-        public void PreemptivelySuccedTask()
+        public void StopAsSucceeded()
         {
             State = TaskState.Success;
-            Stop();
+            StopExecution();
         }
 
-        public TaskState FullUpdate(Agent excutingAgent)
+        public TaskState Tick(Agent excutingAgent)
         {
             //Is the task already finished?
             if (State == TaskState.Success || State == TaskState.Failure)
@@ -64,7 +64,7 @@ namespace i5.VirtualAgents
             if (State == TaskState.Waiting)
             {
                 State = TaskState.Running;
-                Execute(excutingAgent);
+                StartExecution(excutingAgent);
                 //Check if the task already finished, in the Execute()
                 if (State == TaskState.Success || State == TaskState.Failure)
                 {
@@ -72,13 +72,13 @@ namespace i5.VirtualAgents
                 }
             }
 
-            State = Update();
+            State = EvaluateTaskState();
 
 
             //Check if the task finished in the last Update()
             if (State == TaskState.Success || State == TaskState.Failure)
             {
-                Stop();
+                StopExecution();
             }
 
             return State;

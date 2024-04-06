@@ -6,10 +6,10 @@ namespace i5.VirtualAgents
 {
     public enum TaskState
     {
-        Waiting, //Task created, but never executed
-        Running, //Task currently running
-        Failure,
-        Success
+        Waiting, // Task created, but never executed
+        Running, // Task currently running
+        Failure, // Task has finished executing and failed
+        Success  // Task has finished executing and succeeded
     }
 
     /// <summary>
@@ -23,30 +23,29 @@ namespace i5.VirtualAgents
         TaskState State { get; set; }
 
         /// <summary>
-        /// Called by the executing agent on running tasks
-        /// Performs frame-to-frame task execution updates
-        /// This is e.g. useful for tracking movements towards a target and determinig when the agent has reached the target
+        /// Evaluates the task's current state
         /// </summary>
-        TaskState Update();
+        TaskState EvaluateTaskState();
 
         /// <summary>
         /// Gets the reference to the agent which will execute this task
         /// Starts the task's execution
         /// </summary>
         /// <param name="agent">The agent which should execute this task</param>
-        void Execute(Agent executingAgent);
+        void StartExecution(Agent executingAgent);
 
         /// <summary>
         /// Called when the task succeedes or fails
         /// </summary>
-        void Stop();
+        void StopExecution();
 
         /// <summary>
-        /// Updates the State and automatically invokes Execute() on first update and Stop() when task succeeds/fails.
+        /// Updates the State and automatically invokes StartExecution() on first update and StopExeuction() when task succeeds/fails.
         /// </summary>
         /// <param name="excutingAgent"></param>
         /// <returns></returns>
-        TaskState FullUpdate(Agent excutingAgent);
+
+        TaskState Update(Agent excutingAgent);
 
         /// <summary>
         /// Resets the task to its beginning state

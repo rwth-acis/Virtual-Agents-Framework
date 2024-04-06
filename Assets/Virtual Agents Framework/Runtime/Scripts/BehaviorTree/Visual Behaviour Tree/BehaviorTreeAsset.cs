@@ -100,7 +100,7 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             return root;
         }
 
-        // Generates recursivly the abstract childs for the given graphical node and connects them
+        // Recursively generates the abstract childs for the given graphical node and connects them
         private void ConnectAbstractTree(VisualNode node, ITask abstractNode, NodesOverwriteData nodesOverwriteData)
         {
             // Sort the children by there height in order to execute higher children first
