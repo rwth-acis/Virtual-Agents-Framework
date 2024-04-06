@@ -13,15 +13,15 @@ namespace i5.VirtualAgents.AgentTasks
         public BehaviorTreeAsset tree;
         private ITask root;
 
-        public override void Execute(Agent executingAgent)
+        public override void StartExecution(Agent executingAgent)
         {
-            base.Execute(executingAgent);
+            base.StartExecution(executingAgent);
             root = tree.GetExecutableTree();
         }
 
-        public override TaskState Update()
+        public override TaskState EvaluateTaskState()
         {
-            return root.FullUpdate(executingAgent);
+            return root.Tick(executingAgent);
         }
 
         public void Deserialize(SerializationDataContainer serializer)

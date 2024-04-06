@@ -12,9 +12,9 @@ namespace i5.VirtualAgents.BehaviourTrees
         private ITask randomTask;
         List<float> probabilities = new List<float>();
 
-        public override void Execute(Agent executingAgent)
+        public override void StartExecution(Agent executingAgent)
         {
-            base.Execute(executingAgent);
+            base.StartExecution(executingAgent);
             UnityEngine.Random.InitState(DateTime.Now.Millisecond);
             if (probabilities.Count == 0)
             {
@@ -48,9 +48,9 @@ namespace i5.VirtualAgents.BehaviourTrees
             }
         }
 
-        public override TaskState Update()
+        public override TaskState EvaluateTaskState()
         {
-            return randomTask.FullUpdate(executingAgent);
+            return randomTask.Tick(executingAgent);
         }
 
         public void Deserialize(SerializationDataContainer serializer)

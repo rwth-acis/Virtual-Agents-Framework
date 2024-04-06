@@ -14,10 +14,10 @@ namespace i5.VirtualAgents.AgentTasks
         private bool allowPartialPaths;
 
 
-        public override void Execute(Agent executingAgent)
+        public override void StartExecution(Agent executingAgent)
         {
             navMeshAgent = executingAgent.GetComponent<NavMeshAgent>();
-            base.Execute(executingAgent);
+            base.StartExecution(executingAgent);
         }
 
         /// <summary>

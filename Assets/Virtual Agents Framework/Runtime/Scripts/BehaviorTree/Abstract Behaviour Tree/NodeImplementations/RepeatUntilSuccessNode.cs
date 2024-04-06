@@ -12,15 +12,15 @@ namespace i5.VirtualAgents.BehaviourTrees
         private int RepeatLimit;
         private int repeatCount;
 
-        public override void Execute(Agent executingAgent)
+        public override void StartExecution(Agent executingAgent)
         {
-            base.Execute(executingAgent);
+            base.StartExecution(executingAgent);
             repeatCount = 0;
         }
 
-        public override TaskState Update()
+        public override TaskState EvaluateTaskState()
         {
-            switch (Child.FullUpdate(executingAgent))
+            switch (Child.Tick(executingAgent))
             {
                 case TaskState.Waiting:
                     return TaskState.Waiting;
