@@ -44,6 +44,12 @@ namespace i5.VirtualAgents
         /// </summary>
         /// <param name="excutingAgent"></param>
         /// <returns></returns>
+
         TaskState Tick(Agent excutingAgent);
+
+        /// <summary>
+        /// Resets the task to its beginning state
+        /// </summary>
+        void Reset();
     }
 }
