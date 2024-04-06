@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using i5.VirtualAgents.ScheduleBasedExecution;
 using i5.VirtualAgents.AgentTasks;
 using System;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 namespace i5.VirtualAgents.BehaviourTrees.Visual
 {
@@ -19,6 +17,7 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         public List<VisualNode> Nodes = new List<VisualNode>();
         public event Action CreatedAndNamed;
 
+#if UNITY_EDITOR
         private void OnEnable()
         {
             AddRoot();
@@ -36,7 +35,7 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             node.Guid = GUID.Generate().ToString();
             node.SetSerializedType(baseTask);
             Nodes.Add(node);
-            AssetDatabase.AddObjectToAsset(node,this);
+            AssetDatabase.AddObjectToAsset(node, this);
             return node;
         }
 
@@ -82,11 +81,12 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             }
             AssetDatabase.RemoveObjectFromAsset(nodeToDelete);
         }
+#endif
 
         /// <summary>
         /// Generates an abstract copy of the tree that is executable through the root nodes FullUpdate() function
         /// </summary>
-        /// <returns></returns>
+        /// <returns> </returns>
         public ITask GetExecutableTree(NodesOverwriteData nodesOverwriteData = null)
         {
             rootNode = Nodes[0];
