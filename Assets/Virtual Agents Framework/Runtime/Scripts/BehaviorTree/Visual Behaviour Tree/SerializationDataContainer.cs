@@ -56,7 +56,7 @@ namespace i5.VirtualAgents.AgentTasks
                     return entry.Value;
                 }
             }
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException(key + " has not been deserialize before.");
         }
 
         public SerializationEntry<T> Get(int index)
