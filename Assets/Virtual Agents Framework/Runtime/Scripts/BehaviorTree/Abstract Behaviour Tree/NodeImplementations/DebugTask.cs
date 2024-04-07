@@ -6,22 +6,27 @@ using UnityEngine;
 
 namespace i5.VirtualAgents.AgentTasks
 {
-    // Displays a message in the debug log on execution
+    /// <summary>
+    /// A task which logs a message to the debug console on execution
+    /// </summary>
     public class DebugTask : AgentBaseTask, ISerializable
     {
+        public string message = "Debug task executed";
 
         public override void StartExecution(Agent agent)
         {
-            Debug.Log("Debug task executed");
+            Debug.Log(message);
             FinishTask();
         }
 
         public void Serialize(SerializationDataContainer serializer)
         {
+            serializer.AddSerializedData("message", message);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
         {
+            message = serializer.GetSerializedString("message");
         }
     }
 }
