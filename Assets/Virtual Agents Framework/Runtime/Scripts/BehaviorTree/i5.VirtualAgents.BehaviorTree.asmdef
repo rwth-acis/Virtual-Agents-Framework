@@ -1,0 +1,20 @@
+{
+    "name": "i5.VirtualAgents.BehaviorTree",
+    "rootNamespace": "i5.VirtualAgents.BehaviorTree",
+    "references": [
+        "GUID:f32d19dcd8c86204c933aa66960594a6",
+        "GUID:0e6adb5e6365e85488ce0c09f981fdee"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "Stadia"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
