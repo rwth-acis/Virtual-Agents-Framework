@@ -58,7 +58,7 @@ namespace i5.VirtualAgents.AgentTasks
             DependsOnTasks.Clear();
         }
 
-        public virtual void FailTask()
+        public virtual void FinishTaskAsFailed()
         {
             StopAsFailed();
             IsFinished = true;
