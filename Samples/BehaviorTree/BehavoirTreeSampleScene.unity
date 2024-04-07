@@ -244,7 +244,7 @@ MonoBehaviour:
         serializedStrings:
           data:
           - Key: Start Trigger
-            Value: Wave
+            Value: WaveLeft
           - Key: Stop Trigger
             Value: 
         serializedInts:
@@ -384,7 +384,7 @@ MonoBehaviour:
         serializedStrings:
           data:
           - Key: Start Trigger
-            Value: Wave
+            Value: WaveLeft
           - Key: Stop Trigger
             Value: 
         serializedInts:
@@ -824,7 +824,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.11000001
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: b91521e88e71e6548b078b8ff90675eb, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 6fd313655ba3087428a5f75cf87fb1b6, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &564768069
 Transform:

@@ -27,6 +27,8 @@ MonoBehaviour:
       data: []
     serializedListFloats:
       data: []
+    serializedTrees:
+      data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
   Guid: dab902aae050f904a93a4d128c733988
@@ -68,6 +70,8 @@ MonoBehaviour:
       data: []
     serializedListFloats:
       data: []
+    serializedTrees:
+      data: []
     serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: e93a232ea1fb97647b12edc22d4ca7a4
@@ -107,6 +111,8 @@ MonoBehaviour:
       data: []
     serializedListFloats:
       data: []
+    serializedTrees:
+      data: []
     serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: b163c23a2f522124e829c75489a1d669
@@ -135,7 +141,7 @@ MonoBehaviour:
     serializedStrings:
       data:
       - Key: Start Trigger
-        Value: Wave
+        Value: WaveLeft
       - Key: Stop Trigger
         Value: 
     serializedInts:
@@ -145,6 +151,8 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializedListFloats:
+      data: []
+    serializedTrees:
       data: []
     serializationOrder: 020000000200000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
@@ -178,6 +186,8 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializedListFloats:
+      data: []
+    serializedTrees:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.Visual.RootNode
@@ -214,6 +224,8 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializedListFloats:
+      data: []
+    serializedTrees:
       data: []
     serializationOrder: 01000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.TimeOutNode
@@ -254,6 +266,8 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializedListFloats:
+      data: []
+    serializedTrees:
       data: []
     serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
@@ -325,6 +339,8 @@ MonoBehaviour:
       data: []
     serializedListFloats:
       data: []
+    serializedTrees:
+      data: []
     serializationOrder: 020000000200000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
   Guid: 055a980e88ed8c54a89dba922adf52cf
@@ -357,6 +373,8 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializedListFloats:
+      data: []
+    serializedTrees:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
@@ -393,6 +411,8 @@ MonoBehaviour:
       data: []
     serializedListFloats:
       data: []
+    serializedTrees:
+      data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
   Guid: 9799faadfe9bbc24382f6a0a78e9f9e1
@@ -423,7 +443,7 @@ MonoBehaviour:
     serializedStrings:
       data:
       - Key: Start Trigger
-        Value: Wave
+        Value: WaveLeft
       - Key: Stop Trigger
         Value: 
     serializedInts:
@@ -433,6 +453,8 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializedListFloats:
+      data: []
+    serializedTrees:
       data: []
     serializationOrder: 020000000200000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
@@ -469,6 +491,8 @@ MonoBehaviour:
       data:
       - Key: Probabilities
         Value: []
+    serializedTrees:
+      data: []
     serializationOrder: 06000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.RandomNode
   Guid: 4b9002bf6ca04a243bab4512cfb9f6cd
@@ -510,6 +534,8 @@ MonoBehaviour:
       data: []
     serializedListFloats:
       data: []
+    serializedTrees:
+      data: []
     serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 3d2790e448be36048bd46d0136da0c7a
@@ -544,6 +570,8 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializedListFloats:
+      data: []
+    serializedTrees:
       data: []
     serializationOrder: 03000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.RepeatUntilSuccessNode
@@ -583,6 +611,8 @@ MonoBehaviour:
         Value: 0
     serializedListFloats:
       data: []
+    serializedTrees:
+      data: []
     serializationOrder: 0400000005000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.CheckForValidPath
   Guid: edbcae40fd15ca043963e468a9668bed
@@ -616,6 +646,8 @@ MonoBehaviour:
       data: []
     serializedListFloats:
       data: []
+    serializedTrees:
+      data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
   Guid: a09bc6481a8dc30419e73f24826cdb14
@@ -623,8 +655,8 @@ MonoBehaviour:
   Description: 
   Children:
   - {fileID: -3053648699762478987}
-  - {fileID: -6533650559565109657}
   - {fileID: -8687167845897984168}
+  - {fileID: -6533650559565109657}
 --- !u!114 &8097491242135950085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,6 +683,8 @@ MonoBehaviour:
     serializedBools:
       data: []
     serializedListFloats:
+      data: []
+    serializedTrees:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
