@@ -9,24 +9,17 @@ using i5.VirtualAgents.AgentTasks;
 namespace i5.VirtualAgents.BehaviourTrees
 {
     /// <summary>
-    /// Executes its child one after another, until one succsedes
+    /// Executes its child one after another, until one succeedes
     /// </summary>
-    public class SelectorNode : BaseTask, ICompositeNode, ISerializable
+    public class SelectorNode : CompositeNode, ISerializable
     {
-        public List<ITask> Children { get; set; }
+        private int current;
 
-        private Agent executingAgent;
-        public SelectorNode()
-        {
-            Children = new List<ITask>();
-        }
-
-        
         public override void StartExecution(Agent executingAgent)
         {
-            this.executingAgent = executingAgent;
+            base.StartExecution(executingAgent);
+            current = 0;
         }
-        int current = 0;
 
         public override TaskState EvaluateTaskState()
         {
@@ -37,7 +30,7 @@ namespace i5.VirtualAgents.BehaviourTrees
             {
                 current++;
                 if (current >= Children.Count)
-                    return TaskState.Failure; //All nodes failed, report general failure
+                    return TaskState.Failure; // All nodes failed, report general failure
                 else
                     return TaskState.Running; 
             }

@@ -9,21 +9,14 @@ namespace i5.VirtualAgents.BehaviourTrees
     /// <summary>
     /// Executes all its children one after another, but aborts if one child fails
     /// </summary>
-    public class SequencerNode : BaseTask, ICompositeNode, ISerializable
+    public class SequencerNode : CompositeNode, ISerializable
     {
-        public List<ITask> Children { get;  set; }
-
-        private int current = 0;
-        private Agent executingAgent;
-
-        public SequencerNode()
-        {
-            Children = new List<ITask>();
-        }
+        private int current;
 
         public override void StartExecution(Agent executingAgent)
         {
-            this.executingAgent = executingAgent;
+            base.StartExecution(executingAgent);
+            current = 0;
         }
 
 

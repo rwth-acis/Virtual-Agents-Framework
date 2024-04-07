@@ -1,4 +1,4 @@
-﻿using i5.Toolkit.Core.Utilities;
+using i5.Toolkit.Core.Utilities;
 using System;
 using System.Collections.Generic;
 
@@ -88,6 +88,12 @@ namespace i5.VirtualAgents.AgentTasks
                     DependsOnTasks.Add(otherTask);
                 }
             }
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+            IsFinished = false;
         }
     }
 }

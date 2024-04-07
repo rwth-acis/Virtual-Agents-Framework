@@ -46,10 +46,13 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         // Create the ports for input edges
         private void CreateInputPorts()
         {
-            //Every node has one input
-            input = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
-            input.portName = "";
-            inputContainer.Add(input);
+            //Every node, exept the root, has one input
+            if (!(node.GetCopyOfSerializedInterface() is IRootNode))
+            {
+                input = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
+                input.portName = "";
+                inputContainer.Add(input);
+            }
         }
 
         // Create the ports for output edges
@@ -61,6 +64,12 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             if (node.GetCopyOfSerializedInterface() is ICompositeNode)
             {
                 output = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(bool));
+            }
+
+            //Decorator Nodes have one childe/output
+            if (node.GetCopyOfSerializedInterface() is IDecoratorNode || node.GetCopyOfSerializedInterface() is IRootNode)
+            {
+                output = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
             }
 
             if (output != null)

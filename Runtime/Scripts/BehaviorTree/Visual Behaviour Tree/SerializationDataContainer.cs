@@ -1,3 +1,4 @@
+using i5.VirtualAgents.BehaviourTrees.Visual;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,10 @@ namespace i5.VirtualAgents.AgentTasks
         FLOAT,
         STRING,
         INT,
-        GAMEOBJECT
+        GAMEOBJECT,
+        BOOL,
+        LIST_FLOAT,
+        TREE
     }
 
     /// <summary>
@@ -52,7 +56,7 @@ namespace i5.VirtualAgents.AgentTasks
                     return entry.Value;
                 }
             }
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException(key + " has not been deserialize before.");
         }
 
         public SerializationEntry<T> Get(int index)
@@ -93,9 +97,15 @@ namespace i5.VirtualAgents.AgentTasks
     public class SerializedStrings : SerializationData<string> { }
     [Serializable]
     public class SerializedInts : SerializationData<int> { }
-
     [Serializable]
     public class SerializedGameobjects : SerializationData<GameObject> { }
+    [Serializable]
+    public class SerializedBools : SerializationData<bool> { }
+    [Serializable]
+    public class SerializedListFloats : SerializationData<List<float>> { }
+
+    [Serializable]
+    public class SerializedTrees : SerializationData<BehaviorTreeAsset> { }
 
     [Serializable]
     public class SerializationDataContainer
@@ -106,6 +116,9 @@ namespace i5.VirtualAgents.AgentTasks
         [SerializeField] public SerializedStrings serializedStrings = new SerializedStrings();
         [SerializeField] public SerializedInts serializedInts = new SerializedInts();
         [SerializeField] public SerializedGameobjects serializedGameobjects = new SerializedGameobjects();
+        [SerializeField] public SerializedBools serializedBools = new SerializedBools();
+        [SerializeField] public SerializedListFloats serializedListFloats = new SerializedListFloats();
+        [SerializeField] public SerializedTrees serializedTrees = new SerializedTrees();
 
         //Saves the order in which the data was serialized. Allows coustom inspectors to replicate that order.
         [SerializeField] public List<SerializableType> serializationOrder = new List<SerializableType>();
@@ -140,6 +153,24 @@ namespace i5.VirtualAgents.AgentTasks
             serializationOrder.Add(SerializableType.GAMEOBJECT);
             serializedGameobjects.Add(key,value);
         }
+
+        public void AddSerializedData(string key, bool value)
+        {
+            serializationOrder.Add(SerializableType.BOOL);
+            serializedBools.Add(key, value);
+        }
+
+        public void AddSerializedData(string key, List<float> value)
+        {
+            serializationOrder.Add(SerializableType.LIST_FLOAT);
+            serializedListFloats.Add(key, value);
+        }
+
+        public void AddSerializedData(string key, BehaviorTreeAsset value)
+        {
+            serializationOrder.Add(SerializableType.TREE);
+            serializedTrees.Add(key, value);
+        }
         #endregion
 
         #region Overloads for retriving serialized data
@@ -168,6 +199,21 @@ namespace i5.VirtualAgents.AgentTasks
             return serializedGameobjects.Get(key);
         }
 
+        public bool GetSerializedBool(string key)
+        {
+            return serializedBools.Get(key);
+        }
+
+        public List<float> GetSerializedListFloat(string key)
+        {
+            return serializedListFloats.Get(key);
+        }
+
+        public BehaviorTreeAsset GetSerializedTrees(string key)
+        {
+            return serializedTrees.Get(key);
+        }
+
         #endregion
 
         /// <summary>
@@ -181,6 +227,9 @@ namespace i5.VirtualAgents.AgentTasks
             serializedFloats.Clear();
             serializedInts.Clear();
             serializedGameobjects.Clear();
+            serializedBools.Clear();
+            serializedListFloats.Clear();
+            serializedTrees.Clear();
         }
 
         /// <summary>
@@ -203,6 +252,12 @@ namespace i5.VirtualAgents.AgentTasks
                     return serializedInts.Get(index).Key;
                 case SerializableType.GAMEOBJECT:
                     return serializedGameobjects.Get(index).Key;
+                case SerializableType.BOOL:
+                    return serializedBools.Get(index).Key;
+                case SerializableType.LIST_FLOAT:
+                    return serializedListFloats.Get(index).Key;
+                case SerializableType.TREE:
+                    return serializedTrees.Get(index).Key;
                 default:
                     throw new NotImplementedException();
             }

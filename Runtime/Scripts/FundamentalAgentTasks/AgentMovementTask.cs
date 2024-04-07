@@ -141,7 +141,8 @@ namespace i5.VirtualAgents.AgentTasks
 			{
 				return TaskState.Success;
 			}
-			// The agent moves on a valid path and hasn't reached its destination yet
+			// The agent moves on a valid path and hasn't reached its destination yet. Give all control about movement und rotation to the navmesh agent
+            navMeshAgent.isStopped = false;
 			return TaskState.Running;
 
 
@@ -156,9 +157,10 @@ namespace i5.VirtualAgents.AgentTasks
 			navMeshAgent.updateRotation = true;
 			if (!navMeshAgent.SetDestination(DestinationObject != null ? DestinationObject.transform.position : Destination))
 			{
-				State = TaskState.Failure;
+				FinishTaskAsFailed();
 				return;
 			}
+			navMeshAgent.isStopped = true;
 			if (TargetSpeed > 0)
 			{
 				navMeshAgent.speed = TargetSpeed;
@@ -175,13 +177,13 @@ namespace i5.VirtualAgents.AgentTasks
 			}
 		}
 
-		/// <summary>
-		/// Finish the task
-		/// </summary>
-		public override void StopExecution()
-		{
-			navMeshAgent.enabled = false;
-		}
+        /// <summary>
+        /// Finish the task
+        /// </summary>
+        public override void StopExecution()
+        {
+            navMeshAgent.isStopped = true;
+        }
 
 		public void Serialize(SerializationDataContainer serializer)
 		{

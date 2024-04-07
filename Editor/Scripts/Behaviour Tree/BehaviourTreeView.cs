@@ -100,7 +100,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                     foreach (var elemToRemove in graphViewChange.elementsToRemove)
                     {
                         NodeView nodeToRemove = elemToRemove as NodeView;
-                        if (nodeToRemove != null)
+                        if (nodeToRemove != null && !(nodeToRemove.node is IRootNode))
                         {
                             Tree.DeleteNode(nodeToRemove.node);
                         }
@@ -151,7 +151,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                     if (constructor != null && !type.IsAbstract) // Can only instatiate a task, if it has an empty constructor
                     {
                         ISerializable task = constructor.Invoke(new object[0]) as ISerializable; //Can only use it as node if it is serializable
-                        if (task != null)
+                        if (task != null && !(task is IRootNode))
                         {
                             Vector2 nodePosition = this.ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
                             evt.menu.AppendAction(menuName + "/" + type.Name, (a) => CreateVisualNode(task, nodePosition));

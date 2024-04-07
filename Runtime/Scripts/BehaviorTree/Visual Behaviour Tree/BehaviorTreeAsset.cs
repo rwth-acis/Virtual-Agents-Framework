@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using i5.VirtualAgents.ScheduleBasedExecution;
 using i5.VirtualAgents.AgentTasks;
+using System;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 namespace i5.VirtualAgents.BehaviourTrees.Visual
 {
@@ -13,24 +12,16 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
     [CreateAssetMenu(menuName = "Virtual Agents Framework/Behaviour Tree")]
     public class BehaviorTreeAsset : ScriptableObject
     {
+        [SerializeField]
         private VisualNode rootNode;
-        public VisualNode RootNode 
-        {
-            get 
-            {
-                if (rootNode == null && Nodes != null && Nodes.Count > 0)
-                {
-                    rootNode = Nodes[0];
-                }
-                return rootNode;
-            }
-            private set
-            {
-                rootNode = value;
-            }
-        }
-
         public List<VisualNode> Nodes = new List<VisualNode>();
+        public event Action CreatedAndNamed;
+
+#if UNITY_EDITOR
+        private void OnEnable()
+        {
+            AddRoot();
+        }
 
         /// <summary>
         /// Adds a new node based on an serializable task
@@ -44,8 +35,37 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             node.Guid = GUID.Generate().ToString();
             node.SetSerializedType(baseTask);
             Nodes.Add(node);
-            AssetDatabase.AddObjectToAsset(node,this);
+            AssetDatabase.AddObjectToAsset(node, this);
             return node;
+        }
+
+        // Adds a root node as long as non exists
+        private void AddRoot()
+        {
+            if (rootNode == null)
+            {
+                if (AssetDatabase.Contains(this))
+                {
+                    rootNode = AddNode(new RootNode());
+                }
+                else
+                {
+                    // The tree is still being named and therefore not permanently saved. Delay the creation of the root node until the tree is properly created.
+                    EditorApplication.update += AddRootDelayed;
+                }
+
+            }
+        }
+
+        // Adds the root once the tree is part of the asset database (i.e. once it is named)
+        private void AddRootDelayed()
+        {
+            if (AssetDatabase.Contains(this))
+            {
+                EditorApplication.update -= AddRootDelayed;
+                rootNode = AddNode(new RootNode());
+                CreatedAndNamed?.Invoke();
+            }
         }
 
         /// <summary>
@@ -61,11 +81,12 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             }
             AssetDatabase.RemoveObjectFromAsset(nodeToDelete);
         }
+#endif
 
         /// <summary>
         /// Generates an abstract copy of the tree that is executable through the root nodes FullUpdate() function
         /// </summary>
-        /// <returns></returns>
+        /// <returns> </returns>
         public ITask GetExecutableTree(NodesOverwriteData nodesOverwriteData = null)
         {
             rootNode = Nodes[0];
@@ -82,10 +103,13 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         // Recursively generates the abstract childs for the given graphical node and connects them
         private void ConnectAbstractTree(VisualNode node, ITask abstractNode, NodesOverwriteData nodesOverwriteData)
         {
+            // Sort the children by there height in order to execute higher children first
+            node.Children.Sort((node1, node2) => { if (node1.Position.y > node2.Position.y) { return 1; } else if (node1.Position.y < node2.Position.y) { return -1; } else return 0; });
+
             foreach (var child in node.Children)
             {
                 SerializationDataContainer nodeData = null;
-                if (nodesOverwriteData.KeyExists(child.Guid))
+                if (nodesOverwriteData != null && nodesOverwriteData.KeyExists(child.Guid))
                 {
                     nodeData = nodesOverwriteData.Get(child.Guid);
                 }
@@ -93,6 +117,10 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
                 if (abstractNode is ICompositeNode)
                 {
                     (abstractNode as ICompositeNode).Children.Add(abstractChild);
+                }
+                if (abstractNode is IDecoratorNode)
+                {
+                    (abstractNode as IDecoratorNode).Child = abstractChild;
                 }
                 ConnectAbstractTree(child, abstractChild, nodesOverwriteData);
             }
