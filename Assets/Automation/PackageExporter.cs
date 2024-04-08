@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Build;
+using UnityEditor.TestTools.TestRunner.Api;
+using UnityEngine;
 
 
 namespace InternalTools
@@ -16,7 +18,7 @@ namespace InternalTools
     /// </summary>
     public class PackageExporter : EditorWindow
     {
-        static string path = "Assets/Virtual Agents Framework";
+        static readonly string path = "Assets/Virtual Agents Framework";
 
 #if !SAMPLES_PACKAGED
         [MenuItem("Virtual Agents Framework/Prepare for release")]
@@ -25,9 +27,23 @@ namespace InternalTools
             bool confirm = EditorUtility.DisplayDialog("Prepare For Release: Save All Changes?", "In the process of preparing the package for release all changes will be saved. Are you sure you want to do that?", "Save All", "Do Not Save");
             if (!confirm)
             {
+                Debug.Log("Preparation for release cancelled.");
+                return;
+            }
+            confirm = EditorUtility.DisplayDialog("Prepare For Release: Run Tests Now?", "To make sure that everything works as intended all test cases have to be run once. Are you sure you want to do that now? Please watchout for unrecognized errors in the test runs.", "Run All Tests", "Do Not Run Tests");
+            if (!confirm)
+            {
                 UnityEngine.Debug.Log("Preparation for release cancelled.");
                 return;
             }
+
+            TestRunnerApi api = RunAllTests();
+
+
+            api.RegisterCallbacks(new RenameForReleaseTestCallbacks());
+        }
+        static void AllTestsPassed()
+        {
             // Save all changes so that potential saves in the samples are not lost
             AssetDatabase.SaveAssets();
             UnityEngine.Debug.Log("1. Renaming \"Samples\" to \"Samples~\"");
@@ -40,6 +56,37 @@ namespace InternalTools
             AssetDatabase.Refresh();
             UnityEngine.Debug.Log("Preparation for release finished. Unity should start to recompile soon...");
         }
+
+        private class RenameForReleaseTestCallbacks : ICallbacks
+        {
+            public void RunStarted(ITestAdaptor testsToRun)
+            {
+                Debug.Log("Running all scene validations...");
+            }
+
+            public void RunFinished(ITestResultAdaptor result)
+            {
+                Debug.Log($"Done with scene validation. Overall result: {result.TestStatus}");
+                if (result.TestStatus == TestStatus.Passed)
+                {
+                    AllTestsPassed();
+                }
+            }
+
+            public void TestStarted(ITestAdaptor test)
+            {
+            }
+
+            public void TestFinished(ITestResultAdaptor result)
+            {
+                if (result.TestStatus == TestStatus.Failed)
+                {
+                    Debug.Log($"Failed {result.Name}: {result.Message}");
+                    UnityEngine.Debug.Log("Preparation for release cancelled.");
+                }
+            }
+        }
+
 #endif
 #if SAMPLES_PACKAGED
         [MenuItem("Virtual Agents Framework/Prepare for development")]
@@ -64,8 +111,7 @@ namespace InternalTools
 
         static void SetScriptDefine(string addDefine)
         {
-            string[] defines;
-            PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone, out defines);
+            PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone, out string[] defines);
             List<string> definesList = defines.ToList();
             // If the define is already set, remove all occurences of it and add it again
             definesList.RemoveAll(o => o == addDefine);
@@ -81,8 +127,7 @@ namespace InternalTools
 
         static void RemoveScriptDefine(string removeDefine)
         {
-            string[] defines;
-            PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone, out defines);
+            PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone, out string[] defines);
             defines = defines.Where(o => o != removeDefine).ToArray();
             DebugArray(defines);
             PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, defines);
@@ -99,5 +144,49 @@ namespace InternalTools
             s = s.Substring(0, s.Length - 2);
             UnityEngine.Debug.Log(s);
         }
+
+
+        public static TestRunnerApi RunAllTests()
+        {
+            var testRunnerApi = ScriptableObject.CreateInstance<TestRunnerApi>();
+
+            testRunnerApi.Execute(new ExecutionSettings(new Filter()
+            {
+                testMode = TestMode.PlayMode
+            }));
+            return testRunnerApi;
+        }
+
+        [MenuItem("Virtual Agents Framework/Run all tests")]
+        public static void RunAllTestsFromMenu()
+        {
+            TestRunnerApi api = RunAllTests();
+            api.RegisterCallbacks(new Callbacks());
+        }
+        private class Callbacks : ICallbacks
+        {
+            public void RunStarted(ITestAdaptor testsToRun)
+            {
+                Debug.Log("Running all scene validations...");
+            }
+
+            public void RunFinished(ITestResultAdaptor result)
+            {
+                Debug.Log($"Done with scene validation. Overall result: {result.TestStatus}");
+            }
+
+            public void TestStarted(ITestAdaptor test)
+            {
+            }
+
+            public void TestFinished(ITestResultAdaptor result)
+            {
+                if (result.TestStatus == TestStatus.Failed)
+                {
+                    Debug.Log($"Failed {result.Name}: {result.Message}");
+                }
+            }
+        }
+
     }
 }
