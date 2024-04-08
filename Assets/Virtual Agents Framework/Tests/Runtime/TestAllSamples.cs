@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
@@ -31,9 +32,6 @@ namespace i5.VirtualAgents
         public void Setup()
         {
             Debug.LogWarning("Known issues: When running tests in Player mode each scene gives one \"no valid NavMesh\", although the NavMesh is working correctly.");
-            // Set the time scale to speed up the simulation
-            // Also ensures that the simulation can handle frame drops
-            Time.timeScale = 10f;
 
 #if UNITY_EDITOR // This is still executed for the build tests
 
@@ -68,8 +66,6 @@ namespace i5.VirtualAgents
         //Method to cleanup the test, is called once after all tests have been run (IPostBuildCleanup)
         public void Cleanup()
         {
-            // Reset the time scale
-            Time.timeScale = 1f;
 #if UNITY_EDITOR // This is still executed for the build tests
             // Remove the scenes that were added to the build settings
             var includedScenes = EditorBuildSettings.scenes.ToList();
@@ -80,6 +76,21 @@ namespace i5.VirtualAgents
             EditorBuildSettings.scenes = includedScenes.ToArray();
 
 #endif
+        }
+
+        //Method to setup the test, is called once before each test (SetUp)
+        [SetUp]
+        public void SetUpTest()
+        {
+            // Set the time scale to speed up the simulation
+            // Also ensures that the simulation can handle frame drops
+            Time.timeScale = 10f;
+        }
+        [TearDown]
+        public void TearDownTest()
+        {
+            // Reset the time scale
+            Time.timeScale = 1f;
         }
 
         [UnityTest]
@@ -131,8 +142,14 @@ namespace i5.VirtualAgents
             var Agent = GameObject.Find("AgentStandard");
             Assert.That(Agent, Is.Not.Null);
 
-            yield return new WaitForSeconds(50);
 
+
+            //Check if the agent is moving after 5 seconds
+            yield return new WaitForSeconds(5);
+            bool isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
+            Assert.That(isMoving, Is.True);
+
+            yield return new WaitForSeconds(45);
             //TODO: Add more sample specific asserts 
         }
         [UnityTest]
@@ -147,7 +164,12 @@ namespace i5.VirtualAgents
             var Agent = GameObject.Find("AgentStandard");
             Assert.That(Agent, Is.Not.Null);
 
-            yield return new WaitForSeconds(50);
+            //Check if the agent is moving after 5 seconds
+            yield return new WaitForSeconds(5);
+            bool isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
+            Assert.That(isMoving, Is.True);
+
+            yield return new WaitForSeconds(45);
 
             //TODO: Add more sample specific asserts 
         }
@@ -163,7 +185,7 @@ namespace i5.VirtualAgents
             var Agent = GameObject.Find("AgentStandard");
             Assert.That(Agent, Is.Not.Null);
 
-            yield return new WaitForSeconds(25);
+            yield return new WaitForSeconds(20);
 
             //TODO: Add more sample specific asserts 
         }
@@ -179,7 +201,12 @@ namespace i5.VirtualAgents
             var Agent = GameObject.Find("AgentStandard");
             Assert.That(Agent, Is.Not.Null);
 
-            yield return new WaitForSeconds(50);
+            //Check if the agent is moving after 5 seconds
+            yield return new WaitForSeconds(5);
+            bool isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
+            Assert.That(isMoving, Is.True);
+
+            yield return new WaitForSeconds(45);
 
             //TODO: Add more sample specific asserts 
         }
@@ -195,7 +222,12 @@ namespace i5.VirtualAgents
             var Agent = GameObject.Find("AgentStandard");
             Assert.That(Agent, Is.Not.Null);
 
-            yield return new WaitForSeconds(50);
+            //Check if the agent is moving after 5 seconds
+            yield return new WaitForSeconds(5);
+            bool isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
+            Assert.That(isMoving, Is.True);
+
+            yield return new WaitForSeconds(45);
 
             //TODO: Add more sample specific asserts 
         }
@@ -211,8 +243,15 @@ namespace i5.VirtualAgents
             var Agent = GameObject.Find("AgentStandard");
             Assert.That(Agent, Is.Not.Null);
 
-            yield return new WaitForSeconds(20);
+            yield return new WaitForSeconds(5);
+            bool isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
+            Assert.That(isMoving, Is.True);
 
+            yield return new WaitForSeconds(25);
+
+            //Check if the agent has stopped moving
+            isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
+            Assert.That(isMoving, Is.False);
             //TODO: Add more sample specific asserts 
         }
 #endif
