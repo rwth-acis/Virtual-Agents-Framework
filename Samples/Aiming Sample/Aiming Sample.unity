@@ -2547,12 +2547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6870636111335835452, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'LowerArm.R'\n\tTransform 'Spine'\n\tTransform
-        'Hand.L'\n\tTransform 'Hand.R'\n\tTransform 'UpperArm.R'\n\tTransform 'LowerArm.R'\n\tTransform
-        'Spine'\n\tTransform 'Hand.L'\n\tTransform 'Hand.R'\n\tTransform 'UpperArm.R'\n\tand
-        more ..."
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6962911434214623804, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2981,9 +2976,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1896648548}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1023428232005854921}
     - targetCorrespondingSourceObject: {fileID: 306512321642893685, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 475915667}
@@ -2994,29 +2986,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 372431932}
   m_SourcePrefab: {fileID: 100100000, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
---- !u!1 &1023428232005854919 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
-  m_PrefabInstance: {fileID: 1023428232005854918}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1023428232005854921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1023428232005854919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afa2f315da5127e47a996e328f4ffff3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1023428232005854923 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 718444495650295341, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
   m_PrefabInstance: {fileID: 1023428232005854918}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1023428232005854919}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2eb11c02fcaa7fa40861161120bf3b98, type: 3}
