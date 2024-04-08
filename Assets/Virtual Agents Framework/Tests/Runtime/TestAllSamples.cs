@@ -11,7 +11,10 @@ using UnityEngine.TestTools.Utils;
 
 namespace i5.VirtualAgents
 {
-    public class TestAllSamples : IPrebuildSetup, IPostBuildCleanup
+    public class TestAllSamples
+#if !SAMPLES_PACKAGED
+: IPrebuildSetup, IPostBuildCleanup
+#endif
     {
 #if !SAMPLES_PACKAGED
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace InternalTools
                 Debug.Log("Preparation for release cancelled.");
                 return;
             }
-            confirm = EditorUtility.DisplayDialog("Prepare For Release: Run Tests Now?", "To make sure that everything works as intended all test cases have to be run once. Are you sure you want to do that now? Please watchout for unrecognized errors in the test runs.", "Run All Tests", "Do Not Run Tests");
+            confirm = EditorUtility.DisplayDialog("Prepare For Release: Run Tests Now?", "To make sure that everything works as intended all test cases have to be run once. Are you sure you want to do that now? Please watch out for unrecognized errors in the test runs.", "Run All Tests", "Do Not Run Tests");
             if (!confirm)
             {
                 UnityEngine.Debug.Log("Preparation for release cancelled.");
@@ -101,11 +102,12 @@ namespace InternalTools
             UnityEngine.Debug.Log("1. Renaming \"Samples~\" to \"Samples\"");
             Directory.Move(path + "/Samples~", path + "/Samples");
             // Unity will automatically create a new Samples.meta file, so we don't need to do that.
-            // Samples~ doens't have a Samples.meta file, so we don't need to delete it.
+            // Samples~ doesn't have a Samples.meta file, so we don't need to delete it.
             UnityEngine.Debug.Log("2. Removing \"SAMPLES_PACKAGED\" define.");
             RemoveScriptDefine("SAMPLES_PACKAGED"); // This will also save all assets to save the change in the project settings
             AssetDatabase.Refresh();
-            UnityEngine.Debug.Log("Preperation for development finished. Unity should start to recompile soon...");
+            UnityEngine.Debug.Log("Preparation for development finished. Unity should start to recompile soon...");
+            UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation(UnityEditor.Compilation.RequestScriptCompilationOptions.CleanBuildCache);
         }
 #endif
 
@@ -113,7 +115,7 @@ namespace InternalTools
         {
             PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone, out string[] defines);
             List<string> definesList = defines.ToList();
-            // If the define is already set, remove all occurences of it and add it again
+            // If the define is already set, remove all occurrences of it and add it again
             definesList.RemoveAll(o => o == addDefine);
             //Add new define
             definesList.Add(addDefine);
