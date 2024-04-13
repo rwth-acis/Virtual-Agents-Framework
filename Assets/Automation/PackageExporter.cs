@@ -1,7 +1,9 @@
+using GluonGui.WorkspaceWindow.Views.WorkspaceExplorer.Explorer;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.TestTools.TestRunner.Api;
@@ -43,19 +45,30 @@ namespace InternalTools
 
             api.RegisterCallbacks(new RenameForReleaseTestCallbacks());
         }
-        static void AllTestsPassed()
+        static IEnumerator AllTestsPassed()
         {
-            // Save all changes so that potential saves in the samples are not lost
-            AssetDatabase.SaveAssets();
-            UnityEngine.Debug.Log("1. Renaming \"Samples\" to \"Samples~\"");
-            Directory.Move(path + "/Samples", path + "/Samples~");
-            UnityEngine.Debug.Log("2. Deleting old Samples.meta");
-            File.Delete(path + "/Samples.meta");
+            yield return new EditorWaitForSeconds(1.0f);
 
-            UnityEngine.Debug.Log("3. Setting \"SAMPLES_PACKAGED\" define.");
-            SetScriptDefine("SAMPLES_PACKAGED");
-            AssetDatabase.Refresh();
-            UnityEngine.Debug.Log("Preparation for release finished. Unity should start to recompile soon...");
+            bool confirm = EditorUtility.DisplayDialog("Prepare For Release: All Tests Passed, Continue?", "All automatic test runs passed the predefined asserts. If you didn't notice anything unusal, all prepartions can now be completed.", "Continue", "Abort");
+            if (!confirm)
+            {
+                UnityEngine.Debug.Log("Preparation for release cancelled.");
+            }
+            else
+            {
+                yield return new EditorWaitForSeconds(0.25f);
+                // Save all changes so that potential saves in the samples are not lost
+                AssetDatabase.SaveAssets();
+                UnityEngine.Debug.Log("1. Renaming \"Samples\" to \"Samples~\"");
+                Directory.Move(path + "/Samples", path + "/Samples~");
+                UnityEngine.Debug.Log("2. Deleting old Samples.meta");
+                File.Delete(path + "/Samples.meta");
+
+                UnityEngine.Debug.Log("3. Setting \"SAMPLES_PACKAGED\" define.");
+                SetScriptDefine("SAMPLES_PACKAGED");
+                AssetDatabase.Refresh();
+                UnityEngine.Debug.Log("Preparation for release finished. Unity should start to recompile soon...");
+            }
         }
 
         private class RenameForReleaseTestCallbacks : ICallbacks
@@ -70,7 +83,7 @@ namespace InternalTools
                 Debug.Log($"Done with scene validation. Overall result: {result.TestStatus}");
                 if (result.TestStatus == TestStatus.Passed)
                 {
-                    AllTestsPassed();
+                    EditorCoroutineUtility.StartCoroutineOwnerless(AllTestsPassed());
                 }
             }
 
@@ -107,7 +120,6 @@ namespace InternalTools
             RemoveScriptDefine("SAMPLES_PACKAGED"); // This will also save all assets to save the change in the project settings
             AssetDatabase.Refresh();
             UnityEngine.Debug.Log("Preparation for development finished. Unity should start to recompile soon...");
-            UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation(UnityEditor.Compilation.RequestScriptCompilationOptions.CleanBuildCache);
         }
 #endif
 
@@ -123,7 +135,7 @@ namespace InternalTools
             PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, definesList.ToArray());
             // Check that everything went correctly
             PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone, out defines);
-            DebugArray(defines);
+            DebugDefinesArray(defines);
             AssetDatabase.SaveAssets();
         }
 
@@ -131,14 +143,14 @@ namespace InternalTools
         {
             PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone, out string[] defines);
             defines = defines.Where(o => o != removeDefine).ToArray();
-            DebugArray(defines);
+            DebugDefinesArray(defines);
             PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, defines);
             AssetDatabase.SaveAssets();
         }
 
-        static void DebugArray(string[] array)
+        static void DebugDefinesArray(string[] array)
         {
-            string s = "Defines:  ";
+            string s = "Currently set Defines:  ";
             foreach (string d in array)
             {
                 s = s + d + ", ";
@@ -189,6 +201,5 @@ namespace InternalTools
                 }
             }
         }
-
     }
 }
