@@ -133,7 +133,7 @@ namespace i5.VirtualAgents.AgentTasks
 			{
 				if (navMeshAgent.pathStatus == NavMeshPathStatus.PathPartial)
 				{
-					Debug.LogWarning("Path calculation failed because only a partial path could be generated. Use an DestinationObject instead of Destination coordinates and activate follow to allow partial paths.");
+					Debug.LogWarning("Path calculation to " + Destination.ToString() + " failed because only a partial path could be generated. Use an DestinationObject instead of Destination coordinates and activate follow to allow partial paths.");
 					return TaskState.Failure; // The navmesh agent couldn't generate a complete and valid path
 				}
 			}
