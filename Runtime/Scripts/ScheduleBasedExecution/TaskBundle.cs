@@ -11,19 +11,19 @@ namespace i5.VirtualAgents
     /// </summary>
     public class TaskBundle : ITask
     {
-        TaskBundle()
+        public TaskBundle()
         {
             TaskState State = TaskState.Waiting;
             taskQueue = new List<IAgentTask>();
         }
 
-        TaskBundle(List<IAgentTask> tasks)
+        public TaskBundle(List<IAgentTask> tasks)
         {
             TaskState State = TaskState.Waiting;
             taskQueue = tasks;
         }
 
-        TaskBundle(List<IAgentTask> tasks, List<bool> preconditions)
+        public TaskBundle(List<IAgentTask> tasks, List<bool> preconditions)
         {
             TaskState State = TaskState.Waiting;
             taskQueue = tasks;
@@ -53,9 +53,9 @@ namespace i5.VirtualAgents
         public void StartExecution(Agent executingAgent)
         {
             State = TaskState.Running;
-            if (checkPreconditions())
+            if (CheckPreconditions())
             {
-                executeTasks(executingAgent);
+                ExecuteTasks(executingAgent);
             }
 
             State = TaskState.Success;
@@ -66,7 +66,7 @@ namespace i5.VirtualAgents
         /// Execute all tasks in the task queue. If a task fails, the whole bundle fails. Note, that checking of preconditions is not part of this method.
         /// </summary>
         /// <param name="executingAgent"></param>
-        private void executeTasks(Agent executingAgent)
+        private void ExecuteTasks(Agent executingAgent)
         {
             foreach (IAgentTask task in taskQueue)
             {
@@ -91,7 +91,7 @@ namespace i5.VirtualAgents
         /// Check if all preconditions are met.
         /// </summary>
         /// <returns> True if all preconditions evaluate to true, otherwise false. </returns>
-        private bool checkPreconditions()
+        private bool CheckPreconditions()
         {
             foreach (bool condition in preconditions)
             {
