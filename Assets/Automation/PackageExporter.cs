@@ -1,4 +1,3 @@
-using GluonGui.WorkspaceWindow.Views.WorkspaceExplorer.Explorer;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -27,44 +26,58 @@ namespace InternalTools
         [MenuItem("Virtual Agents Framework/Prepare for release")]
         static void RenameForRelease()
         {
-            bool confirm = EditorUtility.DisplayDialog("Prepare For Release: Save All Changes?", "In the process of preparing the package for release all changes will be saved. Are you sure you want to do that?", "Save All", "Do Not Save");
+            bool confirm = EditorUtility.DisplayDialog("Prepare For Release: Save All Changes?",
+                "In the process of preparing the package for release all changes will be saved. Are you sure you want to do that?",
+                "Save All",
+                "Do Not Save");
             if (!confirm)
             {
-                Debug.Log("Preparation for release cancelled.");
+                Debug.LogWarning("Preparation for release cancelled.");
                 return;
             }
-            confirm = EditorUtility.DisplayDialog("Prepare For Release: Run Tests Now?", "To make sure that everything works as intended all test cases have to be run once. Are you sure you want to do that now? Please watch out for unrecognized errors in the test runs.", "Run All Tests", "Do Not Run Tests");
-            if (!confirm)
+            int confirm2 = EditorUtility.DisplayDialogComplex("Prepare For Release: Run Tests Now?",
+                "To make sure that everything works as intended all test cases have to be run once. Are you sure you want to do that now? Please watch out for unrecognized errors in the test runs.",
+                "Run All Tests in Build",
+                "Do Not Run Tests",
+                "Run All Tests in Editor");
+            switch (confirm2)
             {
-                UnityEngine.Debug.Log("Preparation for release cancelled.");
-                return;
+                case 0:
+                    TestRunnerApi api = RunAllTests(BuildTarget.StandaloneWindows);
+                    api.RegisterCallbacks(new RenameForReleaseTestCallbacks());
+                    break;
+                case 1:
+                    UnityEngine.Debug.LogWarning("Preparation for release cancelled.");
+                    return;
+                case 2:
+                    TestRunnerApi api2 = RunAllTests();
+                    api2.RegisterCallbacks(new RenameForReleaseTestCallbacks());
+                    break;
             }
-
-            TestRunnerApi api = RunAllTests();
-
-
-            api.RegisterCallbacks(new RenameForReleaseTestCallbacks());
         }
         static IEnumerator AllTestsPassed()
         {
             yield return new EditorWaitForSeconds(1.0f);
 
-            bool confirm = EditorUtility.DisplayDialog("Prepare For Release: All Tests Passed, Continue?", "All automatic test runs passed the predefined asserts. If you didn't notice anything unusal, all prepartions can now be completed.", "Continue", "Abort");
+            bool confirm = EditorUtility.DisplayDialog("Prepare For Release: All Tests Passed, Continue?",
+                "All automatic test runs passed the predefined asserts. If you didn't notice anything unusal, all prepartions can now be completed.",
+                "Continue",
+                "Abort");
             if (!confirm)
             {
-                UnityEngine.Debug.Log("Preparation for release cancelled.");
+                UnityEngine.Debug.LogWarning("Preparation for release cancelled.");
             }
             else
             {
                 yield return new EditorWaitForSeconds(0.25f);
                 // Save all changes so that potential saves in the samples are not lost
                 AssetDatabase.SaveAssets();
-                UnityEngine.Debug.Log("1. Renaming \"Samples\" to \"Samples~\"");
+                UnityEngine.Debug.Log("1/3 Renaming \"Samples\" to \"Samples~\"");
                 Directory.Move(path + "/Samples", path + "/Samples~");
-                UnityEngine.Debug.Log("2. Deleting old Samples.meta");
+                UnityEngine.Debug.Log("2/3 Deleting old Samples.meta");
                 File.Delete(path + "/Samples.meta");
 
-                UnityEngine.Debug.Log("3. Setting \"SAMPLES_PACKAGED\" define.");
+                UnityEngine.Debug.Log("3/3 Setting \"SAMPLES_PACKAGED\" define.");
                 SetScriptDefine("SAMPLES_PACKAGED");
                 AssetDatabase.Refresh();
                 UnityEngine.Debug.Log("Preparation for release finished. Unity should start to recompile soon...");
@@ -96,7 +109,7 @@ namespace InternalTools
                 if (result.TestStatus == TestStatus.Failed)
                 {
                     Debug.Log($"Failed {result.Name}: {result.Message}");
-                    UnityEngine.Debug.Log("Preparation for release cancelled.");
+                    UnityEngine.Debug.LogWarning("Preparation for release cancelled.");
                 }
             }
         }
@@ -109,14 +122,14 @@ namespace InternalTools
             bool confirm = EditorUtility.DisplayDialog("Prepare For Development: Save All Changes?", "In the process of preparing the package for development all changes will be saved. Are you sure you want to do that?", "Save All", "Do Not Save");
             if (!confirm)
             {
-                UnityEngine.Debug.Log("Preparation for release cancelled.");
+                UnityEngine.Debug.LogWarning("Preparation for release cancelled.");
                 return;
             }
-            UnityEngine.Debug.Log("1. Renaming \"Samples~\" to \"Samples\"");
+            UnityEngine.Debug.Log("1/2 Renaming \"Samples~\" to \"Samples\"");
             Directory.Move(path + "/Samples~", path + "/Samples");
             // Unity will automatically create a new Samples.meta file, so we don't need to do that.
             // Samples~ doesn't have a Samples.meta file, so we don't need to delete it.
-            UnityEngine.Debug.Log("2. Removing \"SAMPLES_PACKAGED\" define.");
+            UnityEngine.Debug.Log("2/2 Removing \"SAMPLES_PACKAGED\" define.");
             RemoveScriptDefine("SAMPLES_PACKAGED"); // This will also save all assets to save the change in the project settings
             AssetDatabase.Refresh();
             UnityEngine.Debug.Log("Preparation for development finished. Unity should start to recompile soon...");
@@ -160,21 +173,29 @@ namespace InternalTools
         }
 
 
-        public static TestRunnerApi RunAllTests()
+        public static TestRunnerApi RunAllTests(BuildTarget? target = null)
         {
             var testRunnerApi = ScriptableObject.CreateInstance<TestRunnerApi>();
-
-            testRunnerApi.Execute(new ExecutionSettings(new Filter()
+            ExecutionSettings settings = new ExecutionSettings(new Filter()
             {
-                testMode = TestMode.PlayMode
-            }));
+                testMode = TestMode.PlayMode,
+                targetPlatform = target
+            });
+
+            testRunnerApi.Execute(settings);
             return testRunnerApi;
         }
 
-        [MenuItem("Virtual Agents Framework/Run all tests")]
+        [MenuItem("Virtual Agents Framework/Tests/Run all tests in editor")]
         public static void RunAllTestsFromMenu()
         {
             TestRunnerApi api = RunAllTests();
+            api.RegisterCallbacks(new Callbacks());
+        }
+        [MenuItem("Virtual Agents Framework/Tests/Run all tests in build")]
+        public static void RunAllTestsFromMenuBuild()
+        {
+            TestRunnerApi api = RunAllTests(BuildTarget.StandaloneWindows);
             api.RegisterCallbacks(new Callbacks());
         }
         private class Callbacks : ICallbacks
