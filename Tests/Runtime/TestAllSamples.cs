@@ -34,8 +34,6 @@ namespace i5.VirtualAgents
         //Method to setup the test, is called once before building the tests (IPrebuildSetup)
         public void Setup()
         {
-            Debug.LogWarning("Known issues: When running tests in Player mode each scene gives one \"no valid NavMesh\", although the NavMesh is working correctly.");
-
 #if UNITY_EDITOR // This is still executed for the build tests
 
             //Include all scenes in the build settings
