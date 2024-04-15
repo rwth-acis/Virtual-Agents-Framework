@@ -4,6 +4,8 @@ using UnityEngine.UIElements;
 using i5.VirtualAgents;
 using i5.VirtualAgents.Editor;
 using i5.VirtualAgents.BehaviourTrees.Visual;
+using UnityEditor.Callbacks;
+using UnityEditor.PackageManager.UI;
 
 namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
@@ -19,12 +21,13 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         private Button saveButton;
 
         [MenuItem("Virtual Agents Framework/Behaviour Tree Editor")]
-        public static void ShowWindow()
+        public static BehaviourTreeEditor ShowWindow()
         {
             BehaviourTreeEditor window = GetWindow<BehaviourTreeEditor>();
             window.titleContent = new GUIContent("Behaviour Tree Editor");
             //Set minimum window size, so that every part of the Editor can be seen
             window.minSize = new Vector2(600f, 400f);
+            return window;
         }
 
         public void CreateGUI()
@@ -80,6 +83,22 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                     tree.CreatedAndNamed += LoadSelectedTree;
                 }
             }
+        }
+
+        [OnOpenAsset]
+        //Handles opening the editor window when double-clicking BehaviorTreeAsset files
+        public static bool OnOpenAsset(int instanceID, int line)
+        {
+            UnityEngine.Object obj = EditorUtility.InstanceIDToObject(instanceID);
+
+            if (obj is BehaviorTreeAsset)
+            {
+                BehaviourTreeEditor window = ShowWindow();
+                window.LoadSelectedTree();
+                return true;
+            }
+            return false;
+
         }
 
         // Allows the user interact with the editor
