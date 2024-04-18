@@ -9,7 +9,7 @@ namespace i5.VirtualAgents
     /// A task which consists of multiple subtasks.
     /// It allows for checking of preconditions and then executing a sequence of tasks.
     /// </summary>
-    public class TaskBundle : ITask
+    public class TaskBundle : IAgentTask
     {
         public TaskBundle()
         {
@@ -119,5 +119,7 @@ namespace i5.VirtualAgents
             }
             return State;
         }
+
+        public bool CanStart { get; }
     }
 }
