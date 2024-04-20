@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using i5.VirtualAgents.AgentTasks;
@@ -9,82 +10,118 @@ namespace i5.VirtualAgents
     /// A task which consists of multiple subtasks.
     /// It allows for checking of preconditions and then executing a sequence of tasks.
     /// </summary>
-    public class TaskBundle : IAgentTask
+    public class TaskBundle : AgentBaseTask
     {
-        public TaskBundle()
+        private MonoBehaviour coroutineHost;
+        public TaskBundle(MonoBehaviour coroutineHost)
         {
-            TaskState State = TaskState.Waiting;
-            taskQueue = new List<IAgentTask>();
+            Debug.Log("Constructor 1 TaskBundle");
+            this.State = TaskState.Waiting;
+            TaskQueue = new List<AgentBaseTask>();
+            this.coroutineHost = coroutineHost;
         }
 
-        public TaskBundle(List<IAgentTask> tasks)
+        public TaskBundle(MonoBehaviour coroutineHost, List<AgentBaseTask> tasks)
         {
-            TaskState State = TaskState.Waiting;
-            taskQueue = tasks;
+            Debug.Log("Constructor 2 TaskBundle");
+            this.State = TaskState.Waiting;
+            TaskQueue = tasks;
+            this.coroutineHost = coroutineHost;
         }
 
-        public TaskBundle(List<IAgentTask> tasks, List<bool> preconditions)
+        public TaskBundle(MonoBehaviour coroutineHost, List<AgentBaseTask> tasks, List<Func <bool>> preconditions)
         {
-            TaskState State = TaskState.Waiting;
-            taskQueue = tasks;
-            this.preconditions = preconditions;
+            Debug.Log("Constructor 3 TaskBundle");
+            this.State = TaskState.Waiting;
+            TaskQueue = tasks;
+            this.Preconditions = preconditions;
+            this.coroutineHost = coroutineHost;
         }
-        public TaskState State { get; set; }
+        //public TaskState State { get; set; }
 
         /// <summary>
         /// List of tasks to be part of the bundle
         /// </summary>
-        public List<IAgentTask> taskQueue { get; set; }
+        private List<AgentBaseTask> TaskQueue { get; set; }
 
         /// <summary>
         /// List of conditions to be met before execution of tasks
         /// </summary>
-        public List<bool> preconditions { get; set; }
+        private List<Func<bool>> Preconditions { get; set; }
 
-        public TaskState EvaluateTaskState()
-        {
-            return State;
-        }
+        //public TaskState EvaluateTaskState()
+        //{
+        //    return State;
+        //}
 
         /// <summary>
         /// Check for preconditions and start the execution of all subtasks in sequence
         /// </summary>
         /// <param name="executingAgent"></param>
-        public void StartExecution(Agent executingAgent)
+        public override void StartExecution(Agent executingAgent)
         {
+            Debug.Log("Starting TaskBundle Execution");
             State = TaskState.Running;
+            if (coroutineHost == null)
+            {
+                Debug.LogError("coroutineHost is null");
+                return;
+            }
             if (CheckPreconditions())
             {
-                ExecuteTasks(executingAgent);
+                coroutineHost.StartCoroutine(ExecuteTasks(executingAgent));
             }
-
-            State = TaskState.Success;
-            StopExecution();
         }
 
         /// <summary>
         /// Execute all tasks in the task queue. If a task fails, the whole bundle fails. Note, that checking of preconditions is not part of this method.
         /// </summary>
         /// <param name="executingAgent"></param>
-        private void ExecuteTasks(Agent executingAgent)
+        private IEnumerator ExecuteTasks(Agent executingAgent)
         {
-            foreach (IAgentTask task in taskQueue)
+            Debug.Log("TaskBundle Execution");
+            for (var i = 0; i < TaskQueue.Count; i++)
             {
-                TaskState currentState = task.EvaluateTaskState();
-                while (currentState != TaskState.Success)
+                var task = TaskQueue[i];
+                if (i > 0)
+                {
+                    for (int j = 0; j < i; j++)
+                    {
+                        task.DependsOnTasks.Add(TaskQueue[j]);
+                    }
+                }
+                task.StartExecution(executingAgent);
+                //Mini scheduler
+                while (task.State != TaskState.Running && task.State != TaskState.Success && task.State != TaskState.Failure)
                 {
                     task.Tick(executingAgent);
-                    if (currentState == TaskState.Failure)
-                    {
-                        State = TaskState.Failure;
-                        StopExecution();
-                        return;
-                    }
-
-                    currentState = task.EvaluateTaskState();
+                    Debug.Log("Task " + i + " " + task.State);
+                    yield return null; // wait for the next frame
+                }
+                while (task.State == TaskState.Running)
+                {
+                    task.Tick(executingAgent);
+                    yield return null; // wait for the next frame
                 }
 
+                //task.StartExecution(executingAgent);
+                //TaskState currentState = task.EvaluateTaskState();
+                //Debug.Log("new Task " + task + TaskQueue.Count + currentState);
+                if (task is AgentMovementTask)
+                {
+                    AgentMovementTask movementTask = (AgentMovementTask)task;
+                    Debug.Log("new Task " + task + TaskQueue.Count + task.State + movementTask.Destination);
+                }
+
+                if (task.State == TaskState.Failure)
+                {
+                    Debug.Log("Task " + i + " failed");
+                    StopAsFailed();
+                    yield break;
+                }
             }
+            StopAsSucceeded();
+            yield return null;
         }
 
         /// <summary>
@@ -93,21 +130,20 @@ namespace i5.VirtualAgents
         /// <returns> True if all preconditions evaluate to true, otherwise false. </returns>
         private bool CheckPreconditions()
         {
-            foreach (bool condition in preconditions)
+            Debug.Log("Checking Preconditions");
+            foreach (Func<bool> condition in Preconditions)
             {
-                if (condition == false)
-                {
-                    return false;
-                }
+                return condition();
             }
 
             return true;
         }
 
-        public void StopExecution() { }
+        //public void StopExecution() { }
 
-        public TaskState Tick(Agent excutingAgent)
+        /*public TaskState Tick(Agent excutingAgent)
         {
+            Debug.Log("Tick TaskBundle");
             if(State == TaskState.Waiting)
             {
                 StartExecution(excutingAgent);
@@ -118,8 +154,8 @@ namespace i5.VirtualAgents
                 StopExecution();
             }
             return State;
-        }
+        }*/
 
-        public bool CanStart { get; }
+        // public bool CanStart { get; }
     }
 }
