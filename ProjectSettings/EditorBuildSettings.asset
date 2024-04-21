@@ -4,33 +4,5 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Virtual Agents Framework/Samples/Navigation Sample/Navigation Sample.unity
-    guid: 3c6f85258f7f4d94f9ca5b56d4d9b0ce
-  - enabled: 1
-    path: Assets/Virtual Agents Framework/Samples/DynamicNavigation/Dynamic Navigation
-      Sample.unity
-    guid: f5ce2eb7d138acd428980d5df734849d
-  - enabled: 1
-    path: Assets/Virtual Agents Framework/Samples/AdaptiveGazeSample/Adaptive Gaze
-      Sample.unity
-    guid: e0ee5dc6a9e118344b21662bc63c819b
-  - enabled: 1
-    path: Assets/Virtual Agents Framework/Samples/Aiming Sample/Aiming Sample.unity
-    guid: 343b7ef4e8aa63544ab7bb2cc2a3bac0
-  - enabled: 1
-    path: Assets/Virtual Agents Framework/Samples/Parallel Tasks Sample/Independent
-      Tasks/Independent Tasks Sample.unity
-    guid: 9d8027d3899ca3a4b857e0adb8790ce5
-  - enabled: 1
-    path: Assets/Virtual Agents Framework/Samples/ItemPickUpSample/Item Pick Up Sample.unity
-    guid: 2cab796d155be314588b4f450e40e802
-  - enabled: 1
-    path: Assets/Virtual Agents Framework/Samples/Parallel Tasks Sample/Synchronized
-      Tasks/Synchronized Tasks Sample.unity
-    guid: 2fad77b8ff1f971458b987df38fd862e
-  - enabled: 1
-    path: Assets/Virtual Agents Framework/Samples/Wait Sample/Wait Sample.unity
-    guid: 5dbefaecfcbf0324dafcb0f767ed6c2b
+  m_Scenes: []
   m_configObjects: {}
