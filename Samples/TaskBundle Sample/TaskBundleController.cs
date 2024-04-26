@@ -12,42 +12,46 @@ namespace i5.VirtualAgents.Examples
         protected override void Start()
         {
             base.Start();
+            // Create a TaskBundle consisting of a task list and a list of preconditions
 
-            taskSystem.ScheduleTask(new AgentMovementTask(waypoints[0].position ),1);
-            Debug.Log("Running TaskBundleController");
-            //Create a list of tasks
+            // Create a list of tasks
             List<AgentBaseTask> tasks = new List<AgentBaseTask>();
 
-            //Create a list of preconditions
+            // Create a list of preconditions
             List<System.Func<bool>> preconditions = new List<System.Func<bool>>();
-            //preconditions.Add(true);
-            //preconditions.Add(waypoints[0].position != agent.transform.position);
+
+            // Preconditions can be added with a lambda function
+            // The lambda function returns a boolean value
+            // () => {...} syntax is a lambda expression that defines an anonymous function inline.
+            // Parameters can be added in brackets on the left side of the arrow
             preconditions.Add(() =>
             {
-                Debug.Log("precondition 1");
-                //Compare vectors equality with accuracy of 0.5
-
-                float distance = Vector3.Distance(waypoints[0].position, agent.transform.position);
-                Debug.Log("Distance: " + distance);
-                Debug.Log(distance > 1.0f);
-                return distance <= 1.0f;
+                // This lambda function checks if the agent is close to the first waypoint
+                // If a precondition is not met, the TaskBundle will not be executed
+                // Compare vectors equality with accuracy of 0.5
+                float distance = Vector3.Distance(waypoints[waypoints.Count -1].position, agent.transform.position);
+                return distance > 1.0f;
             });
 
-            //Add Tasks to the tasks List
-            //tasks.Add(new AgentAnimationTask("WaveRight", 5));
+            // Add Tasks to the tasks List
+            // TaskActions also add the task to the taskSystem therefore cannot be used here
             for (int i = 0; i < waypoints.Count; i++)
             {
                 tasks.Add(new AgentMovementTask(waypoints[i].position));
             }
 
-            //Create a new TaskBundle
-            TaskBundle taskBundle = new TaskBundle(this, tasks, preconditions);
+            // Create a new TaskBundle with the tasks and preconditions
+            // This TaskBundle will be executed because the agent is not close to the last waypoint
+            TaskBundle taskBundleSuccess = new TaskBundle(this, tasks, preconditions);
 
-            // Schedule the TaskBundle to the taskSystem
-            //taskSystem.Tasks.GoTo(waypoints[0].position);
-            Debug.Log("before ScheduleTask");
-            taskSystem.ScheduleTask(taskBundle, 0);
-            Debug.Log("after ScheduleTask");
+            // Create a new TaskBundle with the tasks and preconditions
+            // This TaskBundle will not be executed
+            // because after executing the taskBundleSuccess the agent is close to the last waypoint
+            TaskBundle taskBundleFail = new TaskBundle(this, tasks, preconditions);
+
+            // Schedule the TaskBundles to the taskSystem
+            taskSystem.ScheduleTask(taskBundleSuccess, 0);
+            taskSystem.ScheduleTask(taskBundleFail, 0);
 
         }
     }

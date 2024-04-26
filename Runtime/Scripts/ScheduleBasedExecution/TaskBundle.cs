@@ -15,7 +15,6 @@ namespace i5.VirtualAgents
         private MonoBehaviour coroutineHost;
         public TaskBundle(MonoBehaviour coroutineHost)
         {
-            Debug.Log("Constructor 1 TaskBundle");
             this.State = TaskState.Waiting;
             TaskQueue = new List<AgentBaseTask>();
             this.coroutineHost = coroutineHost;
@@ -23,7 +22,6 @@ namespace i5.VirtualAgents
 
         public TaskBundle(MonoBehaviour coroutineHost, List<AgentBaseTask> tasks)
         {
-            Debug.Log("Constructor 2 TaskBundle");
             this.State = TaskState.Waiting;
             TaskQueue = tasks;
             this.coroutineHost = coroutineHost;
@@ -31,13 +29,11 @@ namespace i5.VirtualAgents
 
         public TaskBundle(MonoBehaviour coroutineHost, List<AgentBaseTask> tasks, List<Func <bool>> preconditions)
         {
-            Debug.Log("Constructor 3 TaskBundle");
             this.State = TaskState.Waiting;
             TaskQueue = tasks;
             this.Preconditions = preconditions;
             this.coroutineHost = coroutineHost;
         }
-        //public TaskState State { get; set; }
 
         /// <summary>
         /// List of tasks to be part of the bundle
@@ -48,11 +44,6 @@ namespace i5.VirtualAgents
         /// List of conditions to be met before execution of tasks
         /// </summary>
         private List<Func<bool>> Preconditions { get; set; }
-
-        //public TaskState EvaluateTaskState()
-        //{
-        //    return State;
-        //}
 
         /// <summary>
         /// Check for preconditions and start the execution of all subtasks in sequence
@@ -91,7 +82,7 @@ namespace i5.VirtualAgents
                     }
                 }
                 task.StartExecution(executingAgent);
-                //Mini scheduler
+                // Mini scheduler
                 while (task.State != TaskState.Running && task.State != TaskState.Success && task.State != TaskState.Failure)
                 {
                     task.Tick(executingAgent);
@@ -138,24 +129,5 @@ namespace i5.VirtualAgents
 
             return true;
         }
-
-        //public void StopExecution() { }
-
-        /*public TaskState Tick(Agent excutingAgent)
-        {
-            Debug.Log("Tick TaskBundle");
-            if(State == TaskState.Waiting)
-            {
-                StartExecution(excutingAgent);
-            }
-
-            if (State == TaskState.Success || State == TaskState.Failure)
-            {
-                StopExecution();
-            }
-            return State;
-        }*/
-
-        // public bool CanStart { get; }
     }
 }
