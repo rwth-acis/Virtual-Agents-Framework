@@ -47,8 +47,32 @@ namespace i5.VirtualAgents.AgentTasks
                     Debug.LogError("When aming at a target a layer coresponding to the body area that should aim at the target has to be choosen.");
                 }
 
+                switch (layer)
+                {
+                    case "Right Arm":
+                        aimScript = agent.gameObject.AddComponent<RightArmPreset>();
+                        break;
+                    case "Left Arm":
+                        aimScript = agent.gameObject.AddComponent<LeftArmPreset>();
+                        break;
+                    case "Right Leg":
+                        aimScript = agent.gameObject.AddComponent<RightLegPreset>();
+                        break;
+                    case "Left Leg":
+                        aimScript = agent.gameObject.AddComponent<LeftLegPreset>();
+                        break;
+                    case "Head":
+                        aimScript = agent.gameObject.AddComponent<HeadPreset>();
+                        break;
+                    case "Base Layer":
+                        aimScript = agent.gameObject.AddComponent<BaseLayerPreset>();
+                        break;
+                    default:
+                        Debug.LogWarning("No boneset avaiable for the layer named:" + layer);
+                        break;
+                }
 
-                aimScript = agent.gameObject.AddComponent<AimAt>();
+                
 
                 agent.StartCoroutine(WaitForCurrentAnimationToFinishAndStartAimScript());
 
@@ -79,13 +103,22 @@ namespace i5.VirtualAgents.AgentTasks
             FinishTask();
         }
 
-        // wait for current animation to finish
+        // wait for current animation to finish and start the aim script if the agent is supposed to aim at a target
         private IEnumerator WaitForCurrentAnimationToFinishAndStartAimScript()
         {
-            // TODO: this value is currently hardcoded. We should look for a solution where the animation is played and we are notified once it is done.
-            // Pointing animation takes 26 frames to finish
-            yield return new WaitForSeconds(0.5f);
-            aimScript.SetupAndStart(layer, aimTarget.transform);
+            int layerIndex = animator.GetLayerIndex(layer);
+            if (layerIndex == -1)
+            {
+                Debug.LogError("The layer " + layer + " does not exist in the animator of the agent.");
+            }
+            // normalizedTims goes from X.0 to X+1 for each animation cycle, so we wait until the next animation cycle starts or the animation cycle with a diffrent animation begins
+            int endOfNextAnimation = (int)System.Math.Ceiling(animator.GetCurrentAnimatorStateInfo(layerIndex).normalizedTime);
+            while (animator.GetCurrentAnimatorStateInfo(layerIndex).normalizedTime < endOfNextAnimation && !(animator.GetCurrentAnimatorStateInfo(layerIndex).normalizedTime < (endOfNextAnimation - 1)))
+            {
+                yield return null;
+            }
+
+            aimScript.SetupAndStart(aimTarget.transform);
             // If the agent is setup to look around, stop it while aiming with the head
             if (lookAroundController != null && layer == "Head")
             {

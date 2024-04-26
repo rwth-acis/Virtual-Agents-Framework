@@ -7,7 +7,8 @@
     "unityRelease": "13f1",
     "dependencies": {
         "com.i5.toolkit.core": "1.9.1",
-        "com.unity.animation.rigging": "1.2.1"
+        "com.unity.animation.rigging": "1.2.1",
+        "com.unity.ai.navigation": "1.1.5"
     },
     "keywords": [
         "Unity",
@@ -49,11 +50,6 @@
             "displayName": "Aiming Sample",
             "description": "Example scene which shows how to set up inverse kinematics-based aiming. This, e.g., allows the agent to point at objects.",
             "path": "Samples~/Aiming Sample"
-        },
-        {
-            "displayName": "Behavior Tree Sample",
-            "description": "Example scene where the agent's behavior is defined using the framework's behavior tree editor.",
-            "path": "Samples~/BehaviorTree"
         },
         {
             "displayName": "Dynamic Navigation Sample",

@@ -1,7 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <Style src="project://database/Assets/Virtual%20Agents%20Framework/Editor/UI%20Builder/Behaviour%20Tree/BehaviourTreeEditorStyleSheet.uss?fileID=7433441132597879392&amp;guid=d4e81260ecd9b3d44abfc488dacff670&amp;type=3#BehaviourTreeEditorStyleSheet" />
-    <uie:PropertyField binding-path="Tree" label="Tree" name="tree" />
-    <ui:VisualElement style="height: 436px;">
-        <i5.VirtualAgents.Editor.BehaviourTrees.BehaviourTreeView focusable="true" style="height: 430px;" />
-    </ui:VisualElement>
-</ui:UXML>

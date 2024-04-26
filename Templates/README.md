@@ -93,6 +93,10 @@ If you specify "upm" to get the latest version, be aware that the package is not
 This command just pulls the latest version which is available at that time.
 To update to the newest current version, remove the package again and re-download it.
 
+## Quickstart Guide
+
+As part of the documentation a quickstart guide can be found [here](https://rwth-acis.github.io/Virtual-Agents-Framework/1.2.1/manual/task-system.html).
+
 ## Documentation
 
 Check out the [documentation pages](https://rwth-acis.github.io/Virtual-Agents-Framework/) and select the version that you are using.
@@ -126,6 +130,7 @@ All art assets (e.g. files located in the folders "3D Models" and "Animations" i
 - Danylo Bekhter
 - Sebastian Meinberger
 - David Terhürne
+- Lena Linke
 
 ### 3D Models & Animations:
 
