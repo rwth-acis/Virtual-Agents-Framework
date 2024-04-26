@@ -2,18 +2,22 @@
     "name": "i5.VirtualAgents.Editor.Tests",
     "rootNamespace": "i5.VirtualAgents.Editor.Tests",
     "references": [
-        "i5.VirtualAgents.Editor",
-        "i5.VirtualAgents.Runtime"
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
     ],
     "includePlatforms": [
         "Editor"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }

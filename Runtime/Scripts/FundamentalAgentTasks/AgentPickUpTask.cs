@@ -66,32 +66,28 @@ namespace i5.VirtualAgents.AgentTasks
 
             if (!PickupObject.TryGetComponent<Item>(out var item))
             {
-                State = TaskState.Failure;
                 i5Debug.LogError($"The pickup object {PickupObject.name} does not have a Item component. " +
                     "Therefore, it cannot be picked up. Skipping this task.",
                     this);
 
-                FinishTask();
+                FinishTaskAsFailed();
                 return;
             }
             if (!item.CanBePickedUp)
             {
-                State = TaskState.Failure;
                 i5Debug.LogError($"The pickup object {PickupObject.name} does not allow the item to be picked up. canBePickedUp = false " +
                     "Therefore, it cannot be picked up. Skipping this task.",
                     this);
 
-                FinishTask();
+                FinishTaskAsFailed();
                 return;
             }
 
             float distance = Vector3.Distance(agent.transform.position, PickupObject.transform.position);
             if (distance > minDistance)
             {
-                // TODO: we should consider adding a functionality that the agent automatically walks to the item if it is not close enough
-                State = TaskState.Failure;
                 Debug.LogWarning("Object was not close enough for pickup:" + distance + " > " + minDistance);
-                FinishTask();
+                FinishTaskAsFailed();
                 return;
             }
 
@@ -115,6 +111,32 @@ namespace i5.VirtualAgents.AgentTasks
             {
                 // SocketId == SocketId.LeftHand or SocketId == SocketId.Spine
                 constraint = meshSockets.TwoBoneIKConstraintRightArm;
+            }
+            if(constraint == null)
+            {
+                Debug.LogError("No TwoBoneIKConstraint found on the meshSockets component ");
+                FinishTaskAsFailed();
+                yield break;
+            }
+
+            if(constraint.data.tip == null || constraint.data.mid == null || constraint.data.root == null)
+            {
+                // Add correct Root, Mid and Tip to CharacterRig for IK animation
+                if (!agent.TryGetComponent<Animator>(out var animator))
+                {
+                    Debug.LogWarning("Agent has no Animator component.");
+
+                }
+                meshSockets.TwoBoneIKConstraintLeftArm.data.root = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
+                meshSockets.TwoBoneIKConstraintLeftArm.data.mid = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
+                meshSockets.TwoBoneIKConstraintLeftArm.data.tip = animator.GetBoneTransform(HumanBodyBones.LeftHand);
+
+                meshSockets.TwoBoneIKConstraintRightArm.data.root = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
+                meshSockets.TwoBoneIKConstraintRightArm.data.mid = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
+                meshSockets.TwoBoneIKConstraintRightArm.data.tip = animator.GetBoneTransform(HumanBodyBones.RightHand);
+                //TODO: This is a computatioal heavy operation, it would be advisable to not do this during runtime
+                RigBuilder rigs = agent.GetComponent<RigBuilder>();
+                rigs.Build();
             }
             constraint.data.target.SetPositionAndRotation(constraint.data.tip.position, constraint.data.tip.rotation);
             constraint.weight = 1;

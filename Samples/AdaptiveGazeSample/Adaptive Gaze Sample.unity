@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 181214888b321b248a560bcb9e08d51f, type: 2}
 --- !u!1 &28373917
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 28373918}
   - component: {fileID: 28373922}
   m_Layer: 6
-  m_Name: Item Stick 1 (1)
+  m_Name: Item Stick 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -299,98 +299,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31265745}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &35512597
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 35512600}
-  - component: {fileID: 35512599}
-  - component: {fileID: 35512598}
-  m_Layer: 0
-  m_Name: Camera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!81 &35512598
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 35512597}
-  m_Enabled: 1
---- !u!20 &35512599
-Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 35512597}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 1
-  m_GateFitMode: 2
-  m_FOVAxisMode: 0
-  m_Iso: 200
-  m_ShutterSpeed: 0.005
-  m_Aperture: 16
-  m_FocusDistance: 10
-  m_FocalLength: 50
-  m_BladeCount: 5
-  m_Curvature: {x: 2, y: 11}
-  m_BarrelClipping: 0.25
-  m_Anamorphism: 0
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
---- !u!4 &35512600
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 35512597}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.31434935, y: 0.014501482, z: -0.004803553, w: -0.94918454}
-  m_LocalPosition: {x: 0.055145383, y: 2.870378, z: -1.7201295}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1023428232005854996}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &52754172
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,6 +510,98 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 92717308}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &124927034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 124927035}
+  - component: {fileID: 124927037}
+  - component: {fileID: 124927036}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &124927035
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124927034}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1504322598}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &124927036
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124927034}
+  m_Enabled: 1
+--- !u!20 &124927037
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124927034}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 65
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &166229970
 GameObject:
   m_ObjectHideFlags: 0
@@ -1964,7 +1964,7 @@ GameObject:
   - component: {fileID: 713399637}
   - component: {fileID: 713399641}
   m_Layer: 6
-  m_Name: Item Stick 1 (2)
+  m_Name: Item Stick 7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2386,7 +2386,7 @@ GameObject:
   - component: {fileID: 909860821}
   - component: {fileID: 909860825}
   m_Layer: 6
-  m_Name: Item Stick 2 (2)
+  m_Name: Item Stick 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2596,7 +2596,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.11000001
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 29744cef21d8a924fa58fb6b46427a2c, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 96f04726b0e04cd459ab46305f7a15da, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &959590313
 Transform:
@@ -2656,7 +2656,7 @@ GameObject:
   - component: {fileID: 1043775858}
   - component: {fileID: 1043775862}
   m_Layer: 6
-  m_Name: Item Stick 2 (1)
+  m_Name: Item Stick 9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3295,7 +3295,7 @@ GameObject:
   - component: {fileID: 1246956557}
   - component: {fileID: 1246956560}
   m_Layer: 6
-  m_Name: Item Stick 3 (1)
+  m_Name: Item Stick 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3531,25 +3531,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: 
   description: "This scene demonstrates how the agent can automatically and dynamically
-    look at objects that the agent is seeing. Here the agent walks past multiple
+    look at objects that the agent is seeing. Here, the agent walks past multiple
     objects with the AdaptiveGazeTarget component and looks at them dynamically.
-    \r\nThe `AdaptiveGazeSampleController` adds multiple waypoint where the agent
+    \r\nThe `AdaptiveGazeSampleController` adds multiple waypoints where the agent
     should walk. Optionally, the sample controller also provides options to overwrite
-    the adaptive gaze at the beginning for a specified `AimAtTime`.\n\nTo enable
-    this feature the following needs to be added:\n1. The agent needs a AdaptiveGaze
-    component :\n1.2 Targets that can be looked at need to be on specific layers,
-    specified in `seeLayers`\n1.3 Objects that should obstruct the view of the agent
-    need to be on specific layers, specified in `occlisonLayers`\n\n2 Objects that
-    should be looked at need the AdaptiveGazeTarget component\r\n 2.1 AdaptiveGazeTarget
-    needs to be on one of the `seeLayers` that was specified in the agent. The layer
-    can be changed in the top right corner of the inspector \r\n  2.2 (optional)
-    A collider that makes sense for the Target, if no target is added a standard
-    collider will be added, see `ExampleOfAutoCollider` in the sample scene\n\nUse
-    the scene view during play mode to inspect the scene freely while the agent is
-    walking around.\nIf Objects are changed in the szene: Select the GameObject \"NavMesh
-    Surfave\" and bake the NavMesh again before running the scene."
+    the adaptive gaze at the beginning for a specified `AimAtTime`. Alternatively,
+    while in play mode any object can be dragged into the `OverwriteGazeTarget` attribute
+    of the adaptive gaze component to make the agent look at it constantly.\nThe
+    `AdaptiveGazeSampleController` also shows an example of how the Shortcut Taskactions
+    can be used to start and stop adaptive gaze. Activate `useTaskActionsForAdaptiveGaze`
+    to use that example in Playmode.\n\nTo enable this feature the following needs
+    to be configured:\n1. The agent needs a AdaptiveGaze component :\n1.2 Targets
+    that can be looked at need to be on specific layers, specified in `seeLayers`\n1.3
+    Objects that should obstruct the view of the agent need to be on specific layers,
+    specified in `occlisonLayers`\n\n2 Objects that should be looked at need the
+    AdaptiveGazeTarget component\r\n 2.1 AdaptiveGazeTarget needs to be on one of
+    the `seeLayers` that was specified in the agent. The layer can be changed in
+    the top right corner of the inspector \r\n  2.2 (optional) A collider that makes
+    sense for the Target, if no target is added a standard collider will be added,
+    see `ExampleOfAutoCollider` in the sample scene\n\nUse the scene view during
+    play mode to inspect the scene freely while the agent is walking around.\nIf
+    Objects are changed in the scene: Select the GameObject \"NavMesh Surface\" and
+    bake the NavMesh again before running the scene."
   type: 0
-  url: https://rwth-acis.github.io/Virtual-Agents-Framework/1.2.0/manual/adaptive-gaze.html
+  url: https://rwth-acis.github.io/Virtual-Agents-Framework/1.2.1/manual/adaptive-gaze.html
 --- !u!4 &1264251852
 Transform:
   m_ObjectHideFlags: 0
@@ -3725,7 +3730,7 @@ GameObject:
   - component: {fileID: 1298026671}
   - component: {fileID: 1298026675}
   m_Layer: 6
-  m_Name: Item Stick 3
+  m_Name: Item Stick 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3930,7 +3935,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1351748437}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffaee846fa795884a9e5ff4b21d42163, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d2c4f55dff697b44a0eb2e098d737fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1747714761}
@@ -3940,8 +3945,9 @@ MonoBehaviour:
   - {fileID: 1546542925}
   - {fileID: 347327955}
   target: {fileID: 1567253471}
+  aimAtTime: 100
+  useTaskActionsForAdaptiveGaze: 0
   overwriteAdaptiveGazeWithAimHead: 0
-  aimAtTime: 10
 --- !u!1 &1386483148
 GameObject:
   m_ObjectHideFlags: 0
@@ -4727,6 +4733,11 @@ MonoBehaviour:
   drawGreenY: 0
   drawRedX: 0
   drawBlueZ: 1
+--- !u!4 &1504322598 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5160154637942435408, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
+  m_PrefabInstance: {fileID: 1023428232005854918}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1517474305
 GameObject:
   m_ObjectHideFlags: 0
@@ -4752,7 +4763,7 @@ Transform:
   m_GameObject: {fileID: 1517474305}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 48.710117, y: 27.798246, z: -35.90921}
+  m_LocalPosition: {x: 47.08, y: 27.798246, z: -35.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4801,7 +4812,7 @@ GameObject:
   - component: {fileID: 1547831360}
   - component: {fileID: 1547831364}
   m_Layer: 6
-  m_Name: Item Stick 1 (3)
+  m_Name: Item Stick 8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4837,7 +4848,7 @@ Transform:
   m_GameObject: {fileID: 1547831359}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 49.370117, y: 28.298246, z: -35.20921}
+  m_LocalPosition: {x: 48.51, y: 28.3, z: -38.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4976,6 +4987,7 @@ GameObject:
   - component: {fileID: 1567253474}
   - component: {fileID: 1567253473}
   - component: {fileID: 1567253472}
+  - component: {fileID: 1567253475}
   m_Layer: 0
   m_Name: Target
   m_TagString: Untagged
@@ -5026,6 +5038,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -36.427, z: 0}
+--- !u!114 &1567253475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567253471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba2ac043a0776a4d846aaf6ba38a734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: 
+  description: Select the controller object and activate overwriteAdaptiveGazeWithAimHead
+    to make this the target.
+  type: 0
+  url: 
 --- !u!1 &1581204865
 GameObject:
   m_ObjectHideFlags: 0
@@ -6261,19 +6290,19 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 700674713753034054, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 5160154637942435408, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 35512600}
+      addedObject: {fileID: 124927035}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
-      insertIndex: -1
+      insertIndex: 6
       addedObject: {fileID: 1023428232005854926}
     - targetCorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
-      insertIndex: -1
+      insertIndex: 7
       addedObject: {fileID: 1023428232005854985}
     - targetCorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1023428232005854991}
+      insertIndex: 8
+      addedObject: {fileID: 1023428232005854987}
     - targetCorrespondingSourceObject: {fileID: 306512321642893685, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1504322597}
@@ -6308,7 +6337,7 @@ MonoBehaviour:
   - m_Rig: {fileID: 1087265143}
     m_Active: 1
   m_Effectors: []
---- !u!114 &1023428232005854991
+--- !u!114 &1023428232005854987
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6317,30 +6346,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1747714758}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88c1ed013dd3e92439b19c5c699179c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 96bc75292d584fe4598ab674a7c7ddfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 2.5
-  maxNumberOfTargetsInRange: 50
-  detectionIntervalWhenIdle: 3
-  detectionIntervalWhenWalking: 0.5
-  chanceHighestRankedTarget: 0.5
-  chanceSecondHighestTarget: 0.1
-  chanceThirdHighestTarget: 0.1
-  chanceRandomTarget: 0.05
-  chanceIdleTarget: 0.25
-  lookSpeed: 2
-  seeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  occlusionLayers:
-    serializedVersion: 2
-    m_Bits: 1
---- !u!4 &1023428232005854996 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 700674713753034054, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
-  m_PrefabInstance: {fileID: 1023428232005854918}
-  m_PrefabAsset: {fileID: 0}
+  <TwoBoneIKConstraintRightArm>k__BackingField: {fileID: 0}
+  <TwoBoneIKConstraintLeftArm>k__BackingField: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

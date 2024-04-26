@@ -124,7 +124,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <returns></returns>
         public AgentBaseTask GoToAndPickUp(GameObject destinationObject, int priority = 0, SocketId bodyAttachPoint = SocketId.RightHand, float minDistance = 0.3f)
         {
-            AgentMovementTask goToTask = (AgentMovementTask) GoTo(destinationObject, default, priority, true);
+            AgentMovementTask goToTask = (AgentMovementTask)GoTo(destinationObject, default, priority, true);
             goToTask.MinDistance = minDistance;
 
             AgentBaseTask pickUpTask = PickUp(destinationObject, priority, bodyAttachPoint);
@@ -171,6 +171,35 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             AgentBaseTask goToTask = GoTo(destinationTransform, default, priority);
             AgentBaseTask dropTask = DropItem(dropObject, priority);
             return dropTask;
+        }
+
+        /// <summary>
+        /// Creates an adaptiveGazeTask that activates the AdaptiveGaze component, then a wait task on the head and then a task that deactivates the AdaptiveGaze component. These a scheduled so that they play one after another.
+        /// </summary>
+        /// <param name="seconds">Time in seconds after which the gazing should stop</param>
+        /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
+        /// <returns>Returs a AgentBaseTask array with two elements. The first has the starting Task (e.g. for startTask.waitFor(diffrentTask), and the second the stop Task ((e.g. for diffrentTask.waitFor(stopTask))</returns>
+        public AgentBaseTask[] StartAdaptiveGazeForTime(float seconds, int priority = 0)
+        {
+            AgentBaseTask adaptiveGazeTaskStart = new AgentAdaptiveGazeTask(true);
+            scheduleTaskSystem.ScheduleTask(adaptiveGazeTaskStart, priority, "Head");
+            AgentBaseTask waitHead = WaitForSeconds(seconds, priority, "Head");
+            waitHead.WaitFor(adaptiveGazeTaskStart);
+            AgentBaseTask adaptiveGazeTaskStop = new AgentAdaptiveGazeTask(false);
+            adaptiveGazeTaskStop.WaitFor(waitHead);
+            scheduleTaskSystem.ScheduleTask(adaptiveGazeTaskStop, priority, "Head");
+            return new AgentBaseTask[] { adaptiveGazeTaskStart, adaptiveGazeTaskStop };
+        }
+        /// <summary>
+        /// Creates an adaptiveGazeTask that activates or deactivates the AdaptiveGaze component on the agent
+        /// </summary>
+        /// <param name="shouldStartOrStop">If true, will start adaptive Gaze. If false will stop adaptive gaze</param>
+        /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
+        /// <returns></returns>
+        public void ActivateOrDeactivateAdaptiveGaze(bool shouldStartOrStop, int priority = 0)
+        {
+            AgentBaseTask adaptiveGazeTask = new AgentAdaptiveGazeTask(shouldStartOrStop);
+            scheduleTaskSystem.ScheduleTask(adaptiveGazeTask, priority, "Head");
         }
     }
 }

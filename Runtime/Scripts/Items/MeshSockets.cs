@@ -9,24 +9,42 @@ namespace i5.VirtualAgents
 	/// </summary>
 	public class MeshSockets : MonoBehaviour
     {
-        // TODO: we should make this class extendable by more sockets than the pre-defined IDs
         public enum SocketId
         {
-            Spine,
             RightHand,
-            LeftHand
+            LeftHand,
+            RightLowerArm,
+            LeftLowerArm,
+            LeftUpperArm,
+            RightUpperArm,
+            RightBack,
+            LeftBack,
+            HipsFrontLeft,
+            HipsFrontRight,
+            HipsBackLeft,
+            HipsBackRight,    
+            AdditionalSocket1,
+            AdditionalSocket2,
+            AdditionalSocket3,
+            AdditionalSocket4,
+            AdditionalSocket5,
+            AdditionalSocket6,
+            AdditionalSocket7,
+            AdditionalSocket8,
+            AdditionalSocket9,
+            AdditionalSocket10
         }
 
         /// <summary>
         /// Define the two bone IK constraints for the arms that is uses in the AgetPickUpTask
         /// </summary>
         [field: SerializeField]
-        public TwoBoneIKConstraint TwoBoneIKConstraintRightArm { get; private set; }
+        public TwoBoneIKConstraint TwoBoneIKConstraintRightArm { get; set; }
         [field: SerializeField]
-        public TwoBoneIKConstraint TwoBoneIKConstraintLeftArm { get; private set; }
+        public TwoBoneIKConstraint TwoBoneIKConstraintLeftArm { get; set; }
 
         Dictionary<SocketId, MeshSocket> socketMap = new();
-
+        Dictionary<Item, SocketId> itemSocketMap = new();
         // Initializes the component and collects the MeshSockets
         private void Start()
         {
@@ -34,6 +52,12 @@ namespace i5.VirtualAgents
             MeshSocket[] sockets = GetComponentsInChildren<MeshSocket>();
             foreach (MeshSocket socket in sockets)
             {
+                //Check if the socket is already in the map
+                if (socketMap.ContainsKey(socket.SocketId))
+                {
+                    Debug.LogError("Socket with ID " + socket.SocketId + " is defined multiple times in the agent.");
+                }
+
                 socketMap[socket.SocketId] = socket;
             }
         }
@@ -45,8 +69,17 @@ namespace i5.VirtualAgents
         /// <param name="socketId">The ID by which the socket can be found</param>
         public void Attach(Item item, SocketId socketId)
         {
-            // TODO: null check
-            socketMap[socketId].Attach(item);
+            if (socketMap.ContainsKey(socketId) && socketMap[socketId] != null)
+            {
+                // Attach the item to the socket
+                socketMap[socketId].Attach(item);
+                // Add the item to the itemSocketMap, this is needed because the socketID can have multiple Items attached to it
+                itemSocketMap[item] = socketId;
+            }
+            else
+            {
+                Debug.LogError("Socket with ID " + socketId + " not found or is null.");
+            }
         }
 
         /// <summary>
@@ -56,10 +89,19 @@ namespace i5.VirtualAgents
         public void Detach(Item item)
         {
             // Get the socketId of the socket that the item is attached to
-            // TODO: maybe we could store the MeshSocket to which an item is currently attached as this would be more stable against changes in the hierarchy
-            SocketId socketId = item.transform.parent.parent.GetComponent<MeshSocket>().SocketId;
-
-            socketMap[socketId].Detach(item);
+            SocketId socketId = itemSocketMap[item];
+            // Null check
+            if (socketMap.ContainsKey(socketId) && socketMap[socketId] != null)
+            {
+                // Detach the item from the socket
+                socketMap[socketId].Detach(item);
+                // Remove the item from the itemSocketMap
+                itemSocketMap.Remove(item);
+            }
+            else
+            {
+                Debug.LogError("Socket with ID " + socketId + " not found or is null.");
+            }
         }
     }
 }
