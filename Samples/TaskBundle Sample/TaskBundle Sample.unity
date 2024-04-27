@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1168,20 +1168,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: 
-  description: 'This scene demonstrates how to schedule walking tasks so that the
-    agent navigates a series of waypoints.
+  description: 'In the `TaskBundleSample` the agent attempts to execute two TaskBundles,
+    of which only one''s preconditions are met.
 
-    The script on the Controller object
-    issues walking tasks to the agent on startup.
+    
 
+    The `TaskBundleController`
+    has the option to add multiple waypoints where the agent should walk.
 
-    Use the scene view during
-    play mode to inspect the scene freely while the agent is walking around.
+    ss
 
+    At
+    the end of the execution of the first TaskBundle, the agent is close to the last
+    waypoint, which leads to the precondition of the second bundle to fail.
 
-    If
-    Objects are changed in the szene: Select the GameObject "NavMesh Surfave" and
-    bake the NavMesh again before running the scene.'
+    TaskBundles
+    are a way to group multiple sub-tasks together.
+
+    The resulting task bundle
+    can be added to a task system like any other task.
+
+    A TaskBundle can also
+    include a list of boolean preconditions.
+
+    They are checked beforehand and
+    determine if the TaskBundle prematurely finishes, in the event that one of the
+    preconditions is not met.
+
+    Tasks in a TaskBundle are executed back to back
+    in sequence and cannot be interrupted by other tasks.'
   type: 0
   url: 
 --- !u!4 &1264251852
