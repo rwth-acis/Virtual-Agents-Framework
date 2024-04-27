@@ -26,7 +26,7 @@ namespace i5.VirtualAgents.Examples
             // Parameters can be added in brackets on the left side of the arrow
             preconditions.Add(() =>
             {
-                // This lambda function checks if the agent is close to the first waypoint
+                // This lambda function checks if the agent is close to the last waypoint
                 // If a precondition is not met, the TaskBundle will not be executed
                 // Compare vectors equality with accuracy of 0.5
                 float distance = Vector3.Distance(waypoints[waypoints.Count -1].position, agent.transform.position);
@@ -43,6 +43,7 @@ namespace i5.VirtualAgents.Examples
             // Create a new TaskBundle with the tasks and preconditions
             // This TaskBundle will be executed because the agent is not close to the last waypoint
             TaskBundle taskBundleSuccess = new TaskBundle(this, tasks, preconditions);
+
 
             // Create a new TaskBundle with the tasks and preconditions
             // This TaskBundle will not be executed
