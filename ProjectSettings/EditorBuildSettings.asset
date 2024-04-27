@@ -4,8 +4,5 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Virtual Agents Framework/Samples/BehaviorTree/BehavoirTreeSampleScene.unity
-    guid: bccee2538cf204c4b9db3834e7da5842
+  m_Scenes: []
   m_configObjects: {}
