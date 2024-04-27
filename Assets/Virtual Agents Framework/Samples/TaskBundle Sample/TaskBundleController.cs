@@ -29,7 +29,7 @@ namespace i5.VirtualAgents.Examples
                 // This lambda function checks if the agent is close to the last waypoint
                 // If a precondition is not met, the TaskBundle will not be executed
                 // Compare vectors equality with accuracy of 0.5
-                float distance = Vector3.Distance(waypoints[waypoints.Count -1].position, agent.transform.position);
+                float distance = Vector3.Distance(waypoints[waypoints.Count - 1].position, agent.transform.position);
                 return distance > 1.0f;
             });
 
@@ -53,7 +53,7 @@ namespace i5.VirtualAgents.Examples
             // Schedule the TaskBundles to the taskSystem
             taskSystem.ScheduleTask(taskBundleSuccess, 0);
             taskSystem.ScheduleTask(taskBundleFail, 0);
-
+            Debug.Log("Two TaskBundles scheduled. The first one should succeed, the second one should fail.");
         }
     }
 }
