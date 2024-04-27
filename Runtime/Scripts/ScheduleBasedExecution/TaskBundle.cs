@@ -12,6 +12,7 @@ namespace i5.VirtualAgents
     /// </summary>
     public class TaskBundle : AgentBaseTask
     {
+        // The coroutine host which is used to start coroutines as TaskBundles are no MonoBehaviours
         private MonoBehaviour coroutineHost;
         public TaskBundle(MonoBehaviour coroutineHost)
         {
@@ -51,7 +52,6 @@ namespace i5.VirtualAgents
         /// <param name="executingAgent"></param>
         public override void StartExecution(Agent executingAgent)
         {
-            Debug.Log("Starting TaskBundle Execution");
             State = TaskState.Running;
             if (coroutineHost == null)
             {
@@ -70,7 +70,7 @@ namespace i5.VirtualAgents
         /// <param name="executingAgent"></param>
         private IEnumerator ExecuteTasks(Agent executingAgent)
         {
-            Debug.Log("TaskBundle Execution");
+            // Iterate over TaskQueue
             for (var i = 0; i < TaskQueue.Count; i++)
             {
                 var task = TaskQueue[i];
@@ -78,35 +78,28 @@ namespace i5.VirtualAgents
                 {
                     for (int j = 0; j < i; j++)
                     {
+                        // Each task depends on all previous tasks
                         task.DependsOnTasks.Add(TaskQueue[j]);
                     }
                 }
+                // Start the task
                 task.StartExecution(executingAgent);
-                // Mini scheduler
+                // Mini scheduler to wait for the current task to initialize
                 while (task.State != TaskState.Running && task.State != TaskState.Success && task.State != TaskState.Failure)
                 {
                     task.Tick(executingAgent);
-                    Debug.Log("Task " + i + " " + task.State);
                     yield return null; // wait for the next frame
                 }
+                // Wait for the current task to finish
                 while (task.State == TaskState.Running)
                 {
                     task.Tick(executingAgent);
                     yield return null; // wait for the next frame
                 }
 
-                //task.StartExecution(executingAgent);
-                //TaskState currentState = task.EvaluateTaskState();
-                //Debug.Log("new Task " + task + TaskQueue.Count + currentState);
-                if (task is AgentMovementTask)
-                {
-                    AgentMovementTask movementTask = (AgentMovementTask)task;
-                    Debug.Log("new Task " + task + TaskQueue.Count + task.State + movementTask.Destination);
-                }
-
                 if (task.State == TaskState.Failure)
                 {
-                    Debug.Log("Task " + i + " failed");
+                    Debug.LogError("Task " + i + " failed");
                     StopAsFailed();
                     yield break;
                 }
@@ -121,13 +114,12 @@ namespace i5.VirtualAgents
         /// <returns> True if all preconditions evaluate to true, otherwise false. </returns>
         private bool CheckPreconditions()
         {
-            Debug.Log("Checking Preconditions");
+            bool res = true;
             foreach (Func<bool> condition in Preconditions)
             {
-                return condition();
+                res = res && condition();
             }
-
-            return true;
+            return res;
         }
     }
 }
