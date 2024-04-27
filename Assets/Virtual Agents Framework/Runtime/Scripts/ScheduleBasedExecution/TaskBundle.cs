@@ -12,28 +12,23 @@ namespace i5.VirtualAgents
     /// </summary>
     public class TaskBundle : AgentBaseTask
     {
-        // The coroutine host which is used to start coroutines as TaskBundles are no MonoBehaviours
-        private MonoBehaviour coroutineHost;
-        public TaskBundle(MonoBehaviour coroutineHost)
+        public TaskBundle()
         {
             this.State = TaskState.Waiting;
             TaskQueue = new List<AgentBaseTask>();
-            this.coroutineHost = coroutineHost;
         }
 
-        public TaskBundle(MonoBehaviour coroutineHost, List<AgentBaseTask> tasks)
+        public TaskBundle(List<AgentBaseTask> tasks)
         {
             this.State = TaskState.Waiting;
             TaskQueue = tasks;
-            this.coroutineHost = coroutineHost;
         }
 
-        public TaskBundle(MonoBehaviour coroutineHost, List<AgentBaseTask> tasks, List<Func <bool>> preconditions)
+        public TaskBundle(List<AgentBaseTask> tasks, List<Func <bool>> preconditions)
         {
             this.State = TaskState.Waiting;
             TaskQueue = tasks;
             this.Preconditions = preconditions;
-            this.coroutineHost = coroutineHost;
         }
 
         /// <summary>
@@ -53,14 +48,9 @@ namespace i5.VirtualAgents
         public override void StartExecution(Agent executingAgent)
         {
             State = TaskState.Running;
-            if (coroutineHost == null)
-            {
-                Debug.LogError("coroutineHost is null");
-                return;
-            }
             if (CheckPreconditions())
             {
-                coroutineHost.StartCoroutine(ExecuteTasks(executingAgent));
+                executingAgent.StartCoroutine(ExecuteTasks(executingAgent));
             }
         }
 

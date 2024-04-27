@@ -7,11 +7,10 @@ Tasks in a TaskBundle are executed back to back in sequence and cannot be interr
 
 # Construct a TaskBundle
 The are three TaskBundle constructors, that can be used to create a TaskBundle:
-1. `TaskBundle(MonoBehaviour coroutineHost)`
-2. `TaskBundle(MonoBehaviour coroutineHost, List<AgentBaseTask> tasks)`
-3. `TaskBundle(MonoBehaviour coroutineHost, List<AgentBaseTask> tasks, List<Func <bool>> preconditions)`
+1. `TaskBundle()`
+2. `TaskBundle(List<AgentBaseTask> tasks)`
+3. `TaskBundle(List<AgentBaseTask> tasks, List<Func <bool>> preconditions)`
 
-The `coroutineHost` is the MonoBehaviour that will host the coroutine that executes the TaskBundle.
 `tasks` is a list of subtasks. Of note is, that TaskActions cannot be used here, as they would also add the sub-tasks to the regular scheduler.
 `preconditions` is a list of boolean functions, so in particular lambda expressions can be used.
 Other functions may be evaluated beforehand, so are not suitable for this purpose.
