@@ -104,6 +104,13 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                         {
                             Tree.DeleteNode(nodeToRemove.node);
                         }
+                        Edge edge = elemToRemove as Edge;
+                        if (edge != null)
+                        {
+                            Debug.Log("Removing edge");
+                            //Remove the child, so that the edge is not added again
+                            ((NodeView)edge.output.node).node.Children.Remove(((NodeView)edge.input.node).node);
+                        }
                     }
                 }
 
@@ -112,6 +119,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                 {
                     foreach (var edge in graphViewChange.edgesToCreate)
                     {
+                        //Add child Tree.AddChild
                         ((NodeView)edge.output.node).node.Children.Add(((NodeView)edge.input.node).node);
                     }
                 }
