@@ -20,14 +20,14 @@ EditorBuildSettings:
     path: Assets/Virtual Agents Framework/Samples/Aiming Sample/Aiming Sample.unity
     guid: 343b7ef4e8aa63544ab7bb2cc2a3bac0
   - enabled: 1
-    path: Assets/Virtual Agents Framework/Samples/BehaviorTree/BehavoirTreeSampleScene.unity
+    path: Assets/Virtual Agents Framework/Samples/BehaviorTree/4. ComplexSample/BehavoirTreeSampleScene.unity
     guid: bccee2538cf204c4b9db3834e7da5842
   - enabled: 1
     path: Assets/Virtual Agents Framework/Samples/Parallel Tasks Sample/Independent
       Tasks/Independent Tasks Sample.unity
     guid: 9d8027d3899ca3a4b857e0adb8790ce5
   - enabled: 1
-    path: Assets/Virtual Agents Framework/Samples/ItemPickUpSample/Item Pick Up Sample.unity
+    path: Assets/Virtual Agents Framework/Samples/ItemPickUpSample/item Pick Up Sample.unity
     guid: 2cab796d155be314588b4f450e40e802
   - enabled: 1
     path: Assets/Virtual Agents Framework/Samples/Parallel Tasks Sample/Synchronized
