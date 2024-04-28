@@ -5,6 +5,7 @@ using UnityEditor.Experimental.GraphView;
 using System;
 using i5.VirtualAgents.BehaviourTrees.Visual;
 using i5.VirtualAgents.BehaviourTrees;
+using UnityEngine.UIElements;
 
 namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
@@ -17,8 +18,9 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         public VisualNode node;
         public Port input;
         public Port output;
-        public NodeView(VisualNode node)
+        public NodeView(VisualNode node) : base("Assets/Virtual Agents Framework/Editor/UI Builder/Behaviour Tree/NodeView.uxml")
         {
+            
             this.node = node;
             title = node.name;
             viewDataKey = node.Guid;
@@ -30,6 +32,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             // Create the ports
             CreateInputPorts();
             CreateOutputPorts();
+            SetupClasses();
         }
 
         /// <summary>
@@ -43,14 +46,36 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             node.Position.y = newPos.yMin;
         }
 
+
+        private void SetupClasses()
+        {
+            // Set the class of the node
+            if (node.GetCopyOfSerializedInterface() is IRootNode)
+            {
+                AddToClassList("rootNode");
+            }
+            else if (node.GetCopyOfSerializedInterface() is ICompositeNode)
+            {
+                AddToClassList("compositeNode");
+            }
+            else if (node.GetCopyOfSerializedInterface() is IDecoratorNode)
+            {
+                AddToClassList("decoratorNode");
+            }
+            else
+            {
+                AddToClassList("actionNode");
+            }
+        }
         // Create the ports for input edges
         private void CreateInputPorts()
         {
             //Every node, exept the root, has one input
             if (!(node.GetCopyOfSerializedInterface() is IRootNode))
             {
-                input = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
+                input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
                 input.portName = "";
+                input.style.flexDirection = FlexDirection.Column; // Styling that can't be done in UXML because the port is added at runtime
                 inputContainer.Add(input);
             }
         }
@@ -63,18 +88,19 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             //Composite Nodes can have multiple children/outputs
             if (node.GetCopyOfSerializedInterface() is ICompositeNode)
             {
-                output = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(bool));
+                output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(bool));
             }
 
             //Decorator Nodes have one childe/output
             if (node.GetCopyOfSerializedInterface() is IDecoratorNode || node.GetCopyOfSerializedInterface() is IRootNode)
             {
-                output = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
+                output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
             }
 
             if (output != null)
             {
                 output.portName = "";
+                output.style.flexDirection = FlexDirection.ColumnReverse; // Styling that can't be done in UXML because the port is added at runtime
                 outputContainer.Add(output);
             }
         }

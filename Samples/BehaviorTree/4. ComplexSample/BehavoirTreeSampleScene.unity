@@ -1342,19 +1342,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: 
-  description: 'This scene demonstrates how to schedule walking tasks so that the
-    agent navigates a series of waypoints.
-
-    The script on the Controller object
-    issues walking tasks to the agent on startup.
+  description: 'Todo
 
 
-    Use the scene view during
-    play mode to inspect the scene freely while the agent is walking around.
+    Use the scene view during play mode to inspect the scene
+    freely while the agent is walking around.
 
 
-    Go
-    to Window > AI > Navigation and bake the NavMesh before running the scene.'
+    Go to Window > AI > Navigation
+    and bake the NavMesh before running the scene.'
   type: 0
   url: 
 --- !u!4 &1264251852
@@ -1551,7 +1547,7 @@ Transform:
   m_GameObject: {fileID: 1896648545}
   serializedVersion: 2
   m_LocalRotation: {x: -0.03289668, y: 0.9661453, z: -0.20149755, w: -0.1577338}
-  m_LocalPosition: {x: 4.93, y: 4.33, z: 4.48}
+  m_LocalPosition: {x: -0.17, y: 4.33, z: 6.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

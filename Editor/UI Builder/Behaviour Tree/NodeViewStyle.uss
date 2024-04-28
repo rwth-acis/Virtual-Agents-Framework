@@ -1,0 +1,112 @@
+#node-border {
+    background-color: rgb(56, 56, 56);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    -unity-text-align: upper-center;
+}
+
+#selection-border {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-left-color: rgb(0, 173, 255);
+    border-right-color: rgb(0, 173, 255);
+    border-top-color: rgb(0, 173, 255);
+    border-bottom-color: rgb(0, 173, 255);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.actionNode #input {
+    background-color: rgb(140, 188, 0);
+}
+
+.compositeNode #input {
+    background-color: rgb(142, 186, 229);
+}
+
+.decoratorNode #input {
+    background-color: rgb(246, 168, 0);
+}
+
+.rootNode #input {
+    background-color: rgb(227, 0, 102);
+    min-height: 25px;
+}
+
+:hover > #selection-border {
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+}
+
+:selected > #selection-border {
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+}
+
+:selected:hover > #selection-border {
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+}
+
+.node {
+    min-width: 150px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+#description {
+    font-size: 10px;
+}
+
+#title {
+    -unity-font-style: bold;
+    font-size: 14px;
+}
+
+#divider {
+    min-height: 2px;
+    background-color: rgb(120, 120, 120);
+}
+
+#input {
+    align-items: center;
+}
+
+#output {
+    align-items: center;
+}

@@ -5,11 +5,12 @@
     </uie:Toolbar>
     <i5.VirtualAgents.Editor.SplitView fixed-pane-initial-dimension="362">
         <ui:VisualElement name="left_panel">
-            <ui:Label text="Inspector" display-tooltip-when-elided="true" style="background-color: rgb(37, 37, 37);" />
+            <ui:Label text="An agent that has the Tree Runner component with this tree as a variable will perform the task in the tree starting from the Rootnode. See DokumentationLink TODO&#10;&#10;Editor Controls:&#10;Move around:  Mouse scroll wheel button.&#10;Zoom: Mouse scroll whell.&#10;Creating new nodes: Right Click&#10;Changing values of nodes: Left Click&#10;Connectong nodes: Left Click and hold" display-tooltip-when-elided="true" name="Manuel" style="background-color: rgb(56, 56, 56); top: 3px; bottom: 19px; width: auto; white-space: normal; text-overflow: ellipsis;" />
+            <ui:Label text="Inspector" display-tooltip-when-elided="true" style="background-color: rgb(37, 37, 37); top: 11px;" />
             <i5.VirtualAgents.Editor.BehaviourTrees.InspectorView />
         </ui:VisualElement>
         <ui:VisualElement name="right_panel">
-            <ui:Label text="Select a Behaviour Tree&#10;in the Project Window" display-tooltip-when-elided="true" name="treeViewOccludeLabel" style="height: 193px; width: 451px; flex-direction: column; left: auto; top: auto; right: auto; bottom: auto; position: relative;" />
+            <ui:Label text="Select a Behaviour Tree in the Project Window or double click to open the editor automatically.&#10;&#10;Create a new Behavior Tree by right clicking in the Project Window:&#10;Right Click &gt; Create &gt; Virtual Agents Framework &gt; Behavior Tree " display-tooltip-when-elided="true" name="treeViewOccludeLabel" style="height: auto; width: auto; flex-direction: column; left: auto; top: auto; right: auto; bottom: auto; position: relative; -unity-text-align: upper-left; white-space: normal; text-overflow: ellipsis;" />
             <i5.VirtualAgents.Editor.BehaviourTrees.BehaviourTreeView focusable="true" style="flex-grow: 1;" />
         </ui:VisualElement>
     </i5.VirtualAgents.Editor.SplitView>
