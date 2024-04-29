@@ -110,7 +110,7 @@ MonoBehaviour:
     serializationOrder: 06000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.RandomNode
   Guid: 7289ffc90545d96479dcc491d47fdf5d
-  Position: {x: 73, y: 228}
+  Position: {x: 0.5, y: 254}
   Description: 
   Children: []
 --- !u!114 &11400000

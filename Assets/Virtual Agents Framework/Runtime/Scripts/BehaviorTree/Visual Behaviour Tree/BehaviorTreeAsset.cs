@@ -34,8 +34,12 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             node.name = baseTask.GetType().Name;
             node.Guid = GUID.Generate().ToString();
             node.SetSerializedType(baseTask);
+
+            Undo.RecordObject(this, "Behavior Tree (Add Node)");
             Nodes.Add(node);
             AssetDatabase.AddObjectToAsset(node, this);
+            Undo.RegisterCreatedObjectUndo(node, "Behavior Tree (Add Node)");
+            AssetDatabase.SaveAssets();
             return node;
         }
 
@@ -74,12 +78,40 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         /// <param name="nodeToDelete"></param>
         public void DeleteNode(VisualNode nodeToDelete)
         {
+            Undo.RecordObject(this, "Behavior Tree (Delete Node)");
             Nodes.Remove(nodeToDelete);
             foreach (var node in Nodes)
             {
                 node.Children.Remove(nodeToDelete);
             }
-            AssetDatabase.RemoveObjectFromAsset(nodeToDelete);
+            //AssetDatabase.RemoveObjectFromAsset(nodeToDelete); accomplished by:
+            Undo.DestroyObjectImmediate(nodeToDelete);
+            AssetDatabase.SaveAssets();
+        }
+
+        public void AddChild(VisualNode parent, VisualNode child)
+        {
+            Undo.RecordObject(parent, "Behavior Tree (Add Child)");
+            parent.Children.Add(child);
+            EditorUtility.SetDirty(parent);
+        }
+        public void RemoveChild(VisualNode parent, VisualNode child)
+        {
+            Undo.RecordObject(parent, "Behavior Tree (Remove Child)");
+            parent.Children.Remove(child);
+            EditorUtility.SetDirty(parent);
+        }
+        public List<VisualNode> GetChildren(VisualNode parent)
+        {
+            if(parent == null)
+            {
+                Debug.LogError("Parent is null");
+            }
+            if(parent.Children == null)
+            {
+                parent.Children = new List<VisualNode>();
+            }
+            return parent.Children;
         }
 #endif
 

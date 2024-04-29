@@ -1,14 +1,13 @@
-using System.Collections;
+using i5.VirtualAgents.AgentTasks;
+using i5.VirtualAgents.BehaviourTrees;
+using i5.VirtualAgents.BehaviourTrees.Visual;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor;
-using i5.VirtualAgents.AgentTasks;
-using i5.VirtualAgents.BehaviourTrees.Visual;
-using i5.VirtualAgents.BehaviourTrees;
-using System;
-using System.Linq;
 
 namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
@@ -30,6 +29,17 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             Insert(0, new GridBackground());
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Virtual Agents Framework/Editor/UI Builder/Behaviour Tree/BehaviourTreeEditorStyleSheet.uss");
             styleSheets.Add(styleSheet);
+
+            Undo.undoRedoPerformed += OnUndoRedo;
+        }
+
+        private void OnUndoRedo()
+        {
+            if (this.Tree != null)
+            {
+                PopulateView(this.Tree);
+                AssetDatabase.SaveAssets();
+            }
         }
 
         /// <summary>
@@ -107,9 +117,8 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                         Edge edge = elemToRemove as Edge;
                         if (edge != null)
                         {
-                            Debug.Log("Removing edge");
                             //Remove the child, so that the edge is not added again
-                            ((NodeView)edge.output.node).node.Children.Remove(((NodeView)edge.input.node).node);
+                            Tree.RemoveChild(((NodeView)edge.output.node).node, ((NodeView)edge.input.node).node);
                         }
                     }
                 }
@@ -119,8 +128,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                 {
                     foreach (var edge in graphViewChange.edgesToCreate)
                     {
-                        //Add child Tree.AddChild
-                        ((NodeView)edge.output.node).node.Children.Add(((NodeView)edge.input.node).node);
+                        Tree.AddChild(((NodeView)edge.output.node).node, ((NodeView)edge.input.node).node);
                     }
                 }
             }
@@ -140,7 +148,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         /// <param name="evt"></param>
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-       
+
             void CreateVisualNode(ISerializable node, Vector2 position)
             {
                 VisualNode visualNode = Tree.AddNode(node);
@@ -148,14 +156,14 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                 CreateNodeView(visualNode);
             }
 
-            void BuildContextMenuEntrysFromType<T>(string menuName) 
+            void BuildContextMenuEntrysFromType<T>(string menuName)
             {
                 var derivedTypes = TypeCache.GetTypesDerivedFrom<T>();
                 foreach (var type in derivedTypes)
                 {
                     //Get the empty constructor. If no empty constructor exists, a corresponding node can't be created by the context menu.
                     var constructor = type.GetConstructor(new Type[0]);
-                     
+
                     if (constructor != null && !type.IsAbstract) // Can only instatiate a task, if it has an empty constructor
                     {
                         ISerializable task = constructor.Invoke(new object[0]) as ISerializable; //Can only use it as node if it is serializable
@@ -197,6 +205,6 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             return ports.ToList().Where(endPort =>
             endPort.direction != startPort.direction &&
             endPort.node != startPort.node).ToList();
-        }     
+        }
     }
 }
