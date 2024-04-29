@@ -25,7 +25,12 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                 UnityEngine.Object.DestroyImmediate(editor);
             }
             editor = UnityEditor.Editor.CreateEditor(view.node);
-            IMGUIContainer container = new IMGUIContainer(() => { editor.OnInspectorGUI(); });
+            IMGUIContainer container = new IMGUIContainer(() => {
+                if (editor.target)
+                {
+                    editor.OnInspectorGUI();
+                }
+            });
             Add(container);
         }
     }

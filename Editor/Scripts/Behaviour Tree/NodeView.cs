@@ -6,6 +6,7 @@ using System;
 using i5.VirtualAgents.BehaviourTrees.Visual;
 using i5.VirtualAgents.BehaviourTrees;
 using UnityEngine.UIElements;
+using UnityEditor;
 
 namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
@@ -42,8 +43,10 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         public override void SetPosition(Rect newPos)
         {
             base.SetPosition(newPos);
+            Undo.RecordObject(node, "Behavior Tree (Node Moved)");
             node.Position.x = newPos.xMin;
             node.Position.y = newPos.yMin;
+            EditorUtility.SetDirty(node);
         }
 
 
@@ -57,6 +60,14 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             else if (node.GetCopyOfSerializedInterface() is ICompositeNode)
             {
                 AddToClassList("compositeNode");
+                if (node.GetCopyOfSerializedInterface() is SelectorNode)
+                {
+                    AddToClassList("selectorNode");
+                }
+                else if (node.GetCopyOfSerializedInterface() is SequencerNode)
+                {
+                    AddToClassList("sequencerNode");
+                }
             }
             else if (node.GetCopyOfSerializedInterface() is IDecoratorNode)
             {

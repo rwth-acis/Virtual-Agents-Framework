@@ -86,7 +86,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         }
 
         [OnOpenAsset]
-        //Handles opening the editor window when double-clicking BehaviorTreeAsset files
+        // Handles opening the editor window when double-clicking BehaviorTreeAsset files
         public static bool OnOpenAsset(int instanceID, int line)
         {
             UnityEngine.Object obj = EditorUtility.InstanceIDToObject(instanceID);
