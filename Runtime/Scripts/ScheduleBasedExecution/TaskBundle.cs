@@ -12,18 +12,30 @@ namespace i5.VirtualAgents
     /// </summary>
     public class TaskBundle : AgentBaseTask
     {
+        /// <summary>
+        /// Creates an empty TaskBundle
+        /// </summary>
         public TaskBundle()
         {
             this.State = TaskState.Waiting;
             TaskQueue = new List<AgentBaseTask>();
         }
 
+        /// <summary>
+        /// Creates a TaskBundle with a list of subtasks
+        /// </summary>
+        /// <param name="tasks"></param>
         public TaskBundle(List<AgentBaseTask> tasks)
         {
             this.State = TaskState.Waiting;
             TaskQueue = tasks;
         }
 
+        /// <summary>
+        /// Creates a TaskBundle with a list of tasks and a list of preconditions
+        /// </summary>
+        /// <param name="tasks"></param>
+        /// <param name="preconditions"></param>
         public TaskBundle(List<AgentBaseTask> tasks, List<Func <bool>> preconditions)
         {
             this.State = TaskState.Waiting;
