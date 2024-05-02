@@ -29,7 +29,8 @@ namespace i5.VirtualAgents.Examples
                 }
                 else if (i == 2)
                 {
-                    taskSystem.Tasks.GoToAndPickUp(pickUpObjects[i], default, MeshSockets.SocketId.RightLowerArm);
+                    // TODO This does not work with the TaskBundle TaskActions
+                    //taskSystem.Tasks.GoToAndPickUp(pickUpObjects[i], default, MeshSockets.SocketId.RightLowerArm);
                 }
                 else 
                 {

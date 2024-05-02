@@ -17,8 +17,9 @@ namespace i5.VirtualAgents
         /// </summary>
         public TaskBundle()
         {
-            this.State = TaskState.Waiting;
+            State = TaskState.Waiting;
             TaskQueue = new List<AgentBaseTask>();
+            Preconditions = new List<Func<bool>>();
         }
 
         /// <summary>
@@ -27,8 +28,9 @@ namespace i5.VirtualAgents
         /// <param name="tasks"></param>
         public TaskBundle(List<AgentBaseTask> tasks)
         {
-            this.State = TaskState.Waiting;
+            State = TaskState.Waiting;
             TaskQueue = tasks;
+            Preconditions = new List<Func<bool>>();
         }
 
         /// <summary>
@@ -38,9 +40,9 @@ namespace i5.VirtualAgents
         /// <param name="preconditions"></param>
         public TaskBundle(List<AgentBaseTask> tasks, List<Func <bool>> preconditions)
         {
-            this.State = TaskState.Waiting;
+            State = TaskState.Waiting;
             TaskQueue = tasks;
-            this.Preconditions = preconditions;
+            Preconditions = preconditions;
         }
 
         /// <summary>
