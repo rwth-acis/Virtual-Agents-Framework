@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using i5.VirtualAgents.AgentTasks;
 using UnityEngine;
 using static i5.VirtualAgents.MeshSockets;
@@ -124,12 +125,16 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <returns></returns>
         public AgentBaseTask GoToAndPickUp(GameObject destinationObject, int priority = 0, SocketId bodyAttachPoint = SocketId.RightHand, float minDistance = 0.3f)
         {
-            // TODO: return this as TaskBundle
-            AgentMovementTask goToTask = (AgentMovementTask) GoTo(destinationObject, default, priority, true);
-            goToTask.MinDistance = minDistance;
+            List<AgentBaseTask> tasks = new List<AgentBaseTask>();
+            AgentMovementTask movementTask = new AgentMovementTask(destinationObject, default, true);
+            movementTask.MinDistance = minDistance;
+            tasks.Add(movementTask);
+            AgentPickUpTask pickUpTask = new AgentPickUpTask(destinationObject, bodyAttachPoint);
+            tasks.Add(pickUpTask);
+            TaskBundle PickUpBundle = new TaskBundle(tasks);
 
-            AgentBaseTask pickUpTask = PickUp(destinationObject, priority, bodyAttachPoint);
-            return pickUpTask;
+            scheduleTaskSystem.ScheduleTask(PickUpBundle, priority);
+            return PickUpBundle;
         }
 
         /// <summary>
@@ -155,10 +160,15 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <returns></returns>
         public AgentBaseTask GoToAndDropItem(Vector3 destinationCoordinates, GameObject dropObject = null, int priority = 0)
         {
-            // TODO: return this as TaskBundle
-            AgentBaseTask goToTask = GoTo(destinationCoordinates, priority);
-            AgentBaseTask dropTask = DropItem(dropObject, priority);
-            return dropTask;
+            List<AgentBaseTask> tasks = new List<AgentBaseTask>();
+            AgentMovementTask movementTask = new AgentMovementTask(destinationCoordinates);
+            tasks.Add(movementTask);
+            AgentDropTask dropTask = new AgentDropTask(dropObject);
+            tasks.Add(dropTask);
+            TaskBundle dropTaskBundle = new TaskBundle(tasks);
+
+            scheduleTaskSystem.ScheduleTask(dropTaskBundle, priority);
+            return dropTaskBundle;
         }
         /// <summary>
         /// Go to a transform and drop one specified or all object that are currently attached to the agent and have the Item component
@@ -170,10 +180,15 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <returns></returns>
         public AgentBaseTask GoToAndDropItem(Transform destinationTransform, GameObject dropObject = null, int priority = 0)
         {
-            // TODO: return this as TaskBundle
-            AgentBaseTask goToTask = GoTo(destinationTransform, default, priority);
-            AgentBaseTask dropTask = DropItem(dropObject, priority);
-            return dropTask;
+            List<AgentBaseTask> tasks = new List<AgentBaseTask>();
+            AgentMovementTask movementTask = new AgentMovementTask(destinationTransform.position);
+            tasks.Add(movementTask);
+            AgentDropTask dropTask = dropObject == null ? new AgentDropTask() : new AgentDropTask(dropObject);
+            tasks.Add(dropTask);
+            TaskBundle dropTaskBundle = new TaskBundle(tasks);
+
+            scheduleTaskSystem.ScheduleTask(dropTaskBundle, priority);
+            return dropTaskBundle;
         }
 
         /// <summary>
