@@ -87,8 +87,6 @@ namespace i5.VirtualAgents
                     }
                 }
                 // Start the task
-                task.StartExecution(executingAgent);
-                // Mini scheduler to wait for the current task to initialize
                 while (task.State != TaskState.Running && task.State != TaskState.Success && task.State != TaskState.Failure)
                 {
                     task.Tick(executingAgent);
