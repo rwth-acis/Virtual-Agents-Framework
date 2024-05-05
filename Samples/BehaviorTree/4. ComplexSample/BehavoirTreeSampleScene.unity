@@ -471,6 +471,63 @@ MonoBehaviour:
         serializedTrees:
           data: []
         serializationOrder: 
+    - Key: 9799faadfe9bbc24382f6a0a78e9f9e1
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedBools:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: dab902aae050f904a93a4d128c733988
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedBools:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: f752c2d368c29ab4e84771f491fc8f80
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedBools:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
 --- !u!1 &52754172
 GameObject:
   m_ObjectHideFlags: 0

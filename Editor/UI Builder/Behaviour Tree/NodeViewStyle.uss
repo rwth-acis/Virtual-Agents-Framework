@@ -23,6 +23,45 @@
     -unity-text-align: upper-center;
 }
 
+.node {
+    min-width: 150px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+#input {
+    align-items: center;
+}
+
+.actionNode #input {
+    background-color: rgb(140, 188, 0);
+}
+
+.compositeNode #input {
+    background-color: rgb(142, 186, 229);
+}
+
+.decoratorNode #input {
+    background-color: rgb(246, 168, 0);
+}
+
+.rootNode #input {
+    background-color: rgb(255, 255, 255);
+    min-height: 200px;
+    min-width: 200px;
+    background-image: url('project://database/Assets/Virtual%20Agents%20Framework/Logo.png?fileID=2800000&guid=5c4685ebac7845946b096fd07f500e20&type=3#Logo');
+}
+
+.selectorNode #input {
+    background-color: rgb(142, 228, 229);
+}
+
+.sequencerNode #input {
+    background-color: rgb(142, 167, 229);
+}
+
 #selection-border {
     position: absolute;
     left: 0;
@@ -41,23 +80,6 @@
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
-}
-
-.actionNode #input {
-    background-color: rgb(140, 188, 0);
-}
-
-.compositeNode #input {
-    background-color: rgb(142, 186, 229);
-}
-
-.decoratorNode #input {
-    background-color: rgb(246, 168, 0);
-}
-
-.rootNode #input {
-    background-color: rgb(227, 0, 102);
-    min-height: 25px;
 }
 
 :hover > #selection-border {
@@ -81,14 +103,6 @@
     border-left-width: 3px;
 }
 
-.node {
-    min-width: 150px;
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-}
-
 #description {
     font-size: 10px;
 }
@@ -103,10 +117,35 @@
     background-color: rgb(120, 120, 120);
 }
 
-#input {
+#output {
     align-items: center;
 }
 
-#output {
-    align-items: center;
+#node-state {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 0, 0, 0);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.running #node-state {
+    background-color: rgb(255, 255, 0);
+}
+
+.success #node-state {
+    background-color: rgb(0, 255, 0);
+}
+
+.failure #node-state {
+    background-color: rgb(255, 0, 0);
+}
+
+.waiting #node-state {
+    background-color: rgba(236, 0, 255, 0);
 }

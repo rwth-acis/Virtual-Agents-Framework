@@ -206,5 +206,19 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             endPort.direction != startPort.direction &&
             endPort.node != startPort.node).ToList();
         }
+
+        public void UpdateNodeStates()
+        {
+            if (Tree == null && Tree.Nodes == null)
+            {
+                return;
+            }
+            foreach (var node in Tree.Nodes)
+            {
+                NodeView nodeView = FindNodeView(node);
+                nodeView.UpdateState();
+
+            }
+        }
     }
 }

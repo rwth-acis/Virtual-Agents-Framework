@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor.Experimental.GraphView;
-using System;
-using i5.VirtualAgents.BehaviourTrees.Visual;
 using i5.VirtualAgents.BehaviourTrees;
-using UnityEngine.UIElements;
+using i5.VirtualAgents.BehaviourTrees.Visual;
+using System;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
@@ -21,7 +19,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         public Port output;
         public NodeView(VisualNode node) : base("Assets/Virtual Agents Framework/Editor/UI Builder/Behaviour Tree/NodeView.uxml")
         {
-            
+
             this.node = node;
             title = node.name;
             viewDataKey = node.Guid;
@@ -125,6 +123,38 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             if (OnNodeSelect != null)
             {
                 OnNodeSelect.Invoke(this);
+            }
+        }
+
+        public void UpdateState()
+        {
+            RemoveFromClassList("success");
+            RemoveFromClassList("failure");
+            RemoveFromClassList("running");
+            RemoveFromClassList("waiting");
+
+            if (Application.isPlaying)
+            {
+                if (this.node.CorrespondingTask != null)
+                {
+                    switch (this.node.CorrespondingTask.State)
+                    {
+                        case TaskState.Success:
+                            AddToClassList("success");
+                            break;
+                        case TaskState.Failure:
+                            AddToClassList("failure");
+                            break;
+                        case TaskState.Running:
+                            AddToClassList("running");
+                            break;
+                        case TaskState.Waiting:
+                            AddToClassList("waiting");
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
         }
     }

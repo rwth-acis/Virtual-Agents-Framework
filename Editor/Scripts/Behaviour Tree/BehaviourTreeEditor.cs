@@ -4,11 +4,6 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UIElements;
-using i5.VirtualAgents;
-using i5.VirtualAgents.Editor;
-using i5.VirtualAgents.BehaviourTrees.Visual;
-using UnityEditor.Callbacks;
-using UnityEditor.PackageManager.UI;
 
 namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
@@ -155,5 +150,10 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             EditorUtility.SetDirty(treeView.Tree);
             AssetDatabase.SaveAssets();
         }
-    } 
+
+        private void OnInspectorUpdate()
+        {
+            treeView?.UpdateNodeStates();
+        }
+    }
 }
