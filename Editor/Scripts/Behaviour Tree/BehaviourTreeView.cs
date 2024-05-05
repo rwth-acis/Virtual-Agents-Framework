@@ -209,7 +209,11 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
 
         public void UpdateNodeStates()
         {
-            if (Tree == null && Tree.Nodes == null)
+            if(Tree == null)
+            {
+                return;
+            }
+            if(Tree.Nodes == null)
             {
                 return;
             }
@@ -217,7 +221,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             {
                 NodeView nodeView = FindNodeView(node);
                 nodeView.UpdateState();
-
+                
             }
         }
     }

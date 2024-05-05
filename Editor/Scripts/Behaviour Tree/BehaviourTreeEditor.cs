@@ -77,11 +77,8 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                     {
                         tree = runner.Tree;
                         Debug.Log("Tree selected from hierarchy window: " + tree.name);
-                        if (Application.isPlaying)
-                        {
-                            AllowTreeEditing();
-                            treeView.PopulateView(tree);
-                        }
+                        AllowTreeEditing();
+                        treeView.PopulateView(tree);
                     }
 
                 }
