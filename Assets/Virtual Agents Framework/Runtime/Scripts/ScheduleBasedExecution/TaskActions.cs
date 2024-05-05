@@ -126,13 +126,15 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         public AgentBaseTask GoToAndPickUp(GameObject destinationObject, int priority = 0, SocketId bodyAttachPoint = SocketId.RightHand, float minDistance = 0.3f)
         {
             List<AgentBaseTask> tasks = new List<AgentBaseTask>();
+
             AgentMovementTask movementTask = new AgentMovementTask(destinationObject, default, true);
             movementTask.MinDistance = minDistance;
             tasks.Add(movementTask);
+
             AgentPickUpTask pickUpTask = new AgentPickUpTask(destinationObject, bodyAttachPoint);
             tasks.Add(pickUpTask);
-            TaskBundle PickUpBundle = new TaskBundle(tasks);
 
+            TaskBundle PickUpBundle = new TaskBundle(tasks);
             scheduleTaskSystem.ScheduleTask(PickUpBundle, priority);
             return PickUpBundle;
         }
@@ -161,12 +163,14 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         public AgentBaseTask GoToAndDropItem(Vector3 destinationCoordinates, GameObject dropObject = null, int priority = 0)
         {
             List<AgentBaseTask> tasks = new List<AgentBaseTask>();
+
             AgentMovementTask movementTask = new AgentMovementTask(destinationCoordinates);
             tasks.Add(movementTask);
+
             AgentDropTask dropTask = new AgentDropTask(dropObject);
             tasks.Add(dropTask);
-            TaskBundle dropTaskBundle = new TaskBundle(tasks);
 
+            TaskBundle dropTaskBundle = new TaskBundle(tasks);
             scheduleTaskSystem.ScheduleTask(dropTaskBundle, priority);
             return dropTaskBundle;
         }
@@ -181,12 +185,14 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         public AgentBaseTask GoToAndDropItem(Transform destinationTransform, GameObject dropObject = null, int priority = 0)
         {
             List<AgentBaseTask> tasks = new List<AgentBaseTask>();
+
             AgentMovementTask movementTask = new AgentMovementTask(destinationTransform.position);
             tasks.Add(movementTask);
+
             AgentDropTask dropTask = dropObject == null ? new AgentDropTask() : new AgentDropTask(dropObject);
             tasks.Add(dropTask);
-            TaskBundle dropTaskBundle = new TaskBundle(tasks);
 
+            TaskBundle dropTaskBundle = new TaskBundle(tasks);
             scheduleTaskSystem.ScheduleTask(dropTaskBundle, priority);
             return dropTaskBundle;
         }
@@ -199,14 +205,19 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <returns>Returns a AgentBaseTask array with two elements. The first has the starting Task (e.g. for startTask.waitFor(differentTask), and the second the stop Task ((e.g. for differentTask.waitFor(stopTask))</returns>
         public AgentBaseTask[] StartAdaptiveGazeForTime(float seconds, int priority = 0)
         {
-            //TODO: Check if this can better be solved with a TaskBundle
+            List<AgentBaseTask> tasks = new List<AgentBaseTask>();
+
             AgentBaseTask adaptiveGazeTaskStart = new AgentAdaptiveGazeTask(true);
-            scheduleTaskSystem.ScheduleTask(adaptiveGazeTaskStart, priority, "Head");
-            AgentBaseTask waitHead = WaitForSeconds(seconds, priority, "Head");
-            waitHead.WaitFor(adaptiveGazeTaskStart);
+            tasks.Add(adaptiveGazeTaskStart);
+
+            AgentWaitTask agentWaitTask = new AgentWaitTask(seconds);
+            tasks.Add(agentWaitTask);
+
             AgentBaseTask adaptiveGazeTaskStop = new AgentAdaptiveGazeTask(false);
-            adaptiveGazeTaskStop.WaitFor(waitHead);
-            scheduleTaskSystem.ScheduleTask(adaptiveGazeTaskStop, priority, "Head");
+            tasks.Add(adaptiveGazeTaskStop);
+
+            TaskBundle adaptiveGazeBundle = new TaskBundle(tasks);
+            scheduleTaskSystem.ScheduleTask(adaptiveGazeBundle, priority, "Head");
             return new AgentBaseTask[] { adaptiveGazeTaskStart, adaptiveGazeTaskStop };
         }
         /// <summary>
