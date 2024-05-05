@@ -128,6 +128,10 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
                 rootNodeData = nodesOverwriteData.Get(rootNode.Guid);
             }
             ITask root = (ITask)rootNode.GetCopyOfSerializedInterface(rootNodeData);
+
+            // Set the corresponding task in the visual node so its state can be showen in the editor
+            rootNode.CorrespondingTask = root;
+
             ConnectAbstractTree(rootNode, root, nodesOverwriteData);
             return root;
         }
@@ -135,8 +139,8 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         // Recursively generates the abstract childs for the given graphical node and connects them
         private void ConnectAbstractTree(VisualNode node, ITask abstractNode, NodesOverwriteData nodesOverwriteData)
         {
-            // Sort the children by there height in order to execute higher children first
-            node.Children.Sort((node1, node2) => { if (node1.Position.y > node2.Position.y) { return 1; } else if (node1.Position.y < node2.Position.y) { return -1; } else return 0; });
+            // Sort the children by their vertical positon in order to execute children in displayed order
+            node.Children.Sort((node1, node2) => { if (node1.Position.x > node2.Position.x) { return 1; } else if (node1.Position.x < node2.Position.x) { return -1; } else return 0; });
 
             foreach (var child in node.Children)
             {
@@ -146,6 +150,10 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
                     nodeData = nodesOverwriteData.Get(child.Guid);
                 }
                 ITask abstractChild = (ITask)child.GetCopyOfSerializedInterface(nodeData);
+                
+                // Set the corresponding task in the visual node so its state can be showen in the editor
+                child.CorrespondingTask = abstractChild;
+
                 if (abstractNode is ICompositeNode)
                 {
                     (abstractNode as ICompositeNode).Children.Add(abstractChild);

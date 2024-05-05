@@ -647,6 +647,31 @@ MonoBehaviour:
         serializedTrees:
           data: []
         serializationOrder: 
+    - Key: fe96ec5e4c80be144b81753fb215b9cc
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: TargetSpeed
+            Value: -1
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 1735457798}
+        serializedBools:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
 --- !u!1 &52754172
 GameObject:
   m_ObjectHideFlags: 0
