@@ -1,4 +1,7 @@
+using i5.VirtualAgents.BehaviourTrees;
+using i5.VirtualAgents.BehaviourTrees.Visual;
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UIElements;
 using i5.VirtualAgents;
@@ -69,7 +72,27 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         private void LoadSelectedTree()
         {
             BehaviorTreeAsset tree = Selection.activeObject as BehaviorTreeAsset;
-            if (tree != null)
+            // If the tree is not selected in the project window, check if the tree is attached to the selected game object
+            if (!tree)
+            {
+                if (Selection.activeGameObject)
+                {
+                    BehaviorTreeRunner runner = Selection.activeGameObject.GetComponent<BehaviorTreeRunner>();
+                    if (runner)
+                    {
+                        tree = runner.Tree;
+                        Debug.Log("Tree selected from hierarchy window: " + tree.name);
+                        if (Application.isPlaying)
+                        {
+                            AllowTreeEditing();
+                            treeView.PopulateView(tree);
+                        }
+                    }
+
+                }
+            }
+            //If a tree is selected in the project window, populate the editor with the tree
+            else
             {
                 if (AssetDatabase.Contains(tree))
                 {
