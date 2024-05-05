@@ -35,8 +35,8 @@ MonoBehaviour:
   Position: {x: -111.00009, y: -14.9999695}
   Description: 
   Children:
-  - {fileID: 1079275665565824699}
   - {fileID: 1021929372914378344}
+  - {fileID: 1079275665565824699}
 --- !u!114 &-8687167845897984168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,7 +75,7 @@ MonoBehaviour:
     serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: e93a232ea1fb97647b12edc22d4ca7a4
-  Position: {x: 65.00006, y: 622.99994}
+  Position: {x: -173.00012, y: 621.00006}
   Description: 
   Children: []
 --- !u!114 &-8477195532138305744
@@ -116,7 +116,7 @@ MonoBehaviour:
     serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: b163c23a2f522124e829c75489a1d669
-  Position: {x: -3.5000305, y: 323.99997}
+  Position: {x: -378.50003, y: 323.99997}
   Description: 
   Children: []
 --- !u!114 &-6533650559565109657
@@ -157,7 +157,7 @@ MonoBehaviour:
     serializationOrder: 020000000200000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
   Guid: 89286c356cc0bf84888e4065f66b4940
-  Position: {x: -149.99994, y: 622.99994}
+  Position: {x: -388.0001, y: 621.00006}
   Description: 
   Children: []
 --- !u!114 &-5985135328202316579
@@ -192,7 +192,7 @@ MonoBehaviour:
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.Visual.RootNode
   Guid: ddd58fbfbffd30741bf0897fe83838dd
-  Position: {x: -111, y: -149}
+  Position: {x: -111, y: -323}
   Description: 
   Children:
   - {fileID: -9139409445907796344}
@@ -230,7 +230,7 @@ MonoBehaviour:
     serializationOrder: 01000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.TimeOutNode
   Guid: d0733c8764c4eaf42bd54ca295e246c6
-  Position: {x: -354.99988, y: 622.99994}
+  Position: {x: -593.00006, y: 621.00006}
   Description: 
   Children:
   - {fileID: 6080969017216972856}
@@ -272,7 +272,7 @@ MonoBehaviour:
     serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: a48c80c7c6597a84a90ad868bc335516
-  Position: {x: -217.99997, y: 324}
+  Position: {x: 178.35696, y: 323.99997}
   Description: 
   Children: []
 --- !u!114 &11400000
@@ -344,7 +344,7 @@ MonoBehaviour:
     serializationOrder: 020000000200000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
   Guid: 055a980e88ed8c54a89dba922adf52cf
-  Position: {x: 270, y: 623}
+  Position: {x: 42.49991, y: 621.00006}
   Description: 
   Children: []
 --- !u!114 &1021929372914378344
@@ -379,7 +379,7 @@ MonoBehaviour:
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
   Guid: f752c2d368c29ab4e84771f491fc8f80
-  Position: {x: -3, y: 153}
+  Position: {x: 100, y: 153}
   Description: 
   Children:
   - {fileID: -8477195532138305744}
@@ -416,7 +416,7 @@ MonoBehaviour:
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
   Guid: 9799faadfe9bbc24382f6a0a78e9f9e1
-  Position: {x: -376, y: 153}
+  Position: {x: 280.35696, y: 152.99997}
   Description: 
   Children:
   - {fileID: -1879895549237640986}
@@ -459,7 +459,7 @@ MonoBehaviour:
     serializationOrder: 020000000200000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
   Guid: abcfbc14295604f468718a1f2bf14f14
-  Position: {x: -434.3225, y: 324}
+  Position: {x: 404.35703, y: 323.99997}
   Description: 
   Children: []
 --- !u!114 &4026495289477008505
@@ -496,7 +496,7 @@ MonoBehaviour:
     serializationOrder: 06000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.RandomNode
   Guid: 091877c0ef4f68447b3ca7bfddecd47c
-  Position: {x: 426, y: 477}
+  Position: {x: 198.49997, y: 475}
   Description: 
   Children:
   - {fileID: 526460927573322102}
@@ -539,7 +539,7 @@ MonoBehaviour:
     serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 3d2790e448be36048bd46d0136da0c7a
-  Position: {x: 528.5, y: 623}
+  Position: {x: 301.4999, y: 621.00006}
   Description: 
   Children: []
 --- !u!114 &6080969017216972856
@@ -576,7 +576,7 @@ MonoBehaviour:
     serializationOrder: 03000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.RepeatUntilSuccessNode
   Guid: 1aa8d6a16cfeb8a4a87ea823b9b0d01b
-  Position: {x: -354.99988, y: 737}
+  Position: {x: -593.00006, y: 739.00006}
   Description: 
   Children:
   - {fileID: 7227157794775841252}
@@ -616,7 +616,7 @@ MonoBehaviour:
     serializationOrder: 0400000005000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.CheckForValidPath
   Guid: edbcae40fd15ca043963e468a9668bed
-  Position: {x: -354.99988, y: 877.99994}
+  Position: {x: -593.00006, y: 853.00006}
   Description: 
   Children: []
 --- !u!114 &7237809254593779127
@@ -651,12 +651,12 @@ MonoBehaviour:
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
   Guid: a09bc6481a8dc30419e73f24826cdb14
-  Position: {x: -150.00003, y: 488.065}
+  Position: {x: -388.0001, y: 486}
   Description: 
   Children:
   - {fileID: -3053648699762478987}
-  - {fileID: -8687167845897984168}
   - {fileID: -6533650559565109657}
+  - {fileID: -8687167845897984168}
 --- !u!114 &8097491242135950085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,8 +689,8 @@ MonoBehaviour:
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
   Guid: c96b6b1ae72fe644e9d860f3f8ce7d84
-  Position: {x: 270.0001, y: 324.00003}
+  Position: {x: -105.50006, y: 323.99997}
   Description: 
   Children:
-  - {fileID: 4026495289477008505}
   - {fileID: 7237809254593779127}
+  - {fileID: 4026495289477008505}
