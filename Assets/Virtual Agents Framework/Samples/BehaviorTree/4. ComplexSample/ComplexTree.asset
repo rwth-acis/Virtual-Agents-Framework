@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3430e2b3fb448544d99baab57de75da2, type: 3}
-  m_Name: SampleTree
+  m_Name: ComplexTree
   m_EditorClassIdentifier: 
   rootNode: {fileID: -9139409445907796344}
   Nodes:
@@ -379,7 +379,7 @@ MonoBehaviour:
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
   Guid: f752c2d368c29ab4e84771f491fc8f80
-  Position: {x: 100, y: 153}
+  Position: {x: -105, y: 152.99998}
   Description: 
   Children:
   - {fileID: -8477195532138305744}
