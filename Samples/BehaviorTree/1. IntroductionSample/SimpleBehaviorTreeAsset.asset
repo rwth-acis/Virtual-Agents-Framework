@@ -38,7 +38,7 @@ MonoBehaviour:
     serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 3ebe19726b4582f4a816ae86bbe40db2
-  Position: {x: 480, y: 330}
+  Position: {x: 492.67603, y: 354.00003}
   Description: 
   Children: []
 --- !u!114 &-1110205183612325070
@@ -170,6 +170,6 @@ MonoBehaviour:
     serializationOrder: 040000000000000001000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 23aa415c65d797f418d786302253e78d
-  Position: {x: 274.5, y: 330}
+  Position: {x: 218.8172, y: 354}
   Description: 
   Children: []
