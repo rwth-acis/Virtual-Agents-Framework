@@ -164,6 +164,26 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
                 }
                 ConnectAbstractTree(child, abstractChild, nodesOverwriteData);
             }
+            if(node.Children.Count == 0 && abstractNode is ICompositeNode)
+            {
+                node.CorrespondingTask.State = TaskState.Failure;
+                Debug.LogWarning("Composite node " + node.name + " has no children");
+            }
+            if(node.Children.Count > 1 && !(abstractNode is ICompositeNode))
+            {
+                node.CorrespondingTask.State = TaskState.Failure;
+                Debug.LogWarning("Node " + node.name + " has multiple children but is not a composite node");
+            }
+            if(node.Children.Count > 0 && !(abstractNode is ICompositeNode || abstractNode is IDecoratorNode))
+            {
+                node.CorrespondingTask.State = TaskState.Failure;
+                Debug.LogWarning("Node " + node.name + " has children but is not a composite or decorator node");
+            }
+            if (node.Children.Count == 0 && abstractNode is IDecoratorNode && (abstractNode as IDecoratorNode).Child == null && !(abstractNode is AlwaysSucceedNode))
+            {
+                node.CorrespondingTask.State = TaskState.Failure;
+                Debug.LogWarning("Decorator node " + node.name + " has no child");
+            }
         }
     }
 }

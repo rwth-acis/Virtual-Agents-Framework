@@ -689,8 +689,7 @@ MonoBehaviour:
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
   Guid: c96b6b1ae72fe644e9d860f3f8ce7d84
-  Position: {x: -105.50006, y: 323.99997}
+  Position: {x: -104.999985, y: 324.00003}
   Description: 
   Children:
   - {fileID: 7237809254593779127}
-  - {fileID: 4026495289477008505}
