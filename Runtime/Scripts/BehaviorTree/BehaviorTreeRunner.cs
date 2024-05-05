@@ -1,7 +1,7 @@
-using i5.VirtualAgents.ScheduleBasedExecution;
 using i5.VirtualAgents.AgentTasks;
 using i5.VirtualAgents.BehaviourTrees.Visual;
 using System;
+using UnityEngine;
 
 namespace i5.VirtualAgents.BehaviourTrees
 {
@@ -13,7 +13,7 @@ namespace i5.VirtualAgents.BehaviourTrees
     /// </summary>
     public class BehaviorTreeRunner : TaskSystem
     {
-        private Agent excecutingAgent;
+        private Agent executingAgent;
         public ITask AbstractTree;
         private TaskState rootState;
         public BehaviorTreeAsset Tree;
@@ -21,7 +21,7 @@ namespace i5.VirtualAgents.BehaviourTrees
         public NodesOverwriteData nodesOverwriteData = new NodesOverwriteData();
         private void Awake()
         {
-            excecutingAgent = GetComponent<Agent>();
+            executingAgent = GetComponent<Agent>();
             if (Tree != null)
             {
                 AbstractTree = Tree.GetExecutableTree(nodesOverwriteData);
@@ -32,7 +32,7 @@ namespace i5.VirtualAgents.BehaviourTrees
         {
             if (rootState != TaskState.Success && rootState != TaskState.Failure)
             {
-                rootState = AbstractTree.Tick(excecutingAgent);
+                rootState = AbstractTree.Tick(executingAgent);
             }
         }
     }

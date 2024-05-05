@@ -12,21 +12,31 @@ namespace i5.VirtualAgents.AgentTasks
     public class DebugTask : AgentBaseTask, ISerializable
     {
         public string message = "Debug task executed";
+        public bool fail = false;
 
         public override void StartExecution(Agent agent)
         {
             Debug.Log(message);
-            FinishTask();
+            if (fail)
+            {
+                FinishTaskAsFailed();
+            }
+            else
+            {
+                FinishTask();
+            }
         }
 
         public void Serialize(SerializationDataContainer serializer)
         {
             serializer.AddSerializedData("message", message);
+            serializer.AddSerializedData("fail", fail);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
         {
             message = serializer.GetSerializedString("message");
+            fail = serializer.GetSerializedBool("fail");
         }
     }
 }

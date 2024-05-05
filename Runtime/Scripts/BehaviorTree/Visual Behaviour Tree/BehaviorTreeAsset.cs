@@ -39,7 +39,13 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             Nodes.Add(node);
             AssetDatabase.AddObjectToAsset(node, this);
             Undo.RegisterCreatedObjectUndo(node, "Behavior Tree (Add Node)");
-            AssetDatabase.SaveAssets();
+            
+            //Only save if asset is currently not imported
+            if (!AssetDatabase.Contains(this))
+            {
+                AssetDatabase.SaveAssets();
+            }
+
             return node;
         }
 
