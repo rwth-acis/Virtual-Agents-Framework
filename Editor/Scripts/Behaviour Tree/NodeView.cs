@@ -79,12 +79,12 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         // Create the ports for input edges
         private void CreateInputPorts()
         {
-            //Every node, exept the root, has one input
+            //Every node, except the root, has one input
             if (!(node.GetCopyOfSerializedInterface() is IRootNode))
             {
                 input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
                 input.portName = "";
-                input.style.flexDirection = FlexDirection.Column; // Styling that can't be done in UXML because the port is added at runtime
+                //input.style.flexDirection = FlexDirection.Column; // Styling that can't be done in UXML because the port is added at runtime
                 inputContainer.Add(input);
             }
         }
@@ -109,7 +109,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             if (output != null)
             {
                 output.portName = "";
-                output.style.flexDirection = FlexDirection.ColumnReverse; // Styling that can't be done in UXML because the port is added at runtime
+                //output.style.flexDirection = FlexDirection.ColumnReverse; // Styling that can't be done in UXML because the port is added at runtime
                 outputContainer.Add(output);
             }
         }
