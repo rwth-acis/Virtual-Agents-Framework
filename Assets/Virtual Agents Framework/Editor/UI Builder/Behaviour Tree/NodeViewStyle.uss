@@ -33,6 +33,10 @@
 
 #input {
     align-items: center;
+    justify-content: space-around;
+    align-self: stretch;
+    padding-left: 8px;
+    min-width: 200px;
 }
 
 .actionNode #input {
@@ -119,6 +123,7 @@
 
 #output {
     align-items: center;
+    padding-right: 8px;
 }
 
 #node-state {
@@ -148,4 +153,18 @@
 
 .waiting #node-state {
     background-color: rgba(236, 0, 255, 0);
+}
+
+.connectorText {
+    background-color: rgba(255, 0, 0, 0);
+    border-left-color: rgba(255, 0, 0, 0);
+    border-right-color: rgba(255, 0, 0, 0);
+    border-top-color: rgba(255, 0, 0, 0);
+    border-bottom-color: rgba(255, 0, 0, 0);
+    max-width: 0;
+    max-height: 0;
+    margin-right: 0;
+    margin-left: 10px;
+    padding-left: 0;
+    padding-right: 0;
 }
