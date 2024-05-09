@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using i5.VirtualAgents.AgentTasks;
 using UnityEngine;
 
@@ -21,6 +22,10 @@ namespace i5.VirtualAgents
         /// List of conditions to be met before execution of tasks
         /// </summary>
         public List<Func<bool>> Preconditions { get; private set; }
+
+        private bool TaskStartedAndPreconditionsAreChecked = false;
+
+        private Agent executingAgent;
 
         /// <summary>
         /// Creates an empty TaskBundle
@@ -86,9 +91,31 @@ namespace i5.VirtualAgents
         public override void StartExecution(Agent executingAgent)
         {
             State = TaskState.Running;
+            this.executingAgent = executingAgent;
             if (CheckPreconditions())
             {
-                executingAgent.StartCoroutine(ExecuteTasks(executingAgent));
+                TaskStartedAndPreconditionsAreChecked = true;
+
+                for (var i = 1; i < TaskQueue.Count; i++)
+                {
+                        for (int j = 0; j < i; j++)
+                        {
+                            var task = TaskQueue[i];
+                            // Reset tasks in case they were already executed
+                            // TODO: Reset method is added in BehaviourTree Branch, uncomment after merge
+                            //task.Reset();
+                            // Adding dependencies to tasks in case later implementations rely on that
+                            // Each task depends on all previous tasks
+                            task.DependsOnTasks.Add(TaskQueue[j]);
+
+                        }
+                }
+            }
+            else
+            {
+                Debug.Log("Preconditions of TaskBundle not met");
+                StopAsFailed();
+                TaskStartedAndPreconditionsAreChecked = false;
             }
         }
 
@@ -96,42 +123,29 @@ namespace i5.VirtualAgents
         /// Execute all tasks in the task queue. If a task fails, the whole bundle fails. Note, that checking of preconditions is not part of this method.
         /// </summary>
         /// <param name="executingAgent"></param>
-        private IEnumerator ExecuteTasks(Agent executingAgent)
+        public override TaskState EvaluateTaskState()
         {
-            // Iterate over TaskQueue
-            for (var i = 0; i < TaskQueue.Count; i++)
+            if (!TaskStartedAndPreconditionsAreChecked) return State;
+            // Check if any task failed
+            var failedTask = TaskQueue.FirstOrDefault(task => task.State == TaskState.Failure);
+            if (failedTask != null)
             {
-                var task = TaskQueue[i];
-                if (i > 0)
-                {
-                    for (int j = 0; j < i; j++)
-                    {
-                        // Each task depends on all previous tasks
-                        task.DependsOnTasks.Add(TaskQueue[j]);
-                    }
-                }
-                // Start the task
-                while (task.State != TaskState.Running && task.State != TaskState.Success && task.State != TaskState.Failure)
-                {
-                    task.Tick(executingAgent);
-                    yield return null; // wait for the next frame
-                }
-                // Wait for the current task to finish
-                while (task.State == TaskState.Running)
-                {
-                    task.Tick(executingAgent);
-                    yield return null; // wait for the next frame
-                }
-
-                if (task.State == TaskState.Failure)
-                {
-                    Debug.LogError("Task " + i + " failed");
-                    StopAsFailed();
-                    yield break;
-                }
+                Debug.LogWarning("Task: " + failedTask + " failed");
+                StopAsFailed();
+                TaskStartedAndPreconditionsAreChecked = false;
+                return State;
             }
-            StopAsSucceeded();
-            yield return null;
+            // Find the first task that is either running or waiting
+            ITask currentTask = TaskQueue.FirstOrDefault(task => task.State is TaskState.Waiting or TaskState.Running);
+
+            // If no task is running, waiting or failed, the bundle is finished
+            if(currentTask == null)
+            {
+                StopAsSucceeded();
+                return State;
+            }
+            currentTask.Tick(executingAgent);
+            return State;
         }
 
         /// <summary>
