@@ -56,6 +56,30 @@ namespace i5.VirtualAgents
         }
 
         /// <summary>
+        /// Adds a task to the task queue after initialisation
+        /// </summary>
+        /// <param name="task">The task to be added to the task queue</param>
+        public void AddTask(AgentBaseTask task)
+        {
+            TaskQueue.Add(task);
+        }
+
+        /// <summary>
+        /// Adds a precondition to the list of preconditions after initialisation
+        /// Note: Preconditions are only checked before the tasks are executed,
+        /// a precondition added after the execution has started will not be checked
+        /// </summary>
+        /// <param name="precondition">The precondition to be added to the list of preconditions</param>
+        public void AddPrecondition(Func<bool> precondition)
+        {
+            if(TaskState.Waiting != State)
+            {
+                Debug.LogWarning("Preconditions can only be checked before the TaskBundle is started");
+            }
+            Preconditions.Add(precondition);
+        }
+
+        /// <summary>
         /// Check for preconditions and start the execution of all subtasks in sequence
         /// </summary>
         /// <param name="executingAgent"></param>

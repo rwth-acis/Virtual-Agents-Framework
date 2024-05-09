@@ -17,23 +17,29 @@ Other functions may be evaluated beforehand, so are not suitable for this purpos
 The lambda functions must return a boolean value. `() => {...}` syntax is a lambda expression that defines an anonymous function inline.
 Parameters can be added in brackets on the left side of the arrow.
 
+You can add tasks and preconditions to the TaskBundle after its initialisation. This is possible through the `AddTask` and `AddPrecondition` methods.
+Note, that preconditions are checked before the TaskBundle execudes its tasks. If a precondition is added after the TaskBundle has started executing, it will not be checked.
+
 Example:
 ```csharp
 public List<Transform> waypoints;
 List<AgentBaseTask> tasks = new List<AgentBaseTask>();
 List<System.Func<bool>> preconditions = new List<System.Func<bool>>();
-preconditions.Add(() =>
+
+// In this example we add tasks via the constructor by passing a list
+for (int i = 0; i < waypoints.Count; i++)
+            {
+                tasks.Add(new AgentMovementTask(waypoints[i].position));
+            }
+TaskBundle myTaskBundle = new TaskBundle(tasks);
+// In this example we add a precondition after the initialisation
+myTaskBundle.AddPrecondition(() =>
             {
                 // This lambda function checks if the agent is close to the last waypoint
                 // Compare vectors equality with accuracy of 0.5
                 float distance = Vector3.Distance(waypoints[waypoints.Count -1].position, agent.transform.position);
                 return distance > 1.0f;
             });
-for (int i = 0; i < waypoints.Count; i++)
-            {
-                tasks.Add(new AgentMovementTask(waypoints[i].position));
-            }
-TaskBundle myTaskBundle = new TaskBundle(this, tasks, preconditions);
 ```
 
 
