@@ -33,7 +33,7 @@ namespace i5.VirtualAgents.Examples
                 return distance > 1.0f;
             });
 
-            // Add Tasks to the tasks List
+            // Add Tasks to the tasks List before creating the TaskBundle
             // TaskActions also add the task to the taskSystem therefore cannot be used here
             for (int i = 0; i < waypoints.Count; i++)
             {
@@ -45,10 +45,24 @@ namespace i5.VirtualAgents.Examples
             TaskBundle taskBundleSuccess = new TaskBundle(tasks, preconditions);
 
 
-            // Create a new TaskBundle with the tasks and preconditions
+            // Create a TaskBundle with empty tasks and preconditions first
             // This TaskBundle will not be executed
             // because after executing the taskBundleSuccess the agent is close to the last waypoint
-            TaskBundle taskBundleFail = new TaskBundle(tasks, preconditions);
+            TaskBundle taskBundleFail = new TaskBundle();
+
+            // Add Tasks to the tasks List after creating the TaskBundle
+            for (int i = 0; i < waypoints.Count; i++)
+            {
+                taskBundleFail.AddTask(new AgentMovementTask(waypoints[i].position));
+            }
+
+            // Add the same precondition to the second TaskBundle, but after the TaskBundle was created
+            taskBundleFail.AddPrecondition( () =>
+            {
+                float distance = Vector3.Distance(waypoints[waypoints.Count - 1].position, agent.transform.position);
+                return distance > 1.0f;
+            });
+
 
             // Schedule the TaskBundles to the taskSystem
             taskSystem.ScheduleTask(taskBundleSuccess, 0);
