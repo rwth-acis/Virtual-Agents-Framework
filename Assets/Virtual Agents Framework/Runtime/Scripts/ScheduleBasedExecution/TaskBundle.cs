@@ -13,6 +13,16 @@ namespace i5.VirtualAgents
     public class TaskBundle : AgentBaseTask
     {
         /// <summary>
+        /// List of tasks to be part of the bundle
+        /// </summary>
+        public List<AgentBaseTask> TaskQueue { get; private set; }
+
+        /// <summary>
+        /// List of conditions to be met before execution of tasks
+        /// </summary>
+        public List<Func<bool>> Preconditions { get; private set; }
+
+        /// <summary>
         /// Creates an empty TaskBundle
         /// </summary>
         public TaskBundle()
@@ -44,16 +54,6 @@ namespace i5.VirtualAgents
             TaskQueue = tasks;
             Preconditions = preconditions;
         }
-
-        /// <summary>
-        /// List of tasks to be part of the bundle
-        /// </summary>
-        private List<AgentBaseTask> TaskQueue { get; set; }
-
-        /// <summary>
-        /// List of conditions to be met before execution of tasks
-        /// </summary>
-        private List<Func<bool>> Preconditions { get; set; }
 
         /// <summary>
         /// Check for preconditions and start the execution of all subtasks in sequence
