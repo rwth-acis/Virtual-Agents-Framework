@@ -76,14 +76,12 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         }
 
         /// <summary>
-        /// Contains a task, its corresponding priority and the task bundle it belongs to if it is part of one
+        /// Contains a task and its corresponding priority
         /// </summary>
         private struct TaskEntry
         {
             public IAgentTask task;
             public int priority;
-            // May be null if the task is not part of a bundle
-            public TaskBundle taskBundle;
         }
     }
 
