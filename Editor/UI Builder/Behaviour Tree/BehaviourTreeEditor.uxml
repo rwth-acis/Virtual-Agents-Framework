@@ -11,7 +11,7 @@
             <i5.VirtualAgents.Editor.BehaviourTrees.InspectorView style="margin-top: 0; margin-bottom: 0;" />
         </ui:VisualElement>
         <ui:VisualElement name="right_panel">
-            <ui:Label text="Select a Behaviour Tree in the Project Window or double click to open the editor automatically.&#10;&#10;Create a new Behavior Tree by right clicking in the Project Window:&#10;Right Click &gt; Create &gt; Virtual Agents Framework &gt; Behavior Tree " display-tooltip-when-elided="true" name="treeViewOccludeLabel" style="height: auto; width: auto; flex-direction: column; left: auto; top: auto; right: auto; bottom: auto; position: relative; -unity-text-align: upper-left; white-space: normal; text-overflow: ellipsis;" />
+            <ui:Label text="Select a Behaviour Tree in the Project Window or double click to open the editor automatically.&#10;&#10;Create a new Behaviour Tree by right clicking in the Project Window:&#10;Right Click &gt; Create &gt; Virtual Agents Framework &gt; Behaviour Tree " display-tooltip-when-elided="true" name="treeViewOccludeLabel" style="height: auto; width: auto; flex-direction: column; left: auto; top: auto; right: auto; bottom: auto; position: relative; -unity-text-align: upper-left; white-space: normal; text-overflow: ellipsis;" />
             <i5.VirtualAgents.Editor.BehaviourTrees.BehaviourTreeView focusable="true" style="flex-grow: 1;" />
         </ui:VisualElement>
     </i5.VirtualAgents.Editor.SplitView>

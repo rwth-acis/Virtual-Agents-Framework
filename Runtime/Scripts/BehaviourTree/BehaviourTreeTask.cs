@@ -8,9 +8,9 @@ namespace i5.VirtualAgents.AgentTasks
     /// <summary>
     /// Executes a given behaviour tree
     /// </summary>
-    public class BehaviorTreeTask : AgentBaseTask, ISerializable
+    public class BehaviourTreeTask : AgentBaseTask, ISerializable
     {
-        public BehaviorTreeAsset tree;
+        public BehaviourTreeAsset tree;
         private ITask root;
 
         public override void StartExecution(Agent executingAgent)

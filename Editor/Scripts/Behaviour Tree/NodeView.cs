@@ -41,7 +41,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         public override void SetPosition(Rect newPos)
         {
             base.SetPosition(newPos);
-            Undo.RecordObject(node, "Behavior Tree (Node Moved)");
+            Undo.RecordObject(node, "Behaviour Tree (Node Moved)");
             node.Position.x = newPos.xMin;
             node.Position.y = newPos.yMin;
             EditorUtility.SetDirty(node);

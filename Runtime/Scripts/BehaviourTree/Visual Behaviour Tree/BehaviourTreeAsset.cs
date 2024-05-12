@@ -10,7 +10,7 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
     /// Asset that can be used to create behaviour trees that are saved persistently. The tree is not executable, but an executable abstract copy can be retrived.
     /// </summary>
     [CreateAssetMenu(menuName = "Virtual Agents Framework/Behaviour Tree")]
-    public class BehaviorTreeAsset : ScriptableObject
+    public class BehaviourTreeAsset : ScriptableObject
     {
         [SerializeField]
         private VisualNode rootNode;
@@ -35,10 +35,10 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             node.Guid = GUID.Generate().ToString();
             node.SetSerializedType(baseTask);
 
-            Undo.RecordObject(this, "Behavior Tree (Add Node)");
+            Undo.RecordObject(this, "Behaviour Tree (Add Node)");
             Nodes.Add(node);
             AssetDatabase.AddObjectToAsset(node, this);
-            Undo.RegisterCreatedObjectUndo(node, "Behavior Tree (Add Node)");
+            Undo.RegisterCreatedObjectUndo(node, "Behaviour Tree (Add Node)");
             
             //Only save if asset is currently not imported
             if (!AssetDatabase.Contains(this))
@@ -84,7 +84,7 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         /// <param name="nodeToDelete"></param>
         public void DeleteNode(VisualNode nodeToDelete)
         {
-            Undo.RecordObject(this, "Behavior Tree (Delete Node)");
+            Undo.RecordObject(this, "Behaviour Tree (Delete Node)");
             Nodes.Remove(nodeToDelete);
             foreach (var node in Nodes)
             {
@@ -97,13 +97,13 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
 
         public void AddChild(VisualNode parent, VisualNode child)
         {
-            Undo.RecordObject(parent, "Behavior Tree (Add Child)");
+            Undo.RecordObject(parent, "Behaviour Tree (Add Child)");
             parent.Children.Add(child);
             EditorUtility.SetDirty(parent);
         }
         public void RemoveChild(VisualNode parent, VisualNode child)
         {
-            Undo.RecordObject(parent, "Behavior Tree (Remove Child)");
+            Undo.RecordObject(parent, "Behaviour Tree (Remove Child)");
             parent.Children.Remove(child);
             EditorUtility.SetDirty(parent);
         }

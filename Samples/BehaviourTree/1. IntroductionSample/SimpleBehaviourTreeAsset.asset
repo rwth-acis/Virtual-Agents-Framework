@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3430e2b3fb448544d99baab57de75da2, type: 3}
-  m_Name: SimpleBehaviorTreeAsset
+  m_Name: SimpleBehaviourTreeAsset
   m_EditorClassIdentifier: 
   rootNode: {fileID: -1110205183612325070}
   Nodes:

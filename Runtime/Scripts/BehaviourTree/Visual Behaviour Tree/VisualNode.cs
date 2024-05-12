@@ -7,7 +7,7 @@ using i5.VirtualAgents.AgentTasks;
 namespace i5.VirtualAgents.BehaviourTrees.Visual
 {
     /// <summary>
-    /// Allows a node to be used in the visual behavior tree editor.
+    /// Allows a node to be used in the visual behaviour tree editor.
     /// </summary>
     [Serializable]
     public class VisualNode : TaskSerializer
@@ -17,7 +17,7 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         public string Description;
         public List<VisualNode> Children = new List<VisualNode>();
         /// <summary>
-        /// The corresponding Task in the abstract behavior tree build in BehaviorTreeAsset
+        /// The corresponding Task in the abstract behaviour tree build in BehaviourTreeAsset
         /// </summary>
         public ITask CorrespondingTask { get; set; }
     }
