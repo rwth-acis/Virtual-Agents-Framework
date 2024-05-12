@@ -11,7 +11,7 @@ using UnityEditor.UIElements;
 
 namespace i5.VirtualAgents.Editor
 {
-    [CustomEditor(typeof(BehaviorTreeRunner))]
+    [CustomEditor(typeof(BehaviourTreeRunner))]
     public class BehaviourTreeRunnerInspector : UnityEditor.Editor
     {
         // Root node of the inspector
@@ -33,9 +33,9 @@ namespace i5.VirtualAgents.Editor
             BehaviourTreeView behaviourTreeView = inspector.Query<BehaviourTreeView>();
             behaviourTreeView.SetupManipulators(true);
             behaviourTreeView.OnNodeSelect = OnNodeSelectionChanged; // Register callback on node select in order to display the corrsponding property fields for the node
-            BehaviorTreeAsset tree = (target as BehaviorTreeRunner).Tree;
+            BehaviourTreeAsset tree = (target as BehaviourTreeRunner).Tree;
 
-            void SetupNewTree(BehaviorTreeAsset tree)
+            void SetupNewTree(BehaviourTreeAsset tree)
             {
                 if (tree != null)
                 {
@@ -49,7 +49,7 @@ namespace i5.VirtualAgents.Editor
 
             // Setup tree when a new one is selected
             PropertyField treePropertyField = inspector.Query<PropertyField>("tree");
-            treePropertyField.RegisterValueChangeCallback( (x) => SetupNewTree(x.changedProperty.objectReferenceValue as BehaviorTreeAsset) );
+            treePropertyField.RegisterValueChangeCallback( (x) => SetupNewTree(x.changedProperty.objectReferenceValue as BehaviourTreeAsset) );
 
             // Return the finished inspector UI
             return inspector;
@@ -60,7 +60,7 @@ namespace i5.VirtualAgents.Editor
         private void OnNodeSelectionChanged(NodeView view)
         {
             // Search if overwrite data exisits
-            BehaviorTreeRunner runner = target as BehaviorTreeRunner;
+            BehaviourTreeRunner runner = target as BehaviourTreeRunner;
             var nodesData = runner.nodesOverwriteData.data;
             SerializedProperty nodeOverwriteData = null;
             for (int i = 0; i < nodesData.Count && nodeOverwriteData == null; i++)
@@ -199,9 +199,9 @@ namespace i5.VirtualAgents.Editor
                             value.GetArrayElementAtIndex(j).floatValue = floatList[j];
                         }
                     }
-                    else if (typeof(T) == typeof(BehaviorTreeAsset))
+                    else if (typeof(T) == typeof(BehaviourTreeAsset))
                     {
-                        value.objectReferenceValue = data.Value as BehaviorTreeAsset;
+                        value.objectReferenceValue = data.Value as BehaviourTreeAsset;
                     }
                     else
                     {

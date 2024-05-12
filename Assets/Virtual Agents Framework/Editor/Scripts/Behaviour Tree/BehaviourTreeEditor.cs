@@ -66,13 +66,13 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
 
         private void LoadSelectedTree()
         {
-            BehaviorTreeAsset tree = Selection.activeObject as BehaviorTreeAsset;
+            BehaviourTreeAsset tree = Selection.activeObject as BehaviourTreeAsset;
             // If the tree is not selected in the project window, check if the tree is attached to the selected game object
             if (!tree)
             {
                 if (Selection.activeGameObject)
                 {
-                    BehaviorTreeRunner runner = Selection.activeGameObject.GetComponent<BehaviorTreeRunner>();
+                    BehaviourTreeRunner runner = Selection.activeGameObject.GetComponent<BehaviourTreeRunner>();
                     if (runner)
                     {
                         tree = runner.Tree;
@@ -101,12 +101,12 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         }
 
         [OnOpenAsset]
-        // Handles opening the editor window when double-clicking BehaviorTreeAsset files
+        // Handles opening the editor window when double-clicking BehaviourTreeAsset files
         public static bool OnOpenAsset(int instanceID, int line)
         {
             UnityEngine.Object obj = EditorUtility.InstanceIDToObject(instanceID);
 
-            if (obj is BehaviorTreeAsset)
+            if (obj is BehaviourTreeAsset)
             {
                 BehaviourTreeEditor window = ShowWindow();
                 window.LoadSelectedTree();

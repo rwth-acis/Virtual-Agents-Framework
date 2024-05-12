@@ -20,7 +20,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
 
         // Needed for the UI Builder
         public new class UxmlFactory : UxmlFactory<BehaviourTreeView, UxmlTraits> { }
-        public BehaviorTreeAsset Tree;
+        public BehaviourTreeAsset Tree;
 
         private bool readOnly = false;
 
@@ -62,7 +62,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         /// Creates node views for all nodes in the tree and draws the necessary edges.
         /// </summary>
         /// <param name="tree"></param>
-        public void PopulateView(BehaviorTreeAsset tree)
+        public void PopulateView(BehaviourTreeAsset tree)
         {
             this.Tree = tree;
             graphViewChanged -= OnGraphViewChanged;

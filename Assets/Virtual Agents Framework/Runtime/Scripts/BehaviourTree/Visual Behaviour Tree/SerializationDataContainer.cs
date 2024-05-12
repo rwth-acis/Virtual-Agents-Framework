@@ -105,7 +105,7 @@ namespace i5.VirtualAgents.AgentTasks
     public class SerializedListFloats : SerializationData<List<float>> { }
 
     [Serializable]
-    public class SerializedTrees : SerializationData<BehaviorTreeAsset> { }
+    public class SerializedTrees : SerializationData<BehaviourTreeAsset> { }
 
     [Serializable]
     public class SerializationDataContainer
@@ -166,7 +166,7 @@ namespace i5.VirtualAgents.AgentTasks
             serializedListFloats.Add(key, value);
         }
 
-        public void AddSerializedData(string key, BehaviorTreeAsset value)
+        public void AddSerializedData(string key, BehaviourTreeAsset value)
         {
             serializationOrder.Add(SerializableType.TREE);
             serializedTrees.Add(key, value);
@@ -209,7 +209,7 @@ namespace i5.VirtualAgents.AgentTasks
             return serializedListFloats.Get(key);
         }
 
-        public BehaviorTreeAsset GetSerializedTrees(string key)
+        public BehaviourTreeAsset GetSerializedTrees(string key)
         {
             return serializedTrees.Get(key);
         }

@@ -1,6 +1,6 @@
 # Task System
 
-A possible way to influence the agent's behavior is to assign tasks to the agent which the agent then works on.
+A possible way to influence the agent's behaviour is to assign tasks to the agent which the agent then works on.
 
 ## Tasks
 
@@ -14,7 +14,7 @@ It determines the necessary methods that a task must have like <xref:i5.VirtualA
 ### Pre-Implemented Tasks
 
 The Virtual Agents Framework contains an ever-growing collection of pre-implemented tasks.
-These tasks are meant as a starting point for composing behaviors of agents.
+These tasks are meant as a starting point for composing behaviours of agents.
 Currently, the following tasks exist and can already be used:
 - <xref:i5.VirtualAgents.AgentTasks.AgentAnimationTask>: Play animations on the agent
 - <xref:i5.VirtualAgents.AgentTasks.AgentMovementTask>: Let the agent walk to a given location or follow an object dynamically
