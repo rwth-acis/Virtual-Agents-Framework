@@ -59,6 +59,16 @@ namespace i5.VirtualAgents.AgentTasks
 
             throw new KeyNotFoundException(key + " has not been deserialize before.");
         }
+        public void SetValue(string key, T value)
+        {
+            foreach (var entry in data)
+            {
+                if (entry.Key == key)
+                {
+                    entry.Value = value;
+                }
+            }
+        }
 
         public SerializationEntry<T> Get(int index)
         {
@@ -136,49 +146,49 @@ namespace i5.VirtualAgents.AgentTasks
         #region Overloads for adding data to the serialization
         public void AddSerializedData(string key, Vector3 value)
         {
-            if(serializedVectors.Add(key, value))
+            if (serializedVectors.Add(key, value))
                 serializationOrder.Add(SerializableType.VECTOR3);
         }
 
         public void AddSerializedData(string key, float value)
         {
-            if(serializedFloats.Add(key, value))
+            if (serializedFloats.Add(key, value))
                 serializationOrder.Add(SerializableType.FLOAT);
         }
 
         public void AddSerializedData(string key, string value)
         {
-            if(serializedStrings.Add(key, value))
+            if (serializedStrings.Add(key, value))
                 serializationOrder.Add(SerializableType.STRING);
         }
 
         public void AddSerializedData(string key, int value)
         {
-            if(serializedInts.Add(key, value))
+            if (serializedInts.Add(key, value))
                 serializationOrder.Add(SerializableType.INT);
         }
 
         public void AddSerializedData(string key, GameObject value)
         {
-            if(serializedGameobjects.Add(key, value))
+            if (serializedGameobjects.Add(key, value))
                 serializationOrder.Add(SerializableType.GAMEOBJECT);
         }
 
         public void AddSerializedData(string key, bool value)
         {
-            if(serializedBools.Add(key, value))
+            if (serializedBools.Add(key, value))
                 serializationOrder.Add(SerializableType.BOOL);
         }
 
         public void AddSerializedData(string key, List<float> value)
         {
-            if(serializedListFloats.Add(key, value))
+            if (serializedListFloats.Add(key, value))
                 serializationOrder.Add(SerializableType.LIST_FLOAT);
         }
 
         public void AddSerializedData(string key, BehaviourTreeAsset value)
         {
-            if(serializedTrees.Add(key, value))
+            if (serializedTrees.Add(key, value))
                 serializationOrder.Add(SerializableType.TREE);
         }
         #endregion
@@ -262,6 +272,117 @@ namespace i5.VirtualAgents.AgentTasks
                 SerializableType.TREE => serializedTrees.Get(index).Key,
                 _ => throw new NotImplementedException(),
             };
+        }
+
+        /// <summary>
+        /// Can be used to rename a key or to automatically update a key in an old file. Value of the old key is copied to the new key.
+        /// </summary>
+        /// <param name="oldName"></param>
+        /// <param name="newName"></param>
+        /// <returns>Returns true, if successfully renamed otherwise false</returns>
+        public bool Replace(String oldName, String newName)
+        {
+            if (oldName == newName)
+                return true;
+            if (serializedVectors.KeyExists(oldName))
+            {
+                // Add the new key and copy the value
+                // If the new key already exists, the value changed to that of the old key
+                if (!serializedVectors.Add(newName, serializedVectors.Get(oldName)))
+                    serializedVectors.SetValue(newName, serializedVectors.Get(oldName));
+                serializedVectors.data.RemoveAll(x => x.Key == oldName);
+                RemoveUnnececarryEntriesInOrderOfType(SerializableType.VECTOR3);
+            }
+            else if (serializedStrings.KeyExists(oldName))
+            {
+                if (!serializedStrings.Add(newName, serializedStrings.Get(oldName)))
+                    serializedStrings.SetValue(newName, serializedStrings.Get(oldName));
+                serializedStrings.data.RemoveAll(x => x.Key == oldName);
+                RemoveUnnececarryEntriesInOrderOfType(SerializableType.STRING);
+            }
+            else if (serializedInts.KeyExists(oldName))
+            {
+                if (!serializedInts.Add(newName, serializedInts.Get(oldName)))
+                    serializedInts.SetValue(newName, serializedInts.Get(oldName));
+                serializedInts.data.RemoveAll(x => x.Key == oldName);
+                RemoveUnnececarryEntriesInOrderOfType(SerializableType.INT);
+            }
+            else if (serializedFloats.KeyExists(oldName))
+            {
+                if (!serializedFloats.Add(newName, serializedFloats.Get(oldName)))
+                    serializedFloats.SetValue(newName, serializedFloats.Get(oldName));
+                serializedFloats.data.RemoveAll(x => x.Key == oldName);
+                RemoveUnnececarryEntriesInOrderOfType(SerializableType.FLOAT);
+            }
+            else if (serializedGameobjects.KeyExists(oldName))
+            {
+                if (!serializedGameobjects.Add(newName, serializedGameobjects.Get(oldName)))
+                    serializedGameobjects.SetValue(newName, serializedGameobjects.Get(oldName));
+                serializedGameobjects.data.RemoveAll(x => x.Key == oldName);
+                RemoveUnnececarryEntriesInOrderOfType(SerializableType.GAMEOBJECT);
+            }
+            else if (serializedBools.KeyExists(oldName))
+            {
+                if (!serializedBools.Add(newName, serializedBools.Get(oldName)))
+                    serializedBools.SetValue(newName, serializedBools.Get(oldName));
+                serializedBools.data.RemoveAll(x => x.Key == oldName);
+                RemoveUnnececarryEntriesInOrderOfType(SerializableType.BOOL);
+            }
+            else if (serializedListFloats.KeyExists(oldName))
+            {
+                if (!serializedListFloats.Add(newName, serializedListFloats.Get(oldName)))
+                    serializedListFloats.SetValue(newName, serializedListFloats.Get(oldName));
+                serializedListFloats.data.RemoveAll(x => x.Key == oldName);
+                RemoveUnnececarryEntriesInOrderOfType(SerializableType.LIST_FLOAT);
+            }
+            else if (serializedTrees.KeyExists(oldName))
+            {
+                if (!serializedTrees.Add(newName, serializedTrees.Get(oldName)))
+                    serializedTrees.SetValue(newName, serializedTrees.Get(oldName));
+                serializedTrees.data.RemoveAll(x => x.Key == oldName);
+                RemoveUnnececarryEntriesInOrderOfType(SerializableType.TREE);
+            }
+            else
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private void RemoveUnnececarryEntriesInOrderOfType(SerializableType type)
+        {
+            int amountOfEntries = type switch
+            {
+                SerializableType.VECTOR3 => serializedVectors.data.Count,
+                SerializableType.FLOAT => serializedFloats.data.Count,
+                SerializableType.STRING => serializedStrings.data.Count,
+                SerializableType.INT => serializedInts.data.Count,
+                SerializableType.GAMEOBJECT => serializedGameobjects.data.Count,
+                SerializableType.BOOL => serializedBools.data.Count,
+                SerializableType.LIST_FLOAT => serializedListFloats.data.Count,
+                SerializableType.TREE => serializedTrees.data.Count,
+                _ => throw new NotImplementedException(),
+            };
+            // Remove all entries of the type that are not needed anymore
+            // This can change the order of the entries but only happens when a tree is updated
+            int i = 0;
+            List<SerializableType> newSerializationOrder = new List<SerializableType>();
+            foreach (SerializableType orderEntry in serializationOrder)
+            {
+                if (orderEntry == type)
+                {
+                    i++;
+                    if (i <= amountOfEntries)
+                    {
+                        newSerializationOrder.Add(orderEntry);
+                    }
+                }
+                else
+                {
+                    newSerializationOrder.Add(orderEntry);
+                }
+            }
+            this.serializationOrder = newSerializationOrder;
         }
     }
 }
