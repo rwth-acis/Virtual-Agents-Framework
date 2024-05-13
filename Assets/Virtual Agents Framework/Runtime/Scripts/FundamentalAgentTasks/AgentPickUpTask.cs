@@ -15,12 +15,12 @@ namespace i5.VirtualAgents.AgentTasks
         /// <summary>
         /// Minimum distance of the agent to the target so that the traget can be picked up
         /// </summary>
-        private const float minDistance = 1f;
+        public float minDistanceForPickup = 1f;
 
         /// <summary>
         /// Speed of IK animations
         /// </summary>
-        private const float moveSpeed = 2f;
+        public float animationSpeed = 2f;
 
 
         /// <summary>
@@ -50,10 +50,12 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         /// <param name="pickupObject">The object that the agent should pick up</param>
         /// <param name="socketId">Bodypart that the object should be attached to, standard is the right Hand</param>
-        public AgentPickUpTask(GameObject pickupObject, SocketId socketId = SocketId.RightHand)
+        public AgentPickUpTask(GameObject pickupObject, SocketId socketId = SocketId.RightHand, float minDistanceForPickup = 1f, float animationSpeed = 2f)
         {
             PickupObject = pickupObject;
             SocketId = socketId;
+            this.minDistanceForPickup = minDistanceForPickup;
+            this.animationSpeed = animationSpeed;
         }
 
         /// <summary>
@@ -84,9 +86,9 @@ namespace i5.VirtualAgents.AgentTasks
             }
 
             float distance = Vector3.Distance(agent.transform.position, PickupObject.transform.position);
-            if (distance > minDistance)
+            if (distance > minDistanceForPickup)
             {
-                Debug.LogWarning("Object was not close enough for pickup:" + distance + " > " + minDistance);
+                Debug.LogWarning("Object was not close enough for pickup:" + distance + " > " + minDistanceForPickup);
                 FinishTaskAsFailed();
                 return;
             }
@@ -151,8 +153,8 @@ namespace i5.VirtualAgents.AgentTasks
                 direction = Quaternion.Euler(direction.eulerAngles.x + ((315- direction.eulerAngles.x)*2), direction.eulerAngles.y -180, direction.eulerAngles.z);
    
                 // Change position and roation of the target smoothly
-                constraint.data.target.position = Vector3.Lerp(constraint.data.target.position, item.GrabTarget.position, Time.deltaTime * moveSpeed);
-                constraint.data.target.rotation = Quaternion.Lerp(constraint.data.target.rotation, direction, Time.deltaTime * moveSpeed);
+                constraint.data.target.position = Vector3.Lerp(constraint.data.target.position, item.GrabTarget.position, Time.deltaTime * animationSpeed);
+                constraint.data.target.rotation = Quaternion.Lerp(constraint.data.target.rotation, direction, Time.deltaTime * animationSpeed);
 
                 yield return null;
 
@@ -178,11 +180,17 @@ namespace i5.VirtualAgents.AgentTasks
         public void Serialize(SerializationDataContainer serializer)
         {
             serializer.AddSerializedData("Pickup Object", PickupObject);
+            serializer.AddSerializedData("SocketId", (int) SocketId);
+            serializer.AddSerializedData("Min Distance For Pickup", minDistanceForPickup);
+            serializer.AddSerializedData("Animation Speed", animationSpeed);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
         {
             PickupObject = serializer.GetSerializedGameobjects("Pickup Object");
+            SocketId = (SocketId) serializer.GetSerializedInt("SocketId");
+            minDistanceForPickup = serializer.GetSerializedFloat("Min Distance For Pickup");
+            animationSpeed = serializer.GetSerializedFloat("Animation Speed");
         }
     }
 }
