@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -57,8 +58,7 @@ namespace i5.VirtualAgents.AgentTasks
                 }
             }
 #endif
-
-            return null;
+            throw new Exception("Type " + serializedObjectType + " could not be found. It is likely that the name of a task in the tree was changed. Please update the name accordingly in the asset file of that tree.");
         }
 
         /// <summary>
@@ -68,7 +68,17 @@ namespace i5.VirtualAgents.AgentTasks
         public ISerializable GetCopyOfSerializedInterface(SerializationDataContainer overwriteData = null)
         {
             ISerializable copy = DeserializeType();
-            copy.Deserialize(overwriteData != null ? overwriteData : Data);
+            try
+            {
+                copy.Deserialize(overwriteData != null ? overwriteData : Data);
+            }
+            catch (KeyNotFoundException e)
+            {
+                Debug.LogWarning("One node seems to have added new attributes since the tree got saved last. Node will now be updated. Please save the tree again. Error: " + e + " ");
+                copy.Serialize(overwriteData != null ? overwriteData : Data);
+                copy.Deserialize(overwriteData != null ? overwriteData : Data);
+            }
+
             return copy;
         }
     }

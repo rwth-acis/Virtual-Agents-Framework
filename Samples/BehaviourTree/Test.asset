@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
-  m_Name: BehaviorTreeTask
+  m_Name: BehaviourTreeTask
   m_EditorClassIdentifier: 
   Data:
     serializedVectors:
@@ -68,7 +68,7 @@ MonoBehaviour:
       - Key: Tree
         Value: {fileID: 0}
     serializationOrder: 07000000
-  serializedObjectType: i5.VirtualAgents.AgentTasks.BehaviorTreeTask
+  serializedObjectType: i5.VirtualAgents.AgentTasks.BehaviourTreeTask
   Guid: ba68094b98afa5d4aa50f61eabba2df7
   Position: {x: 157, y: 767}
   Description: 

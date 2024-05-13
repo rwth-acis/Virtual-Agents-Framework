@@ -99,12 +99,14 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
-      data: []
+      data:
+      - Key: fail
+        Value: 0
     serializedListFloats:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 02000000
+    serializationOrder: 0200000005000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.DebugTask
   Guid: e948eb5f3ab23e241baeaf266f9f1620
   Position: {x: 345.00012, y: 333.00003}
@@ -174,12 +176,14 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
-      data: []
+      data:
+      - Key: fail
+        Value: 0
     serializedListFloats:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 02000000
+    serializationOrder: 0200000005000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.DebugTask
   Guid: cc0944ccf4ddeb048a4f0f801e8c585f
   Position: {x: 755, y: 333}
@@ -294,12 +298,14 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
-      data: []
+      data:
+      - Key: fail
+        Value: 0
     serializedListFloats:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 02000000
+    serializationOrder: 0200000005000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.DebugTask
   Guid: 186e31cf253db4045843f701482d8c67
   Position: {x: -916.2627, y: 412}
@@ -441,12 +447,14 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
-      data: []
+      data:
+      - Key: fail
+        Value: 0
     serializedListFloats:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 02000000
+    serializationOrder: 0200000005000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.DebugTask
   Guid: 29c5b279cb1e1d145b8da8e835ce1aea
   Position: {x: 549.7092, y: 333}
@@ -640,12 +648,14 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
-      data: []
+      data:
+      - Key: fail
+        Value: 0
     serializedListFloats:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 02000000
+    serializationOrder: 0200000005000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.DebugTask
   Guid: a2a78e0b347482344babd741d49447cf
   Position: {x: -443.49994, y: 411.99994}
