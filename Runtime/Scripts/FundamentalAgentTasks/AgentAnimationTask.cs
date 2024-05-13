@@ -12,8 +12,8 @@ namespace i5.VirtualAgents.AgentTasks
         private string startTrigger;
         private string stopTrigger;
         private float playTime;
-        private readonly GameObject aimTarget;
-        private readonly string layer;
+        private GameObject aimTarget;
+        private string layer;
 
         AimAt aimScript;
 
@@ -131,6 +131,8 @@ namespace i5.VirtualAgents.AgentTasks
             serializer.AddSerializedData("Start Trigger", startTrigger);
             serializer.AddSerializedData("Stop Trigger", stopTrigger);
             serializer.AddSerializedData("Play Time", playTime);
+            serializer.AddSerializedData("Aim Target", aimTarget);
+            serializer.AddSerializedData("Layer", layer);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
@@ -138,6 +140,8 @@ namespace i5.VirtualAgents.AgentTasks
             startTrigger = serializer.GetSerializedString("Start Trigger");
             stopTrigger = serializer.GetSerializedString("Stop Trigger");
             playTime = serializer.GetSerializedFloat("Play Time");
+            aimTarget = serializer.GetSerializedGameobjects("Aim Target");
+            layer = serializer.GetSerializedString("Layer");
         }
 
     }

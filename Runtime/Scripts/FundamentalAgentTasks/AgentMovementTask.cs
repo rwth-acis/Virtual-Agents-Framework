@@ -189,16 +189,22 @@ namespace i5.VirtualAgents.AgentTasks
 		{
 			serializer.AddSerializedData("Destination Object", DestinationObject);
 			serializer.AddSerializedData("Destination", Destination);
-			serializer.AddSerializedData("TargetSpeed", TargetSpeed);
-            //serializer.AddSerializedData("FollowingGameObject", FollowingGameObject);
+			serializer.AddSerializedData("Target Speed", TargetSpeed);
+            serializer.AddSerializedData("Follow GameObject?", followGameObject);
+
         }
 
 		public void Deserialize(SerializationDataContainer serializer)
 		{
-			DestinationObject = serializer.GetSerializedGameobjects("Destination Object");
+            // Replace old names, to update old tree files
+            serializer.Replace("TargetSpeed", "Target Speed");
+            serializer.Replace("FollowGameObject", "Follow GameObject?");
+
+			// Deserialize the data
+            DestinationObject = serializer.GetSerializedGameobjects("Destination Object");
 			Destination = serializer.GetSerializedVector("Destination");
-			TargetSpeed = serializer.GetSerializedFloat("TargetSpeed");
-            //FollowingGameObject = serializer.GetSerializedBool("FollowingGameObject");
+			TargetSpeed = serializer.GetSerializedFloat("Target Speed");
+            followGameObject = serializer.GetSerializedBool("Follow GameObject?");
 		}
 	}
 }
