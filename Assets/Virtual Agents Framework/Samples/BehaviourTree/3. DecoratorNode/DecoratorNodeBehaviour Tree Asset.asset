@@ -64,12 +64,14 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
-      data: []
+      data:
+      - Key: fail
+        Value: 0
     serializedListFloats:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 02000000
+    serializationOrder: 0200000005000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.DebugTask
   Guid: f9548b7358c63d746b570bc9059a65be
   Position: {x: 389.4791, y: 556}
@@ -400,12 +402,14 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
-      data: []
+      data:
+      - Key: fail
+        Value: 0
     serializedListFloats:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 02000000
+    serializationOrder: 0200000005000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.DebugTask
   Guid: b86e5564b7d0ce441966c77db5303500
   Position: {x: -24.00001, y: 261}

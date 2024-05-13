@@ -39,7 +39,7 @@ namespace i5.VirtualAgents.AgentTasks
     }
 
     /// <summary>
-    /// Pseudo dictonary, that in contrast to actual dictonaries is serializable, but only offers search in linear time.
+    /// Pseudo dictionary, that in contrast to actual dictionaries is serializable, but only offers search in linear time.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
@@ -56,6 +56,7 @@ namespace i5.VirtualAgents.AgentTasks
                     return entry.Value;
                 }
             }
+
             throw new KeyNotFoundException(key + " has not been deserialize before.");
         }
 
@@ -64,9 +65,18 @@ namespace i5.VirtualAgents.AgentTasks
             return data[index];
         }
 
-        public void Add(string key, T value)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns>Returns true if key was added, returns false when key was already presents and not added again</returns>
+        public bool Add(string key, T value)
         {
+            if (KeyExists(key))
+                return false;
             data.Add(new SerializationEntry<T>(key, value));
+            return true;
         }
 
         public void Clear()
@@ -120,60 +130,60 @@ namespace i5.VirtualAgents.AgentTasks
         [SerializeField] public SerializedListFloats serializedListFloats = new SerializedListFloats();
         [SerializeField] public SerializedTrees serializedTrees = new SerializedTrees();
 
-        //Saves the order in which the data was serialized. Allows coustom inspectors to replicate that order.
+        //Saves the order in which the data was serialized. Allows custom inspectors to replicate that order.
         [SerializeField] public List<SerializableType> serializationOrder = new List<SerializableType>();
 
         #region Overloads for adding data to the serialization
         public void AddSerializedData(string key, Vector3 value)
         {
-            serializationOrder.Add(SerializableType.VECTOR3);
-            serializedVectors.Add(key, value);
+            if(serializedVectors.Add(key, value))
+                serializationOrder.Add(SerializableType.VECTOR3);
         }
 
         public void AddSerializedData(string key, float value)
         {
-            serializationOrder.Add(SerializableType.FLOAT);
-            serializedFloats.Add(key, value);
+            if(serializedFloats.Add(key, value))
+                serializationOrder.Add(SerializableType.FLOAT);
         }
 
         public void AddSerializedData(string key, string value)
         {
-            serializationOrder.Add(SerializableType.STRING);
-            serializedStrings.Add(key, value);
+            if(serializedStrings.Add(key, value))
+                serializationOrder.Add(SerializableType.STRING);
         }
 
         public void AddSerializedData(string key, int value)
         {
-            serializationOrder.Add(SerializableType.INT);
-            serializedInts.Add(key, value);
+            if(serializedInts.Add(key, value))
+                serializationOrder.Add(SerializableType.INT);
         }
 
         public void AddSerializedData(string key, GameObject value)
         {
-            serializationOrder.Add(SerializableType.GAMEOBJECT);
-            serializedGameobjects.Add(key,value);
+            if(serializedGameobjects.Add(key, value))
+                serializationOrder.Add(SerializableType.GAMEOBJECT);
         }
 
         public void AddSerializedData(string key, bool value)
         {
-            serializationOrder.Add(SerializableType.BOOL);
-            serializedBools.Add(key, value);
+            if(serializedBools.Add(key, value))
+                serializationOrder.Add(SerializableType.BOOL);
         }
 
         public void AddSerializedData(string key, List<float> value)
         {
-            serializationOrder.Add(SerializableType.LIST_FLOAT);
-            serializedListFloats.Add(key, value);
+            if(serializedListFloats.Add(key, value))
+                serializationOrder.Add(SerializableType.LIST_FLOAT);
         }
 
         public void AddSerializedData(string key, BehaviourTreeAsset value)
         {
-            serializationOrder.Add(SerializableType.TREE);
-            serializedTrees.Add(key, value);
+            if(serializedTrees.Add(key, value))
+                serializationOrder.Add(SerializableType.TREE);
         }
         #endregion
 
-        #region Overloads for retriving serialized data
+        #region Overloads for retrieving serialized data
         public Vector3 GetSerializedVector(string key)
         {
             return serializedVectors.Get(key);
@@ -233,34 +243,25 @@ namespace i5.VirtualAgents.AgentTasks
         }
 
         /// <summary>
-        /// Retrives the key of the item at position index.
+        /// Retrieves the key of the item at position index.
         /// </summary>
         /// <param name="index"></param>
         /// <param name="type"></param>
         /// <returns></returns>
         public string GetKeyByIndex(int index, SerializableType type)
         {
-            switch (type)
+            return type switch
             {
-                case SerializableType.VECTOR3:
-                    return serializedVectors.Get(index).Key;
-                case SerializableType.FLOAT:
-                    return serializedFloats.Get(index).Key;
-                case SerializableType.STRING:
-                    return serializedStrings.Get(index).Key;
-                case SerializableType.INT:
-                    return serializedInts.Get(index).Key;
-                case SerializableType.GAMEOBJECT:
-                    return serializedGameobjects.Get(index).Key;
-                case SerializableType.BOOL:
-                    return serializedBools.Get(index).Key;
-                case SerializableType.LIST_FLOAT:
-                    return serializedListFloats.Get(index).Key;
-                case SerializableType.TREE:
-                    return serializedTrees.Get(index).Key;
-                default:
-                    throw new NotImplementedException();
-            }
+                SerializableType.VECTOR3 => serializedVectors.Get(index).Key,
+                SerializableType.FLOAT => serializedFloats.Get(index).Key,
+                SerializableType.STRING => serializedStrings.Get(index).Key,
+                SerializableType.INT => serializedInts.Get(index).Key,
+                SerializableType.GAMEOBJECT => serializedGameobjects.Get(index).Key,
+                SerializableType.BOOL => serializedBools.Get(index).Key,
+                SerializableType.LIST_FLOAT => serializedListFloats.Get(index).Key,
+                SerializableType.TREE => serializedTrees.Get(index).Key,
+                _ => throw new NotImplementedException(),
+            };
         }
     }
 }
