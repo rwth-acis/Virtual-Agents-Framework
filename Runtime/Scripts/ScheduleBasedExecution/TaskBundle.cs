@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using i5.VirtualAgents.AgentTasks;
+using i5.VirtualAgents.ScheduleBasedExecution;
 using UnityEngine;
 
 namespace i5.VirtualAgents
@@ -13,19 +14,16 @@ namespace i5.VirtualAgents
     /// </summary>
     public class TaskBundle : AgentBaseTask
     {
+        private AgentTaskManager taskManager = new AgentTaskManager();
         /// <summary>
         /// List of tasks to be part of the bundle
         /// </summary>
-        public List<AgentBaseTask> TaskQueue { get; private set; }
+        //public AgentTaskQueue TaskQueue { get; private set; }
 
         /// <summary>
         /// List of conditions to be met before execution of tasks
         /// </summary>
         public List<Func<bool>> Preconditions { get; private set; }
-
-        private bool TaskStartedAndPreconditionsAreChecked = false;
-
-        private Agent executingAgent;
 
         /// <summary>
         /// Creates an empty TaskBundle
@@ -33,18 +31,6 @@ namespace i5.VirtualAgents
         public TaskBundle()
         {
             State = TaskState.Waiting;
-            TaskQueue = new List<AgentBaseTask>();
-            Preconditions = new List<Func<bool>>();
-        }
-
-        /// <summary>
-        /// Creates a TaskBundle with a list of subtasks
-        /// </summary>
-        /// <param name="tasks"></param>
-        public TaskBundle(List<AgentBaseTask> tasks)
-        {
-            State = TaskState.Waiting;
-            TaskQueue = tasks;
             Preconditions = new List<Func<bool>>();
         }
 
@@ -53,10 +39,9 @@ namespace i5.VirtualAgents
         /// </summary>
         /// <param name="tasks"></param>
         /// <param name="preconditions"></param>
-        public TaskBundle(List<AgentBaseTask> tasks, List<Func <bool>> preconditions)
+        public TaskBundle(List<Func <bool>> preconditions)
         {
             State = TaskState.Waiting;
-            TaskQueue = tasks;
             Preconditions = preconditions;
         }
 
@@ -66,7 +51,18 @@ namespace i5.VirtualAgents
         /// <param name="task">The task to be added to the task queue</param>
         public void AddTask(AgentBaseTask task)
         {
-            TaskQueue.Add(task);
+            taskManager.ScheduleTask(task, 0);
+        }
+        /// <summary>
+        /// Adds a list of tasks to the task queue after initialisation
+        /// </summary>
+        /// <param name="taskList">The task list to be added to the task queue</param>
+        public void AddTasks(List<AgentBaseTask> taskList)
+        {
+            foreach (var task in taskList)
+            {
+                taskManager.ScheduleTask(task, 0);
+            }
         }
 
         /// <summary>
@@ -90,11 +86,12 @@ namespace i5.VirtualAgents
         /// <param name="executingAgent"></param>
         public override void StartExecution(Agent executingAgent)
         {
+            taskManager.AssociateAgent(executingAgent);
             State = TaskState.Running;
-            this.executingAgent = executingAgent;
             if (CheckPreconditions())
             {
-                TaskStartedAndPreconditionsAreChecked = true;
+                taskManager.IsActive = true;
+                /* TaskStartedAndPreconditionsAreChecked = true;
 
                 for (var i = 1; i < TaskQueue.Count; i++)
                 {
@@ -109,13 +106,13 @@ namespace i5.VirtualAgents
                             task.DependsOnTasks.Add(TaskQueue[j]);
 
                         }
-                }
+                } */
             }
             else
             {
                 Debug.Log("Preconditions of TaskBundle not met");
                 StopAsFailed();
-                TaskStartedAndPreconditionsAreChecked = false;
+                //TaskStartedAndPreconditionsAreChecked = false;
             }
         }
 
@@ -125,26 +122,28 @@ namespace i5.VirtualAgents
         /// <param name="executingAgent"></param>
         public override TaskState EvaluateTaskState()
         {
-            if (!TaskStartedAndPreconditionsAreChecked) return State;
-            // Check if any task failed
-            var failedTask = TaskQueue.FirstOrDefault(task => task.State == TaskState.Failure);
-            if (failedTask != null)
-            {
-                Debug.LogWarning("Task: " + failedTask + " failed");
-                StopAsFailed();
-                TaskStartedAndPreconditionsAreChecked = false;
-                return State;
-            }
-            // Find the first task that is either running or waiting
-            ITask currentTask = TaskQueue.FirstOrDefault(task => task.State is TaskState.Waiting or TaskState.Running);
+            taskManager.Update();
 
-            // If no task is running, waiting or failed, the bundle is finished
-            if(currentTask == null)
+            if (taskManager.IsActive)
             {
-                StopAsSucceeded();
-                return State;
+                TaskState state =  taskManager.CheckTaskQueueStates();
+                if (state == TaskState.Failure)
+                {
+                    Debug.LogWarning("Task bundle failed");
+                    StopAsFailed();
+                }
+
+                if (state == TaskState.Success)
+                {
+                    StopAsSucceeded();
+                }
+
+                if (state == TaskState.Running)
+                {
+                    State = state;
+                }
             }
-            currentTask.Tick(executingAgent);
+
             return State;
         }
 
