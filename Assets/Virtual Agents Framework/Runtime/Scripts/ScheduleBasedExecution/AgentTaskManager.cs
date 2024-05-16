@@ -201,7 +201,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <summary>
         /// Checks the states of all tasks as an "and"-operation in the queue.
         /// </summary>
-        /// <returns>Failure if one of the Tasks in the queue failed and Success if all Task finished successfully</returns>
+        /// <returns> Failure if one of the Tasks in the queue failed and Success if all Task finished successfully </returns>
         public TaskState CheckTaskQueueStates()
         {
             // Check if any task failed

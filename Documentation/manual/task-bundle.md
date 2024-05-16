@@ -17,7 +17,7 @@ Other functions may be evaluated beforehand, so are not suitable for this purpos
 The lambda functions must return a boolean value. `() => {...}` syntax is a lambda expression that defines an anonymous function inline.
 Parameters can be added in brackets on the left side of the arrow.
 
-You can add tasks and preconditions to the TaskBundle after its initialisation. This is possible through the `AddTask` and `AddPrecondition` methods.
+You can add tasks and preconditions to the TaskBundle after its initialisation. This is possible through the `AddTask`, `AddTasks` and `AddPrecondition` methods.
 Note, that preconditions are checked before the TaskBundle execudes its tasks. If a precondition is added after the TaskBundle has started executing, it will not be checked.
 
 Example:

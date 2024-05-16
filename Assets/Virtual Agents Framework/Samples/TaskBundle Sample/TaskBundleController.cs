@@ -42,9 +42,7 @@ namespace i5.VirtualAgents.Examples
 
             // Create a new TaskBundle with the tasks and preconditions
             // This TaskBundle will be executed because the agent is not close to the last waypoint
-            TaskBundle taskBundleSuccess = new TaskBundle(preconditions);
-            taskBundleSuccess.AddTasks(tasks);
-
+            TaskBundle taskBundleSuccess = new TaskBundle(tasks, preconditions);
 
             // Create a TaskBundle with empty tasks and preconditions first
             // This TaskBundle will not be executed
