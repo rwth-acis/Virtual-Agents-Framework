@@ -14,11 +14,8 @@ namespace i5.VirtualAgents
     /// </summary>
     public class TaskBundle : AgentBaseTask
     {
+        // The TaskManager that is used to schedule and manage the tasks in a bundle
         private AgentTaskManager taskManager = new AgentTaskManager();
-        /// <summary>
-        /// List of tasks to be part of the bundle
-        /// </summary>
-        //public AgentTaskQueue TaskQueue { get; private set; }
 
         /// <summary>
         /// List of conditions to be met before execution of tasks
@@ -35,13 +32,24 @@ namespace i5.VirtualAgents
         }
 
         /// <summary>
+        /// Creates a TaskBundle with a list of tasks
+        /// </summary>
+        /// <param name="tasks"></param>
+        public TaskBundle(List <AgentBaseTask> tasks)
+        {
+            State = TaskState.Waiting;
+            AddTasks(tasks);
+        }
+
+        /// <summary>
         /// Creates a TaskBundle with a list of tasks and a list of preconditions
         /// </summary>
         /// <param name="tasks"></param>
         /// <param name="preconditions"></param>
-        public TaskBundle(List<Func <bool>> preconditions)
+        public TaskBundle(List <AgentBaseTask> tasks, List<Func <bool>> preconditions)
         {
             State = TaskState.Waiting;
+            AddTasks(tasks);
             Preconditions = preconditions;
         }
 
@@ -53,6 +61,7 @@ namespace i5.VirtualAgents
         {
             taskManager.ScheduleTask(task, 0);
         }
+
         /// <summary>
         /// Adds a list of tasks to the task queue after initialisation
         /// </summary>
@@ -91,28 +100,11 @@ namespace i5.VirtualAgents
             if (CheckPreconditions())
             {
                 taskManager.IsActive = true;
-                /* TaskStartedAndPreconditionsAreChecked = true;
-
-                for (var i = 1; i < TaskQueue.Count; i++)
-                {
-                        for (int j = 0; j < i; j++)
-                        {
-                            var task = TaskQueue[i];
-                            // Reset tasks in case they were already executed
-                            // TODO: Reset method is added in BehaviourTree Branch, uncomment after merge
-                            //task.Reset();
-                            // Adding dependencies to tasks in case later implementations rely on that
-                            // Each task depends on all previous tasks
-                            task.DependsOnTasks.Add(TaskQueue[j]);
-
-                        }
-                } */
             }
             else
             {
                 Debug.Log("Preconditions of TaskBundle not met");
                 StopAsFailed();
-                //TaskStartedAndPreconditionsAreChecked = false;
             }
         }
 
