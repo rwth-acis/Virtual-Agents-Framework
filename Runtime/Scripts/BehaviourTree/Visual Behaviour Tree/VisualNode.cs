@@ -14,7 +14,6 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
     {
         public string Guid;
         public Vector2 Position;
-        public string Description;
         public List<VisualNode> Children = new List<VisualNode>();
         /// <summary>
         /// The corresponding Task in the abstract behaviour tree build in BehaviourTreeAsset

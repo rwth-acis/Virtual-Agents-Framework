@@ -10,9 +10,14 @@ namespace i5.VirtualAgents
         protected Agent executingAgent;
 
         /// <summary>
+        /// Custom description that can be used to overwrite the standard description of the node in the visual Behaviour Tree editor.
+        /// </summery>
+        public string description = "";
+
+        /// <summary>
         /// Called by the executing agent on running tasks
         /// Performs frame-to-frame task execution updates
-        /// This is e.g. useful for tracking movements towards a target and determinig when the agent has reached the target
+        /// This is e.g. useful for tracking movements towards a target and determining when the agent has reached the target
         /// </summary>
         public virtual TaskState EvaluateTaskState()
         {
@@ -30,7 +35,7 @@ namespace i5.VirtualAgents
         }
 
         /// <summary>
-        /// Called when the task succeedes or fails
+        /// Called when the task succeeds or fails
         /// </summary>
         public virtual void StopExecution() { }
 
@@ -44,7 +49,7 @@ namespace i5.VirtualAgents
         }
 
         /// <summary>
-        /// Can be used to let the task succseed outside of its Update method
+        /// Can be used to let the task succeed outside of its Update method
         /// </summary>
         public void StopAsSucceeded()
         {
@@ -52,7 +57,7 @@ namespace i5.VirtualAgents
             StopExecution();
         }
 
-        public TaskState Tick(Agent excutingAgent)
+        public TaskState Tick(Agent executingAgent)
         {
             //Is the task already finished?
             if (State == TaskState.Success || State == TaskState.Failure)
@@ -64,7 +69,7 @@ namespace i5.VirtualAgents
             if (State == TaskState.Waiting)
             {
                 State = TaskState.Running;
-                StartExecution(excutingAgent);
+                StartExecution(executingAgent);
                 //Check if the task already finished, in the Execute()
                 if (State == TaskState.Success || State == TaskState.Failure)
                 {

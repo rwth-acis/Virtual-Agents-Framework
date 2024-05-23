@@ -37,6 +37,7 @@
     align-self: stretch;
     padding-left: 8px;
     min-width: 200px;
+    max-width: none;
 }
 
 .actionNode #input {
@@ -109,6 +110,10 @@
 
 #description {
     font-size: 10px;
+    white-space: normal;
+    -unity-text-align: upper-center;
+    align-self: center;
+    max-width: 190px;
 }
 
 #title {

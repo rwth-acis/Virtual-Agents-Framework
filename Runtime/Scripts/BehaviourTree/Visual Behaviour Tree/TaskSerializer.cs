@@ -74,7 +74,7 @@ namespace i5.VirtualAgents.AgentTasks
             }
             catch (KeyNotFoundException e)
             {
-                Debug.LogWarning("One node seems to have added new attributes since the tree got saved last. Node will now be updated. Please save the tree again. Error: " + e + " ");
+                Debug.LogWarning("One node seems to have added new attributes since the tree got saved last. Node will now be updated. <b> Please save the tree now. </b> Error: " + e + " ");
                 copy.Serialize(overwriteData != null ? overwriteData : Data);
                 copy.Deserialize(overwriteData != null ? overwriteData : Data);
             }
