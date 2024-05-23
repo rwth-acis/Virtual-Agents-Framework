@@ -1,9 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using i5.VirtualAgents.ScheduleBasedExecution;
-using UnityEditor;
-
 namespace i5.VirtualAgents.AgentTasks
 {
     /// <summary>

@@ -39,12 +39,6 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             Nodes.Add(node);
             AssetDatabase.AddObjectToAsset(node, this);
             Undo.RegisterCreatedObjectUndo(node, "Behaviour Tree (Add Node)");
-            
-            //Only save if asset is currently not imported
-            if (!AssetDatabase.Contains(this))
-            {
-                AssetDatabase.SaveAssets();
-            }
 
             return node;
         }
@@ -92,7 +86,6 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             }
             //AssetDatabase.RemoveObjectFromAsset(nodeToDelete); accomplished by:
             Undo.DestroyObjectImmediate(nodeToDelete);
-            AssetDatabase.SaveAssets();
         }
 
         public void AddChild(VisualNode parent, VisualNode child)
@@ -170,8 +163,15 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
                 }
                 ConnectAbstractTree(child, abstractChild, nodesOverwriteData);
             }
-            if(node.Children.Count == 0 && abstractNode is ICompositeNode)
+
+            // Check if the node is valid
+            if (node.Children.Count == 0 && abstractNode is ICompositeNode)
             {
+                if(abstractNode is SequencerNode)
+                {
+                    // Sequencer node succeeds if it has no children (beacuse no child failed)
+                    node.CorrespondingTask.State = TaskState.Success;
+                }
                 node.CorrespondingTask.State = TaskState.Failure;
                 Debug.LogWarning("Composite node " + node.name + " has no children");
             }

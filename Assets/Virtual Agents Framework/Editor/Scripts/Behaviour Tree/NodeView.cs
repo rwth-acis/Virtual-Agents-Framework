@@ -17,6 +17,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         public VisualNode node;
         public Port input;
         public Port output;
+        private Label descriptionLabel;
         public NodeView(VisualNode node) : base("Assets/Virtual Agents Framework/Editor/UI Builder/Behaviour Tree/NodeView.uxml")
         {
 
@@ -32,6 +33,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             CreateInputPorts();
             CreateOutputPorts();
             SetupClasses();
+            SetupDescription();
         }
 
         /// <summary>
@@ -123,6 +125,60 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             if (OnNodeSelect != null)
             {
                 OnNodeSelect.Invoke(this);
+            }
+        }
+
+        /// <summary>
+        /// Adds a description to the node view based on the node type to be shown in the inspector
+        /// The description can be overwritten by changing the description field of the task (inherited from BaseTask)
+        /// </summary>
+        public void SetupDescription()
+        {
+            descriptionLabel = this.Q<Label>("description");
+
+            var ser = node.GetCopyOfSerializedInterface();
+
+            // First check if the node has a specific custom description
+            if (ser is BaseTask task && !string.IsNullOrEmpty(task.description))
+            {
+                Debug.Log("Task description: " + task.description);
+                descriptionLabel.text = task.description;
+            }
+            else if (ser is SequencerNode)
+            {
+                descriptionLabel.text = "Executes its children from left to right, until one <b>fails</b>. (AND-Operation)";
+            }
+            else if (ser is SelectorNode)
+            {
+                descriptionLabel.text = "Executes its children from left to right, until one <b>succeeds</b>. (OR-Operation)";
+            }
+            else if (ser is AlwaysSucceedNode)
+            {
+                descriptionLabel.text = "Executes its child, and always successes when the child finishes.";
+            }
+            else if (ser is RootNode)
+            {
+                descriptionLabel.text = "Starts by executing its child.";
+            }
+            else if( ser is InverterNode)
+            {
+                descriptionLabel.text = "Inverts the result of its child.";
+            }
+            else if (ser is RepeatUntilSuccessNode)
+            {
+                descriptionLabel.text = "Repeats its child until it succeeds.";
+            }
+            else if (ser is RandomNode)
+            {
+                descriptionLabel.text = "Randomly chooses a child to execute.";
+            }
+            else if (ser is TimeOutNode)
+            {
+                descriptionLabel.text = "Automatically fails when the child doesn't finish in time.";
+            }
+            else
+            {
+                descriptionLabel.text = "Executes a specific task.";
             }
         }
 
