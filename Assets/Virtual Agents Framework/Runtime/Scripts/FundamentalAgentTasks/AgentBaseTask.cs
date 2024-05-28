@@ -69,6 +69,7 @@ namespace i5.VirtualAgents.AgentTasks
             StopAsFailed();
             IsFinished = true;
             DependsOnTasks.Clear();
+            OnTaskFinished?.Invoke();
         }
 
         /// <summary>
