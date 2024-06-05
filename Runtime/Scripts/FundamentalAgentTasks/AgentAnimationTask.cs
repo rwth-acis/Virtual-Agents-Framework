@@ -140,5 +140,15 @@ namespace i5.VirtualAgents.AgentTasks
             playTime = serializer.GetSerializedFloat("Play Time");
         }
 
+        /// <summary>
+        /// Aborts the animation task and sets its state to aborted
+        /// </summary>
+        public override void Abort()
+        {
+            Debug.Log("Abort in AnimationTask");
+            StopExecution();
+            State = TaskState.Aborted;
+        }
+
     }
 }

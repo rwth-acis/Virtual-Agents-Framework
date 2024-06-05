@@ -14,5 +14,10 @@ namespace i5.VirtualAgents.AgentTasks
         /// False if there are unfulfilled conditions that block the execution
         /// </summary>
         bool CanStart { get; }
+
+        /// <summary>
+        /// Aborts the task
+        /// </summary>
+        public void Abort() {}
     }
 }
