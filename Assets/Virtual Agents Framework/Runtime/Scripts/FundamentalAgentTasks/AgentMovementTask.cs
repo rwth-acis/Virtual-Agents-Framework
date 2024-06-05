@@ -202,5 +202,18 @@ namespace i5.VirtualAgents.AgentTasks
 			TargetSpeed = serializer.GetSerializedFloat("TargetSpeed");
             //FollowingGameObject = serializer.GetSerializedBool("FollowingGameObject");
 		}
+
+		/// <summary>
+		/// Aborts the movement task and sets its state to aborted
+		/// </summary>
+		public override void Abort()
+		{
+			Debug.Log("Abort in MovementTask");
+			if (navMeshAgent != null)
+			{
+				StopExecution();
+			}
+			State = TaskState.Aborted;
+		}
 	}
 }

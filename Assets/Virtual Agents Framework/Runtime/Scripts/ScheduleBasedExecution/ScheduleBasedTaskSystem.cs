@@ -50,5 +50,25 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         {
             taskManagers[layer].ScheduleTask(task, priority);
         }
+
+        /// <summary>
+        /// Aborts the current task on the specified layer
+        /// </summary>
+        /// <param name="layer">Name of the layer on which the task should be aborted</param>
+        public void Abort(string layer = "Base Layer")
+        {
+            taskManagers[layer].Abort();
+        }
+
+        /// <summary>
+        /// Aborts the current tasks on all layers
+        /// </summary>
+        public void AbortAllLayers()
+        {
+            foreach (var layer in taskManagers)
+            {
+                taskManagers[layer.Key].Abort();
+            }
+        }
     }
 }

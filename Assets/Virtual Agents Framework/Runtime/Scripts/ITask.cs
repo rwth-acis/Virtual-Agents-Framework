@@ -9,7 +9,8 @@ namespace i5.VirtualAgents
         Waiting, // Task created, but never executed
         Running, // Task currently running
         Failure, // Task has finished executing and failed
-        Success  // Task has finished executing and succeeded
+        Success,  // Task has finished executing and succeeded
+        Aborted // Task has been aborted
     }
 
     /// <summary>

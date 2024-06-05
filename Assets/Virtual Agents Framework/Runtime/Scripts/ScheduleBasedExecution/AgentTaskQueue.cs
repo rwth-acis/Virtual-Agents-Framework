@@ -76,12 +76,30 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         }
 
         /// <summary>
-        /// Contains a task, its corresponding priority and the task bundle it belongs to if it is part of one
+        /// Contains a task and its corresponding priority
         /// </summary>
         private struct TaskEntry
         {
             public IAgentTask task;
             public int priority;
+        }
+
+        /// <summary>
+        /// Removes all tasks from the queue
+        /// </summary>
+        public void Clear()
+        {
+            taskQueue.Clear();
+        }
+
+        /// <summary>
+        /// Removes a task from the task queue
+        /// </summary>
+        /// <param name="task">Task to be removed</param>
+        public void RemoveTask(IAgentTask task)
+        {
+            TaskEntry taskEntry = new TaskEntry();
+            taskQueue.Remove(taskEntry);
         }
     }
 

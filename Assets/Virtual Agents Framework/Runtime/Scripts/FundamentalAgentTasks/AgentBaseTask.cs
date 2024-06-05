@@ -1,6 +1,7 @@
 ﻿using i5.Toolkit.Core.Utilities;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace i5.VirtualAgents.AgentTasks
 {
@@ -87,6 +88,19 @@ namespace i5.VirtualAgents.AgentTasks
                 {
                     DependsOnTasks.Add(otherTask);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Aborts the task and sets its state to aborted
+        /// </summary>
+        public virtual void Abort()
+        {
+            Debug.Log("Abort in BaseTask");
+            if (State == TaskState.Running)
+            {
+                StopAsAborted();
+                State = TaskState.Aborted;
             }
         }
     }
