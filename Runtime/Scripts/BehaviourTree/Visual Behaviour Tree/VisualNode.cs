@@ -1,8 +1,7 @@
-using System.Collections;
+using i5.VirtualAgents.AgentTasks;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using i5.VirtualAgents.AgentTasks;
 
 namespace i5.VirtualAgents.BehaviourTrees.Visual
 {
@@ -18,6 +17,7 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         /// <summary>
         /// The corresponding Task in the abstract behaviour tree build in BehaviourTreeAsset
         /// </summary>
-        public ITask CorrespondingTask { get; set; }
+        public Dictionary<Agent, ITask> CorrespondingTask { get; set; } = new Dictionary<Agent, ITask>();
+        //public ITask CorrespondingTask { get; set; }
     }
 }

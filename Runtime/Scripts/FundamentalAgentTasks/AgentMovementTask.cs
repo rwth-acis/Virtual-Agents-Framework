@@ -88,10 +88,9 @@ namespace i5.VirtualAgents.AgentTasks
 		public override void StartExecution(Agent agent)
 		{
 			base.StartExecution(agent);
-			navMeshAgent = agent.GetComponent<NavMeshAgent>();
-
+            
 			// only proceed on agents with a NavMeshAgent
-			if (navMeshAgent == null)
+			if (!agent.TryGetComponent<NavMeshAgent>(out navMeshAgent))
 			{
 				i5Debug.LogError($"The agent {agent.name} does not have a NavMeshAgent component. " +
 					$"Therefore, it cannot move. Skipping this task.",
@@ -196,7 +195,7 @@ namespace i5.VirtualAgents.AgentTasks
 
 		public void Deserialize(SerializationDataContainer serializer)
 		{
-            // Replace old names, to update old tree files
+            // Replace old names, to update old tree files TODO
             serializer.Replace("TargetSpeed", "Target Speed");
             serializer.Replace("FollowGameObject", "Follow GameObject?");
 

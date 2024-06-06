@@ -18,11 +18,15 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
     {
         public Action<NodeView> OnNodeSelect;
 
+        public Agent CurrentlySelectedAgent { get; set; }
+
+
         // Needed for the UI Builder
         public new class UxmlFactory : UxmlFactory<BehaviourTreeView, UxmlTraits> { }
         public BehaviourTreeAsset Tree;
 
         private bool readOnly = false;
+        
 
         public BehaviourTreeView()
         {
@@ -109,13 +113,11 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                 {
                     foreach (var elemToRemove in graphViewChange.elementsToRemove)
                     {
-                        NodeView nodeToRemove = elemToRemove as NodeView;
-                        if (nodeToRemove != null && !(nodeToRemove.node is IRootNode))
+                        if (elemToRemove is NodeView nodeToRemove && nodeToRemove.node is not IRootNode)
                         {
                             Tree.DeleteNode(nodeToRemove.node);
                         }
-                        Edge edge = elemToRemove as Edge;
-                        if (edge != null)
+                        if (elemToRemove is Edge edge)
                         {
                             //Remove the child, so that the edge is not added again
                             Tree.RemoveChild(((NodeView)edge.output.node).node, ((NodeView)edge.input.node).node);
@@ -166,8 +168,8 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
 
                     if (constructor != null && !type.IsAbstract) // Can only instatiate a task, if it has an empty constructor
                     {
-                        ISerializable task = constructor.Invoke(new object[0]) as ISerializable; //Can only use it as node if it is serializable
-                        if (task != null && !(task is IRootNode))
+                        //Can only use it as node if it is serializable
+                        if (constructor.Invoke(new object[0]) is ISerializable task && task is not IRootNode)
                         {
                             Vector2 nodePosition = this.ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
                             evt.menu.AppendAction(menuName + "/" + type.Name, (a) => CreateVisualNode(task, nodePosition));
@@ -188,8 +190,10 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         //Creates a NodeView for the given node
         private NodeView CreateNodeView(VisualNode node)
         {
-            NodeView nodeView = new NodeView(node);
-            nodeView.OnNodeSelect = OnNodeSelect;
+            NodeView nodeView = new NodeView(node)
+            {
+                OnNodeSelect = OnNodeSelect
+            };
             AddElement(nodeView);
             return nodeView;
         }
@@ -220,7 +224,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             foreach (var node in Tree.Nodes)
             {
                 NodeView nodeView = FindNodeView(node);
-                nodeView.UpdateState();
+                nodeView.UpdateState(CurrentlySelectedAgent);
                 
             }
         }

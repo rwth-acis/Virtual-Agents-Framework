@@ -16,7 +16,7 @@ namespace i5.VirtualAgents.AgentTasks
         public override void StartExecution(Agent executingAgent)
         {
             base.StartExecution(executingAgent);
-            root = tree.GetExecutableTree();
+            root = tree.GetExecutableTree(executingAgent);
         }
 
         public override TaskState EvaluateTaskState()

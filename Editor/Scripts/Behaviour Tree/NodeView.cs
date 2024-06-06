@@ -1,6 +1,7 @@
 using i5.VirtualAgents.BehaviourTrees;
 using i5.VirtualAgents.BehaviourTrees.Visual;
 using System;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -82,7 +83,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         private void CreateInputPorts()
         {
             //Every node, except the root, has one input
-            if (!(node.GetCopyOfSerializedInterface() is IRootNode))
+            if (node.GetCopyOfSerializedInterface() is not IRootNode)
             {
                 input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
                 input.portName = "";
@@ -122,10 +123,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         public override void OnSelected()
         {
             base.OnSelected();
-            if (OnNodeSelect != null)
-            {
-                OnNodeSelect.Invoke(this);
-            }
+            OnNodeSelect?.Invoke(this);
         }
 
         /// <summary>
@@ -160,7 +158,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             {
                 descriptionLabel.text = "Starts by executing its child.";
             }
-            else if( ser is InverterNode)
+            else if (ser is InverterNode)
             {
                 descriptionLabel.text = "Inverts the result of its child.";
             }
@@ -182,7 +180,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             }
         }
 
-        public void UpdateState()
+        public void UpdateState(Agent currentlySelectedAgent)
         {
             RemoveFromClassList("success");
             RemoveFromClassList("failure");
@@ -193,7 +191,20 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             {
                 if (this.node.CorrespondingTask != null)
                 {
-                    switch (this.node.CorrespondingTask.State)
+                    ITask task;
+                    if (currentlySelectedAgent == null)
+                    {
+                        // If no agent is selected, use the first agent in the dictionary
+                        task = this.node.CorrespondingTask.Values.ToList().FirstOrDefault();
+                    }
+                    else {
+                        this.node.CorrespondingTask.TryGetValue(currentlySelectedAgent, out task);
+                    }
+                    if (task == null)
+                    {
+                        return;
+                    }
+                    switch (task.State)
                     {
                         case TaskState.Success:
                             AddToClassList("success");

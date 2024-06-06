@@ -7,7 +7,7 @@ using UnityEngine;
 namespace i5.VirtualAgents.BehaviourTrees.Visual
 {
     /// <summary>
-    /// Asset that can be used to create behaviour trees that are saved persistently. The tree is not executable, but an executable abstract copy can be retrived.
+    /// Asset that can be used to create behaviour trees that are saved persistently. The tree is not executable, but an executable abstract copy can be retried.
     /// </summary>
     [CreateAssetMenu(menuName = "Virtual Agents Framework/Behaviour Tree")]
     public class BehaviourTreeAsset : ScriptableObject
@@ -118,7 +118,7 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         /// Generates an abstract copy of the tree that is executable through the root nodes FullUpdate() function
         /// </summary>
         /// <returns> </returns>
-        public ITask GetExecutableTree(NodesOverwriteData nodesOverwriteData = null)
+        public ITask GetExecutableTree(Agent agent, NodesOverwriteData nodesOverwriteData = null)
         {
             rootNode = Nodes[0];
             SerializationDataContainer rootNodeData = null;
@@ -128,17 +128,20 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             }
             ITask root = (ITask)rootNode.GetCopyOfSerializedInterface(rootNodeData);
 
-            // Set the corresponding task in the visual node so its state can be showen in the editor
-            rootNode.CorrespondingTask = root;
 
-            ConnectAbstractTree(rootNode, root, nodesOverwriteData);
+
+            // Set the corresponding task in the visual node so its state can be shown in the editor
+            
+            rootNode.CorrespondingTask.TryAdd(agent,root);
+
+            ConnectAbstractTree(rootNode, root, nodesOverwriteData, agent);
             return root;
         }
 
-        // Recursively generates the abstract childs for the given graphical node and connects them
-        private void ConnectAbstractTree(VisualNode node, ITask abstractNode, NodesOverwriteData nodesOverwriteData)
+        // Recursively generates the abstract child for the given graphical node and connects them
+        private void ConnectAbstractTree(VisualNode node, ITask abstractNode, NodesOverwriteData nodesOverwriteData, Agent agent)
         {
-            // Sort the children by their vertical positon in order to execute children in displayed order
+            // Sort the children by their vertical position in order to execute children in displayed order
             node.Children.Sort((node1, node2) => { if (node1.Position.x > node2.Position.x) { return 1; } else if (node1.Position.x < node2.Position.x) { return -1; } else return 0; });
 
             foreach (var child in node.Children)
@@ -150,8 +153,8 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
                 }
                 ITask abstractChild = (ITask)child.GetCopyOfSerializedInterface(nodeData);
                 
-                // Set the corresponding task in the visual node so its state can be showen in the editor
-                child.CorrespondingTask = abstractChild;
+                // Set the corresponding task in the visual node so its state can be shown in the editor
+                child.CorrespondingTask.TryAdd(agent, abstractChild);
 
                 if (abstractNode is ICompositeNode)
                 {
@@ -161,33 +164,35 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
                 {
                     (abstractNode as IDecoratorNode).Child = abstractChild;
                 }
-                ConnectAbstractTree(child, abstractChild, nodesOverwriteData);
+                ConnectAbstractTree(child, abstractChild, nodesOverwriteData, agent);
             }
 
             // Check if the node is valid
+            node.CorrespondingTask.TryGetValue(agent, out ITask currentTask);
             if (node.Children.Count == 0 && abstractNode is ICompositeNode)
             {
                 if(abstractNode is SequencerNode)
                 {
-                    // Sequencer node succeeds if it has no children (beacuse no child failed)
-                    node.CorrespondingTask.State = TaskState.Success;
+                    // Sequencer node succeeds if it has no children (because no child failed)
+                    
+                    currentTask.State = TaskState.Success;
                 }
-                node.CorrespondingTask.State = TaskState.Failure;
+                currentTask.State = TaskState.Failure;
                 Debug.LogWarning("Composite node " + node.name + " has no children");
             }
-            if(node.Children.Count > 1 && !(abstractNode is ICompositeNode))
+            if(node.Children.Count > 1 && abstractNode is not ICompositeNode)
             {
-                node.CorrespondingTask.State = TaskState.Failure;
+                currentTask.State = TaskState.Failure;
                 Debug.LogWarning("Node " + node.name + " has multiple children but is not a composite node");
             }
             if(node.Children.Count > 0 && !(abstractNode is ICompositeNode || abstractNode is IDecoratorNode))
             {
-                node.CorrespondingTask.State = TaskState.Failure;
+                currentTask.State = TaskState.Failure;
                 Debug.LogWarning("Node " + node.name + " has children but is not a composite or decorator node");
             }
-            if (node.Children.Count == 0 && abstractNode is IDecoratorNode && (abstractNode as IDecoratorNode).Child == null && !(abstractNode is AlwaysSucceedNode))
+            if (node.Children.Count == 0 && abstractNode is IDecoratorNode && (abstractNode as IDecoratorNode).Child == null && abstractNode is not AlwaysSucceedNode)
             {
-                node.CorrespondingTask.State = TaskState.Failure;
+                currentTask.State = TaskState.Failure;
                 Debug.LogWarning("Decorator node " + node.name + " has no child");
             }
         }

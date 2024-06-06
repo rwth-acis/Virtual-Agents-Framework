@@ -72,13 +72,17 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             {
                 if (Selection.activeGameObject)
                 {
-                    BehaviourTreeRunner runner = Selection.activeGameObject.GetComponent<BehaviourTreeRunner>();
-                    if (runner)
+                    if (Selection.activeGameObject.TryGetComponent<BehaviourTreeRunner>(out var runner))
                     {
                         tree = runner.Tree;
                         Debug.Log("Tree selected from hierarchy window: " + tree.name);
                         AllowTreeEditing();
                         treeView.PopulateView(tree);
+                        
+                        if(Selection.activeGameObject.GetComponent<Agent>())
+                        {
+                            treeView.CurrentlySelectedAgent = Selection.activeGameObject.GetComponent<Agent>();
+                        }
                     }
 
                 }
