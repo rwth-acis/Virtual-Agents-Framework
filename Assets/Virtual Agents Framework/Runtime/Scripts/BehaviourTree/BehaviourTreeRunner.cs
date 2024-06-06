@@ -24,7 +24,7 @@ namespace i5.VirtualAgents.BehaviourTrees
             executingAgent = GetComponent<Agent>();
             if (Tree != null)
             {
-                AbstractTree = Tree.GetExecutableTree(nodesOverwriteData);
+                AbstractTree = Tree.GetExecutableTree(executingAgent, nodesOverwriteData);
             }
         }
 

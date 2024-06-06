@@ -78,7 +78,7 @@ namespace i5.VirtualAgents.AgentTasks
                 // for more complex transitive deadlocks we should consider adding an analyzer in the future
                 if (otherTask.DependsOnTasks.Contains(this))
                 {
-                    i5Debug.LogWarning($"Did not add task {otherTask.ToString()} as dependency to {this.ToString()}" +
+                    i5Debug.LogWarning($"Did not add task {otherTask} as dependency to {this}" +
                         $" because there is already an inverse dependency. Avoiding deadlock.", this);
                     continue;
                 }
