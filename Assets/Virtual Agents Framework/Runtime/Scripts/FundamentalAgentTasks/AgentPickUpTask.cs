@@ -66,6 +66,14 @@ namespace i5.VirtualAgents.AgentTasks
         {
             base.StartExecution(agent);
 
+            if (!PickupObject)
+            {
+                i5Debug.LogError($"The pickup object is null. " +
+                    "Therefore, it cannot be picked up. Skipping this task.",
+                    this);
+                FinishTaskAsFailed(); 
+                return; 
+            }
             if (!PickupObject.TryGetComponent<Item>(out var item))
             {
                 i5Debug.LogError($"The pickup object {PickupObject.name} does not have a Item component. " +
