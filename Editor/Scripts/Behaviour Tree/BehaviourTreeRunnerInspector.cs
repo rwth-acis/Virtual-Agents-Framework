@@ -1,13 +1,14 @@
+using i5.VirtualAgents.AgentTasks;
+using i5.VirtualAgents.BehaviourTrees;
+using i5.VirtualAgents.BehaviourTrees.Visual;
+using i5.VirtualAgents.Editor.BehaviourTrees;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 using UnityEditor;
-using i5.VirtualAgents.BehaviourTrees.Visual;
-using i5.VirtualAgents.BehaviourTrees;
-using UnityEngine.UIElements;
-using i5.VirtualAgents.Editor.BehaviourTrees;
-using i5.VirtualAgents.AgentTasks;
 using UnityEditor.UIElements;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace i5.VirtualAgents.Editor
 {
@@ -49,7 +50,7 @@ namespace i5.VirtualAgents.Editor
 
             // Setup tree when a new one is selected
             PropertyField treePropertyField = inspector.Query<PropertyField>("tree");
-            treePropertyField.RegisterValueChangeCallback( (x) => SetupNewTree(x.changedProperty.objectReferenceValue as BehaviourTreeAsset) );
+            treePropertyField.RegisterValueChangeCallback((x) => SetupNewTree(x.changedProperty.objectReferenceValue as BehaviourTreeAsset));
 
             // Return the finished inspector UI
             return inspector;
@@ -103,38 +104,40 @@ namespace i5.VirtualAgents.Editor
 
             targetNode.Data.serializationOrder.CopyTo(serializationOrder);
 
+            int index = 1;
             foreach (var type in serializationOrder)
             {
 
                 switch (type)
                 {
                     case SerializableType.VECTOR3:
-                        CreatePropertyField("serializedVectors", ref vectorCounter, SerializableType.VECTOR3, targetNode, nodeOverwriteData);
+                        CreatePropertyField("serializedVectors", ref vectorCounter, SerializableType.VECTOR3, targetNode, nodeOverwriteData, index);
                         break;
                     case SerializableType.FLOAT:
-                        CreatePropertyField("serializedFloats", ref floatCounter, SerializableType.FLOAT, targetNode, nodeOverwriteData);
+                        CreatePropertyField("serializedFloats", ref floatCounter, SerializableType.FLOAT, targetNode, nodeOverwriteData, index);
                         break;
                     case SerializableType.STRING:
-                        CreatePropertyField("serializedStrings", ref stringCounter, SerializableType.STRING, targetNode, nodeOverwriteData);
+                        CreatePropertyField("serializedStrings", ref stringCounter, SerializableType.STRING, targetNode, nodeOverwriteData, index);
                         break;
                     case SerializableType.INT:
-                        CreatePropertyField("serializedInts", ref intCounter, SerializableType.INT, targetNode, nodeOverwriteData);
+                        CreatePropertyField("serializedInts", ref intCounter, SerializableType.INT, targetNode, nodeOverwriteData, index);
                         break;
                     case SerializableType.GAMEOBJECT:
-                        CreatePropertyField("serializedGameobjects", ref gameobjectCounter, SerializableType.GAMEOBJECT, targetNode, nodeOverwriteData);
+                        CreatePropertyField("serializedGameobjects", ref gameobjectCounter, SerializableType.GAMEOBJECT, targetNode, nodeOverwriteData, index);
                         break;
                     case SerializableType.BOOL:
-                        CreatePropertyField("serializedBools", ref boolCounter, SerializableType.BOOL, targetNode, nodeOverwriteData);
+                        CreatePropertyField("serializedBools", ref boolCounter, SerializableType.BOOL, targetNode, nodeOverwriteData, index);
                         break;
                     case SerializableType.LIST_FLOAT:
-                        CreatePropertyField("serializedListFloats", ref listFloatCounter, SerializableType.LIST_FLOAT, targetNode, nodeOverwriteData);
+                        CreatePropertyField("serializedListFloats", ref listFloatCounter, SerializableType.LIST_FLOAT, targetNode, nodeOverwriteData, index);
                         break;
                     case SerializableType.TREE:
-                        CreatePropertyField("serializedTrees", ref treesCounter, SerializableType.TREE, targetNode, nodeOverwriteData);
+                        CreatePropertyField("serializedTrees", ref treesCounter, SerializableType.TREE, targetNode, nodeOverwriteData, index);
                         break;
                     default:
                         throw new NotImplementedException(type + " has no property field handler");
                 }
+                index++;
             }
 
             serializedObject.ApplyModifiedProperties();
@@ -224,16 +227,19 @@ namespace i5.VirtualAgents.Editor
             return nodeOverwriteData;
         }
 
-        // Creates a property field of the provided type for the serized data saved in the array with the name propertyName
-        private void CreatePropertyField(string propertyName, ref int counter, SerializableType type, VisualNode targetNode, SerializedProperty nodeOverwriteData)
+        // Creates a property field of the provided type for the serialized data saved in the array with the name propertyName
+        private void CreatePropertyField(string propertyName, ref int counter, SerializableType type, VisualNode targetNode, SerializedProperty nodeOverwriteData, int index)
         {
-            // Retrive the serialized array
+            // Retrieve the serialized array
             SerializedProperty baseProperty = nodeOverwriteData.FindPropertyRelative(propertyName + ".data").GetArrayElementAtIndex(counter).FindPropertyRelative("Value");
             // Create the property field for the element with index counter
             PropertyField field = new PropertyField(baseProperty);
             field.label = targetNode.Data.GetKeyByIndex(counter, type);
             field.BindProperty(serializedObject);
-            inspector.Add(field);
+
+            // Insert the field at the beginning of the inspector's children list
+            inspector.Insert(index, field); // Use the Insert method with index 0 to add the field above existing tree
+
             propertyFieldsForCurrentNode.Add(field);
             counter++;
         }
