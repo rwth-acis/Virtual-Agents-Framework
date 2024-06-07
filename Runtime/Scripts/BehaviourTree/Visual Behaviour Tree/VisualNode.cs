@@ -18,6 +18,11 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         /// The corresponding Task in the abstract behaviour tree build in BehaviourTreeAsset
         /// </summary>
         public Dictionary<Agent, ITask> CorrespondingTask { get; set; } = new Dictionary<Agent, ITask>();
-        //public ITask CorrespondingTask { get; set; }
+
+        // Used to clear dictionary when not in playmode
+        public void ClearCorrespondingTask()
+        {
+            CorrespondingTask?.Clear();
+        }
     }
 }
