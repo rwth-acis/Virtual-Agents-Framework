@@ -186,22 +186,30 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             RemoveFromClassList("failure");
             RemoveFromClassList("running");
             RemoveFromClassList("waiting");
+            if (!Application.isPlaying)
+            {
+                this.node.ClearCorrespondingTask();
+            }
 
             if (Application.isPlaying)
             {
                 if (this.node.CorrespondingTask != null)
                 {
+
+
                     ITask task;
                     if (currentlySelectedAgent == null)
                     {
                         // If no agent is selected, use the first agent in the dictionary
                         task = this.node.CorrespondingTask.Values.ToList().FirstOrDefault();
                     }
-                    else {
+                    else
+                    {
                         this.node.CorrespondingTask.TryGetValue(currentlySelectedAgent, out task);
                     }
                     if (task == null)
                     {
+                        Debug.LogWarning("Something went wrong when trying to display the current task state in the tree editor.");
                         return;
                     }
                     switch (task.State)
