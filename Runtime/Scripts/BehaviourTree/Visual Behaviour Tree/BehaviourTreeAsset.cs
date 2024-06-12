@@ -121,6 +121,11 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         public ITask GetExecutableTree(Agent agent, NodesOverwriteData nodesOverwriteData = null)
         {
             rootNode = Nodes[0];
+            // In some edge cases the rood node is not the first node in the list
+            if(rootNode.GetCopyOfSerializedInterface() is not IRootNode)
+            {
+                rootNode = Nodes.Find(node => node.GetCopyOfSerializedInterface() is IRootNode);
+            }
             SerializationDataContainer rootNodeData = null;
             if (nodesOverwriteData != null && nodesOverwriteData.KeyExists(rootNode.Guid))
             {
@@ -128,10 +133,7 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             }
             ITask root = (ITask)rootNode.GetCopyOfSerializedInterface(rootNodeData);
 
-
-
             // Set the corresponding task in the visual node so its state can be shown in the editor
-            
             rootNode.CorrespondingTask.TryAdd(agent,root);
 
             ConnectAbstractTree(rootNode, root, nodesOverwriteData, agent);
