@@ -145,7 +145,6 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public override void Abort()
         {
-            Debug.Log("Abort in AnimationTask");
             StopExecution();
             State = TaskState.Aborted;
         }

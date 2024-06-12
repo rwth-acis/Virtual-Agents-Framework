@@ -226,7 +226,6 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// </summary
         public void Abort()
         {
-            Debug.Log("Abort called in AgentTaskManager:");
             if (CurrentTask != null)
             {
                 CurrentTask.Abort();

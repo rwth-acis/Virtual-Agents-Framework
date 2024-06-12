@@ -208,7 +208,6 @@ namespace i5.VirtualAgents.AgentTasks
 		/// </summary>
 		public override void Abort()
 		{
-			Debug.Log("Abort in MovementTask");
 			if (navMeshAgent != null)
 			{
 				StopExecution();

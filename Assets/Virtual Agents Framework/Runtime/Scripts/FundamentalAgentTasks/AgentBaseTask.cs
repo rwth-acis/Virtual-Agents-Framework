@@ -96,7 +96,6 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public virtual void Abort()
         {
-            Debug.Log("Abort in BaseTask");
             if (State == TaskState.Running)
             {
                 StopAsAborted();

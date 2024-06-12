@@ -77,7 +77,6 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public override void Abort()
         {
-            Debug.Log("Abort in WaitTask");
             if (waitCoroutine != null)
             {
                 agent.StopCoroutine(waitCoroutine);
