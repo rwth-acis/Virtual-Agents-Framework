@@ -139,7 +139,6 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             // First check if the node has a specific custom description
             if (ser is BaseTask task && !string.IsNullOrEmpty(task.description))
             {
-                Debug.Log("Task description: " + task.description);
                 descriptionLabel.text = task.description;
             }
             else if (ser is SequencerNode)
@@ -195,8 +194,6 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             {
                 if (this.node.CorrespondingTask != null)
                 {
-
-
                     ITask task;
                     if (currentlySelectedAgent == null)
                     {
@@ -209,8 +206,8 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                     }
                     if (task == null)
                     {
-                        Debug.LogWarning("Something went wrong when trying to display the current task state in the tree editor.");
-                        return;
+                        // The node is most likely not part of the tree or the tree is not opened
+                        return; 
                     }
                     switch (task.State)
                     {
