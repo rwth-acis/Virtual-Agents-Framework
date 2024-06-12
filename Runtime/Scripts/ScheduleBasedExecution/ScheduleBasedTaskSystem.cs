@@ -78,7 +78,6 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <param name="layer">The layer on which the given task resides</param>
         public void RemoveTask(IAgentTask task, string layer = "Base Layer")
         {
-            Debug.Log("Remove Task in ScheduleBasedTaskSystem");
             taskManagers[layer].RemoveTask(task);
         }
 
