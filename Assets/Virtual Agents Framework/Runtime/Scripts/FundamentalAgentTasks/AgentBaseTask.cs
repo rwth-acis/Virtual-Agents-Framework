@@ -100,7 +100,6 @@ namespace i5.VirtualAgents.AgentTasks
             if (State == TaskState.Running)
             {
                 StopAsAborted();
-                State = TaskState.Aborted;
             }
         }
     }
