@@ -3,7 +3,7 @@ using UnityEngine;
 namespace i5.VirtualAgents.AgentTasks
 {
     /// <summary>
-    /// Starts or stops adaptive gaze on the agent and marks the task as completet afterwards. 
+    /// Starts or stops adaptive gaze on the agent and marks the task as completed afterwards.
     /// </summary>
     public class AgentAdaptiveGazeTask : AgentBaseTask, ISerializable
     {

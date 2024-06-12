@@ -70,5 +70,40 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
                 taskManagers[layer.Key].Abort();
             }
         }
+
+        /// <summary>
+        /// Removes a given task from the TaskSystem
+        /// </summary>
+        /// <param name="task">The task to be removed</param>
+        /// <param name="layer">The layer on which the given task resides</param>
+        public void RemoveTask(IAgentTask task, string layer = "Base Layer")
+        {
+            Debug.Log("Remove Task in ScheduleBasedTaskSystem");
+            taskManagers[layer].RemoveTask(task);
+        }
+
+        /// <summary>
+        /// Clears all tasks from the given layer
+        /// </summary>
+        /// <param name="layer">The layer whose tasks should be cleared, leave empty to clear base layer.</param>
+        /// <param name="clearCurrentTask">If true, the current tasks gets aborted and removed as well, otherwise it can still finish.
+        /// By default set to true</param>
+        public void Clear(string layer = "Base Layer", bool clearCurrentTask = true)
+        {
+            taskManagers[layer].Clear(clearCurrentTask);
+        }
+
+        /// <summary>
+        /// Clears all tasks from all layers
+        /// </summary>
+        /// <param name="clearCurrentTask">If true, the current tasks gets aborted and removed as well, otherwise it can still finish.
+        /// By default set to true</param>
+        public void ClearAllLayers(bool clearCurrentTask = true)
+        {
+            foreach (var layer in taskManagers)
+            {
+                taskManagers[layer.Key].Clear(clearCurrentTask);
+            }
+        }
     }
 }

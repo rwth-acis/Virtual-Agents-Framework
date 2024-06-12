@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using i5.VirtualAgents.AgentTasks;
+using UnityEngine;
 
 namespace i5.VirtualAgents.ScheduleBasedExecution
 {
@@ -98,8 +99,14 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <param name="task">Task to be removed</param>
         public void RemoveTask(IAgentTask task)
         {
-            TaskEntry taskEntry = new TaskEntry();
-            taskQueue.Remove(taskEntry);
+            foreach (TaskEntry entry in taskQueue)
+            {
+                if (entry.task == task)
+                {
+                    taskQueue.Remove(entry);
+                    break;
+                }
+            }
         }
     }
 
