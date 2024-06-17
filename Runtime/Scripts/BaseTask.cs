@@ -10,8 +10,8 @@ namespace i5.VirtualAgents
         protected Agent executingAgent;
 
         /// <summary>
-        /// Custom description that can be used to overwrite the standard description of the node in the visual Behaviour Tree editor.
-        /// </summery>
+        /// Custom description that can be used to overwrite the standard description of the node in the visual Behaviour Tree Editor.
+        /// </summary>
         public string description = "";
 
         /// <summary>
@@ -59,18 +59,18 @@ namespace i5.VirtualAgents
 
         public TaskState Tick(Agent executingAgent)
         {
-            //Is the task already finished?
+            // Is the task already finished?
             if (State == TaskState.Success || State == TaskState.Failure)
             {
-                return State; //Don't update the task any further
+                return State; // Don't update the task any further
             }
 
-            //Is the task updated for the first time?
+            // Is the task updated for the first time?
             if (State == TaskState.Waiting)
             {
                 State = TaskState.Running;
                 StartExecution(executingAgent);
-                //Check if the task already finished, in the Execute()
+                // Check if the task already finished, in the Execute()
                 if (State == TaskState.Success || State == TaskState.Failure)
                 {
                     return State;
@@ -79,8 +79,7 @@ namespace i5.VirtualAgents
 
             State = EvaluateTaskState();
 
-
-            //Check if the task finished in the last Update()
+            // Check if the task finished in the last Update()
             if (State == TaskState.Success || State == TaskState.Failure)
             {
                 StopExecution();
@@ -100,6 +99,5 @@ namespace i5.VirtualAgents
             }
             State = TaskState.Waiting;
         }
-
     }
 }

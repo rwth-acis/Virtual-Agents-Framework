@@ -12,7 +12,7 @@ using UnityEngine.UIElements;
 namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
     /// <summary>
-    /// Displays a behaviour tree in the behaviour tree editor and provides the means to manipulate it.
+    /// Displays a Behaviour Tree in the Behaviour Tree Editor and provides the means to manipulate it.
     /// </summary>
     public class BehaviourTreeView : GraphView
     {
@@ -49,7 +49,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         /// <summary>
         /// Adds the ability to zoom in on the graph, to drag and drop nodes around, to drag and drop an entire selection and to select nodes using a rectangle selection
         /// </summary>
-        /// <param name="readOnly"></param> If yes, the view forbites node creating, deleting, connecting, and moving. The individual data from nodes (e.g. the target from a MovementTask) can however still be altered.
+        /// <param name="readOnly"></param> If yes, the view does not allow node creating, deleting, connecting, and moving. The individual data from nodes (e.g. the target from a MovementTask) can however still be altered.
         public void SetupManipulators(bool readOnly = false)
         {
             this.readOnly = readOnly;
@@ -145,7 +145,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
 
         /// <summary>
         /// Builds a context menu with options for creating nodes. Every non abstract class that (1) implements IAgentTask, ICompositeNode or IDecoratorNode, (2) additionally implements ISerializable
-        /// and (3) has an empty constructor will automatically get its own context menu entry and can be fully used as node in the behaviour tree.
+        /// and (3) has an empty constructor will automatically get its own context menu entry and can be fully used as node in the Behaviour Tree.
         /// </summary>
         /// <param name="evt"></param>
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -166,7 +166,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                     //Get the empty constructor. If no empty constructor exists, a corresponding node can't be created by the context menu.
                     var constructor = type.GetConstructor(new Type[0]);
 
-                    if (constructor != null && !type.IsAbstract) // Can only insatiate a task, if it has an empty constructor
+                    if (constructor != null && !type.IsAbstract) // Can only instantiate a task, if it has an empty constructor
                     {
                         //Can only use it as node if it is serializable
                         if (constructor.Invoke(new object[0]) is ISerializable task && task is not IRootNode)
@@ -331,7 +331,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                     // Calculate the x position of the node based on:
                     // the space that other nodes in the same layer already occupy left of the node
                     // the width of the subtree of the node, so that the node is centered above its own subtree
-                    // the width of the layer above, so that the tree is centered at 0 under the roodNode
+                    // the width of the layer above, so that the tree is cantered at 0 under the roodNode
                     float xPosition = (float)(currentlyUsedSpace) + ((float)nodeInfo.SubTreeWidth / 2) - ((float)widthOfLayerAbove / 2);
                     xPosition *= 220;// 220 is the width of a node + space between nodes
                     

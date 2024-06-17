@@ -186,20 +186,21 @@ namespace i5.VirtualAgents.AgentTasks
 
 		public void Serialize(SerializationDataContainer serializer)
 		{
+			// Serialize attributes of the AgentMovementTask that are relevant for the BehaviourTree
 			serializer.AddSerializedData("Destination Object", DestinationObject);
 			serializer.AddSerializedData("Destination", Destination);
 			serializer.AddSerializedData("Target Speed", TargetSpeed);
             serializer.AddSerializedData("Follow GameObject?", followGameObject);
-
         }
 
 		public void Deserialize(SerializationDataContainer serializer)
 		{
-            // Replace old names, to update old tree files TODO
-            serializer.Replace("TargetSpeed", "Target Speed");
-            serializer.Replace("FollowGameObject", "Follow GameObject?");
+            // Replace old names, to update old tree files
+			// Methods left as comments for documentation purposes
+            //serializer.Replace("TargetSpeed", "Target Speed");
+            //serializer.Replace("FollowGameObject", "Follow GameObject?");
 
-			// Deserialize the data
+			// Deserialize the attributes of the AgentMovementTask
             DestinationObject = serializer.GetSerializedGameobjects("Destination Object");
 			Destination = serializer.GetSerializedVector("Destination");
 			TargetSpeed = serializer.GetSerializedFloat("Target Speed");

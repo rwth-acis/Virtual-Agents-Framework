@@ -6,7 +6,7 @@ using UnityEngine;
 namespace i5.VirtualAgents.AgentTasks
 {
     /// <summary>
-    /// Executes a given behaviour tree
+    /// Executes a given Behaviour Tree
     /// </summary>
     public class BehaviourTreeTask : AgentBaseTask, ISerializable
     {

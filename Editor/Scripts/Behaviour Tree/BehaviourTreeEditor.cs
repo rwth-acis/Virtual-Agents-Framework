@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
     /// <summary>
-    /// Provides a visual behaviour tree editor.
+    /// Provides a visual Behaviour Tree Editor.
     /// </summary>
     public class BehaviourTreeEditor : EditorWindow
     {
@@ -79,6 +79,10 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                 {
                     if (Selection.activeGameObject.TryGetComponent<BehaviourTreeRunner>(out var runner))
                     {
+                        if(runner.Tree == null)
+                        {
+                            return;
+                        }
                         tree = runner.Tree;
                         Debug.Log("Tree selected from hierarchy window: " + tree.name);
                         AllowTreeEditing();
@@ -152,7 +156,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             inspectorView.UpdateSelection(view);
         }
 
-        // Saves all changes made to the currently selected behaviour tree to the disc
+        // Saves all changes made to the currently selected Behaviour Tree to the disc
         private void SaveTree()
         {
             EditorUtility.SetDirty(treeView.Tree);
