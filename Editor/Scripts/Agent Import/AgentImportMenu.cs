@@ -10,8 +10,6 @@ namespace i5.VirtualAgents
     /// </summary>
     public class AgentImportMenu : EditorWindow
     {
-
-
         [MenuItem("Virtual Agents Framework/Custom Agent Model Import/Create Agent from Humanoid Model")]
         public static void TurnAvatarIntoAgent()
         {
