@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c1417c8a0e226d468b3fdb8852704c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tree: {fileID: 11400000, guid: 5e5ccf8fd48d4994690767d82546ad15, type: 2}
+  Tree: {fileID: 11400000, guid: 8a63fd72f597fa646a534d7b94fd3d63, type: 2}
   nodesOverwriteData:
     data:
     - Key: a48c80c7c6597a84a90ad868bc335516
@@ -1087,7 +1087,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.11000001
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 6fd313655ba3087428a5f75cf87fb1b6, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 06cd5e56666fd084182e18888b22db81, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &564768069
 Transform:

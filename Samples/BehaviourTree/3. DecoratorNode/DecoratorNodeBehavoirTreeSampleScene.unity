@@ -743,8 +743,8 @@ MonoBehaviour:
         serializedStrings:
           data:
           - Key: message
-            Value: The first AgentMovementTask will fail because there is no path
-              to the destination yet.
+            Value: The first AgentMovementTask failed because there is no path to
+              the destination yet.
         serializedInts:
           data: []
         serializedGameobjects:

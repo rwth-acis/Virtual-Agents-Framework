@@ -95,8 +95,8 @@ MonoBehaviour:
     serializedStrings:
       data:
       - Key: message
-        Value: The first AgentMovementTask will fail because there is no path to
-          the destination yet.
+        Value: The first AgentMovementTask failed because there is no path to the
+          destination yet.
     serializedInts:
       data: []
     serializedGameobjects:
@@ -112,7 +112,7 @@ MonoBehaviour:
     serializationOrder: 0200000005000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.DebugTask
   Guid: 4eb57f6c6ffca4949aae17a5dfd1edbd
-  Position: {x: -577.6094, y: 249.99995}
+  Position: {x: -209.33331, y: 249.99998}
   Children: []
 --- !u!114 &-5907689417727242582
 MonoBehaviour:
@@ -378,7 +378,7 @@ MonoBehaviour:
     serializationOrder: 02000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
   Guid: 78ad3f2088904e24e9361a45a77b3292
-  Position: {x: -330, y: 250}
+  Position: {x: -439.9999, y: 250}
   Children:
   - {fileID: 2555766021547102206}
   - {fileID: 3614557195777813511}
@@ -563,8 +563,8 @@ MonoBehaviour:
   Guid: 3cb72db99257ee64a860e223dabbc4ea
   Position: {x: 0, y: 125}
   Children:
-  - {fileID: -6205819947385707453}
   - {fileID: 861871837116726965}
+  - {fileID: -6205819947385707453}
   - {fileID: -3988384758209234057}
   - {fileID: -8636815291029747724}
 --- !u!114 &6601905265931954030

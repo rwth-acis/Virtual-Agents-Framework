@@ -179,7 +179,7 @@ MonoBehaviour:
     serializationOrder: 0200000002000000010000000400000002000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
   Guid: c18b78057d0530d428dafd904907080c
-  Position: {x: -220, y: 250}
+  Position: {x: -209.33327, y: 250}
   Children: []
 --- !u!114 &8427306188764715037
 MonoBehaviour:
