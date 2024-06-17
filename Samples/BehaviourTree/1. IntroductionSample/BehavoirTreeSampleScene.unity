@@ -1200,13 +1200,13 @@ MonoBehaviour:
   title: Introduction Sample
   description: "This scene shows the basic usage of a Behaviour Tree. Open the Behaviour
     Tree Editor by double clicking the SimpleBehaviourTreeAsset in the folder of
-    this tree. Move the opend window so that you can see this Inspector and the Behaviour
+    this tree. Move the opened window so that you can see this Inspector and the Behaviour
     Tree at the same time.\n\nEvery tree starts with the RoodNode, which is connected
     to one node after it. This node will be executed first. \n\nIn this tree we got
-    one composite node (the sequencer node) and two task nodes (AgentMovemetenTask).
-    Composite nodes always execude multiple nodes after them, from left to right.
+    one composite node (the sequencer node) and two task nodes (AgentMovementTask).
+    Composite nodes always execute multiple nodes after them, from left to right.
     \n\nPress right click to add a new composite node. Try switching the composite
-    node with a diffrent one to see how it affects the execution of the nodes in
+    node with a different one to see how it affects the execution of the nodes in
     play mode."
   type: 0
   url: https://rwth-acis.github.io/Virtual-Agents-Framework/latest/manual/behaviour-tree.html

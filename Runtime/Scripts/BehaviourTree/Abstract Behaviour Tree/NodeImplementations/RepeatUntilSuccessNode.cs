@@ -8,7 +8,7 @@ namespace i5.VirtualAgents.BehaviourTrees
     /// </summary>
     public class RepeatUntilSuccessNode : DecoratorNode, ISerializable
     {
-        // The maximum number of times, the task is repeated. If 0, the task will be repeated idenfnitly, until it succeeds
+        // The maximum number of times, the task is repeated. If 0, the task will be repeated indefinitely, until it succeeds
         private int RepeatLimit;
         private int repeatCount;
 

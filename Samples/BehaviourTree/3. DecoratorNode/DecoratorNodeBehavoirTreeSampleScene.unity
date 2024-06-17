@@ -1630,13 +1630,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Decorator Nodes
   description: 'This scene shows the usage of decorator nodes in a Behaviour Tree.
-    Open the Behaviour Tree Editor by double clicking the DecoratornNodeBehaviourTree
+    Open the Behaviour Tree Editor by double clicking the DecoratorNodeBehaviourTree
     in the folder of this scene. Move the opened window so that you can see this
     Inspector and the Behaviour Tree at the same time.
 
-
-    See how the nodes are
-    execuded when playing the scene, and pay attention to the debug messages explaning
+    See how the nodes are executed when playing the scene, and pay attention to the debug messages emplaning
     what happens.'
   type: 0
   url: https://rwth-acis.github.io/Virtual-Agents-Framework/latest/manual/behaviour-tree.html
