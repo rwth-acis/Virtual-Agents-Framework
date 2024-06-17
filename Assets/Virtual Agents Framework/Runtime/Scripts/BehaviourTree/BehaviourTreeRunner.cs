@@ -9,7 +9,7 @@ namespace i5.VirtualAgents.BehaviourTrees
     public class NodesOverwriteData : SerializationData<SerializationDataContainer> { }
 
     /// <summary>
-    /// Executes a given behaviour tree until the root node reports success or failure. Can either be provided with a Behaviour Tree Asset or can be given an AbstractTree manually constructed using the ITask interface.
+    /// Executes a given Behaviour Tree until the root node reports success or failure. Can either be provided with a Behaviour Tree Asset or can be given an AbstractTree manually constructed using the ITask interface.
     /// </summary>
     public class BehaviourTreeRunner : TaskSystem
     {

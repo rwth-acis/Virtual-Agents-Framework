@@ -26,6 +26,11 @@ namespace i5.VirtualAgents.AgentTasks
         /// <returns></returns>
         protected override TaskState Check()
         {
+            if (!destination)
+            {
+                Debug.LogError("No destination has been selected for the " + this + "task.");
+                return TaskState.Failure;
+            }
             navMeshAgent.isStopped = true;
             if (navMeshAgent.destination != destination.transform.position)
             {

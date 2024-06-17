@@ -6,7 +6,7 @@ using UnityEngine;
 namespace i5.VirtualAgents.BehaviourTrees.Visual
 {
     /// <summary>
-    /// Allows a node to be used in the visual behaviour tree editor.
+    /// Allows a node to be used in the visual Behaviour Tree Editor.
     /// </summary>
     [Serializable]
     public class VisualNode : TaskSerializer
@@ -15,7 +15,7 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
         public Vector2 Position;
         public List<VisualNode> Children = new List<VisualNode>();
         /// <summary>
-        /// The corresponding Task in the abstract behaviour tree build in BehaviourTreeAsset
+        /// The corresponding Task in the abstract Behaviour Tree build in BehaviourTreeAsset
         /// </summary>
         public Dictionary<Agent, ITask> CorrespondingTask { get; set; } = new Dictionary<Agent, ITask>();
 

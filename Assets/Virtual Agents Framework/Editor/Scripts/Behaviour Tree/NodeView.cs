@@ -135,7 +135,6 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             descriptionLabel = this.Q<Label>("description");
 
             var ser = node.GetCopyOfSerializedInterface();
-
             // First check if the node has a specific custom description
             if (ser is BaseTask task && !string.IsNullOrEmpty(task.description))
             {

@@ -18,7 +18,7 @@ namespace i5.VirtualAgents.Editor
         // Root node of the inspector
         private VisualElement inspector;
 
-        // The property fields used to display the propertys of the currently selected node
+        // The property fields used to display the properties of the currently selected node
         private List<PropertyField> propertyFieldsForCurrentNode = new List<PropertyField>();
 
         public override VisualElement CreateInspectorGUI()
@@ -30,10 +30,10 @@ namespace i5.VirtualAgents.Editor
             VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Virtual Agents Framework/Editor/UI Builder/Behaviour Tree/BehaviourTreeRunnerInspector.uxml");
             visualTree.CloneTree(inspector);
 
-            // Setup the behaviour tree view
+            // Setup the Behaviour Tree view
             BehaviourTreeView behaviourTreeView = inspector.Query<BehaviourTreeView>();
             behaviourTreeView.SetupManipulators(true);
-            behaviourTreeView.OnNodeSelect = OnNodeSelectionChanged; // Register callback on node select in order to display the corrsponding property fields for the node
+            behaviourTreeView.OnNodeSelect = OnNodeSelectionChanged; // Register callback on node select in order to display the corresponding property fields for the node
             BehaviourTreeAsset tree = (target as BehaviourTreeRunner).Tree;
 
             void SetupNewTree(BehaviourTreeAsset tree)
@@ -60,7 +60,7 @@ namespace i5.VirtualAgents.Editor
 
         private void OnNodeSelectionChanged(NodeView view)
         {
-            // Search if overwrite data exisits
+            // Search if overwrite data exists
             BehaviourTreeRunner runner = target as BehaviourTreeRunner;
             var nodesData = runner.nodesOverwriteData.data;
             SerializedProperty nodeOverwriteData = null;
@@ -153,7 +153,7 @@ namespace i5.VirtualAgents.Editor
             entry.FindPropertyRelative("Key").stringValue = view.node.Guid;
             SerializedProperty nodeOverwriteData = entry.FindPropertyRelative("Value");
 
-            // Copys all data from the seralizationData List origin into the serialized seralizationData array destination
+            // Copies all data from the serializationData List origin into the serialized serializationData array destination
             void CopySerializedData<T>(List<SerializationEntry<T>> origin, string destinationPath)
             {
                 SerializedProperty destination = nodeOverwriteData.FindPropertyRelative(destinationPath);
@@ -170,8 +170,8 @@ namespace i5.VirtualAgents.Editor
                     SerializedProperty value = arrayElement.FindPropertyRelative("Value");
                     if (typeof(T) == typeof(Vector3))
                     {
-                        value.vector3Value = (Vector3)(data.Value as Vector3?); // This is neccesarry, since direct cast can't be used because T is not constrained to inherit from Vector3 and the as operator
-                                                                                // can only be used on nullable types. Therfore the conversion to the nullable type Vector3? which is then casted to the actual Vector3 type
+                        value.vector3Value = (Vector3)(data.Value as Vector3?); // This is necessary, since direct cast can't be used because T is not constrained to inherit from Vector3 and the as operator
+                                                                                // can only be used on nullable types. Therefore the conversion to the nullable type Vector3? which is then casted to the actual Vector3 type
                     }
                     else if (typeof(T) == typeof(float))
                     {
