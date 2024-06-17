@@ -216,7 +216,7 @@ MonoBehaviour:
             Value: {x: 0, y: 0, z: 0}
         serializedFloats:
           data:
-          - Key: TargetSpeed
+          - Key: Target Speed
             Value: -1
         serializedStrings:
           data: []
@@ -227,7 +227,9 @@ MonoBehaviour:
           - Key: Destination Object
             Value: {fileID: 1735457798}
         serializedBools:
-          data: []
+          data:
+          - Key: Follow GameObject?
+            Value: 0
         serializedListFloats:
           data: []
         serializedTrees:
@@ -266,7 +268,7 @@ MonoBehaviour:
             Value: {x: 0, y: 0, z: 0}
         serializedFloats:
           data:
-          - Key: TargetSpeed
+          - Key: Target Speed
             Value: -1
         serializedStrings:
           data: []
@@ -277,7 +279,9 @@ MonoBehaviour:
           - Key: Destination Object
             Value: {fileID: 213695202}
         serializedBools:
-          data: []
+          data:
+          - Key: Follow GameObject?
+            Value: 0
         serializedListFloats:
           data: []
         serializedTrees:
@@ -356,7 +360,7 @@ MonoBehaviour:
             Value: {x: 0, y: 0, z: 0}
         serializedFloats:
           data:
-          - Key: TargetSpeed
+          - Key: Target Speed
             Value: -1
         serializedStrings:
           data: []
@@ -367,7 +371,9 @@ MonoBehaviour:
           - Key: Destination Object
             Value: {fileID: 1735457798}
         serializedBools:
-          data: []
+          data:
+          - Key: Follow GameObject?
+            Value: 0
         serializedListFloats:
           data: []
         serializedTrees:
@@ -454,7 +460,7 @@ MonoBehaviour:
             Value: {x: 0, y: 0, z: 0}
         serializedFloats:
           data:
-          - Key: TargetSpeed
+          - Key: Target Speed
             Value: -1
         serializedStrings:
           data: []
@@ -465,7 +471,9 @@ MonoBehaviour:
           - Key: Destination Object
             Value: {fileID: 0}
         serializedBools:
-          data: []
+          data:
+          - Key: Follow GameObject?
+            Value: 0
         serializedListFloats:
           data: []
         serializedTrees:
@@ -479,7 +487,7 @@ MonoBehaviour:
             Value: {x: 0, y: 0, z: 0}
         serializedFloats:
           data:
-          - Key: TargetSpeed
+          - Key: Target Speed
             Value: -1
         serializedStrings:
           data: []
@@ -490,7 +498,9 @@ MonoBehaviour:
           - Key: Destination Object
             Value: {fileID: 1735457798}
         serializedBools:
-          data: []
+          data:
+          - Key: Follow GameObject?
+            Value: 0
         serializedListFloats:
           data: []
         serializedTrees:
@@ -605,7 +615,7 @@ MonoBehaviour:
             Value: {x: 0, y: 0, z: 0}
         serializedFloats:
           data:
-          - Key: TargetSpeed
+          - Key: Target Speed
             Value: -1
         serializedStrings:
           data: []
@@ -616,7 +626,9 @@ MonoBehaviour:
           - Key: Destination Object
             Value: {fileID: 0}
         serializedBools:
-          data: []
+          data:
+          - Key: Follow GameObject?
+            Value: 0
         serializedListFloats:
           data: []
         serializedTrees:
@@ -630,7 +642,7 @@ MonoBehaviour:
             Value: {x: 0, y: 0, z: 0}
         serializedFloats:
           data:
-          - Key: TargetSpeed
+          - Key: Target Speed
             Value: -1
         serializedStrings:
           data: []
@@ -641,7 +653,9 @@ MonoBehaviour:
           - Key: Destination Object
             Value: {fileID: 0}
         serializedBools:
-          data: []
+          data:
+          - Key: Follow GameObject?
+            Value: 0
         serializedListFloats:
           data: []
         serializedTrees:
@@ -655,7 +669,7 @@ MonoBehaviour:
             Value: {x: 0, y: 0, z: 0}
         serializedFloats:
           data:
-          - Key: TargetSpeed
+          - Key: Target Speed
             Value: -1
         serializedStrings:
           data: []
@@ -666,7 +680,79 @@ MonoBehaviour:
           - Key: Destination Object
             Value: {fileID: 1735457798}
         serializedBools:
+          data:
+          - Key: Follow GameObject?
+            Value: 0
+        serializedListFloats:
           data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: b86e5564b7d0ce441966c77db5303500
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data:
+          - Key: message
+            Value: This tasked will never be reached.
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedBools:
+          data:
+          - Key: fail
+            Value: 0
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: a6a91a50914becf43b7ec575864cf25a
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination
+            Value: {fileID: 1735457798}
+        serializedBools:
+          data:
+          - Key: Allow Partial Paths
+            Value: 0
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: 4eb57f6c6ffca4949aae17a5dfd1edbd
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data:
+          - Key: message
+            Value: The first AgentMovementTask will fail because there is no path
+              to the destination yet.
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedBools:
+          data:
+          - Key: fail
+            Value: 0
         serializedListFloats:
           data: []
         serializedTrees:
@@ -1025,7 +1111,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.11000001
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 6fd313655ba3087428a5f75cf87fb1b6, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 4cfd16c38155c4a4c89100bbb77ae741, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &564768069
 Transform:
@@ -1542,18 +1628,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ba2ac043a0776a4d846aaf6ba38a734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: 
-  description: 'Todo
+  title: Decorator Nodes
+  description: 'This scene shows the usage of decorator nodes in a Behaviour Tree.
+    Open the Behaviour Tree Editor by double clicking the DecoratornNodeBehaviourTree
+    in the folder of this scene. Move the opened window so that you can see this
+    Inspector and the Behaviour Tree at the same time.
 
 
-    Use the scene view during play mode to inspect the scene
-    freely while the agent is walking around.
-
-
-    Go to Window > AI > Navigation
-    and bake the NavMesh before running the scene.'
+    See how the nodes are
+    execuded when playing the scene, and pay attention to the debug messages explaning
+    what happens.'
   type: 0
-  url: 
+  url: https://rwth-acis.github.io/Virtual-Agents-Framework/latest/manual/behaviour-tree.html
 --- !u!4 &1264251852
 Transform:
   m_ObjectHideFlags: 0

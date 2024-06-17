@@ -237,6 +237,25 @@ MonoBehaviour:
         serializedTrees:
           data: []
         serializationOrder: 
+    - Key: 4330abf383491054298a79c1f188f800
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedBools:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
 --- !u!1 &132274631 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
@@ -721,7 +740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ba2ac043a0776a4d846aaf6ba38a734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: 
+  title: Debugging Multiple Agents
   description: "This sample scene shows how selecting an agent in a running scene
     also changes which task states are shown in the tree editor. \nWhen playing the
     scene both agents will continuously walk from Waypoint1 to Waypoint2 and back.
@@ -730,7 +749,7 @@ MonoBehaviour:
     This can be used for debugging. When no agent has been selected before, the states
     correspond to the first agent that has started running the tree."
   type: 0
-  url: 
+  url: '#https://rwth-acis.github.io/Virtual-Agents-Framework/latest/manual/behaviour-tree.html'
 --- !u!4 &1311603411
 Transform:
   m_ObjectHideFlags: 0

@@ -186,14 +186,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6580864}
+      addedObject: {fileID: 6580873}
   m_SourcePrefab: {fileID: 100100000, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
 --- !u!1 &6580862 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 212402951927973884, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
   m_PrefabInstance: {fileID: 6580861}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6580864
+--- !u!114 &6580873
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -205,18 +205,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c1417c8a0e226d468b3fdb8852704c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tree: {fileID: 11400000, guid: d0ac200d59a62b3498a3fe9b195a9250, type: 2}
+  Tree: {fileID: 11400000, guid: 294760be7ba43d84c9cd1b0163cd5326, type: 2}
   nodesOverwriteData:
     data:
-    - Key: a48c80c7c6597a84a90ad868bc335516
+    - Key: 23aa415c65d797f418d786302253e78d
       Value:
         serializedVectors:
           data:
           - Key: Destination
-            Value: {x: 0, y: 0, z: 0}
+            Value: {x: 0, y: 0, z: 5}
         serializedFloats:
           data:
-          - Key: TargetSpeed
+          - Key: Target Speed
             Value: -1
         serializedStrings:
           data: []
@@ -225,244 +225,35 @@ MonoBehaviour:
         serializedGameobjects:
           data:
           - Key: Destination Object
-            Value: {fileID: 1735457798}
-        serializedBools:
-          data: []
-        serializedListFloats:
-          data: []
-        serializedTrees:
-          data: []
-        serializationOrder: 
-    - Key: abcfbc14295604f468718a1f2bf14f14
-      Value:
-        serializedVectors:
-          data: []
-        serializedFloats:
-          data:
-          - Key: Play Time
-            Value: 100
-        serializedStrings:
-          data:
-          - Key: Start Trigger
-            Value: WaveLeft
-          - Key: Stop Trigger
-            Value: 
-        serializedInts:
-          data: []
-        serializedGameobjects:
-          data: []
-        serializedBools:
-          data: []
-        serializedListFloats:
-          data: []
-        serializedTrees:
-          data: []
-        serializationOrder: 
-    - Key: b163c23a2f522124e829c75489a1d669
-      Value:
-        serializedVectors:
-          data:
-          - Key: Destination
-            Value: {x: 0, y: 0, z: 0}
-        serializedFloats:
-          data:
-          - Key: TargetSpeed
-            Value: -1
-        serializedStrings:
-          data: []
-        serializedInts:
-          data: []
-        serializedGameobjects:
-          data:
-          - Key: Destination Object
-            Value: {fileID: 213695202}
-        serializedBools:
-          data: []
-        serializedListFloats:
-          data: []
-        serializedTrees:
-          data: []
-        serializationOrder: 
-    - Key: d0733c8764c4eaf42bd54ca295e246c6
-      Value:
-        serializedVectors:
-          data: []
-        serializedFloats:
-          data:
-          - Key: Time Out in Seconds
-            Value: 5
-        serializedStrings:
-          data: []
-        serializedInts:
-          data: []
-        serializedGameobjects:
-          data: []
-        serializedBools:
-          data: []
-        serializedListFloats:
-          data: []
-        serializedTrees:
-          data: []
-        serializationOrder: 
-    - Key: 1aa8d6a16cfeb8a4a87ea823b9b0d01b
-      Value:
-        serializedVectors:
-          data: []
-        serializedFloats:
-          data: []
-        serializedStrings:
-          data: []
-        serializedInts:
-          data:
-          - Key: RepeatLimit
-            Value: 0
-        serializedGameobjects:
-          data: []
-        serializedBools:
-          data: []
-        serializedListFloats:
-          data: []
-        serializedTrees:
-          data: []
-        serializationOrder: 
-    - Key: edbcae40fd15ca043963e468a9668bed
-      Value:
-        serializedVectors:
-          data: []
-        serializedFloats:
-          data: []
-        serializedStrings:
-          data: []
-        serializedInts:
-          data: []
-        serializedGameobjects:
-          data:
-          - Key: Destination
-            Value: {fileID: 1735457798}
+            Value: {fileID: 1644641973}
         serializedBools:
           data:
-          - Key: Allow Partial Paths
+          - Key: Follow GameObject?
             Value: 0
         serializedListFloats:
           data: []
         serializedTrees:
           data: []
         serializationOrder: 
-    - Key: e93a232ea1fb97647b12edc22d4ca7a4
+    - Key: e56ea1ce2be784c438e37007a50cf81b
       Value:
         serializedVectors:
-          data:
-          - Key: Destination
-            Value: {x: 0, y: 0, z: 0}
+          data: []
         serializedFloats:
           data:
-          - Key: TargetSpeed
-            Value: -1
+          - Key: Min Distance For Pickup
+            Value: 1
+          - Key: Animation Speed
+            Value: 2
         serializedStrings:
           data: []
         serializedInts:
-          data: []
-        serializedGameobjects:
           data:
-          - Key: Destination Object
-            Value: {fileID: 1735457798}
-        serializedBools:
-          data: []
-        serializedListFloats:
-          data: []
-        serializedTrees:
-          data: []
-        serializationOrder: 
-    - Key: 89286c356cc0bf84888e4065f66b4940
-      Value:
-        serializedVectors:
-          data: []
-        serializedFloats:
-          data:
-          - Key: Play Time
-            Value: 100
-        serializedStrings:
-          data:
-          - Key: Start Trigger
-            Value: WaveLeft
-          - Key: Stop Trigger
-            Value: 
-        serializedInts:
-          data: []
-        serializedGameobjects:
-          data: []
-        serializedBools:
-          data: []
-        serializedListFloats:
-          data: []
-        serializedTrees:
-          data: []
-        serializationOrder: 
-    - Key: 4b9002bf6ca04a243bab4512cfb9f6cd
-      Value:
-        serializedVectors:
-          data: []
-        serializedFloats:
-          data: []
-        serializedStrings:
-          data: []
-        serializedInts:
-          data: []
-        serializedGameobjects:
-          data: []
-        serializedBools:
-          data: []
-        serializedListFloats:
-          data:
-          - Key: Probabilities
-            Value:
-            - 0.7
-            - 0.3
-        serializedTrees:
-          data: []
-        serializationOrder: 
-    - Key: 055a980e88ed8c54a89dba922adf52cf
-      Value:
-        serializedVectors:
-          data: []
-        serializedFloats:
-          data:
-          - Key: Play Time
+          - Key: SocketId
             Value: 0
-        serializedStrings:
-          data:
-          - Key: Start Trigger
-            Value: ShakeHead
-          - Key: Stop Trigger
-            Value: 
-        serializedInts:
-          data: []
-        serializedGameobjects:
-          data: []
-        serializedBools:
-          data: []
-        serializedListFloats:
-          data: []
-        serializedTrees:
-          data: []
-        serializationOrder: 
-    - Key: 3d2790e448be36048bd46d0136da0c7a
-      Value:
-        serializedVectors:
-          data:
-          - Key: Destination
-            Value: {x: 0, y: 0, z: 0}
-        serializedFloats:
-          data:
-          - Key: TargetSpeed
-            Value: -1
-        serializedStrings:
-          data: []
-        serializedInts:
-          data: []
         serializedGameobjects:
           data:
-          - Key: Destination Object
+          - Key: Pickup Object
             Value: {fileID: 0}
         serializedBools:
           data: []
@@ -471,7 +262,7 @@ MonoBehaviour:
         serializedTrees:
           data: []
         serializationOrder: 
-    - Key: 9799faadfe9bbc24382f6a0a78e9f9e1
+    - Key: 201805933358a1c41a9f82961eb06ef4
       Value:
         serializedVectors:
           data: []
@@ -490,7 +281,7 @@ MonoBehaviour:
         serializedTrees:
           data: []
         serializationOrder: 
-    - Key: dab902aae050f904a93a4d128c733988
+    - Key: 1220567cab2f5ef42af049d4e1fb3364
       Value:
         serializedVectors:
           data: []
@@ -509,20 +300,136 @@ MonoBehaviour:
         serializedTrees:
           data: []
         serializationOrder: 
-    - Key: f752c2d368c29ab4e84771f491fc8f80
+    - Key: dd71ea9932fc27e4c936650d95c19b20
       Value:
         serializedVectors:
-          data: []
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
         serializedFloats:
-          data: []
+          data:
+          - Key: Target Speed
+            Value: -1
         serializedStrings:
           data: []
         serializedInts:
           data: []
         serializedGameobjects:
-          data: []
+          data:
+          - Key: Destination Object
+            Value: {fileID: 717973401}
         serializedBools:
+          data:
+          - Key: Follow GameObject?
+            Value: 0
+        serializedListFloats:
           data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: 0111b33995aeee0438522524ec85331e
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: Target Speed
+            Value: -1
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 1735457798}
+        serializedBools:
+          data:
+          - Key: Follow GameObject?
+            Value: 0
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: ce5498f681603bc47815e384af051682
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: Target Speed
+            Value: -1
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 1644641973}
+        serializedBools:
+          data:
+          - Key: Follow GameObject?
+            Value: 0
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: 1d27ef711db317d4dbfe20c9b4ddee41
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: Target Speed
+            Value: -1
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 1644641973}
+        serializedBools:
+          data:
+          - Key: Follow GameObject?
+            Value: 0
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: 8de75082b6aadad4a8a9c0e7bcd6456a
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: Target Speed
+            Value: -1
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 1735457798}
+        serializedBools:
+          data:
+          - Key: Follow GameObject?
+            Value: 0
         serializedListFloats:
           data: []
         serializedTrees:
@@ -881,7 +788,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.11000001
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 6fd313655ba3087428a5f75cf87fb1b6, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 40fcb99d05a38844589cd894ce625a6c, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &564768069
 Transform:
@@ -1398,18 +1305,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ba2ac043a0776a4d846aaf6ba38a734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: 
-  description: 'Todo
+  title: Composite Nodes
+  description: 'This scene shows the usage of composite nodes in a Behaviour Tree.
+    Open the Behaviour Tree Editor by double clicking the CompositeBehaviourTree
+    in the folder of this scene. Move the opened window so that you can see this
+    Inspector and the Behaviour Tree at the same time.
 
 
-    Use the scene view during play mode to inspect the scene
-    freely while the agent is walking around.
-
-
-    Go to Window > AI > Navigation
-    and bake the NavMesh before running the scene.'
+    See how the nodes are
+    execuded when playing the scene, and pay attention to the debug messages explaning
+    what happens.'
   type: 0
-  url: 
+  url: https://rwth-acis.github.io/Virtual-Agents-Framework/latest/manual/behaviour-tree.html
 --- !u!4 &1264251852
 Transform:
   m_ObjectHideFlags: 0
@@ -1604,7 +1511,7 @@ Transform:
   m_GameObject: {fileID: 1896648545}
   serializedVersion: 2
   m_LocalRotation: {x: -0.03289668, y: 0.9661453, z: -0.20149755, w: -0.1577338}
-  m_LocalPosition: {x: -0.17, y: 4.33, z: 6.19}
+  m_LocalPosition: {x: 4, y: 10, z: 18.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1624,6 +1531,6 @@ SceneRoots:
   - {fileID: 1787573992}
   - {fileID: 256232411}
   - {fileID: 1129341352}
-  - {fileID: 1896648548}
   - {fileID: 6580861}
   - {fileID: 564768069}
+  - {fileID: 1896648548}
