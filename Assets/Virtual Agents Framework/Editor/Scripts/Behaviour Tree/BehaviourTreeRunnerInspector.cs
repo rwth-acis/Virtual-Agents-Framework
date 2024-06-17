@@ -219,7 +219,7 @@ namespace i5.VirtualAgents.Editor
             CopySerializedData(view.node.Data.serializedFloats.data, "serializedFloats.data");
             CopySerializedData(view.node.Data.serializedStrings.data, "serializedStrings.data");
             CopySerializedData(view.node.Data.serializedInts.data, "serializedInts.data");
-            CopySerializedData(view.node.Data.serializedGameObjects.data, "serializedGameobjects.data");
+            CopySerializedData(view.node.Data.serializedGameobjects.data, "serializedGameobjects.data");
             CopySerializedData(view.node.Data.serializedBools.data, "serializedBools.data");
             CopySerializedData(view.node.Data.serializedListFloats.data, "serializedListFloats.data");
             CopySerializedData(view.node.Data.serializedTrees.data, "serializedTrees.data");

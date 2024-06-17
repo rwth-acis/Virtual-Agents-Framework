@@ -135,7 +135,7 @@ namespace i5.VirtualAgents.AgentTasks
         [SerializeField] public SerializedFloats serializedFloats = new SerializedFloats();
         [SerializeField] public SerializedStrings serializedStrings = new SerializedStrings();
         [SerializeField] public SerializedInts serializedInts = new SerializedInts();
-        [SerializeField] public SerializedGameObjects serializedGameObjects = new SerializedGameObjects();
+        [SerializeField] public SerializedGameObjects serializedGameobjects = new SerializedGameObjects();
         [SerializeField] public SerializedBools serializedBools = new SerializedBools();
         [SerializeField] public SerializedListFloats serializedListFloats = new SerializedListFloats();
         [SerializeField] public SerializedTrees serializedTrees = new SerializedTrees();
@@ -170,7 +170,7 @@ namespace i5.VirtualAgents.AgentTasks
 
         public void AddSerializedData(string key, GameObject value)
         {
-            if (serializedGameObjects.Add(key, value))
+            if (serializedGameobjects.Add(key, value))
                 serializationOrder.Add(SerializableType.GAMEOBJECT);
         }
 
@@ -216,7 +216,7 @@ namespace i5.VirtualAgents.AgentTasks
 
         public GameObject GetSerializedGameobjects(string key)
         {
-            return serializedGameObjects.Get(key);
+            return serializedGameobjects.Get(key);
         }
 
         public bool GetSerializedBool(string key)
@@ -246,7 +246,7 @@ namespace i5.VirtualAgents.AgentTasks
             serializedStrings.Clear();
             serializedFloats.Clear();
             serializedInts.Clear();
-            serializedGameObjects.Clear();
+            serializedGameobjects.Clear();
             serializedBools.Clear();
             serializedListFloats.Clear();
             serializedTrees.Clear();
@@ -266,7 +266,7 @@ namespace i5.VirtualAgents.AgentTasks
                 SerializableType.FLOAT => serializedFloats.Get(index).Key,
                 SerializableType.STRING => serializedStrings.Get(index).Key,
                 SerializableType.INT => serializedInts.Get(index).Key,
-                SerializableType.GAMEOBJECT => serializedGameObjects.Get(index).Key,
+                SerializableType.GAMEOBJECT => serializedGameobjects.Get(index).Key,
                 SerializableType.BOOL => serializedBools.Get(index).Key,
                 SerializableType.LIST_FLOAT => serializedListFloats.Get(index).Key,
                 SerializableType.TREE => serializedTrees.Get(index).Key,
@@ -314,11 +314,11 @@ namespace i5.VirtualAgents.AgentTasks
                 serializedFloats.data.RemoveAll(x => x.Key == oldName);
                 RemoveUnnecessaryEntriesInOrderOfType(SerializableType.FLOAT);
             }
-            else if (serializedGameObjects.KeyExists(oldName))
+            else if (serializedGameobjects.KeyExists(oldName))
             {
-                if (!serializedGameObjects.Add(newName, serializedGameObjects.Get(oldName)))
-                    serializedGameObjects.SetValue(newName, serializedGameObjects.Get(oldName));
-                serializedGameObjects.data.RemoveAll(x => x.Key == oldName);
+                if (!serializedGameobjects.Add(newName, serializedGameobjects.Get(oldName)))
+                    serializedGameobjects.SetValue(newName, serializedGameobjects.Get(oldName));
+                serializedGameobjects.data.RemoveAll(x => x.Key == oldName);
                 RemoveUnnecessaryEntriesInOrderOfType(SerializableType.GAMEOBJECT);
             }
             else if (serializedBools.KeyExists(oldName))
@@ -357,7 +357,7 @@ namespace i5.VirtualAgents.AgentTasks
                 SerializableType.FLOAT => serializedFloats.data.Count,
                 SerializableType.STRING => serializedStrings.data.Count,
                 SerializableType.INT => serializedInts.data.Count,
-                SerializableType.GAMEOBJECT => serializedGameObjects.data.Count,
+                SerializableType.GAMEOBJECT => serializedGameobjects.data.Count,
                 SerializableType.BOOL => serializedBools.data.Count,
                 SerializableType.LIST_FLOAT => serializedListFloats.data.Count,
                 SerializableType.TREE => serializedTrees.data.Count,
