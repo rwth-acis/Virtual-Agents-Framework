@@ -1608,11 +1608,8 @@ MonoBehaviour:
   description: 'This scene shows the usage of the Behaviour Tree Node in a Behaviour
     Tree, and shows the capability of reusing trees.
 
-
-    The agent in the scene
-    runs the ParentTree from the folder. In the ParentTree the RandomAnimationTree
-    is called three times as a sub tree, an thus the agent will play three random
-    animations. '
+    The agent in the scene runs the ParentTree from the folder.
+    In the ParentTree the RandomAnimationTree is called three times as a sub tree, an thus the agent will play three random animations. '
   type: 0
   url: https://rwth-acis.github.io/Virtual-Agents-Framework/latest/manual/behaviour-tree.html
 --- !u!4 &1264251852

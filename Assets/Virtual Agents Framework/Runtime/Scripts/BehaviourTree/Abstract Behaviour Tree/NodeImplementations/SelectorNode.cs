@@ -9,7 +9,7 @@ using i5.VirtualAgents.AgentTasks;
 namespace i5.VirtualAgents.BehaviourTrees
 {
     /// <summary>
-    /// Executes its child one after another, until one succeedes
+    /// Executes its child one after another, until one succeeds
     /// </summary>
     public class SelectorNode : CompositeNode, ISerializable
     {

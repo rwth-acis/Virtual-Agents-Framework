@@ -3544,7 +3544,7 @@ MonoBehaviour:
     to be configured:\n1. The agent needs a AdaptiveGaze component :\n1.2 Targets
     that can be looked at need to be on specific layers, specified in `seeLayers`\n1.3
     Objects that should obstruct the view of the agent need to be on specific layers,
-    specified in `occlisonLayers`\n\n2 Objects that should be looked at need the
+    specified in `occlusionLayers`\n\n2 Objects that should be looked at need the
     AdaptiveGazeTarget component\r\n 2.1 AdaptiveGazeTarget needs to be on one of
     the `seeLayers` that was specified in the agent. The layer can be changed in
     the top right corner of the inspector \r\n  2.2 (optional) A collider that makes

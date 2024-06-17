@@ -23,7 +23,7 @@ Here, we first need to add a scoped registry which tells Unity that the package 
 After that, we can add the package in Unity's package manager window.
 
 1. In Unity, go to Window > Package Manager to open the package manager UI.
-2. In the right corner of the opened windows, click on the small cogwheel and select "Advanced Project Settings".
+2. In the right corner of the opened windows, click on the small cogwheel or the three dots next to the search bar and select "(Advanced) Project Settings".
 3. Add a new scoped registry with the following values:
 
 | Field | Value(s) |
@@ -35,7 +35,7 @@ After that, we can add the package in Unity's package manager window.
 4. Next, click the Save/Apply button.
 5. Close the settings window and return to the package manager window.
 6. Click the small plus button at the left top of the window.
-   Select ""Add package by name..." or "Add package from git URL..." depending on your Unity version.
+   Select "Add package by name..." or "Add package from git URL..." depending on your Unity version.
 7. Enter `com.i5.virtualagents` in the text field.
 8. If the package manager asks for a version number, enter the latest one, so `1.2.1`.
 9. Click the add button and wait for the download to finish.
@@ -48,7 +48,7 @@ You can then select the entry and click the "Install" button.
 A second option is to directly edit the manifest.json file of your project.
 In alternative 1, Unity performs this in the background, but you can also just copy-paste the necessary scoped registry definitions and add the package directly in the manifest.json file.
 
-1. Open a file explorer and navigation into your project's root folder (the folder which contains sub-directories like "Assets" or "Library").
+1. Open a file explorer and navigation into your project's root folder (the folder which contains subdirectories like "Assets" or "Library").
    Then, navigate into the "Packages" folder and open the "manifest.json" file.
 
 Integrate the following json string into the manifest.json file:
@@ -89,7 +89,7 @@ This step needs to happen first - otherwise there is an error message as Unity c
 3. Enter https://github.com/rwth-acis/Virtual-Agents-Framework.git#[version] into the text field where [version] is replaced with "v", followed by the release number, e.g. "v1.2.1" or upm for the latest version.
    Confirm the download by clicking on the "add" button.
 
-If you specify "upm" to get the latest version, be aware that the package is not automatically updated and you will not be notified about updates automatically.
+If you specify "upm" to get the latest version, be aware that the package is not automatically updated, and you will not be notified about updates automatically.
 This command just pulls the latest version which is available at that time.
 To update to the newest current version, remove the package again and re-download it.
 

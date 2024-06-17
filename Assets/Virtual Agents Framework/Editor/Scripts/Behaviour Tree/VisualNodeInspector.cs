@@ -15,10 +15,10 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
     public class VisualNodeInspector : UnityEditor.Editor
     {
 
-        // Creates a property field of the provided type for the serized data saved in the array with the name propertyName
+        // Creates a property field of the provided type for the serialized data saved in the array with the name propertyName
         private void CreatePropertyField(string propertyName, ref int counter, SerializableType type, VisualNode targetNode)
         {
-            // Retrive the serialized array
+            // Retrieve the serialized array
             SerializedProperty baseProperty = serializedObject.FindProperty("Data." + propertyName + ".data");
             // Create the property field for the element with index counter
             EditorGUILayout.PropertyField(baseProperty.GetArrayElementAtIndex(counter).FindPropertyRelative("Value"), new GUIContent(targetNode.Data.GetKeyByIndex(counter, type)));

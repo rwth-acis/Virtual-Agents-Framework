@@ -60,7 +60,7 @@ namespace i5.VirtualAgents.BehaviourTrees
                 probabilities[i] = probabilities[i] / sum;
             }
         }
-        // Add or remov probabilties if the amount of children changes
+        // Add or remove probabilities if the amount of children changes
         private void CorrectProbabilitiesForDifferentChildAmount()
         {
             if(probabilities.Count == 0)
