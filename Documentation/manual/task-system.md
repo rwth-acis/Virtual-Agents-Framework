@@ -22,6 +22,8 @@ Currently, the following tasks exist and can already be used:
 - <xref:i5.VirtualAgents.AgentTasks.AgentPickUpTask>: Let the agent pickup an object next to them
 - <xref:i5.VirtualAgents.AgentTasks.AgentDropTask>: Let the agent drop an object or all objects that the agent is holding
 - <xref:i5.VirtualAgents.AgentTasks.AgentAdaptiveGazeTask>: Starts or stops the [adaptive gaze](adaptive-gaze.md) feature.
+- And more, see the inheritance classes of <xref:i5.VirtualAgents.AgentTasks.AgentBaseTask>
+
 ### Adding Own Tasks
 
 In addition to the pre-implemented tasks, developers can also add own tasks that implement the <xref:i5.VirtualAgents.AgentTasks.IAgentTask> interface.
@@ -32,14 +34,14 @@ If you have created a generic and configurable task that might be interesting to
 
 ## Task Scheduling
 
-Tasks are scheduled on agents using a priority queue.
-Each agent has a task manager which will evaluate the queue and start the execution of the next task. 
+Tasks are scheduled on agents using a priority queue or a behaviour tree.
+Each agent has a task manager responsible for evaluating the queue or tree and initiating the execution of the next task. The queue, which offers more options and greater customizability, is managed through code and provides flexibility. On the other hand, the behaviour tree, which is easier to use and understand, can be created using a user-friendly interface. For more details on behaviour trees, see [Behaviour Tree](behaviour-tree.md). To learn more about the queue, continue reading.
 
 ### Scheduling a Task Instance on an Agent
 
 To assign a task to an agent, first create an instance of your task by calling its constructor.
 
-```
+```C#
 MyTask myTask = new MyTask();
 ```
 

@@ -7,6 +7,7 @@ After importing the package this page is meant to get you going and introduce ba
 2. Add the standard agent prefab from ``Packages/com.i5.virtualagents/Runtime/Prefabs/AgentStandard.prefab`` to the scene.
 3. Add a NavMesh Surface to the scene by right-clicking the hierarchy and selecting ``AI > NavMesh Surface``. 
 4. Select the NavMesh Surface and press on `Bake` to create the NavMesh Data. The NavMesh represents where the agent can walk, so this has to be repeated after every change to the possible walking space of the agent.
+
 ## Adding Tasks to an agent
 1. Add an empty GameObject to the scene that will function as a controller object.
 2. Select the controller object and add a new script. This script will add different tasks to the agents schedule. We will call it ``ScheduleController``. To start, the script should look like this:
@@ -47,7 +48,7 @@ At this point it is recommended to take a look at the samples provided with the 
 4. On the right side, expand the samples section.
    Here, you can find a list of available examples.
 5. Click the import button to download the samples.
-   They are saved in your Assets folder in a folder ``Samples/Virtual Agents Framework/1.2.0``. Every sample provides one or more documentation object that explains how the scene and the functions behind that scene work, and also links to recommended manual pages here.
+   They are saved in your Assets folder in a folder ``Samples/Virtual Agents Framework/1.3.0``. Every sample provides one or more documentation object that explains how the scene and the functions behind that scene work, and also links to recommended manual pages here.
 
 Going from least to most complex, it is recommended to look at the samples in the following order: 
 1. Navigation Sample
@@ -57,6 +58,11 @@ Going from least to most complex, it is recommended to look at the samples in th
 5. Aiming Sample ([manual page](aiming.md))
 6. Adaptive Gaze Sample ([manual page](adaptive-gaze.md))
 7. Item Pickup Sample ([manual page](items.md))
+
+## Alternative to code
+Instead of relying on dedicated code to schedule tasks for the agent, a newer feature allows tasks to be scheduled by creating a behaviour tree through a user-friendly interface. To learn more about this, visit the Behaviour Tree [manual page](behaviour-tree.md).
+
+![Image of Behaviour Tree](~/resources/BehaviourTree.png)
 
 ## Customization of agents
 To make the application look more appealing from the beginning custom agent models can be used, see [Adding Own Agent Models and Animations](own-agents.md) for that.
