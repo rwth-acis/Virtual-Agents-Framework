@@ -11,6 +11,7 @@ namespace i5.VirtualAgents
     /// </summary>
 	public class MeshSocket : MonoBehaviour
     {
+        [field: Tooltip("The id of the socket.")]
         [field: SerializeField]
         public MeshSockets.SocketId SocketId { get; private set; }
 

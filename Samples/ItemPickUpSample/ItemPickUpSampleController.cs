@@ -5,10 +5,13 @@ namespace i5.VirtualAgents.Examples
 {
     public class ItemPickUpSampleController : SampleScheduleController
     {
+        [Tooltip("List of objects which should be picked up.")]
         [SerializeField] private List<GameObject> pickUpObjects;
 
+        [Tooltip("The position where the first item should be dropped.")]
         [SerializeField] private Transform dropFirstItemHere;
 
+        [Tooltip("The position where all other items should be dropped.")]
         [SerializeField] private Transform dropAllOtherItemsHere;
 
         protected override void Start()
