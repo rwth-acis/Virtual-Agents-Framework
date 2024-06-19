@@ -6,16 +6,26 @@ namespace i5.VirtualAgents.Examples
 {
 	public class AimingSampleController : SampleScheduleController
 	{
+		[Tooltip("List of waypoints which the agent should visit in order.")]
 		[SerializeField] private List<Transform> waypoints;
+		[Tooltip("Waypoint which is visited with high priority.")]
 		[SerializeField] private Transform highPrioWaypoint;
+		[Tooltip("If true, task shortcuts are used to create the tasks. If false, the tasks are created explicitly.")]
 		[SerializeField] private bool useTaskShortcuts;
+		[Tooltip("If true, the agent walks to the waypoints. If false, the agent stays at the starting position.")]
 		[SerializeField] private bool walk = true;
+		[Tooltip("The target which the agent should aim at.")]
 		[SerializeField] private GameObject target;
+		[Tooltip("The time in seconds the agent should aim at the target.")]
 		[SerializeField] private int aimAtTime = 5;
 
+		[Tooltip("If true, the agent aims its head at the target.")]
 		[SerializeField] private bool aimHead = true;
+		[Tooltip("If true, the agent aims its left arm at the target.")]
 		[SerializeField] private bool aimLeftArm = true;
+		[Tooltip("If true, the agent aims its right arm at the target.")]
 		[SerializeField] private bool aimRightArm = true;
+		[Tooltip("If true, the agent waves its right arm.")]
 		[SerializeField] private bool waveRightArm = true;
 
 		protected override void Start()
