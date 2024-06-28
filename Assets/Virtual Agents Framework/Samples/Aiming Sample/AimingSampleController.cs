@@ -6,25 +6,63 @@ namespace i5.VirtualAgents.Examples
 {
 	public class AimingSampleController : SampleScheduleController
 	{
+		/// <summary>
+		/// List of waypoints which the agent should visit in order.
+		/// </summary>
 		[Tooltip("List of waypoints which the agent should visit in order.")]
 		[SerializeField] private List<Transform> waypoints;
+
+		/// <summary>
+		/// Waypoint which is visited with high priority.
+		/// </summary>
 		[Tooltip("Waypoint which is visited with high priority.")]
 		[SerializeField] private Transform highPrioWaypoint;
+
+		/// <summary>
+		/// If true, task shortcuts are used to create the tasks. If false, the tasks are created explicitly.
+		/// </summary>
 		[Tooltip("If true, task shortcuts are used to create the tasks. If false, the tasks are created explicitly.")]
 		[SerializeField] private bool useTaskShortcuts;
+
+		/// <summary>
+		/// If true, the agent walks to the waypoints. If false, the agent stays at the starting position.
+		/// </summary>
 		[Tooltip("If true, the agent walks to the waypoints. If false, the agent stays at the starting position.")]
 		[SerializeField] private bool walk = true;
+
+		/// <summary>
+		/// The target which the agent should aim at.
+		/// </summary>
 		[Tooltip("The target which the agent should aim at.")]
 		[SerializeField] private GameObject target;
+
+		/// <summary>
+		/// The time in seconds the agent should aim at the target.
+		/// </summary>
 		[Tooltip("The time in seconds the agent should aim at the target.")]
 		[SerializeField] private int aimAtTime = 5;
 
+		/// <summary>
+		/// If true, the agent aims its head at the target.
+		/// </summary>
 		[Tooltip("If true, the agent aims its head at the target.")]
 		[SerializeField] private bool aimHead = true;
+
+		/// <summary>
+		/// If true, the agent aims its left arm at the target.
+		/// </summary>
 		[Tooltip("If true, the agent aims its left arm at the target.")]
 		[SerializeField] private bool aimLeftArm = true;
+
+		/// <summary>
+		/// If true, the agent aims its right arm at the target.
+		/// </summary>
 		[Tooltip("If true, the agent aims its right arm at the target.")]
 		[SerializeField] private bool aimRightArm = true;
+
+		/// <summary>
+		/// If true, the agent waves its right arm.
+		/// </summary>
 		[Tooltip("If true, the agent waves its right arm.")]
 		[SerializeField] private bool waveRightArm = true;
 

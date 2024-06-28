@@ -12,8 +12,15 @@ namespace i5.VirtualAgents
         private Animator animator;
 
         // animation Parameter Names
+        /// <summary>
+        /// Controls the forward speed.
+        /// </summary>
         [Tooltip("Controls the forward speed.")]
         [SerializeField] private string forwardSpeed = "Speed";
+
+        /// <summary>
+        /// Controls the angular speed.
+        /// </summary>
         [Tooltip("Controls the angular speed.")]
         [SerializeField] private string angularSpeed = "Turn";
 

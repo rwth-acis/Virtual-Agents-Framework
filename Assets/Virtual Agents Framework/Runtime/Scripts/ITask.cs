@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace i5.VirtualAgents
 {
+    /// <summary>
+    /// The state of a task, one out of five possible states: waiting, running, failure, success, aborted
+    /// </summary>
     public enum TaskState
     {
         Waiting, // Task created, but never executed
