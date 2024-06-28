@@ -6,6 +6,9 @@ namespace i5.VirtualAgents
 {
     public abstract class BaseTask : ITask
     {
+        /// <summary>
+        /// The state of the task
+        /// </summary>
         public TaskState State { get; set; }
 
         /// <summary>
@@ -48,6 +51,11 @@ namespace i5.VirtualAgents
             StopExecution();
         }
 
+        /// <summary>
+        /// Updates the State and automatically invokes StartExecution() on first update and StopExeuction() when task succeeds/fails.
+        /// </summary>
+        /// <param name="excutingAgent"></param>
+        /// <returns></returns>
         public TaskState Tick(Agent excutingAgent)
         {
             //Is the task already finished?

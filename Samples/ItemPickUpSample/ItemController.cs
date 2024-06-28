@@ -7,10 +7,21 @@ namespace i5.VirtualAgents.Examples
 	public class ItemController : MonoBehaviour
     {
         //Options related to the movement
+        /// <summary>
+        /// If true, the item moves. If false, the item stays still.
+        /// </summary>
         [Tooltip("If true, the item moves. If false, the item stays still.")]
         [SerializeField] private bool doesMove = true;
+
+        /// <summary>
+        /// The time to wait between movements in seconds.
+        /// </summary>
         [Tooltip("The time to wait between movements in seconds.")]
         [SerializeField] private float WaitTime; // Time to wait before moving again
+
+        /// <summary>
+        /// The distance to move in each direction.
+        /// </summary>
         [Tooltip("The distance to move in each direction.")]
         [SerializeField] private float MoveDistance = 3.5f; // Distance to move in each direction
         

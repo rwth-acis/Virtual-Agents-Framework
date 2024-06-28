@@ -6,8 +6,15 @@ namespace i5.VirtualAgents.Examples
 	// controls the waypoint movement
 	public class WaypointController : MonoBehaviour
     {
+        /// <summary>
+        /// The time to wait between movements in seconds.
+        /// </summary>
         [Tooltip("The time to wait between movements in seconds.")]
         [SerializeField] private float waitTime;
+
+        /// <summary>
+        /// The distance to move left and right from the start position.
+        /// </summary>
         [Tooltip("The distance to move left and right from the start position.")]
         [SerializeField] private float moveDistance = 3.5f; // Distance to move left and right from the start position
         private Vector3 startPos;
