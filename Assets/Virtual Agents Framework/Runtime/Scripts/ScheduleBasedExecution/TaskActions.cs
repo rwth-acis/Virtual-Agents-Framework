@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using i5.VirtualAgents.AgentTasks;
 using UnityEngine;
 using static i5.VirtualAgents.MeshSockets;
@@ -46,7 +47,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         }
 
         /// <summary>
-        /// Creates an AgentMovementTask for walking/running to a specific gameobject and schedules it or forces its execution.
+        /// Creates an AgentMovementTask for walking/running to a specific GameObject and schedules it or forces its execution.
         /// Shortcut queue management function
         /// </summary>
         /// <param name="destinationObject">GameObject the agent should go to</param>
@@ -70,9 +71,9 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// Lets the agent wait for the given number of seconds in an idle position
         /// Shortcut queue management function
         /// </summary>
-        /// <param name="seconds">The time span in seconds for which the agent shoudl wait</param>
+        /// <param name="seconds">The time span in seconds for which the agent should wait</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
-        /// <param name="layer">The animation layer on which the task should be excuted</param>
+        /// <param name="layer">The animation layer on which the task should be executed</param>
         public AgentBaseTask WaitForSeconds(float seconds, int priority = 0, string layer = "Base Layer")
         {
             AgentWaitTask agentWaitTask = new AgentWaitTask(seconds);
@@ -89,7 +90,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <param name="playTime"> Time in seconds after which the animation should stop</param>
         /// <param name="stopTrigger"> Trigger that stops the animation. If not provided, start trigger is used again</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
-        /// <param name="layer"> The animation layer on which the task should be excuted </param>
+        /// <param name="layer"> The animation layer on which the task should be executed </param>
         /// <param name="aimTarget">The target at which the agent should aim while playing the animation</param>
         public AgentBaseTask PlayAnimation(string startTrigger, float playTime, string stopTrigger = "", int priority = 0, string layer = "Base Layer", GameObject aimTarget = null)
         {
@@ -104,7 +105,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// </summary>
         /// <param name="pickupObject">Object that should be picked up. Needs to have an item component and be near to the agent.</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
-        /// <param name="bodyAttachPoint">Bodypart that the object should be attached to, standard is the right Hand</param>
+        /// <param name="bodyAttachPoint">Agent socket that the object should be attached to, standard is the right Hand</param>
         /// <returns></returns>
         public AgentBaseTask PickUp(GameObject pickupObject, int priority = 0, SocketId bodyAttachPoint = SocketId.RightHand)
         {
@@ -119,16 +120,21 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// </summary>
         /// <param name="destinationObject">Object the agent should go to and pick up. Needs to have an item component and be reachable by the agent.</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
-        /// <param name="bodyAttachPoint">Bodypart that the object should be attached to, standard is the right Hand</param>
+        /// <param name="bodyAttachPoint">Agent socket that the object should be attached to, standard is the right Hand</param>
         /// <param name="minDistance">Distance at which the the agent will try to pick up the object</param>
         /// <returns></returns>
         public AgentBaseTask GoToAndPickUp(GameObject destinationObject, int priority = 0, SocketId bodyAttachPoint = SocketId.RightHand, float minDistance = 0.3f)
         {
-            AgentMovementTask goToTask = (AgentMovementTask)GoTo(destinationObject, default, priority, true);
-            goToTask.MinDistance = minDistance;
+            AgentMovementTask movementTask = new AgentMovementTask(destinationObject, default, true);
+            movementTask.MinDistance = minDistance;
+            AgentPickUpTask pickUpTask = new AgentPickUpTask(destinationObject, bodyAttachPoint);
 
-            AgentBaseTask pickUpTask = PickUp(destinationObject, priority, bodyAttachPoint);
-            return pickUpTask;
+            TaskBundle PickUpBundle = new TaskBundle();
+            PickUpBundle.AddTask(movementTask);
+            PickUpBundle.AddTask(pickUpTask);
+
+            scheduleTaskSystem.ScheduleTask(PickUpBundle, priority);
+            return PickUpBundle;
         }
 
         /// <summary>
@@ -154,9 +160,15 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <returns></returns>
         public AgentBaseTask GoToAndDropItem(Vector3 destinationCoordinates, GameObject dropObject = null, int priority = 0)
         {
-            AgentBaseTask goToTask = GoTo(destinationCoordinates, priority);
-            AgentBaseTask dropTask = DropItem(dropObject, priority);
-            return dropTask;
+            AgentMovementTask movementTask = new AgentMovementTask(destinationCoordinates);
+            AgentDropTask dropTask = new AgentDropTask(dropObject);
+
+            TaskBundle dropTaskBundle = new TaskBundle();
+            dropTaskBundle.AddTask(movementTask);
+            dropTaskBundle.AddTask(dropTask);
+
+            scheduleTaskSystem.ScheduleTask(dropTaskBundle, priority);
+            return dropTaskBundle;
         }
         /// <summary>
         /// Go to a transform and drop one specified or all object that are currently attached to the agent and have the Item component
@@ -168,9 +180,15 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <returns></returns>
         public AgentBaseTask GoToAndDropItem(Transform destinationTransform, GameObject dropObject = null, int priority = 0)
         {
-            AgentBaseTask goToTask = GoTo(destinationTransform, default, priority);
-            AgentBaseTask dropTask = DropItem(dropObject, priority);
-            return dropTask;
+            AgentMovementTask movementTask = new AgentMovementTask(destinationTransform.position);
+            AgentDropTask dropTask = dropObject == null ? new AgentDropTask() : new AgentDropTask(dropObject);
+
+            TaskBundle dropTaskBundle = new TaskBundle();
+            dropTaskBundle.AddTask(movementTask);
+            dropTaskBundle.AddTask(dropTask);
+
+            scheduleTaskSystem.ScheduleTask(dropTaskBundle, priority);
+            return dropTaskBundle;
         }
 
         /// <summary>
@@ -178,16 +196,19 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// </summary>
         /// <param name="seconds">Time in seconds after which the gazing should stop</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
-        /// <returns>Returs a AgentBaseTask array with two elements. The first has the starting Task (e.g. for startTask.waitFor(diffrentTask), and the second the stop Task ((e.g. for diffrentTask.waitFor(stopTask))</returns>
+        /// <returns>Returns a AgentBaseTask array with two elements. The first has the starting Task (e.g. for startTask.waitFor(differentTask), and the second the stop Task ((e.g. for differentTask.waitFor(stopTask))</returns>
         public AgentBaseTask[] StartAdaptiveGazeForTime(float seconds, int priority = 0)
         {
             AgentBaseTask adaptiveGazeTaskStart = new AgentAdaptiveGazeTask(true);
-            scheduleTaskSystem.ScheduleTask(adaptiveGazeTaskStart, priority, "Head");
-            AgentBaseTask waitHead = WaitForSeconds(seconds, priority, "Head");
-            waitHead.WaitFor(adaptiveGazeTaskStart);
+            AgentWaitTask agentWaitTask = new AgentWaitTask(seconds);
             AgentBaseTask adaptiveGazeTaskStop = new AgentAdaptiveGazeTask(false);
-            adaptiveGazeTaskStop.WaitFor(waitHead);
-            scheduleTaskSystem.ScheduleTask(adaptiveGazeTaskStop, priority, "Head");
+
+            TaskBundle adaptiveGazeBundle = new TaskBundle();
+            adaptiveGazeBundle.AddTask(adaptiveGazeTaskStart);
+            adaptiveGazeBundle.AddTask(agentWaitTask);
+            adaptiveGazeBundle.AddTask(adaptiveGazeTaskStop);
+
+            scheduleTaskSystem.ScheduleTask(adaptiveGazeBundle, priority, "Head");
             return new AgentBaseTask[] { adaptiveGazeTaskStart, adaptiveGazeTaskStop };
         }
         /// <summary>
