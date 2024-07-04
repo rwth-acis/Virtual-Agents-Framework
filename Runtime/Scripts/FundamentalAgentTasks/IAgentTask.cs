@@ -14,5 +14,8 @@ namespace i5.VirtualAgents.AgentTasks
         /// False if there are unfulfilled conditions that block the execution
         /// </summary>
         bool CanStart { get; }
+
+        event Action OnTaskFinished;
+        event Action OnTaskStarted;
     }
 }
