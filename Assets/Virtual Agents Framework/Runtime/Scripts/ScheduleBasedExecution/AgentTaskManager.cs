@@ -66,6 +66,11 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         public event TaskFinishedEvent OnTaskFinished;
 
         /// <summary>
+        /// Event which is raised once there are no more tasks in the queue
+        /// </summary>
+        public event Action OnQueueEmpty;
+
+        /// <summary>
         /// Agent's current task
         /// </summary>
         public IAgentTask CurrentTask { get; private set; }
@@ -144,7 +149,12 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
                     if (taskState == TaskState.Success || taskState == TaskState.Failure)
                     {
                         CurrentState = TaskManagerState.idle;
+                        // fire the OnTaskFinished event and check if it was the last task, if so fire the OnQueueEmpty event as well
                         OnTaskFinished?.Invoke(this, CurrentTask);
+                        if(queue.PeekNextTask() == null)
+                        {
+                            OnQueueEmpty?.Invoke();
+                        }
                         CurrentTask = null;
                     }
                     break;
