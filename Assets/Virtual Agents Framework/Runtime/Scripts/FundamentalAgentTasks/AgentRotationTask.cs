@@ -42,21 +42,31 @@ namespace i5.VirtualAgents.AgentTasks
             Coordinates = new Vector3(0, angle, 0);
         }
 
+        /// <summary>
+        /// Start the rotation
+        /// Called by the agent
+        /// </summary>
+        /// <param name="agent">The agent which executes this task</param>
         public override void StartExecution(Agent agent)
         {
-            //TODO: Implement
-            Debug.Log("Rotation started");
             base.StartExecution(agent);
-            float rotationSpeed = 0.2f;
-            float step = rotationSpeed * Time.deltaTime;
+            Debug.Log("Rotation started");
+            Quaternion coordinatesRotation = Quaternion.Euler(Coordinates);
+            agent.StartCoroutine(Rotate(agent.transform, coordinatesRotation, 20f));
+        }
 
-            agent.transform.Rotate(Coordinates, relativeTo: Space.World);
-            Quaternion targetRotation = Quaternion.Euler(Coordinates);
-
-            // Rotate our transform a step closer to the target's.
-            agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, targetRotation, step);
-
-            if( agent.transform.rotation.eulerAngles != Coordinates)
+        private IEnumerator Rotate(Transform transform, Quaternion targetRotation, float rotationSpeed)
+        {
+            float time = 0;
+            while (time <= 1f)
+            {
+                time += Time.deltaTime/rotationSpeed; //to control the speed of rotation
+                // Rotate the agent a step closer to the target
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, time);
+                // Wait for the next frame
+                yield return null;
+            }
+            if (transform.rotation.eulerAngles == targetRotation.eulerAngles)
             {
                 FinishTask();
                 Debug.Log("Rotation finished");
@@ -65,18 +75,6 @@ namespace i5.VirtualAgents.AgentTasks
             {
                 FinishTaskAsFailed();
             }
-        }
-
-
-
-
-        /// <summary>
-        /// Checks every frame whether the agent has finished the rotatation
-        /// </summary>
-        public override TaskState EvaluateTaskState()
-        {
-            //TODO: Implement
-           return TaskState.Running;
         }
 
         /// <summary>
