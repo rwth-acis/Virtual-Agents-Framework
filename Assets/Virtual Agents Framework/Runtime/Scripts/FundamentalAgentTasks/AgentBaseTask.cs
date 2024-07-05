@@ -20,6 +20,11 @@ namespace i5.VirtualAgents.AgentTasks
         }
 
         /// <summary>
+        /// Event which is raised when this task has finished
+        /// </summary>
+        public event Action OnTaskFinished;
+
+        /// <summary>
         /// Indicates whether this task is ready to start execution
         /// Checks whether all depending tasks are finished
         /// Can be overridden to add custom conditions in child classes
@@ -56,6 +61,7 @@ namespace i5.VirtualAgents.AgentTasks
             StopAsSucceeded();
             IsFinished = true;
             DependsOnTasks.Clear();
+            OnTaskFinished?.Invoke();
         }
 
         public virtual void FinishTaskAsFailed()
@@ -63,6 +69,7 @@ namespace i5.VirtualAgents.AgentTasks
             StopAsFailed();
             IsFinished = true;
             DependsOnTasks.Clear();
+            OnTaskFinished?.Invoke();
         }
 
         /// <summary>

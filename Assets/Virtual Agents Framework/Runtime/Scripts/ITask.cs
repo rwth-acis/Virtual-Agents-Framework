@@ -35,15 +35,15 @@ namespace i5.VirtualAgents
         void StartExecution(Agent executingAgent);
 
         /// <summary>
-        /// Called when the task succeedes or fails
+        /// Called when the task succeeds or fails
         /// </summary>
         void StopExecution();
 
         /// <summary>
-        /// Updates the State and automatically invokes StartExecution() on first update and StopExeuction() when task succeeds/fails.
+        /// Updates the State and automatically invokes StartExecution() on first update and StopExecution() when task succeeds/fails.
         /// </summary>
-        /// <param name="excutingAgent"></param>
+        /// <param name="executingAgent"></param>
         /// <returns></returns>
-        TaskState Tick(Agent excutingAgent);
+        TaskState Tick(Agent executingAgent);
     }
 }
