@@ -10,9 +10,9 @@ namespace i5.VirtualAgents.AgentTasks
     public class AgentRotationTask : AgentBaseTask, ISerializable
     {
         /// <summary>
-        /// Coordinates of the rotation task
+        /// The rotation as a quaternion which the agent should rotate to
         /// </summary>
-        public Vector3 Coordinates { get; protected set; }
+        public Quaternion TargetRotation { get; protected set; }
 
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// <param name="target">Target object of the rotation task</param>
         public AgentRotationTask(GameObject target)
         {
-            Coordinates = target.transform.position;
+            TargetRotation = Quaternion.LookRotation(target.transform.position);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// <param name="coordinates">Coordinates of the rotation task</param>
         public AgentRotationTask(Vector3 coordinates)
         {
-            Coordinates = coordinates;
+            TargetRotation = Quaternion.LookRotation(coordinates);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// <param name="angle">The angle to rotate to, in degrees</param>
         public AgentRotationTask(float angle)
         {
-            Coordinates = new Vector3(0, angle, 0);
+            TargetRotation = Quaternion.Euler(0, angle, 0);
         }
 
         /// <summary>
@@ -49,24 +49,25 @@ namespace i5.VirtualAgents.AgentTasks
         /// <param name="agent">The agent which executes this task</param>
         public override void StartExecution(Agent agent)
         {
+            Animator animator = agent.GetComponent<Animator>();
             base.StartExecution(agent);
             Debug.Log("Rotation started");
-            Quaternion coordinatesRotation = Quaternion.Euler(Coordinates);
-            agent.StartCoroutine(Rotate(agent.transform, coordinatesRotation, 20f));
+            animator.Play("Rotate Right", -1, 0);
+            agent.StartCoroutine(Rotate(agent.transform, 10f));
         }
 
-        private IEnumerator Rotate(Transform transform, Quaternion targetRotation, float rotationSpeed)
+        private IEnumerator Rotate(Transform transform, float rotationSpeed)
         {
             float time = 0;
             while (time <= 1f)
             {
                 time += Time.deltaTime/rotationSpeed; //to control the speed of rotation
                 // Rotate the agent a step closer to the target
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, time);
+                transform.rotation = Quaternion.Slerp(transform.rotation, TargetRotation, time);
                 // Wait for the next frame
                 yield return null;
             }
-            if (transform.rotation.eulerAngles == targetRotation.eulerAngles)
+            if (transform.rotation.eulerAngles == TargetRotation.eulerAngles)
             {
                 FinishTask();
                 Debug.Log("Rotation finished");
