@@ -25,7 +25,9 @@ namespace i5.VirtualAgents.AgentTasks
         /// <param name="target">Target object of the rotation task</param>
         public AgentRotationTask(GameObject target)
         {
-            TargetRotation = Quaternion.LookRotation(target.transform.position);
+            Vector3 position = target.transform.position;
+            position.y = 0;
+            TargetRotation = Quaternion.LookRotation(position);
             IsRotationByAngle = false;
         }
 
@@ -35,6 +37,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// <param name="coordinates">Coordinates of the rotation task</param>
         public AgentRotationTask(Vector3 coordinates)
         {
+            coordinates.y = 0;
             TargetRotation = Quaternion.LookRotation(coordinates);
             IsRotationByAngle = false;
         }
@@ -81,7 +84,6 @@ namespace i5.VirtualAgents.AgentTasks
         private IEnumerator Rotate(Transform transform, float rotationSpeed)
         {
             float time = 0;
-            //while (time <= 1f)
             while (Vector3.Distance(transform.rotation.eulerAngles, TargetRotation.eulerAngles) > 0.01f)
             {
                 time += Time.deltaTime/rotationSpeed; //to control the speed of rotation
@@ -93,7 +95,7 @@ namespace i5.VirtualAgents.AgentTasks
             }
             //if (transform.rotation.eulerAngles == TargetRotation.eulerAngles)
             //if (Vector3.Distance(transform.rotation.eulerAngles, TargetRotation.eulerAngles) <= 0.01f)
-            if (Quaternion.Angle(transform.rotation, TargetRotation) <= 1f)
+            if (Quaternion.Angle(transform.rotation, TargetRotation) <= 0.01f)
             {
                 FinishTask();
                 Debug.Log("Rotation finished");
