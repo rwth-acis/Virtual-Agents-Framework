@@ -77,7 +77,7 @@ namespace i5.VirtualAgents.AgentTasks
                 TargetRotation = agent.transform.rotation * Quaternion.Euler(0, Angle, 0);
             }
             Debug.Log("Rotation started");
-            animator.Play("Rotate Right", -1, 0);
+            // animator.Play("Rotate Right", -1, 0);
             agent.StartCoroutine(Rotate(agent.transform, 10f));
         }
 
