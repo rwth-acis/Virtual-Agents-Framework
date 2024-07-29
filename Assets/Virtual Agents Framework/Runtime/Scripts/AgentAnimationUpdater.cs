@@ -51,12 +51,10 @@ namespace i5.VirtualAgents
 
             if (agent.transform.rotation.eulerAngles.y > lastKnownRotation)
             {
-                // Debug.Log("Rotate Right" + agent.velocity.magnitude);
                 rotation = 1;
             }
             else if (agent.transform.rotation.eulerAngles.y < lastKnownRotation)
             {
-                //Debug.Log("Rotate Left" + agent.velocity.magnitude);
                 rotation = -1;
             }
 
@@ -65,7 +63,6 @@ namespace i5.VirtualAgents
             animator.SetFloat(_animIDRotationDirection, rotation);
             animator.SetBool(_animIDIsRotating, rotation != 0);
             lastKnownRotation = agent.transform.rotation.eulerAngles.y;
-            Debug.Log("Rotation: " + animator.GetFloat(_animIDRotationDirection) + " isRotating: " + animator.GetBool(_animIDIsRotating) + " Speed: " + agent.velocity.magnitude);
         }
 
         private void Update()

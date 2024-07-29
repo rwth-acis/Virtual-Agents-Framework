@@ -14,8 +14,14 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public Quaternion TargetRotation { get; protected set; }
 
+        /// <summary>
+        /// Used to determine if the agent should rotate by a specific angle or towards a specific angle.
+        /// </summary>
         public bool IsRotationByAngle{ get; protected set; }
 
+        /// <summary>
+        /// The angle the agent should rotate by or towards
+        /// </summary>
         public float Angle { get; protected set; }
 
 
@@ -45,9 +51,10 @@ namespace i5.VirtualAgents.AgentTasks
         /// <summary>
         /// Create an AgentRotationTask using the angle that the agent should rotate by.
         /// Positive angle turns right, negative angle turns left.
-        /// When isRotationValue is set to true, the agents rotation will be set to the angle specified.
+        /// When isRotationByAngle is set to false, the agents rotation attribute will be set to the angle specified instead.
+        /// In this case the agent rotates in the direction that minimises the distance.
         /// </summary>
-        /// <param name="angle">The angle to rotate by, in degrees</param>
+        /// <param name="angle">The angle to rotate by or towards, in degrees</param>
         /// <param name="isRotationByAngle">True if agent should rotate by "angle" degrees, false if the rotation value of the agent should be set to "angle"</param>
         public AgentRotationTask(float angle, bool isRotationByAngle = true)
         {
@@ -77,7 +84,6 @@ namespace i5.VirtualAgents.AgentTasks
                 TargetRotation = agent.transform.rotation * Quaternion.Euler(0, Angle, 0);
             }
             Debug.Log("Rotation started");
-            // animator.Play("Rotate Right", -1, 0);
             agent.StartCoroutine(Rotate(agent.transform, 10f));
         }
 
@@ -106,17 +112,9 @@ namespace i5.VirtualAgents.AgentTasks
             }
         }
 
-        /// <summary>
-        /// Finish the task
-        /// </summary>
-        public override void StopExecution()
-        {
-            //TODO: Implement
-        }
-
         public void Serialize(SerializationDataContainer serializer)
         {
-            //TODO: Implement
+            //serializer.AddSerializedData("Target Rotation", TargetRotation);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
