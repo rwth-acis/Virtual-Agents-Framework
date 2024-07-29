@@ -8,35 +8,30 @@ namespace i5.VirtualAgents.Examples
     public class AgentRotationController : SampleScheduleController
     {
         public List<Transform> waypoints;
-        public Transform highPrioWaypoint;
 
         protected override void Start()
         {
             base.Start();
-            // Using Rotate Right animation to rotate right
+            // Rotate towards a target object
+            AgentRotationTask rotationTarget= new AgentRotationTask(waypoints[1].gameObject);
 
-            AgentRotationTask rotation1= new AgentRotationTask(waypoints[1].gameObject);
-            AgentRotationTask rotation2= new AgentRotationTask(waypoints[2].position);
-            AgentRotationTask rotation3= new AgentRotationTask(90 );
+            // Rotate towards a coordinate
+            AgentRotationTask rotationCoordinate= new AgentRotationTask(waypoints[2].position);
 
+            // Rotate by a specific angle
+            AgentRotationTask rotationAngle1= new AgentRotationTask(90);
 
-            AgentRotationTask rotation4= new AgentRotationTask(waypoints[2].position);
+            // Change the rotation value of the agent to a specific angle
+            AgentRotationTask rotationAngle2= new AgentRotationTask(90, false);
 
-            taskSystem.Tasks.WaitForSeconds(2, 0 );
-            taskSystem.ScheduleTask(rotation1, 0, "Base Layer");
-            taskSystem.Tasks.WaitForSeconds(1, 0 );
-            taskSystem.Tasks.GoTo(highPrioWaypoint.gameObject, Vector3.zero,0, false);
-            taskSystem.ScheduleTask(rotation2, 0, "Base Layer");
-            taskSystem.Tasks.WaitForSeconds(1, 0 );
-            taskSystem.ScheduleTask(rotation3, 0, "Base Layer");
-
-            // Using Rotate Right animation to rotate left
-
-
-
-            // Using Rotate Left animation to rotate right
-
-            // Using Rotate Left animation to rotate left
+            taskSystem.Tasks.WaitForSeconds(1, 0);
+            taskSystem.ScheduleTask(rotationTarget, 0, "Base Layer");
+            taskSystem.Tasks.WaitForSeconds(1, 0);
+            taskSystem.ScheduleTask(rotationCoordinate, 0, "Base Layer");
+            taskSystem.Tasks.WaitForSeconds(1, 0);
+            taskSystem.ScheduleTask(rotationAngle1, 0, "Base Layer");
+            taskSystem.Tasks.WaitForSeconds(1, 0);
+            taskSystem.ScheduleTask(rotationAngle2, 0, "Base Layer");
         }
     }
 }
