@@ -24,6 +24,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
 
         /// <summary>
         /// Creates an AgentMovementTask for walking/running and schedules it or forces its execution.
+        /// Schedules a AgentRotationTask to rotate the agent towards the destination
         /// Shortcut queue management function
         /// </summary>
         /// <param name="destinationCoordinates">Position the agent should go to</param>
@@ -32,6 +33,8 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         {
             AgentMovementTask movementTask = new AgentMovementTask(destinationCoordinates);
             scheduleTaskSystem.ScheduleTask(movementTask, priority);
+            AgentRotationTask rotationTask = new AgentRotationTask(destinationCoordinates);
+            scheduleTaskSystem.ScheduleTask(rotationTask, priority);
             return movementTask;
         }
 
