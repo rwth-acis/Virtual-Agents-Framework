@@ -2,6 +2,7 @@
 using System;
 using i5.VirtualAgents.AgentTasks;
 using UnityEngine;
+using System.Linq;
 
 namespace i5.VirtualAgents.ScheduleBasedExecution
 {
@@ -17,6 +18,10 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
 
         // the stat of the task manager
         private TaskManagerState currentState;
+
+        // the last task to be executed or the last task that has been executed, if the queue is empty
+        private IAgentTask lastTask;
+
 
         /// <summary>
         /// Checks whether the task manager is active or has been deactivated
@@ -60,6 +65,11 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// Event which is raised once the agent has finished the current task
         /// </summary>
         public event TaskFinishedEvent OnTaskFinished;
+
+        /// <summary>
+        /// Event which is raised once there are no more tasks in the queue
+        /// </summary>
+        public event Action OnQueueEmpty;
 
         /// <summary>
         /// Agent's current task
@@ -140,7 +150,12 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
                     if (taskState == TaskState.Success || taskState == TaskState.Failure)
                     {
                         CurrentState = TaskManagerState.idle;
+                        // fire the OnTaskFinished event and check if it was the last task, if so fire the OnQueueEmpty event as well
                         OnTaskFinished?.Invoke(this, CurrentTask);
+                        if(queue.PeekNextTask() == null)
+                        {
+                            OnQueueEmpty?.Invoke();
+                        }
                         CurrentTask = null;
                     }
                     break;
@@ -155,6 +170,10 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         public void ScheduleTask(IAgentTask task, int priority = 0)
         {
             queue.AddTask(task, priority);
+            if (lastTask != queue.taskQueue[^1].task)
+            {
+                lastTask = task;
+            }
         }
 
         // get the next task from the queue and adapts the states accordingly
@@ -189,6 +208,32 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         public IAgentTask PeekNextTask()
         {
             return queue.PeekNextTask();
+        }
+        /// <summary>
+        /// Checks the states of all tasks as an "and"-operation in the queue.
+        /// </summary>
+        /// <returns> Failure if one of the Tasks in the queue failed, Success if all Task finished successfully
+        /// and the state of the current task in the queue, as long as not all tasks have run, but none has failed yet</returns>
+        public TaskState CheckTaskQueueStates()
+        {
+            // Check if any task failed
+            var failedTaskEntry = queue.taskQueue.FirstOrDefault(taskEntry => taskEntry.task.State == TaskState.Failure);
+            if (failedTaskEntry.task != null)
+            {
+                return TaskState.Failure;
+            }
+            // Find the first task that is either running or waiting
+            var currentTaskEntry = queue.taskQueue.FirstOrDefault(taskEntry => taskEntry.task.State is TaskState.Waiting or TaskState.Running);
+
+            // If no task is running, waiting or failed, the bundle is finished
+            if(currentTaskEntry.task == null)
+            {
+                // The last task may still be running
+                return lastTask.State;
+            }
+
+            return IsActive ? TaskState.Running : TaskState.Waiting;
+
         }
 
         /// <summary>
