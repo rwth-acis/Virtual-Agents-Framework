@@ -19,7 +19,7 @@ namespace i5.VirtualAgents.Examples
             AgentRotationTask rotationCoordinate= new AgentRotationTask(waypoints[2].position);
 
             // Rotate by a specific angle
-            AgentRotationTask rotationAngle1= new AgentRotationTask(90);
+            AgentRotationTask rotationAngle1= new AgentRotationTask(45);
 
             // Change the rotation value of the agent to a specific angle
             AgentRotationTask rotationAngle2= new AgentRotationTask(90, false);
