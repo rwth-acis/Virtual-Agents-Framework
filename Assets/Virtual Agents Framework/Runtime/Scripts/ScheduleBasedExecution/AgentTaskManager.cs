@@ -249,8 +249,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
                 CurrentTask = null;
                 CurrentState = TaskManagerState.idle;
             }
-            // TODO add after merging with TaskBundles:
-            // lastTask = null;
+            lastTask = null;
         }
 
         /// <summary>
