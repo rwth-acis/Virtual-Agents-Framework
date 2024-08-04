@@ -62,6 +62,8 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             {
                 AgentMovementTask movementTask = new AgentMovementTask(destinationObject, default, follow);
                 scheduleTaskSystem.ScheduleTask(movementTask, priority);
+                AgentRotationTask rotationTask = new AgentRotationTask(destinationObject);
+                scheduleTaskSystem.ScheduleTask(rotationTask, priority);
                 return movementTask;
             }
             else
