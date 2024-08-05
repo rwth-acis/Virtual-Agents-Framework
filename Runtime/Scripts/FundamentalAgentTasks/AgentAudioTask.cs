@@ -32,7 +32,6 @@ namespace i5.VirtualAgents.AgentTasks
 			base.StartExecution(agent);
 			AgentAudioSource = agent.GetComponent<AudioSource>();
 			AgentAudioSource.clip = Audio;
-			//dalay is 0 by default
 			AgentAudioSource.Play();
 		}
 
