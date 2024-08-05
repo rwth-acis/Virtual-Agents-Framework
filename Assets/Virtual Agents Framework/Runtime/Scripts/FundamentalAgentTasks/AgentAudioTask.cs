@@ -32,6 +32,7 @@ namespace i5.VirtualAgents.AgentTasks
 			base.StartExecution(agent);
 			AgentAudioSource = agent.GetComponent<AudioSource>();
 			AgentAudioSource.clip = Audio;
+			//dalay is 0 by default
 			AgentAudioSource.Play();
 		}
 
@@ -44,6 +45,21 @@ namespace i5.VirtualAgents.AgentTasks
 			AgentAudioSource.Stop();
 		}
 
+		/// <summary>
+		/// Method to pause the audio
+		/// </summary>
+		public void PauseAudio()
+		{
+			AgentAudioSource.Pause();
+		}
+
+		/// <summary>
+		/// Method to continue the audio
+		/// </summary>
+		public void ContinueAudio()
+		{
+			AgentAudioSource.UnPause();
+		}
 		public void Serialize(SerializationDataContainer serializer)
 		{
 		}
