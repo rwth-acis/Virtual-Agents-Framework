@@ -33,6 +33,9 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             }
         }
 
+        /// <summary>
+        /// Update the task system
+        /// </summary>
         public override void UpdateTaskSystem()
         {
             foreach (var taskManager in taskManagers.Values)

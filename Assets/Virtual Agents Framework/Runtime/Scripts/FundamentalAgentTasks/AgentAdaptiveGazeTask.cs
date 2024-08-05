@@ -11,7 +11,12 @@ namespace i5.VirtualAgents.AgentTasks
         private readonly bool shouldStartOrStop;
 
         AdaptiveGaze adaptiveGazeScript;
+
+        /// <summary>
+        /// Constructor for the adaptive gaze task
+        /// </summary>
         public AgentAdaptiveGazeTask() { }
+
         /// <summary>
         /// Constructor for the adaptive gaze task
         /// </summary>
