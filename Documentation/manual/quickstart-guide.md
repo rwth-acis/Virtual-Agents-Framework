@@ -53,6 +53,7 @@ Going from least to most complex, it is recommended to look at the samples in th
 1. Navigation Sample
 2. Wait Sample
 3. Dynamic Navigation Sample
+4. Audio Sample
 4. TaskBundle Sample ([manual page](task-bundle.md))
 5. Parallel Task Sample ([manual page](parallel-tasks.md))
 6. Aiming Sample ([manual page](aiming.md))
