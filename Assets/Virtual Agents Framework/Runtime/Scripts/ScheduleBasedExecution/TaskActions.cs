@@ -232,12 +232,11 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// Use this function to make the agent point at a target object with one arm
         /// If the target is behind the agent, the agent will first rotate towards the target
         /// </summary>
-        /// <param name="agent"></param>
-        /// <param name="target"></param>
-        /// <param name="aimLeftArm"></param>
-        /// <param name="aimRightArm"></param>
-        /// <param name="aimAtTime"></param>
-        /// <param name="priority"></param>
+        /// <param name="target">Target to point at</param>
+        /// <param name="aimLeftArm">True if the agent should aim with the left arm</param>
+        /// <param name="aimRightArm">True if the agent should aim with the right arm</param>
+        /// <param name="aimAtTime">How long the agent aims</param>
+        /// <param name="priority">Priority of the task</param>
         /// <returns></returns>
         public AgentBaseTask PointAt(GameObject target, bool aimLeftArm = false, bool aimRightArm = false, int aimAtTime = 5, int priority = 0)
         {

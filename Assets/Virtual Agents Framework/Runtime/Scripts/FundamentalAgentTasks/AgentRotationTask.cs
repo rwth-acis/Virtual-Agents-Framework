@@ -24,28 +24,32 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public float Angle { get; protected set; }
 
+        public float Speed { get; protected set; }
+
 
         /// <summary>
         /// Create an AgentRotationTask using a target object to turn towards
         /// </summary>
         /// <param name="target">Target object of the rotation task</param>
-        public AgentRotationTask(GameObject target)
+        public AgentRotationTask(GameObject target, float speed = 10f)
         {
             Vector3 position = target.transform.position;
             position.y = 0;
             TargetRotation = Quaternion.LookRotation(position);
             IsRotationByAngle = false;
+            Speed = speed;
         }
 
         /// <summary>
         /// Create an AgentRotationTask using the destination coordinates
         /// </summary>
         /// <param name="coordinates">Coordinates of the rotation task</param>
-        public AgentRotationTask(Vector3 coordinates)
+        public AgentRotationTask(Vector3 coordinates, float speed = 10f)
         {
             coordinates.y = 0;
             TargetRotation = Quaternion.LookRotation(coordinates);
             IsRotationByAngle = false;
+            Speed = speed;
         }
 
         /// <summary>
@@ -56,7 +60,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         /// <param name="angle">The angle to rotate by or towards, in degrees</param>
         /// <param name="isRotationByAngle">True if agent should rotate by "angle" degrees, false if the rotation value of the agent should be set to "angle"</param>
-        public AgentRotationTask(float angle, bool isRotationByAngle = true)
+        public AgentRotationTask(float angle, float speed= 10f, bool isRotationByAngle = true)
         {
             IsRotationByAngle = isRotationByAngle;
             if (!isRotationByAngle)
@@ -67,6 +71,7 @@ namespace i5.VirtualAgents.AgentTasks
             {
                 Angle = angle;
             }
+            Speed = speed;
         }
 
         /// <summary>
@@ -84,23 +89,19 @@ namespace i5.VirtualAgents.AgentTasks
                 TargetRotation = agent.transform.rotation * Quaternion.Euler(0, Angle, 0);
             }
             Debug.Log("Rotation started");
-            agent.StartCoroutine(Rotate(agent.transform, 10f));
+            agent.StartCoroutine(Rotate(agent.transform));
         }
 
-        private IEnumerator Rotate(Transform transform, float rotationSpeed)
+        private IEnumerator Rotate(Transform transform)
         {
             float time = 0;
             while (Vector3.Distance(transform.rotation.eulerAngles, TargetRotation.eulerAngles) > 0.01f)
             {
-                time += Time.deltaTime/rotationSpeed; //to control the speed of rotation
+                time += Time.deltaTime/Speed; //to control the speed of rotation
                 // Rotate the agent a step closer to the target
                 transform.rotation = Quaternion.Slerp(transform.rotation, TargetRotation, time);
-                //Debug.Log("Rotating...");
-                // Wait for the next frame
                 yield return null;
             }
-            //if (transform.rotation.eulerAngles == TargetRotation.eulerAngles)
-            //if (Vector3.Distance(transform.rotation.eulerAngles, TargetRotation.eulerAngles) <= 0.01f)
             if (Quaternion.Angle(transform.rotation, TargetRotation) <= 0.01f)
             {
                 FinishTask();
