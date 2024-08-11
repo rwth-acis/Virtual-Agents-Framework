@@ -1273,20 +1273,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: 
-  description: 'This scene demonstrates how to schedule walking tasks so that the
-    agent navigates a series of waypoints.
-
-    The script on the Controller object
-    issues walking tasks to the agent on startup.
-
-
-    Use the scene view during
-    play mode to inspect the scene freely while the agent is walking around.
-
-
-    If
-    Objects are changed in the scene: Select the GameObject "NavMesh Surface" and
-    bake the NavMesh again before running the scene.'
+  description: "This scene demonstrates the different types of rotation.\r\n\nThe
+    agent first rotates towards a target object (here the first waypoint), then towards
+    a coordinate (the coordinates of the second waypoint), \r\nand finally rotates
+    by 90\xB0 and then towards 90\xB0."
   type: 0
   url: 
 --- !u!4 &1264251852

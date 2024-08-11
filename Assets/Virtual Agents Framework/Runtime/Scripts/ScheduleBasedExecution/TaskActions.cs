@@ -227,5 +227,44 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             AgentBaseTask adaptiveGazeTask = new AgentAdaptiveGazeTask(shouldStartOrStop);
             scheduleTaskSystem.ScheduleTask(adaptiveGazeTask, priority, "Head");
         }
+
+        /// <summary>
+        /// Use this function to make the agent point at a target object with one arm
+        /// If the target is behind the agent, the agent will first rotate towards the target
+        /// </summary>
+        /// <param name="agent"></param>
+        /// <param name="target"></param>
+        /// <param name="aimLeftArm"></param>
+        /// <param name="aimRightArm"></param>
+        /// <param name="aimAtTime"></param>
+        /// <param name="priority"></param>
+        /// <returns></returns>
+        public AgentBaseTask PointAt(GameObject target, bool aimLeftArm = false, bool aimRightArm = false, int aimAtTime = 5, int priority = 0)
+        {
+            AgentAnimationTask pointing = null;
+            Agent agent = scheduleTaskSystem.GetAgent();
+            // Add rotation before pointing if target is behind agent
+            Vector3 directionToTarget = target.transform.position - agent.transform.position;
+            float angleToTarget = Vector3.Angle(agent.transform.forward, directionToTarget);
+
+            // If the target is behind the agent (angle greater than 90 degrees)
+            if (angleToTarget > 90 && angleToTarget < 270)
+            {
+                // Schedule a rotation task towards the target
+                AgentRotationTask rotationTask = new AgentRotationTask(target);
+                scheduleTaskSystem.ScheduleTask(rotationTask, priority, "Left Arm");
+            }
+            if (aimLeftArm)
+            {
+                pointing = new AgentAnimationTask("PointingLeft", aimAtTime, "", "Left Arm", target);
+                scheduleTaskSystem.ScheduleTask(pointing, priority, "Left Arm");
+            }
+            else if (aimRightArm)
+            {
+                pointing = new AgentAnimationTask("PointingRight", aimAtTime, "", "Right Arm", target);
+                scheduleTaskSystem.ScheduleTask(pointing, priority, "Right Arm");
+            }
+            return pointing;
+        }
     }
 }
