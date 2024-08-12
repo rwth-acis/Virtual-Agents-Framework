@@ -24,8 +24,10 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public float Angle { get; protected set; }
 
+        /// <summary>
+        /// The speed at which the agent should rotate
+        /// </summary>
         public float Speed { get; protected set; }
-
 
         /// <summary>
         /// Create an AgentRotationTask using a target object to turn towards
@@ -60,7 +62,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         /// <param name="angle">The angle to rotate by or towards, in degrees</param>
         /// <param name="isRotationByAngle">True if agent should rotate by "angle" degrees, false if the rotation value of the agent should be set to "angle"</param>
-        public AgentRotationTask(float angle, float speed= 10f, bool isRotationByAngle = true)
+        public AgentRotationTask(float angle, bool isRotationByAngle = true, float speed= 10f)
         {
             IsRotationByAngle = isRotationByAngle;
             if (!isRotationByAngle)
@@ -115,12 +117,18 @@ namespace i5.VirtualAgents.AgentTasks
 
         public void Serialize(SerializationDataContainer serializer)
         {
-            //serializer.AddSerializedData("Target Rotation", TargetRotation);
+            serializer.AddSerializedData("Target Rotation", TargetRotation);
+            serializer.AddSerializedData("Is Rotation By Angle", IsRotationByAngle);
+            serializer.AddSerializedData("Angle", Angle);
+            serializer.AddSerializedData("Speed", Speed);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
         {
-            //TODO: Implement
+            TargetRotation = serializer.GetSerializedQuaternion("Target Rotation");
+            IsRotationByAngle = serializer.GetSerializedBool("Is Rotation By Angle");
+            Angle = serializer.GetSerializedFloat("Angle");
+            Speed = serializer.GetSerializedFloat("Speed");
         }
     }
 }
