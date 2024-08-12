@@ -55,12 +55,12 @@ namespace i5.VirtualAgents.AgentTasks
 
         public void Serialize(SerializationDataContainer serializer)
         {
-            //TODO: add shouldStartOrStop when bool types are supported
+            //serializer.AddSerializedData("Should Start Or Stop", shouldStartOrStop);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
         {
-            //TODO: add shouldStartOrStop when bool types are supported
+            //shouldStartOrStop = serializer.GetSerializedBool("Should Start Or Stop");
         }
     }
 }
