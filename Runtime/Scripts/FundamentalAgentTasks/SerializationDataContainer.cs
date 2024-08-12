@@ -14,7 +14,9 @@ namespace i5.VirtualAgents.AgentTasks
         FLOAT,
         STRING,
         INT,
-        GAMEOBJECT
+        GAMEOBJECT,
+        BOOL,
+        QUATERNION
     }
 
     /// <summary>
@@ -98,6 +100,12 @@ namespace i5.VirtualAgents.AgentTasks
     public class SerializedGameobjects : SerializationData<GameObject> { }
 
     [Serializable]
+    public class SerializedBools : SerializationData<bool> { }
+
+    [Serializable]
+    public class SerializedQuaternions : SerializationData<Quaternion> { }
+
+    [Serializable]
     public class SerializationDataContainer
     {
         //Serialized data
@@ -106,6 +114,8 @@ namespace i5.VirtualAgents.AgentTasks
         [SerializeField] public SerializedStrings serializedStrings = new SerializedStrings();
         [SerializeField] public SerializedInts serializedInts = new SerializedInts();
         [SerializeField] public SerializedGameobjects serializedGameobjects = new SerializedGameobjects();
+        [SerializeField] public SerializedBools serializedBools = new SerializedBools();
+        [SerializeField] public SerializedQuaternions serializedQuaternions = new SerializedQuaternions();
 
         //Saves the order in which the data was serialized. Allows coustom inspectors to replicate that order.
         [SerializeField] public List<SerializableType> serializationOrder = new List<SerializableType>();
@@ -140,6 +150,18 @@ namespace i5.VirtualAgents.AgentTasks
             serializationOrder.Add(SerializableType.GAMEOBJECT);
             serializedGameobjects.Add(key,value);
         }
+
+        public void AddSerializedData(string key, bool value)
+        {
+            serializationOrder.Add(SerializableType.BOOL);
+            serializedBools.Add(key,value);
+        }
+
+        public void AddSerializedData(string key, Quaternion value)
+        {
+            serializationOrder.Add(SerializableType.QUATERNION);
+            serializedQuaternions.Add(key,value);
+        }
         #endregion
 
         #region Overloads for retriving serialized data
@@ -168,6 +190,16 @@ namespace i5.VirtualAgents.AgentTasks
             return serializedGameobjects.Get(key);
         }
 
+        public bool GetSerializedBool(string key)
+        {
+            return serializedBools.Get(key);
+        }
+
+        public Quaternion GetSerializedQuaternion(string key)
+        {
+            return serializedQuaternions.Get(key);
+        }
+
         #endregion
 
         /// <summary>
@@ -181,6 +213,8 @@ namespace i5.VirtualAgents.AgentTasks
             serializedFloats.Clear();
             serializedInts.Clear();
             serializedGameobjects.Clear();
+            serializedBools.Clear();
+            serializedQuaternions.Clear();
         }
 
         /// <summary>
@@ -203,6 +237,10 @@ namespace i5.VirtualAgents.AgentTasks
                     return serializedInts.Get(index).Key;
                 case SerializableType.GAMEOBJECT:
                     return serializedGameobjects.Get(index).Key;
+                case SerializableType.BOOL:
+                    return serializedBools.Get(index).Key;
+                case SerializableType.QUATERNION:
+                    return serializedQuaternions.Get(index).Key;
                 default:
                     throw new NotImplementedException();
             }
