@@ -61,10 +61,14 @@ namespace i5.VirtualAgents.AgentTasks
 		}
 		public void Serialize(SerializationDataContainer serializer)
 		{
+			serializer.AddSerializedData("Audio", Audio);
+			serializer.AddSerializedData("Agent Audio Source", AgentAudioSource);
 		}
 
 		public void Deserialize(SerializationDataContainer serializer)
 		{
+			Audio = serializer.GetSerializedAudioClip("Audio");
+			AgentAudioSource = serializer.GetSerializedAudioSource("Agent Audio Source");
 		}
 	}
 }
