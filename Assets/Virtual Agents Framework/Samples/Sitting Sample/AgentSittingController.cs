@@ -7,10 +7,11 @@ namespace i5.VirtualAgents.Examples
 {
     public class AgentSittingController : SampleScheduleController
     {
+        [SerializeField] GameObject Chair = null;
         protected override void Start()
         {
             base.Start();
-            AgentSittingTask sittingTask = new AgentSittingTask(true);
+            AgentSittingTask sittingTask = new AgentSittingTask(Chair, true);
             //AgentSittingTask standUpTask = new AgentSittingTask(true);
             // add a sitting task
             taskSystem.ScheduleTask(sittingTask);
