@@ -12,17 +12,21 @@ namespace i5.VirtualAgents.Examples
         protected override void Start()
         {
             base.Start();
-            AgentAudioTask audioTask = new AgentAudioTask(audioClip[0]);
-            taskSystem.ScheduleTask(audioTask);
-            StartCoroutine(PauseAndResumeAudio(audioTask));
+            // Test audio reading out documentation entry
+            AgentAudioTask audioTask1 = new AgentAudioTask(audioClip[0]);
+            // Soundeffect
+            AgentAudioTask audioTask2 = new AgentAudioTask(audioClip[1]);
+            taskSystem.ScheduleTask(audioTask1);
+            StartCoroutine(PauseAndResumeAudio(audioTask1));
+            taskSystem.ScheduleTask(audioTask2);
         }
         private IEnumerator PauseAndResumeAudio(AgentAudioTask audioTask)
         {
-            yield return new WaitForSeconds(5);
-            Debug.Log("Pause Audio");
+            yield return new WaitForSeconds(11);
+            // Pause Audio
             audioTask.PauseAudio();
             yield return new WaitForSeconds(2);
-            Debug.Log("Continue Audio");
+            // Continue Audio
             audioTask.ContinueAudio();
         }
     }

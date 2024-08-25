@@ -1273,20 +1273,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: 
-  description: 'This scene demonstrates how to schedule walking tasks so that the
-    agent navigates a series of waypoints.
+  description: 'In the provided `Audio Sample` scene, the agent plays a recording
+    of the documentation page, pausing for a short time while doing so.
 
-    The script on the Controller object
-    issues walking tasks to the agent on startup.
-
-
-    Use the scene view during
-    play mode to inspect the scene freely while the agent is walking around.
-
-
-    If
-    Objects are changed in the scene: Select the GameObject "NavMesh Surface" and
-    bake the NavMesh again before running the scene.'
+    Then
+    a short sound effect follows. '
   type: 0
   url: 
 --- !u!4 &1264251852
@@ -1392,7 +1383,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 1747714761}
   audioClip:
-  - {fileID: 8300000, guid: 2a7328e2e45c6a74db301b83c0a315e6, type: 3}
+  - {fileID: 8300000, guid: 0be992f902e208043a822f81d8f5c140, type: 3}
+  - {fileID: 8300000, guid: 8944584936419944983d72c2ee27b33c, type: 3}
 --- !u!1 &1386483148
 GameObject:
   m_ObjectHideFlags: 0
