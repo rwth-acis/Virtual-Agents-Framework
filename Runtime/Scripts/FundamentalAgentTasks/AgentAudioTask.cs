@@ -35,6 +35,17 @@ namespace i5.VirtualAgents.AgentTasks
 			AgentAudioSource.Play();
 		}
 
+		public override TaskState EvaluateTaskState()
+		{
+			if (AgentAudioSource.time < Audio.length)
+			{
+				return TaskState.Running;
+			}
+			else
+			{
+				return TaskState.Success;
+			}
+		}
 		/// <summary>
 		/// Finish the task
 		/// </summary>
