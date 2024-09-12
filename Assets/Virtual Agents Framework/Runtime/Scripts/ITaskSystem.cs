@@ -10,6 +10,9 @@ namespace i5.VirtualAgents
     /// </summary>
     public interface ITaskSystem
     {
+        /// <summary>
+        /// Updates the task system
+        /// </summary>
         void UpdateTaskSystem();
     }
 }

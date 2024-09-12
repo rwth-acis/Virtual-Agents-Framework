@@ -7,13 +7,34 @@ namespace i5.VirtualAgents.Examples
 {
     public class AdaptiveGazeSampleController : SampleScheduleController
     {
+        /// <summary>
+        /// List of waypoints which the agent should visit in order.
+        /// </summary>
+        [Tooltip("List of waypoints which the agent should visit in order.")]
         [SerializeField] private List<GameObject> waypoints;
 
+        /// <summary>
+        /// The target object which the agent should look at.
+        /// </summary>
+        [Tooltip("The target object which the agent should look at.")]
         [SerializeField] private GameObject target;
 
+        /// <summary>
+        /// The time in seconds that the agent should overwrite the adaptive gaze at the beginning.
+        /// </summary>
+        [Tooltip("The time in seconds that the agent should overwrite the adaptive gaze at the beginning.")]
         [SerializeField] private int aimAtTime = 100;
 
+        /// <summary>
+        /// If true, the adaptive gaze will be started and stopped using TaskActions.
+        /// </summary>
+        [Tooltip("If true, the adaptive gaze will be started and stopped using TaskActions.")]
         [SerializeField] private bool useTaskActionsForAdaptiveGaze;
+
+        /// <summary>
+        /// If true, the adaptive gaze will be overwritten with the aim head animation.
+        /// </summary>
+        [Tooltip("If true, the adaptive gaze will be overwritten with the aim head animation.")]
         [SerializeField] private bool overwriteAdaptiveGazeWithAimHead = false;
 
         private int gazeTime = 5;
@@ -22,7 +43,7 @@ namespace i5.VirtualAgents.Examples
             List<AgentBaseTask> agentTasks = new List<AgentBaseTask>();
             base.Start();
             // add walking tasks for each waypoint
-            // here, we use the TaskActions shortcut but we could also just create a new
+            // here, we use the TaskActions shortcut, but we could also just create a new
             // AgentMovementTask and schedule it using agent.ScheduleTask.
             for (int i = 0; i < waypoints.Count; i++)
             {

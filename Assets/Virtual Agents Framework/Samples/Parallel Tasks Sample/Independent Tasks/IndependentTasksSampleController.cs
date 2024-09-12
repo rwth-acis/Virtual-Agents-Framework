@@ -8,8 +8,21 @@ namespace i5.VirtualAgents.Examples
 {
     public class IndependentTasksSampleController : SampleScheduleController
     {
+        /// <summary>
+        /// List of waypoints which the agent should visit in order
+        /// </summary>
+        [Tooltip("List of waypoints which the agent should visit in order.")]
         public List<Transform> waypoints;
+
+        /// <summary>
+        /// Waypoint with a high priority
+        /// </summary>
+        [Tooltip("Waypoint with a high priority")]
         public Transform highPrioWaypoint;
+
+        /// <summary>
+        /// If true, the agent uses task shortcuts to create the tasks
+        /// </summary>
         public bool useTaskShortcuts = true;
 
         protected override void Start()
