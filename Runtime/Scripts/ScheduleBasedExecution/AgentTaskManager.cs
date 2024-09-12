@@ -15,7 +15,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         // task queue of this manager
         private AgentTaskQueue queue = new AgentTaskQueue();
 
-        // the stat of the task manager
+        // the state of the task manager
         private TaskManagerState currentState;
 
         // the last task to be executed or the last task that has been executed, if the queue is empty
