@@ -90,7 +90,6 @@ namespace i5.VirtualAgents.AgentTasks
             {
                 TargetRotation = agent.transform.rotation * Quaternion.Euler(0, Angle, 0);
             }
-            Debug.Log("Rotation started");
             agent.StartCoroutine(Rotate(agent.transform));
         }
 
@@ -107,7 +106,6 @@ namespace i5.VirtualAgents.AgentTasks
             if (Quaternion.Angle(transform.rotation, TargetRotation) <= 0.01f)
             {
                 FinishTask();
-                Debug.Log("Rotation finished");
             }
             else
             {
