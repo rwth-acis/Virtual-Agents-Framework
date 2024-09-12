@@ -21,19 +21,24 @@ namespace i5.VirtualAgents.AgentTasks
         public GameObject Chair{ get; protected set; }
         private RigBuilder rigBuilder;
         private TwoBoneIKConstraint leftLegIK;
+        private GameObject leftLegIKTarget;
         private TwoBoneIKConstraint rightLegIK;
+        private GameObject rightLegIKTarget;
         private MultiAimConstraint spineAim;
         private MultiParentConstraint hipConstraint;
+        private GameObject hipIKTarget;
         private Vector3 prevPosition;
-        private Vector3 feetPosition;
-        private Vector3 sitPosition;
+        private readonly Vector3 feetPosition;
+        private readonly Vector3 footrest;
+        private readonly Vector3 sitPosition;
 
         public AgentSittingTask(GameObject chair, SittingDirection direction = SittingDirection.TOGGLE)
         {
-            //TODO: replace with toggle
             Direction = direction;
             Chair = chair;
+            // TODO: give as parameters
             feetPosition = chair.transform.Find("FeetPosition").position;
+            footrest = chair.transform.Find("Footrest") != null ? chair.transform.Find("Footrest").position : feetPosition;
             sitPosition = chair.transform.Find("SitPosition").position;
         }
         public override void StartExecution(Agent agent)
@@ -65,29 +70,25 @@ namespace i5.VirtualAgents.AgentTasks
                 // get all constraints
                 rigBuilder = agent.transform.Find("AnimationRigging/CharacterRig").GetComponent<RigBuilder>();
                 leftLegIK = agent.transform.Find("AnimationRigging/CharacterRig/Left Leg IK").GetComponent<TwoBoneIKConstraint>();
+                leftLegIKTarget = leftLegIK.transform.Find("Left Leg IK_target").gameObject;
                 rightLegIK = agent.transform.Find("AnimationRigging/CharacterRig/Right Leg IK").GetComponent<TwoBoneIKConstraint>();
+                rightLegIKTarget = rightLegIK.transform.Find("Right Leg IK_target").gameObject;
                 spineAim = agent.transform.Find("AnimationRigging/CharacterRig/Spine Aim").GetComponent<MultiAimConstraint>();
                 hipConstraint = agent.transform.Find("AnimationRigging/CharacterRig/Hip Constraint").GetComponent<MultiParentConstraint>();
+                hipIKTarget = hipConstraint.transform.Find("Hip IK_target").gameObject;
 
                 // case: sitting down
                 if (currentState)
                 {
-                    // move to chair position
-                    Vector3 sittingPosition = FindSittingSpace(Chair);
-                    //agent.transform.position = sittingPosition;
                     agent.transform.rotation = Chair.transform.rotation;
+                    leftLegIKTarget.transform.position = rightLegIKTarget.transform.position = footrest;
+                    hipIKTarget.transform.position = sitPosition;
 
                     // enable constraints
                     animator.SetBool("Sitting", sitting);
-                    animator.SetFloat("SittingDirection", -1);
-
-                    leftLegIK.weight = 1;
-                    rightLegIK.weight = 1;
-                    spineAim.weight = 1;
-                    hipConstraint.weight = 1;
 
                     // wait for animation to finish, then set state to sitting idle
-                    agent.StartCoroutine(FadeIkAndPosition(agent, true));
+                    agent.StartCoroutine(FadeIKAndPosition(agent, true));
 
                     Debug.Log("Sitting down");
                 }
@@ -95,9 +96,9 @@ namespace i5.VirtualAgents.AgentTasks
                 else
                 {
                     Debug.Log(animator.GetBool("Sitting"));
-                    animator.SetFloat("SittingDirection", 1);
+                    leftLegIKTarget.transform.position = rightLegIKTarget.transform.position = feetPosition;
                     animator.SetBool("Sitting", false);
-                    agent.StartCoroutine(FadeIkAndPosition(agent, false));
+                    agent.StartCoroutine(FadeIKAndPosition(agent, false));
 
                     Debug.Log("Standing up");
                 }
@@ -106,13 +107,13 @@ namespace i5.VirtualAgents.AgentTasks
 
         }
 
-
-        private IEnumerator FadeIkAndPosition(Agent agent, bool fadeIn)
+        private IEnumerator FadeIKAndPosition(Agent agent, bool fadeIn)
         {
             float duration = animationDuration;
             float time = 0;
             float startWeight = fadeIn ? 0 : 1;
             float endWeight = fadeIn ? 1 : 0;
+            Vector3 ikPosition = fadeIn ? footrest : feetPosition;
             Vector3 startPosition = agent.transform.position;
             Vector3 endPosition = fadeIn ? sitPosition : feetPosition;
             while (time < duration)
@@ -123,9 +124,15 @@ namespace i5.VirtualAgents.AgentTasks
                 spineAim.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
                 hipConstraint.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
                 agent.transform.position = Vector3.Lerp(startPosition, endPosition, time / duration);
+                leftLegIKTarget.transform.position = rightLegIKTarget.transform.position = ikPosition;
+                hipIKTarget.transform.position = sitPosition;
                 yield return null;
             }
+
+            leftLegIKTarget.transform.position = rightLegIKTarget.transform.position = ikPosition;
+            hipIKTarget.transform.position = sitPosition;
             finished = true;
+
         }
 
         public override TaskState EvaluateTaskState()
@@ -135,22 +142,6 @@ namespace i5.VirtualAgents.AgentTasks
                 return TaskState.Success;
             }
             return TaskState.Running;
-        }
-        private Vector3 FindSittingSpace(GameObject chair)
-        {
-            // Find the sitting space dynamically
-            Collider chairCollider = chair.GetComponent<Collider>();
-            if (chairCollider != null)
-            {
-                Vector3 sittingSpace = chairCollider.bounds.center;
-                sittingSpace.y = chairCollider.bounds.min.y; // Adjust to the bottom of the chair
-                return sittingSpace;
-            }
-            else
-            {
-                Debug.LogWarning("Chair collider not found, using chair position.");
-                return chair.transform.position;
-            }
         }
 
 

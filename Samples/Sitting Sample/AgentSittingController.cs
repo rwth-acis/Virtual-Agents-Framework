@@ -8,17 +8,27 @@ namespace i5.VirtualAgents.Examples
     public class AgentSittingController : SampleScheduleController
     {
         [SerializeField] GameObject Chair = null;
+        [SerializeField] GameObject Stool = null;
         protected override void Start()
         {
             base.Start();
             AgentSittingTask sittingTask = new AgentSittingTask(Chair, SittingDirection.SITDOWN);
             AgentSittingTask standingTask = new AgentSittingTask(Chair, SittingDirection.STANDUP);
-            //AgentSittingTask standUpTask = new AgentSittingTask(true);
+
+
+            AgentSittingTask sittingTaskStool = new AgentSittingTask(Stool, SittingDirection.SITDOWN);
+            AgentSittingTask standingTaskStool = new AgentSittingTask(Stool, SittingDirection.STANDUP);
+
             // add a sitting task
             taskSystem.ScheduleTask(sittingTask);
             taskSystem.Tasks.WaitForSeconds(3);
             Debug.Log("2nd Sitting Task Scheduled");
             taskSystem.ScheduleTask(standingTask);
+            Vector3 destination = Stool.transform.Find("FeetPosition").position;
+            taskSystem.Tasks.GoTo(destination);
+            taskSystem.ScheduleTask(sittingTaskStool);
+            taskSystem.Tasks.WaitForSeconds(3);
+            taskSystem.ScheduleTask(standingTaskStool);
         }
 
     }
