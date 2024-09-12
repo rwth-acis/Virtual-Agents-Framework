@@ -1269,8 +1269,8 @@ Transform:
   - {fileID: 128985551231859547}
   - {fileID: 334442996744392338}
   - {fileID: 8066738664786797255}
-  - {fileID: 6379119042602302806}
   - {fileID: 298491387001026864}
+  - {fileID: 6379119042602302806}
   m_Father: {fileID: 485173572849798641}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6236198718674910226
@@ -1521,6 +1521,37 @@ MonoBehaviour:
       z: 1
     m_MaintainPositionOffset: 1
     m_MaintainRotationOffset: 1
+--- !u!1 &7719807621344337916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 517708087313375981}
+  m_Layer: 0
+  m_Name: Hip IK_target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &517708087313375981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7719807621344337916}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 298491387001026864}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7727152268460934787
 GameObject:
   m_ObjectHideFlags: 0
@@ -1769,7 +1800,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 517708087313375981}
   m_Father: {fileID: 2911690318089215754}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3430460980174463433
