@@ -17,6 +17,7 @@ namespace i5.VirtualAgents.Examples
 
 
             AgentSittingTask sittingTaskStool = new AgentSittingTask(Stool, SittingDirection.SITDOWN);
+            // AgentSittingTask sittingTaskStool2 = new AgentSittingTask(Stool, SittingDirection.SITDOWN);
             AgentSittingTask standingTaskStool = new AgentSittingTask(Stool, SittingDirection.STANDUP);
 
             // add a sitting task
@@ -24,8 +25,10 @@ namespace i5.VirtualAgents.Examples
             taskSystem.Tasks.WaitForSeconds(3);
             Debug.Log("2nd Sitting Task Scheduled");
             taskSystem.ScheduleTask(standingTask);
-            Vector3 destination = Stool.transform.Find("FeetPosition").position;
-            taskSystem.Tasks.GoTo(destination);
+
+            GameObject destination = Stool.transform.Find("FeetPosition").gameObject;
+            taskSystem.Tasks.GoTo(destination, Vector3.zero, 0, true);
+            taskSystem.Tasks.WaitForSeconds(1);
             taskSystem.ScheduleTask(sittingTaskStool);
             taskSystem.Tasks.WaitForSeconds(3);
             taskSystem.ScheduleTask(standingTaskStool);
