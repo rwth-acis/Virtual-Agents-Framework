@@ -77,10 +77,15 @@ namespace i5.VirtualAgents.AgentTasks
                 hipConstraint = agent.transform.Find("AnimationRigging/CharacterRig/Hip Constraint").GetComponent<MultiParentConstraint>();
                 hipIKTarget = hipConstraint.transform.Find("Hip IK_target").gameObject;
 
+                // set the target positions to the agents current position
+                leftLegIK.transform.position = rightLegIK.transform.position = agent.transform.position;
+                hipIKTarget.transform.position = agent.transform.position;
+
                 // case: sitting down
                 if (currentState)
                 {
                     agent.transform.rotation = Chair.transform.rotation;
+                    Debug.Log("Setting footrest and sitposition");
                     leftLegIKTarget.transform.position = rightLegIKTarget.transform.position = footrest;
                     hipIKTarget.transform.position = sitPosition;
 
@@ -118,17 +123,24 @@ namespace i5.VirtualAgents.AgentTasks
             Vector3 endPosition = fadeIn ? sitPosition : feetPosition;
             while (time < duration)
             {
+                rightLegIK.gameObject.transform.position = leftLegIK.gameObject.transform.position = footrest;
                 time += Time.deltaTime;
                 leftLegIK.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
                 rightLegIK.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
+
+                // move ik target when standing up, to avoid, that the agent suddenly completely stretches their feet
+                leftLegIKTarget.transform.position = fadeIn
+                    ? rightLegIKTarget.transform.position = ikPosition
+                    : rightLegIKTarget.transform.position = Vector3.Lerp(footrest, feetPosition, time / duration);
+
                 spineAim.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
                 hipConstraint.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
                 agent.transform.position = Vector3.Lerp(startPosition, endPosition, time / duration);
-                leftLegIKTarget.transform.position = rightLegIKTarget.transform.position = ikPosition;
                 hipIKTarget.transform.position = sitPosition;
                 yield return null;
             }
 
+            rightLegIK.gameObject.transform.position = leftLegIK.gameObject.transform.position = footrest;
             leftLegIKTarget.transform.position = rightLegIKTarget.transform.position = ikPosition;
             hipIKTarget.transform.position = sitPosition;
             finished = true;
