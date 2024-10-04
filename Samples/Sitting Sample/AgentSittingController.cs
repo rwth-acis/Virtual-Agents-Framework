@@ -17,9 +17,11 @@ namespace i5.VirtualAgents.Examples
 
 
             AgentSittingTask sittingTaskStool = new AgentSittingTask(Stool, SittingDirection.SITDOWN);
-            // AgentSittingTask sittingTaskStool2 = new AgentSittingTask(Stool, SittingDirection.SITDOWN);
             AgentSittingTask standingTaskStool = new AgentSittingTask(Stool, SittingDirection.STANDUP);
 
+            GameObject destination1 = Chair.transform.Find("FeetPosition").gameObject;
+            taskSystem.Tasks.GoTo(destination1, Vector3.zero, 0, true);
+            taskSystem.Tasks.WaitForSeconds(1);
             // add a sitting task
             taskSystem.ScheduleTask(sittingTask);
             taskSystem.Tasks.WaitForSeconds(3);
