@@ -14,12 +14,23 @@ namespace i5.VirtualAgents.AgentTasks
 
     public class AgentSittingTask: AgentBaseTask, ISerializable
     {
+        /// <summary>
+        /// The direction of the sitting task
+        /// Can be sit down, stand up or toggle
+        /// SITDOWN: the agent will sit down or stay sitting
+        /// STANDUP: the agent will stand up or stay standing
+        /// TOGGLE: if the agent is sitting, it will stand up; if the agent is standing, it will sit down
+        /// </summary>
         public SittingDirection Direction { get; protected set; }
+
+        /// <summary>
+        /// The chair the agent should sit on
+        /// </summary>
+        public GameObject Chair{ get; protected set; }
+
         private bool sitting = false;
         private float animationDuration = 2.233f;
         private bool finished = false;
-        public GameObject Chair{ get; protected set; }
-        private RigBuilder rigBuilder;
         private TwoBoneIKConstraint leftLegIK;
         private GameObject leftLegIKTarget;
         private TwoBoneIKConstraint rightLegIK;
@@ -41,6 +52,7 @@ namespace i5.VirtualAgents.AgentTasks
             footrest = chair.transform.Find("Footrest") != null ? chair.transform.Find("Footrest").position : feetPosition;
             sitPosition = chair.transform.Find("SitPosition").position;
         }
+
         public override void StartExecution(Agent agent)
         {
             Animator animator = agent.GetComponent<Animator>();
@@ -68,7 +80,6 @@ namespace i5.VirtualAgents.AgentTasks
             if (oldState != currentState)
             {
                 // get all constraints
-                rigBuilder = agent.transform.Find("AnimationRigging/CharacterRig").GetComponent<RigBuilder>();
                 leftLegIK = agent.transform.Find("AnimationRigging/CharacterRig/Left Leg IK").GetComponent<TwoBoneIKConstraint>();
                 leftLegIKTarget = leftLegIK.transform.Find("Left Leg IK_target").gameObject;
                 rightLegIK = agent.transform.Find("AnimationRigging/CharacterRig/Right Leg IK").GetComponent<TwoBoneIKConstraint>();
@@ -77,33 +88,24 @@ namespace i5.VirtualAgents.AgentTasks
                 hipConstraint = agent.transform.Find("AnimationRigging/CharacterRig/Hip Constraint").GetComponent<MultiParentConstraint>();
                 hipIKTarget = hipConstraint.transform.Find("Hip IK_target").gameObject;
 
-                // set the target positions to the agents current position
-                leftLegIK.transform.position = rightLegIK.transform.position = agent.transform.position;
-                hipIKTarget.transform.position = agent.transform.position;
+                leftLegIK.transform.position = rightLegIK.transform.position = Vector3.zero;
+                hipIKTarget.transform.position = Vector3.zero;
 
                 // case: sitting down
                 if (currentState)
                 {
                     agent.transform.rotation = Chair.transform.rotation;
-                    Debug.Log("Setting footrest and sitposition");
-                    leftLegIKTarget.transform.position = rightLegIKTarget.transform.position = footrest;
                     hipIKTarget.transform.position = sitPosition;
 
-                    // enable constraints
                     animator.SetBool("Sitting", sitting);
 
-                    // wait for animation to finish, then set state to sitting idle
-                    agent.StartCoroutine(FadeIKAndPosition(agent, true));
-
-                    Debug.Log("Sitting down");
+                    agent.StartCoroutine(FadeIK(true));
                 }
                 // case: standing up
                 else
                 {
-                    Debug.Log(animator.GetBool("Sitting"));
-                    leftLegIKTarget.transform.position = rightLegIKTarget.transform.position = feetPosition;
                     animator.SetBool("Sitting", false);
-                    agent.StartCoroutine(FadeIKAndPosition(agent, false));
+                    agent.StartCoroutine(FadeIK(false));
 
                     Debug.Log("Standing up");
                 }
@@ -112,37 +114,40 @@ namespace i5.VirtualAgents.AgentTasks
 
         }
 
-        private IEnumerator FadeIKAndPosition(Agent agent, bool fadeIn)
+        /// <summary>
+        /// This method fades IK in or out during the sit down / stand up animations. It also slowly moves the agent towards the chair or the feet position.
+        /// </summary>
+        /// <param name="agent">The agent</param>
+        /// <param name="fadeIn">Whether to fade in or fade out the IK, etc. In other words: whether the agent sits down (true) or stands up (false)</param>
+        /// <returns></returns>
+        private IEnumerator FadeIK(bool fadeIn)
         {
             float duration = animationDuration;
             float time = 0;
             float startWeight = fadeIn ? 0 : 1;
             float endWeight = fadeIn ? 1 : 0;
             Vector3 ikPosition = fadeIn ? footrest : feetPosition;
-            Vector3 startPosition = agent.transform.position;
-            Vector3 endPosition = fadeIn ? sitPosition : feetPosition;
+
             while (time < duration)
             {
-                rightLegIK.gameObject.transform.position = leftLegIK.gameObject.transform.position = footrest;
+                rightLegIK.gameObject.transform.position = leftLegIK.gameObject.transform.position = feetPosition;
                 time += Time.deltaTime;
                 leftLegIK.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
                 rightLegIK.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
 
-                // move ik target when standing up, to avoid, that the agent suddenly completely stretches their feet
-                leftLegIKTarget.transform.position = fadeIn
-                    ? rightLegIKTarget.transform.position = ikPosition
-                    : rightLegIKTarget.transform.position = Vector3.Lerp(footrest, feetPosition, time / duration);
+                // move ik target when standing up, to avoid, that the agent suddenly fully stretches their legs
+                leftLegIKTarget.transform.position = rightLegIKTarget.transform.position =
+                    fadeIn ? ikPosition : Vector3.Lerp(footrest, feetPosition, time / duration);
 
                 spineAim.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
                 hipConstraint.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
-                agent.transform.position = Vector3.Lerp(startPosition, endPosition, time / duration);
                 hipIKTarget.transform.position = sitPosition;
                 yield return null;
             }
-
-            rightLegIK.gameObject.transform.position = leftLegIK.gameObject.transform.position = footrest;
+            rightLegIK.gameObject.transform.position = leftLegIK.gameObject.transform.position = feetPosition;
             leftLegIKTarget.transform.position = rightLegIKTarget.transform.position = ikPosition;
             hipIKTarget.transform.position = sitPosition;
+
             finished = true;
 
         }
