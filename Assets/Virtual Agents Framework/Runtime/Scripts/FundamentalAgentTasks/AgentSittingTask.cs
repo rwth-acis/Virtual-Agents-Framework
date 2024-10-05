@@ -99,13 +99,13 @@ namespace i5.VirtualAgents.AgentTasks
 
                     animator.SetBool("Sitting", sitting);
 
-                    agent.StartCoroutine(FadeIK(true));
+                    agent.StartCoroutine(FadeIK(agent, true));
                 }
                 // case: standing up
                 else
                 {
                     animator.SetBool("Sitting", false);
-                    agent.StartCoroutine(FadeIK(false));
+                    agent.StartCoroutine(FadeIK(agent, false));
 
                     Debug.Log("Standing up");
                 }
@@ -120,13 +120,14 @@ namespace i5.VirtualAgents.AgentTasks
         /// <param name="agent">The agent</param>
         /// <param name="fadeIn">Whether to fade in or fade out the IK, etc. In other words: whether the agent sits down (true) or stands up (false)</param>
         /// <returns></returns>
-        private IEnumerator FadeIK(bool fadeIn)
+        private IEnumerator FadeIK(Agent agent, bool fadeIn)
         {
             float duration = animationDuration;
             float time = 0;
             float startWeight = fadeIn ? 0 : 1;
             float endWeight = fadeIn ? 1 : 0;
             Vector3 ikPosition = fadeIn ? footrest : feetPosition;
+            Vector3 curIkPosition = ikPosition;
 
             while (time < duration)
             {
@@ -136,8 +137,10 @@ namespace i5.VirtualAgents.AgentTasks
                 rightLegIK.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
 
                 // move ik target when standing up, to avoid, that the agent suddenly fully stretches their legs
-                leftLegIKTarget.transform.position = rightLegIKTarget.transform.position =
+                curIkPosition =
                     fadeIn ? ikPosition : Vector3.Lerp(footrest, feetPosition, time / duration);
+                leftLegIKTarget.transform.position = curIkPosition - agent.transform.right * 0.08f;
+                rightLegIKTarget.transform.position = curIkPosition + agent.transform.right * 0.08f;
 
                 spineAim.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
                 hipConstraint.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
@@ -145,7 +148,8 @@ namespace i5.VirtualAgents.AgentTasks
                 yield return null;
             }
             rightLegIK.gameObject.transform.position = leftLegIK.gameObject.transform.position = feetPosition;
-            leftLegIKTarget.transform.position = rightLegIKTarget.transform.position = ikPosition;
+            leftLegIKTarget.transform.position = ikPosition - agent.transform.right * 0.08f;
+            rightLegIKTarget.transform.position = ikPosition + agent.transform.right * 0.08f;
             hipIKTarget.transform.position = sitPosition;
 
             finished = true;
