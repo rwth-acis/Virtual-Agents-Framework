@@ -19,9 +19,11 @@ Currently, the following tasks exist and can already be used:
 - <xref:i5.VirtualAgents.AgentTasks.AgentAnimationTask>: Play animations on the agent
 - <xref:i5.VirtualAgents.AgentTasks.AgentMovementTask>: Let the agent walk to a given location or follow an object dynamically
 - <xref:i5.VirtualAgents.AgentTasks.AgentWaitTask>: Let the agent wait for a specific amount of time
+- <xref:i5.VirtualAgents.AgentTasks.AgentRotationTask>: Let the agent rotate to a specific angle, towards a specific object or towards coordinates
 - <xref:i5.VirtualAgents.AgentTasks.AgentPickUpTask>: Let the agent pickup an object next to them
 - <xref:i5.VirtualAgents.AgentTasks.AgentDropTask>: Let the agent drop an object or all objects that the agent is holding
 - <xref:i5.VirtualAgents.AgentTasks.AgentAdaptiveGazeTask>: Starts or stops the [adaptive gaze](adaptive-gaze.md) feature.
+
 ### Adding Own Tasks
 
 In addition to the pre-implemented tasks, developers can also add own tasks that implement the <xref:i5.VirtualAgents.AgentTasks.IAgentTask> interface.
@@ -59,10 +61,10 @@ In order to keep the code brief and understandable, it is not always necessary t
 For common actions, it is also possible to call one of the shortcut functions on the agent.
 Currently, the following shortcut functions exist:
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoTo*>
-  - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoTo(Vector3,System.Int32)>: Let the agent walk to the specified coordinates.
-  - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoTo(Transform,Vector3,System.Int32)>: Let the agent walk to the specified transform of an object in the scene.
+  - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoTo(Vector3,System.Int32)>: Let the agent walk and turn to the specified coordinates.
+  - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoTo(Transform,Vector3,System.Int32)>: Let the agent walk and turn to the specified transform of an object in the scene.
   You can add an optional offset so that the agent does not run into the object but stops next to it.
-  - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoTo(GameObject,Vector3,System.Int32,System.Boolean)>: Let the agent walk to the specified object in the scene.
+  - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoTo(GameObject,Vector3,System.Int32,System.Boolean)>: Let the agent walk and turn to the specified object in the scene.
   You can add an optional offset so that the agent does not run into the object but stops next to it. 
   The agent can also follow an object dynamically, so that the agent will follow the object until it is reached. Partial incomplete paths will be allowed, when that option is enabled. 
   
@@ -77,6 +79,8 @@ Specifying a GameObject as an `aimTarget` for the animation, will start inverse 
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoToAndDropItem*>: Schedules an GoTo Task that makes the agent walk to the specified coordinates or transform before dropping the specified item or all items, if no item is specified.
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.ActivateOrDeactivateAdaptiveGaze*>: Start or stops adaptive gazing until it is stopped or started again. This is realized with a task that only runs once. This also automatically adds a <xref:i5.VirtualAgents.AdaptiveGaze> component if the agent doesn't have one.
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StartAdaptiveGazeForTime*>: Schedule a task that starts adaptive gazing for the specified time and then deactivates it by scheduling a wait task between a start and stop task.
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.PointAt*>: Point at the specified object with the left or right arm. If the object is behind the agent, the agent will turn around to point at it.
+
 
 ### Removing Tasks
 The following functions can be used to remove tasks from the agent:

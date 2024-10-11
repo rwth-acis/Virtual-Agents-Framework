@@ -128,6 +128,10 @@ namespace i5.VirtualAgents.Examples
 					taskSystem.ScheduleTask(pointingRight, 0, "Right Arm");
 				}
 			}
+			// If you want the agent to rotate towards a target before pointing, you can use the PointAt TaskAction
+			AgentBaseTask pointAt = taskSystem.Tasks.PointAt(target, true, false, aimAtTime);
+
+			// or to rotate without using TaskActions you can use the AgentRotationTask
 		}
 	}
 }

@@ -53,12 +53,13 @@ Going from least to most complex, it is recommended to look at the samples in th
 1. Navigation Sample
 2. Wait Sample
 3. Dynamic Navigation Sample
-4. Audio Sample ([manual page](audio.md))
-5. TaskBundle Sample ([manual page](task-bundle.md))
-6. Parallel Task Sample ([manual page](parallel-tasks.md))
-7. Aiming Sample ([manual page](aiming.md))
-8. Adaptive Gaze Sample ([manual page](adaptive-gaze.md))
-9. Item Pickup Sample ([manual page](items.md))
+4. Rotation Sample ([manual page](rotation.md)
+5. Audio Sample ([manual page](audio.md))
+6. TaskBundle Sample ([manual page](task-bundle.md))
+7. Parallel Task Sample ([manual page](parallel-tasks.md))
+8. Aiming Sample ([manual page](aiming.md))
+9. Adaptive Gaze Sample ([manual page](adaptive-gaze.md))
+10. Item Pickup Sample ([manual page](items.md))
 
 ## Customization of agents
 To make the application look more appealing from the beginning custom agent models can be used, see [Adding Own Agent Models and Animations](own-agents.md) for that.
