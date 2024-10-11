@@ -23,6 +23,7 @@ Currently, the following tasks exist and can already be used:
 - <xref:i5.VirtualAgents.AgentTasks.AgentPickUpTask>: Let the agent pickup an object next to them
 - <xref:i5.VirtualAgents.AgentTasks.AgentDropTask>: Let the agent drop an object or all objects that the agent is holding
 - <xref:i5.VirtualAgents.AgentTasks.AgentAdaptiveGazeTask>: Starts or stops the [adaptive gaze](adaptive-gaze.md) feature.
+
 ### Adding Own Tasks
 
 In addition to the pre-implemented tasks, developers can also add own tasks that implement the <xref:i5.VirtualAgents.AgentTasks.IAgentTask> interface.
@@ -79,3 +80,12 @@ Specifying a GameObject as an `aimTarget` for the animation, will start inverse 
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.ActivateOrDeactivateAdaptiveGaze*>: Start or stops adaptive gazing until it is stopped or started again. This is realized with a task that only runs once. This also automatically adds a <xref:i5.VirtualAgents.AdaptiveGaze> component if the agent doesn't have one.
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StartAdaptiveGazeForTime*>: Schedule a task that starts adaptive gazing for the specified time and then deactivates it by scheduling a wait task between a start and stop task.
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.PointAt*>: Point at the specified object with the left or right arm. If the object is behind the agent, the agent will turn around to point at it.
+
+
+### Removing Tasks
+The following functions can be used to remove tasks from the agent:
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.ScheduleBasedTaskSystem.RemoveTask*>: Remove a task from the agent by specifying the task instance and its layer.
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.ScheduleBasedTaskSystem.Clear*>: Clear all tasks on a layer. You can specify the layer and whether the current task should be aborted. By default, the Base Layer is used and the current task is aborted.
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.ScheduleBasedTaskSystem.ClearAllLayers*>: Clear all tasks on all layers. You can specify whether the current task should be aborted. By default, the current task is aborted.
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.ScheduleBasedTaskSystem.Abort*>: Abort the current task on a layer. You can specify the layer. By default, the Base Layer is used.
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.ScheduleBasedTaskSystem.AbortAllLayers*>: Abort the current task on all layers.

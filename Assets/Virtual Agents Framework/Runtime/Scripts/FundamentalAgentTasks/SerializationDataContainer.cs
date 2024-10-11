@@ -17,6 +17,8 @@ namespace i5.VirtualAgents.AgentTasks
         GAMEOBJECT,
         BOOL,
         QUATERNION
+        AUDIOCLIP,
+        AUDIOSOURCE
     }
 
     /// <summary>
@@ -86,7 +88,7 @@ namespace i5.VirtualAgents.AgentTasks
         }
     }
 
-    // Since generic types are not serializable, a new type that derives from the generic version while providing it with a concrete type has to be created. 
+    // Since generic types are not serializable, a new type that derives from the generic version while providing it with a concrete type has to be created.
     [Serializable]
     public class SerializedVectors : SerializationData<Vector3> { }
     [Serializable]
@@ -106,6 +108,13 @@ namespace i5.VirtualAgents.AgentTasks
     public class SerializedQuaternions : SerializationData<Quaternion> { }
 
     [Serializable]
+    public class SerializedAudioClips : SerializationData<AudioClip> { }
+
+    [Serializable]
+    public class SerializedAudioSources : SerializationData<AudioSource> { }
+
+
+    [Serializable]
     public class SerializationDataContainer
     {
         //Serialized data
@@ -116,6 +125,8 @@ namespace i5.VirtualAgents.AgentTasks
         [SerializeField] public SerializedGameobjects serializedGameobjects = new SerializedGameobjects();
         [SerializeField] public SerializedBools serializedBools = new SerializedBools();
         [SerializeField] public SerializedQuaternions serializedQuaternions = new SerializedQuaternions();
+        [SerializeField] public SerializedAudioClips serializedAudioClips = new SerializedAudioClips();
+        [SerializeField] public SerializedAudioSources serializedAudioSources = new SerializedAudioSources();
 
         //Saves the order in which the data was serialized. Allows coustom inspectors to replicate that order.
         [SerializeField] public List<SerializableType> serializationOrder = new List<SerializableType>();
@@ -162,6 +173,19 @@ namespace i5.VirtualAgents.AgentTasks
             serializationOrder.Add(SerializableType.QUATERNION);
             serializedQuaternions.Add(key,value);
         }
+
+        public void AddSerializedData(string key, AudioClip value)
+        {
+            serializationOrder.Add(SerializableType.AUDIOCLIP);
+            serializedBools.Add(key, value);
+        }
+
+        public void AddSerializedData(string key, AudioSource value)
+        {
+            serializationOrder.Add(SerializableType.AUDIOSOURCE);
+            serializedBools.Add(key, value);
+        }
+
         #endregion
 
         #region Overloads for retriving serialized data
@@ -200,6 +224,15 @@ namespace i5.VirtualAgents.AgentTasks
             return serializedQuaternions.Get(key);
         }
 
+        public AudioClip GetSerializedAudioClip(string key)
+        {
+            return serializedAudioClips.Get(key);
+        }
+
+        public AudioSource GetSerializedAudioSource(string key)
+        {
+            return serializedAudioSources.Get(key);
+        }
         #endregion
 
         /// <summary>
@@ -215,6 +248,8 @@ namespace i5.VirtualAgents.AgentTasks
             serializedGameobjects.Clear();
             serializedBools.Clear();
             serializedQuaternions.Clear();
+            serializedAudioClips.Clear();
+            serializedAudioSources.Clear();
         }
 
         /// <summary>
@@ -241,9 +276,14 @@ namespace i5.VirtualAgents.AgentTasks
                     return serializedBools.Get(index).Key;
                 case SerializableType.QUATERNION:
                     return serializedQuaternions.Get(index).Key;
+                case SerializableType.AUDIOCLIP:
+                    return serializedAudioClips.Get(index).Key;
+                case SerializableType.AUDIOSOURCE:
+                    return serializedAudioSources.Get(index).Key;
                 default:
                     throw new NotImplementedException();
             }
         }
     }
 }
+
