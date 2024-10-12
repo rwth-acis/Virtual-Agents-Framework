@@ -14,6 +14,10 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public float WaitTimeInSeconds { get; set; }
 
+        private Coroutine waitCoroutine;
+
+        private Agent agent;
+
         public AgentWaitTask() { }
 
         /// <summary>
@@ -32,6 +36,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// <param name="agent">The agent which executes this task</param>
         public override void StartExecution(Agent agent)
         {
+            this.agent = agent;
             base.StartExecution(agent);
 
             if (WaitTimeInSeconds <= 0)
@@ -47,8 +52,7 @@ namespace i5.VirtualAgents.AgentTasks
                 FinishTaskAsFailed();
                 return;
             }
-
-            agent.StartCoroutine(Wait(WaitTimeInSeconds));
+            waitCoroutine = agent.StartCoroutine(Wait(WaitTimeInSeconds));
         }
 
         // wait for the given time and then finish the task
@@ -66,6 +70,19 @@ namespace i5.VirtualAgents.AgentTasks
         public void Deserialize(SerializationDataContainer serializer)
         {
             WaitTimeInSeconds = serializer.GetSerializedFloat("Wait time");
+        }
+
+        /// <summary>
+        /// Aborts the wait task
+        /// </summary>
+        public override void Abort()
+        {
+            if (waitCoroutine != null)
+            {
+                agent.StopCoroutine(waitCoroutine);
+                waitCoroutine = null;
+            }
+            State = TaskState.Aborted;
         }
     }
 }

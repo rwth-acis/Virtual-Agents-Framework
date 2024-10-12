@@ -1,6 +1,7 @@
 using i5.Toolkit.Core.Utilities;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace i5.VirtualAgents.AgentTasks
 {
@@ -18,6 +19,11 @@ namespace i5.VirtualAgents.AgentTasks
             get;
             protected set;
         }
+
+        /// <summary>
+        /// Event which is raised when this task has finished
+        /// </summary>
+        public event Action OnTaskFinished;
 
         /// <summary>
         /// Indicates whether this task is ready to start execution
@@ -56,6 +62,7 @@ namespace i5.VirtualAgents.AgentTasks
             StopAsSucceeded();
             IsFinished = true;
             DependsOnTasks.Clear();
+            OnTaskFinished?.Invoke();
         }
 
         public virtual void FinishTaskAsFailed()
@@ -63,6 +70,7 @@ namespace i5.VirtualAgents.AgentTasks
             StopAsFailed();
             IsFinished = true;
             DependsOnTasks.Clear();
+            OnTaskFinished?.Invoke();
         }
 
         /// <summary>
@@ -90,6 +98,20 @@ namespace i5.VirtualAgents.AgentTasks
             }
         }
 
+        /// <summary>
+        /// Aborts the task and sets its state to aborted
+        /// </summary>
+        public virtual void Abort()
+        {
+            if (State == TaskState.Running)
+            {
+                StopAsAborted();
+            }
+        }
+
+        /// <summary>
+        /// Resets the task to be started again
+        /// </summary>
         public override void Reset()
         {
             base.Reset();

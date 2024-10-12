@@ -36,10 +36,16 @@ namespace i5.VirtualAgents
         }
 
         /// <summary>
-        /// Define the two bone IK constraints for the arms that is uses in the AgetPickUpTask
+        /// Define the two bone IK constraints for the arms that is used in the AgentPickUpTask
         /// </summary>
+        [field: Tooltip("Defines the two bone IK constraints for the right arm that is used in the AgentPickUpTask.")]
         [field: SerializeField]
         public TwoBoneIKConstraint TwoBoneIKConstraintRightArm { get; set; }
+
+        /// <summary>
+        /// Define the two bone IK constraints for the left arm that is used in the AgentPickUpTask
+        /// </summary>
+        [field:Tooltip("Defines the two bone IK constraints for the left arm that is used in the AgentPickUpTask")]
         [field: SerializeField]
         public TwoBoneIKConstraint TwoBoneIKConstraintLeftArm { get; set; }
 

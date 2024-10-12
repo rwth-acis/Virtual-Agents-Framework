@@ -6,6 +6,10 @@ namespace i5.VirtualAgents.Examples
 {
     public class WaitSampleController : SampleScheduleController
     {
+        /// <summary>
+        /// The waypoints which the agent should visit in order.
+        /// </summary>
+        [Tooltip("The waypoints which the agent should visit in order.")]
         public Transform[] waypoints;
 
         protected override void Start()

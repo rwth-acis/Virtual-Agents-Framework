@@ -11,6 +11,9 @@ namespace i5.VirtualAgents
     [RequireComponent(typeof(AgentAnimationUpdater))] // Responsible for the avatar's movement
     public class Agent : MonoBehaviour
     {
+        /// <summary>
+        /// The task system which manages the tasks of the agent
+        /// </summary>
         public ITaskSystem TaskSystem { get; private set; }
 
         /// <summary>

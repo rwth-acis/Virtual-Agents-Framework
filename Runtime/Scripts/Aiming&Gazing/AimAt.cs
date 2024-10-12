@@ -13,35 +13,78 @@ namespace i5.VirtualAgents
 		/// <summary>
 		/// The transform that should be aimed at
 		/// </summary>
+		[Tooltip("The transform that should be aimed at")]
 		[SerializeField] protected Transform targetTransform;
 
 		/// <summary>
 		/// The Transform of the agent childobjects that should directly aim at the target
 		/// </summary>
+		[Tooltip("The Transform of the agent childobjects that should directly aim at the target")]
 		[SerializeField] protected Transform aimTransform;
-		// Axis of the aimTransform that should aim at the target
+
+		/// <summary>
+		/// Axis of the aimTransform that should aim at the target
+		/// </summary>
 		protected AimDirection aimDirection = AimDirection.Y;
+
 		/// <summary>
 		/// The Transform that is acutally looked at and will follow the target smootly
 		/// </summary>
 		protected Transform targetFollower;
 
+		/// <summary>
+		/// The speed at which the agent looks at the target
+		/// </summary>
 		protected float currentLookSpeed = 2f;
+
+		/// <summary>
+		/// To increase the look speed, maximal value is 10
+		/// </summary>
 		protected float increaseLookSpeedBy = 0f;
 
+		/// <summary>
+		/// Reference to the NavMeshAgent component
+		/// </summary>
 		protected NavMeshAgent navMeshAgent;
 
+		/// <summary>
+		/// The number of iterations that the aiming algorithm should run
+		/// </summary>
+		[Tooltip("The number of iterations that the aiming algorithm should run")]
 		[SerializeField] protected int iterations = 10;
 
+		/// <summary>
+		/// The angle limit at which the aiming should stop
+		/// </summary>
+		[Tooltip("The angle limit at which the aiming should stop")]
 		[SerializeField] protected float angleLimit = 180.0f;
-		// closest distance at which an object will be aimed at
+
+		/// <summary>
+		/// The closest distance at which an object will be aimed at
+		/// </summary>
+		[Tooltip("The closest distance at which an object will be aimed at")]
 		[SerializeField] protected float distanceLimit = 1.5f;
 
-		// The postion where the targetFollower should be placed when no target is set
+		/// <summary>
+		/// The postion where the targetFollower should be placed when no target is set
+		/// </summary>
+		[Tooltip("The postion where the targetFollower should be placed when no target is set")]
 		[SerializeField] protected Transform startingTransform;
 
+		/// <summary>
+		/// The bones that should be moved to accomplish the aiming
+		/// </summary>
+		[Tooltip("The bones that should be moved to accomplish the aiming")]
 		[SerializeField] protected HumanBone[] humanBones;
+
+		/// <summary>
+		/// Array of the transforms of the bones that should be moved
+		/// </summary>
 		protected Transform[] boneTransforms;
+
+		/// <summary>
+		/// The direction of the aimTransform that should aim at the target
+		/// </summary>
 		public enum AimDirection { Y, X, Z };
 
 
@@ -50,9 +93,17 @@ namespace i5.VirtualAgents
 		/// </summary>
 		public bool ShouldDestroyItself { get; set; } = true;
 
+		/// <summary>
+		/// The speed at which the agent looks at the target
+		/// </summary>
+		[Tooltip("The speed at which the agent looks at the target")]
 		[field: SerializeField]
 		public float LookSpeed { get; set; } = 2f;
 
+		/// <summary>
+		/// The weight of the aiming
+		/// </summary>
+		[Tooltip("The weight of the aiming")]
 		[field: Range(0, 1)]
 		[field: SerializeField]
 		public float Weight { get; set; } = 0.8f;

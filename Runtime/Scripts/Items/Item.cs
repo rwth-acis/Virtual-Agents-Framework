@@ -32,6 +32,10 @@ namespace i5.VirtualAgents
 			}
 		}
 
+		/// <summary>
+		/// Determines if the item can be picked up
+		/// </summary>
+		[Tooltip("Determines if the item can be picked up")]
 		[field: SerializeField]
 		public bool CanBePickedUp { get; set; } = false;
 

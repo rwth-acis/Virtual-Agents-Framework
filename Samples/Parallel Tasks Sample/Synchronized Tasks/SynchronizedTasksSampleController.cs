@@ -8,10 +8,31 @@ namespace i5.VirtualAgents.Examples
 {
     public class SynchronizedTasksSampleController : SampleScheduleController
     {
+        /// <summary>
+        /// List of waypoints which the agent should visit in order
+        /// </summary>
+        [Tooltip("List of waypoints which the agent should visit in order.")]
         public List<Transform> waypoints;
+
+        /// <summary>
+        /// Waypoint with a high priority
+        /// </summary>
+        [Tooltip("Waypoint with a high priority")]
         public Transform highPrioWaypoint;
+
+        /// <summary>
+        /// If true, the agent uses task shortcuts to create the tasks
+        /// </summary>
         public bool useTaskShortcuts;
+
+        /// <summary>
+        /// If true, the agent walks to the waypoints. If false, the agent stays at the starting position.
+        /// </summary>
         public bool walk = true;
+
+        /// <summary>
+        /// The time in seconds the agent should point at the target
+        /// </summary>
         public int pointAtTime = 5;
 
         protected override void Start()

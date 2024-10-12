@@ -11,6 +11,9 @@ namespace i5.VirtualAgents.Examples
     /// </summary>
     public class SampleScheduleController : MonoBehaviour
     {
+        /// <summary>
+        /// The agent which will execute the tasks.
+        /// </summary>
         public Agent agent;
         protected ScheduleBasedTaskSystem taskSystem;
 
