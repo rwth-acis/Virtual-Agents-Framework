@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace i5.VirtualAgents.AgentTasks
+namespace i5.VirtualAgents.Virtual_Agents_Framework.Runtime.Scripts.FundamentalAgentTasks
 {
     /// <summary>
     /// The types that can be serialized using the ISerializable interface.
