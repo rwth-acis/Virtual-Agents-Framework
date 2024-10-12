@@ -144,5 +144,14 @@ namespace i5.VirtualAgents.AgentTasks
             layer = serializer.GetSerializedString("Layer");
         }
 
+        /// <summary>
+        /// Aborts the animation task and sets its state to aborted
+        /// </summary>
+        public override void Abort()
+        {
+            StopExecution();
+            State = TaskState.Aborted;
+        }
+
     }
 }

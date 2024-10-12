@@ -12,12 +12,39 @@ namespace i5.VirtualAgents
     {
         private class AdaptiveGazeTargetInfo
         {
+            /// <summary>
+            /// The gaze target that is looked at
+            /// </summary>
             public AdaptiveGazeTarget lookAtTarget = null;
+
+            /// <summary>
+            /// Distance to the target
+            /// </summary>
             public float distance = 0;
+
+            /// <summary>
+            /// The importance of the item for the agent. The higher the value, the more liekly it is the agent to look at it. Increases during runtime resets novelty for the agent
+            /// </summary>
             public float importance = 0;
+
+            /// <summary>
+            /// The time the agent looked at the target
+            /// </summary>
             public float timeLookedAt = 0;
+
+            /// <summary>
+            /// The novelty of the target
+            /// </summary>
             public float novelty = 0;
+
+            /// <summary>
+            /// This value is calculated based on the importance, distance, time looked at and novelty
+            /// </summary>
             public float calcValueOfInterest = 0;
+
+            /// <summary>
+            /// Specifies if the target is currently nearby
+            /// </summary>
             public bool isCurrentlyNearby = false;
         }
         /// <summary>
@@ -26,36 +53,76 @@ namespace i5.VirtualAgents
         [Tooltip("When this transform is set, the gaze target is overwritten and the agent looks at this transform constantly without interruption (within the boundaries specified by the AimAt Script, e.g. distanceLimit and angleLimit)")]
         public Transform OverwriteGazeTarget = null;
 
+        /// <summary>
+        /// The radius in which the agent looks for gaze targets
+        /// </summary>
+        [Tooltip("The radius in which the agent looks for gaze targets")]
         [SerializeField] private float detectionRadius = 10f;
+
+        /// <summary>
+        /// The maximum number of targets in range that are considered for the gaze
+        /// </summary>
+        [Tooltip("The maximum number of targets in range that are considered for the gaze")]
         [SerializeField] private int maxNumberOfTargetsInRange = 50;
 
-        [Tooltip("The interval in seconds in which the agent looks for new targets when not moving.")]
+        /// <summary>
+        /// The interval in seconds in which the agent looks for new targets when not moving
+        /// </summary>
+        [Tooltip("The interval in seconds in which the agent looks for new targets when not moving")]
         [SerializeField] private float detectionIntervalWhenIdle = 3f;
-        [Tooltip("The interval in seconds in which the agent looks for new targets when moving.")]
+
+        /// <summary>
+        /// The interval in seconds in which the agent looks for new targets when moving
+        /// </summary>
+        [Tooltip("The interval in seconds in which the agent looks for new targets when moving")]
         [SerializeField] private float detectionIntervalWhenWalking = 0.5f;
+
         private float detectionInterval = 3f;
 
         // Define the chances for target selection, e.g. chance for the second most interesting target in the list to be looked at
-        [Tooltip("The chance that the agent looks at the highest ranked target based on the algorithm, see documentation.")]
+        /// <summary>
+        /// The chance that the agent looks at the highest ranked target based on the algorithm, see documentation
+        /// </summary>
+        [Tooltip("The chance that the agent looks at the highest ranked target based on the algorithm, see documentation")]
         [Range(0f, 1f)]
         [SerializeField] private float chanceHighestRankedTarget = 0.5f;
-        [Tooltip("The chance that the agent looks at the second highest ranked target based on the algorithm, see documentation.")]
+
+        /// <summary>
+        /// The chance that the agent looks at the second-highest ranked target based on the algorithm, see documentation
+        /// </summary>
+        [Tooltip("The chance that the agent looks at the second-highest ranked target based on the algorithm, see documentation")]
         [Range(0f, 1f)]
         [SerializeField] private float chanceSecondHighestTarget = 0.1f;
-        [Tooltip("The chance that the agent looks at the third highest ranked target based on the algorithm, see documentation.")]
+
+        /// <summary>
+        /// The chance that the agent looks at the third highest ranked target based on the algorithm, see documentation
+        /// </summary>
+        [Tooltip("The chance that the agent looks at the third highest ranked target based on the algorithm, see documentation")]
         [Range(0f, 1f)]
         [SerializeField] private float chanceThirdHighestTarget = 0.1f;
+
+        /// <summary>
+        /// The chance that the agent looks at a random target
+        /// </summary>
         [Tooltip("The chance that the agent looks at a random target")]
         [Range(0f, 1f)]
         [SerializeField] private float chanceRandomTarget = 0.05f;
+
+        /// <summary>
+        /// The chance that the agent does not look at any target and looks ahead
+        /// </summary>
         [Tooltip("The chance that the agent does not look at any target and looks ahead")]
         [Range(0f, 1f)]
         [SerializeField] private float chanceIdleTarget = 0.25f;
 
+        /// <summary>
+        /// The speed at which the agent looks and switches between targets
+        /// </summary>
         [Tooltip("The speed at which the agent looks and switches between targets")]
         [SerializeField] private float lookSpeed = 2f;
 
         private AdaptiveGazeTargetInfo currentTargetOfInterest;
+
         /// <summary>
         /// The object layers that are checked for gaze targets, default is everything for the sake of simplicity.
         /// It is recommended to set this to a more specific layer mask to improve performance.

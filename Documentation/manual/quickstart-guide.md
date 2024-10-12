@@ -54,10 +54,12 @@ Going from least to most complex, it is recommended to look at the samples in th
 1. Navigation Sample
 2. Wait Sample
 3. Dynamic Navigation Sample
-4. Parallel Task Sample ([manual page](parallel-tasks.md))
-5. Aiming Sample ([manual page](aiming.md))
-6. Adaptive Gaze Sample ([manual page](adaptive-gaze.md))
-7. Item Pickup Sample ([manual page](items.md))
+4. Audio Sample ([manual page](audio.md))
+5. TaskBundle Sample ([manual page](task-bundle.md))
+6. Parallel Task Sample ([manual page](parallel-tasks.md))
+7. Aiming Sample ([manual page](aiming.md))
+8. Adaptive Gaze Sample ([manual page](adaptive-gaze.md))
+9. Item Pickup Sample ([manual page](items.md))
 
 ## Alternative to code
 Instead of relying on dedicated code to schedule tasks for the agent, a newer feature allows tasks to be scheduled by creating a behaviour tree through a user-friendly interface. To learn more about this, visit the Behaviour Tree [manual page](behaviour-tree.md).

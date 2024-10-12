@@ -4,12 +4,16 @@ using UnityEngine;
 
 namespace i5.VirtualAgents
 {
+    /// <summary>
+    /// The state of a task, one out of five possible states: waiting, running, failure, success, aborted
+    /// </summary>
     public enum TaskState
     {
         Waiting, // Task created, but never executed
         Running, // Task currently running
         Failure, // Task has finished executing and failed
-        Success  // Task has finished executing and succeeded
+        Success, // Task has finished executing and succeeded
+        Aborted  // Task has been aborted
     }
 
     /// <summary>
@@ -35,17 +39,16 @@ namespace i5.VirtualAgents
         void StartExecution(Agent executingAgent);
 
         /// <summary>
-        /// Called when the task succeedes or fails
+        /// Called when the task succeeds or fails
         /// </summary>
         void StopExecution();
 
         /// <summary>
-        /// Updates the State and automatically invokes StartExecution() on first update and StopExeuction() when task succeeds/fails.
+        /// Updates the State and automatically invokes StartExecution() on first update and StopExecution() when task succeeds/fails.
         /// </summary>
-        /// <param name="excutingAgent"></param>
+        /// <param name="executingAgent"></param>
         /// <returns></returns>
-
-        TaskState Tick(Agent excutingAgent);
+        TaskState Tick(Agent executingAgent);
 
         /// <summary>
         /// Resets the task to its beginning state

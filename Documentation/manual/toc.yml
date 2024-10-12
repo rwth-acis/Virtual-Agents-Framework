@@ -14,6 +14,8 @@
       href: adaptive-gaze.md
     - name: Aiming and Pointing
       href: aiming.md
+    - name: TaskBundles
+      href: task-bundle.md
 - name: Customization
   items:
     - name: Adding Own Agent Models and Animations

@@ -13,7 +13,7 @@ namespace i5.VirtualAgents.AgentTasks
 	public class AgentPickUpTask : AgentBaseTask, ISerializable
     {
         /// <summary>
-        /// Minimum distance of the agent to the target so that the traget can be picked up
+        /// Minimum distance of the agent to the target so that the target can be picked up
         /// </summary>
         public float minDistanceForPickup = 1f;
 
@@ -34,7 +34,7 @@ namespace i5.VirtualAgents.AgentTasks
         public GameObject PickupObject { get; protected set; }
 
         /// <summary>
-        /// Bodypart that the object should attached to
+        /// Agents socket that the object should be attached to
         /// </summary>
         public SocketId SocketId { get; protected set; }
 
@@ -49,7 +49,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// Create an AgentPickUpTask using the object that should be picked up
         /// </summary>
         /// <param name="pickupObject">The object that the agent should pick up</param>
-        /// <param name="socketId">Bodypart that the object should be attached to, standard is the right Hand</param>
+        /// <param name="socketId">Agent socket that the object should be attached to, standard is the right Hand</param>
         public AgentPickUpTask(GameObject pickupObject, SocketId socketId = SocketId.RightHand, float minDistanceForPickup = 1f, float animationSpeed = 2f)
         {
             PickupObject = pickupObject;
@@ -71,8 +71,8 @@ namespace i5.VirtualAgents.AgentTasks
                 i5Debug.LogError($"The pickup object is null. " +
                     "Therefore, it cannot be picked up. Skipping this task.",
                     this);
-                FinishTaskAsFailed(); 
-                return; 
+                FinishTaskAsFailed();
+                return;
             }
             if (!PickupObject.TryGetComponent<Item>(out var item))
             {
@@ -144,23 +144,22 @@ namespace i5.VirtualAgents.AgentTasks
                 meshSockets.TwoBoneIKConstraintRightArm.data.root = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
                 meshSockets.TwoBoneIKConstraintRightArm.data.mid = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
                 meshSockets.TwoBoneIKConstraintRightArm.data.tip = animator.GetBoneTransform(HumanBodyBones.RightHand);
-                //TODO: This is a computatioal heavy operation, it would be advisable to not do this during runtime
+                //TODO: This is a computational heavy operation, it would be advisable to not do this during runtime
                 RigBuilder rigs = agent.GetComponent<RigBuilder>();
                 rigs.Build();
             }
             constraint.data.target.SetPositionAndRotation(constraint.data.tip.position, constraint.data.tip.rotation);
             constraint.weight = 1;
             item.IsPickedUp = true;
-
             while (Vector3.Distance(constraint.data.target.position, item.GrabTarget.position) > proximityThreshold)
             {
 
-                // Calculate direction from which the grapTarget is approached
+                // Calculate direction from which the grabTarget is approached
                 Quaternion direction = Quaternion.LookRotation(item.GrabTarget.position - constraint.data.tip.position);
-                // Ajust direction so that the hand is rotated corectly: formulation was found by testing
+                // Adjust direction so that the hand is rotated correctly: formulation was found by testing
                 direction = Quaternion.Euler(direction.eulerAngles.x + ((315- direction.eulerAngles.x)*2), direction.eulerAngles.y -180, direction.eulerAngles.z);
    
-                // Change position and roation of the target smoothly
+                // Change position and rotation of the target smoothly
                 constraint.data.target.position = Vector3.Lerp(constraint.data.target.position, item.GrabTarget.position, Time.deltaTime * animationSpeed);
                 constraint.data.target.rotation = Quaternion.Lerp(constraint.data.target.rotation, direction, Time.deltaTime * animationSpeed);
 
