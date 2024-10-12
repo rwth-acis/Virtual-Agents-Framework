@@ -17,6 +17,8 @@ namespace i5.VirtualAgents.AgentTasks
         INT,
         GAMEOBJECT,
         BOOL,
+        AUDIOCLIP,
+        AUDIOSOURCE,
         LIST_FLOAT,
         TREE
     }
@@ -128,6 +130,12 @@ namespace i5.VirtualAgents.AgentTasks
     public class SerializedTrees : SerializationData<BehaviourTreeAsset> { }
 
     [Serializable]
+    public class SerializedAudioClips : SerializationData<AudioClip> { }
+
+    [Serializable]
+    public class SerializedAudioSources : SerializationData<AudioSource> { }
+
+    [Serializable]
     public class SerializationDataContainer
     {
         //Serialized data
@@ -137,6 +145,8 @@ namespace i5.VirtualAgents.AgentTasks
         [SerializeField] public SerializedInts serializedInts = new SerializedInts();
         [SerializeField] public SerializedGameObjects serializedGameobjects = new SerializedGameObjects();
         [SerializeField] public SerializedBools serializedBools = new SerializedBools();
+        [SerializeField] public SerializedAudioClips serializedAudioClips = new SerializedAudioClips();
+        [SerializeField] public SerializedAudioSources serializedAudioSources = new SerializedAudioSources();
         [SerializeField] public SerializedListFloats serializedListFloats = new SerializedListFloats();
         [SerializeField] public SerializedTrees serializedTrees = new SerializedTrees();
 
@@ -191,6 +201,18 @@ namespace i5.VirtualAgents.AgentTasks
             if (serializedTrees.Add(key, value))
                 serializationOrder.Add(SerializableType.TREE);
         }
+
+        public void AddSerializedData(string key, AudioClip value)
+        {
+            serializationOrder.Add(SerializableType.AUDIOCLIP);
+            serializedBools.Add(key, value);
+        }
+
+        public void AddSerializedData(string key, AudioSource value)
+        {
+            serializationOrder.Add(SerializableType.AUDIOSOURCE);
+            serializedBools.Add(key, value);
+        }
         #endregion
 
         #region Overloads for retrieving serialized data
@@ -234,6 +256,15 @@ namespace i5.VirtualAgents.AgentTasks
             return serializedTrees.Get(key);
         }
 
+        public AudioClip GetSerializedAudioClip(string key)
+        {
+            return serializedAudioClips.Get(key);
+        }
+
+        public AudioSource GetSerializedAudioSource(string key)
+        {
+            return serializedAudioSources.Get(key);
+        }
         #endregion
 
         /// <summary>
@@ -250,6 +281,8 @@ namespace i5.VirtualAgents.AgentTasks
             serializedBools.Clear();
             serializedListFloats.Clear();
             serializedTrees.Clear();
+            serializedAudioClips.Clear();
+            serializedAudioSources.Clear();
         }
 
         /// <summary>
@@ -270,6 +303,8 @@ namespace i5.VirtualAgents.AgentTasks
                 SerializableType.BOOL => serializedBools.Get(index).Key,
                 SerializableType.LIST_FLOAT => serializedListFloats.Get(index).Key,
                 SerializableType.TREE => serializedTrees.Get(index).Key,
+                SerializableType.AUDIOCLIP => serializedAudioClips.Get(index).Key,
+                SerializableType.AUDIOSOURCE => serializedAudioSources.Get(index).Key,
                 _ => throw new NotImplementedException(),
             };
         }
@@ -342,6 +377,20 @@ namespace i5.VirtualAgents.AgentTasks
                 serializedTrees.data.RemoveAll(x => x.Key == oldName);
                 RemoveUnnecessaryEntriesInOrderOfType(SerializableType.TREE);
             }
+            else if (serializedAudioClips.KeyExists(oldName))
+            {
+                if (!serializedAudioClips.Add(newName, serializedAudioClips.Get(oldName)))
+                    serializedAudioClips.SetValue(newName, serializedAudioClips.Get(oldName));
+                serializedAudioClips.data.RemoveAll(x => x.Key == oldName);
+                RemoveUnnecessaryEntriesInOrderOfType(SerializableType.AUDIOCLIP);
+            }
+            else if (serializedAudioSources.KeyExists(oldName))
+            {
+                if (!serializedAudioSources.Add(newName, serializedAudioSources.Get(oldName)))
+                    serializedAudioSources.SetValue(newName, serializedAudioSources.Get(oldName));
+                serializedAudioSources.data.RemoveAll(x => x.Key == oldName);
+                RemoveUnnecessaryEntriesInOrderOfType(SerializableType.AUDIOSOURCE);
+            }
             else
             {
                 return false;
@@ -361,6 +410,8 @@ namespace i5.VirtualAgents.AgentTasks
                 SerializableType.BOOL => serializedBools.data.Count,
                 SerializableType.LIST_FLOAT => serializedListFloats.data.Count,
                 SerializableType.TREE => serializedTrees.data.Count,
+                SerializableType.AUDIOCLIP => serializedAudioClips.data.Count,
+                SerializableType.AUDIOSOURCE => serializedAudioSources.data.Count,
                 _ => throw new NotImplementedException(),
             };
             // Remove all entries of the type that are not needed anymore
