@@ -1,0 +1,175 @@
+#node-border {
+    background-color: rgb(56, 56, 56);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    -unity-text-align: upper-center;
+}
+
+.node {
+    min-width: 150px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+#input {
+    align-items: center;
+    justify-content: space-around;
+    align-self: stretch;
+    padding-left: 8px;
+    min-width: 200px;
+    max-width: none;
+}
+
+.actionNode #input {
+    background-color: rgb(140, 188, 0);
+}
+
+.compositeNode #input {
+    background-color: rgb(142, 186, 229);
+}
+
+.decoratorNode #input {
+    background-color: rgb(246, 168, 0);
+}
+
+.rootNode #input {
+    background-color: rgb(255, 255, 255);
+    min-height: 200px;
+    min-width: 200px;
+    background-image: url('project://database/Assets/Virtual%20Agents%20Framework/Logo.png?fileID=2800000&guid=5c4685ebac7845946b096fd07f500e20&type=3#Logo');
+}
+
+.selectorNode #input {
+    background-color: rgb(142, 228, 229);
+}
+
+.sequencerNode #input {
+    background-color: rgb(142, 167, 229);
+}
+
+#selection-border {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-left-color: rgb(0, 173, 255);
+    border-right-color: rgb(0, 173, 255);
+    border-top-color: rgb(0, 173, 255);
+    border-bottom-color: rgb(0, 173, 255);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+:hover > #selection-border {
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+}
+
+:selected > #selection-border {
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+}
+
+:selected:hover > #selection-border {
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+}
+
+#description {
+    font-size: 10px;
+    white-space: normal;
+    -unity-text-align: upper-center;
+    align-self: center;
+    max-width: 190px;
+}
+
+#title {
+    -unity-font-style: bold;
+    font-size: 14px;
+}
+
+#divider {
+    min-height: 2px;
+    background-color: rgb(120, 120, 120);
+}
+
+#output {
+    align-items: center;
+    padding-right: 8px;
+}
+
+#node-state {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 0, 0, 0);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.running #node-state {
+    background-color: rgb(255, 255, 0);
+}
+
+.success #node-state {
+    background-color: rgb(0, 255, 0);
+}
+
+.failure #node-state {
+    background-color: rgb(255, 0, 0);
+}
+
+.waiting #node-state {
+    background-color: rgba(236, 0, 255, 0);
+}
+
+.connectorText {
+    background-color: rgba(255, 0, 0, 0);
+    border-left-color: rgba(255, 0, 0, 0);
+    border-right-color: rgba(255, 0, 0, 0);
+    border-top-color: rgba(255, 0, 0, 0);
+    border-bottom-color: rgba(255, 0, 0, 0);
+    max-width: 0;
+    max-height: 0;
+    margin-right: 0;
+    margin-left: 10px;
+    padding-left: 0;
+    padding-right: 0;
+}

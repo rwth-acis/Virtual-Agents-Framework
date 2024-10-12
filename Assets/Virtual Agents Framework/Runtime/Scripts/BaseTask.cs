@@ -11,6 +11,12 @@ namespace i5.VirtualAgents
         /// The state of the task
         /// </summary>
         public TaskState State { get; set; }
+        protected Agent executingAgent;
+
+        /// <summary>
+        /// Custom description that can be used to overwrite the standard description of the node in the visual Behaviour Tree Editor.
+        /// </summary>
+        public string description = "";
 
         /// <summary>
         /// Event called when the task is started
@@ -20,7 +26,7 @@ namespace i5.VirtualAgents
         /// <summary>
         /// Called by the executing agent on running tasks
         /// Performs frame-to-frame task execution updates
-        /// This is e.g. useful for tracking movements towards a target and determinig when the agent has reached the target
+        /// This is e.g. useful for tracking movements towards a target and determining when the agent has reached the target
         /// </summary>
         public virtual TaskState EvaluateTaskState()
         {
@@ -34,11 +40,12 @@ namespace i5.VirtualAgents
         /// <param name="agent">The agent which should execute this task</param>
         public virtual void StartExecution(Agent executingAgent)
         {
+            this.executingAgent = executingAgent;
             OnTaskStarted?.Invoke();
         }
 
         /// <summary>
-        /// Called when the task succeedes or fails
+        /// Called when the task succeeds or fails
         /// </summary>
         public virtual void StopExecution() { }
 
@@ -61,7 +68,7 @@ namespace i5.VirtualAgents
         }
 
         /// <summary>
-        /// Can be used to let the task succseed outside of its Update method
+        /// Can be used to let the task succeed outside of its Update method
         /// </summary>
         public void StopAsSucceeded()
         {
@@ -74,20 +81,20 @@ namespace i5.VirtualAgents
         /// </summary>
         /// <param name="excutingAgent"></param>
         /// <returns></returns>
-        public TaskState Tick(Agent excutingAgent)
+        public TaskState Tick(Agent executingAgent)
         {
-            //Is the task already finished?
+            // Is the task already finished?
             if (State == TaskState.Success || State == TaskState.Failure)
             {
-                return State; //Don't update the task any further
+                return State; // Don't update the task any further
             }
 
-            //Is the task updated for the first time?
+            // Is the task updated for the first time?
             if (State == TaskState.Waiting)
             {
                 State = TaskState.Running;
-                StartExecution(excutingAgent);
-                //Check if the task already finished, in the Execute()
+                StartExecution(executingAgent);
+                // Check if the task already finished in the Execute()
                 if (State == TaskState.Success || State == TaskState.Failure)
                 {
                     return State;
@@ -96,8 +103,7 @@ namespace i5.VirtualAgents
 
             State = EvaluateTaskState();
 
-
-            //Check if the task finished in the last Update()
+            // Check if the task finished in the last Update()
             if (State == TaskState.Success || State == TaskState.Failure)
             {
                 StopExecution();
@@ -106,6 +112,16 @@ namespace i5.VirtualAgents
             return State;
         }
 
-
+        /// <summary>
+        /// Resets the task to its beginning state
+        /// </summary>
+        public virtual void Reset()
+        {
+            if (State == TaskState.Running)
+            {
+                StopExecution();
+            }
+            State = TaskState.Waiting;
+        }
     }
 }

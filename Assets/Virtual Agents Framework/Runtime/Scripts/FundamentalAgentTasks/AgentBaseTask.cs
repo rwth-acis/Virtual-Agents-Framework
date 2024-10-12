@@ -1,4 +1,4 @@
-﻿using i5.Toolkit.Core.Utilities;
+using i5.Toolkit.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -86,7 +86,7 @@ namespace i5.VirtualAgents.AgentTasks
                 // for more complex transitive deadlocks we should consider adding an analyzer in the future
                 if (otherTask.DependsOnTasks.Contains(this))
                 {
-                    i5Debug.LogWarning($"Did not add task {otherTask.ToString()} as dependency to {this.ToString()}" +
+                    i5Debug.LogWarning($"Did not add task {otherTask} as dependency to {this}" +
                         $" because there is already an inverse dependency. Avoiding deadlock.", this);
                     continue;
                 }
@@ -107,6 +107,15 @@ namespace i5.VirtualAgents.AgentTasks
             {
                 StopAsAborted();
             }
+        }
+
+        /// <summary>
+        /// Resets the task to be started again
+        /// </summary>
+        public override void Reset()
+        {
+            base.Reset();
+            IsFinished = false;
         }
     }
 }

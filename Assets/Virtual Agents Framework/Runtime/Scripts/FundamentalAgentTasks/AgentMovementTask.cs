@@ -88,10 +88,9 @@ namespace i5.VirtualAgents.AgentTasks
 		public override void StartExecution(Agent agent)
 		{
 			base.StartExecution(agent);
-			navMeshAgent = agent.GetComponent<NavMeshAgent>();
-
+            
 			// only proceed on agents with a NavMeshAgent
-			if (navMeshAgent == null)
+			if (!agent.TryGetComponent<NavMeshAgent>(out navMeshAgent))
 			{
 				i5Debug.LogError($"The agent {agent.name} does not have a NavMeshAgent component. " +
 					$"Therefore, it cannot move. Skipping this task.",
@@ -145,7 +144,8 @@ namespace i5.VirtualAgents.AgentTasks
 			{
 				return TaskState.Success;
 			}
-			// The agent moves on a valid path and hasn't reached its destination yet
+			// The agent moves on a valid path and hasn't reached its destination yet. Give all control about movement und rotation to the navmesh agent
+            navMeshAgent.isStopped = false;
 			return TaskState.Running;
 
 
@@ -160,9 +160,10 @@ namespace i5.VirtualAgents.AgentTasks
 			navMeshAgent.updateRotation = true;
 			if (!navMeshAgent.SetDestination(DestinationObject != null ? DestinationObject.transform.position : Destination))
 			{
-				State = TaskState.Failure;
+				FinishTaskAsFailed();
 				return;
 			}
+			navMeshAgent.isStopped = true;
 			if (TargetSpeed > 0)
 			{
 				navMeshAgent.speed = TargetSpeed;
@@ -179,28 +180,35 @@ namespace i5.VirtualAgents.AgentTasks
 			}
 		}
 
-		/// <summary>
-		/// Finish the task
-		/// </summary>
-		public override void StopExecution()
-		{
-			navMeshAgent.enabled = false;
-		}
+        /// <summary>
+        /// Finish the task
+        /// </summary>
+        public override void StopExecution()
+        {
+            navMeshAgent.isStopped = true;
+        }
 
 		public void Serialize(SerializationDataContainer serializer)
 		{
+			// Serialize attributes of the AgentMovementTask that are relevant for the BehaviourTree
 			serializer.AddSerializedData("Destination Object", DestinationObject);
 			serializer.AddSerializedData("Destination", Destination);
-			serializer.AddSerializedData("TargetSpeed", TargetSpeed);
-            //serializer.AddSerializedData("FollowingGameObject", FollowingGameObject);
+			serializer.AddSerializedData("Target Speed", TargetSpeed);
+            serializer.AddSerializedData("Follow GameObject?", followGameObject);
         }
 
 		public void Deserialize(SerializationDataContainer serializer)
 		{
-			DestinationObject = serializer.GetSerializedGameobjects("Destination Object");
+            // Replace old names, to update old tree files
+			// Methods left as comments for documentation purposes
+            //serializer.Replace("TargetSpeed", "Target Speed");
+            //serializer.Replace("FollowGameObject", "Follow GameObject?");
+
+			// Deserialize the attributes of the AgentMovementTask
+            DestinationObject = serializer.GetSerializedGameobjects("Destination Object");
 			Destination = serializer.GetSerializedVector("Destination");
-			TargetSpeed = serializer.GetSerializedFloat("TargetSpeed");
-            //FollowingGameObject = serializer.GetSerializedBool("FollowingGameObject");
+			TargetSpeed = serializer.GetSerializedFloat("Target Speed");
+            followGameObject = serializer.GetSerializedBool("Follow GameObject?");
 		}
 
 		/// <summary>

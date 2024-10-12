@@ -1,0 +1,175 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5360532587861209857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
+  m_Name: AgentMovementTask
+  m_EditorClassIdentifier: 
+  Data:
+    serializedVectors:
+      data:
+      - Key: Destination
+        Value: {x: 0, y: 0, z: 0}
+    serializedFloats:
+      data:
+      - Key: Target Speed
+        Value: -1
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data:
+      - Key: Destination Object
+        Value: {fileID: 0}
+    serializedBools:
+      data:
+      - Key: Follow GameObject?
+        Value: 0
+    serializedListFloats:
+      data: []
+    serializedTrees:
+      data: []
+    serializationOrder: 04000000000000000100000005000000
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
+  Guid: dd71ea9932fc27e4c936650d95c19b20
+  Position: {x: 104.666626, y: 250.00002}
+  Children: []
+--- !u!114 &-1110205183612325070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  Data:
+    serializedVectors:
+      data: []
+    serializedFloats:
+      data: []
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data: []
+    serializedBools:
+      data: []
+    serializedListFloats:
+      data: []
+    serializedTrees:
+      data: []
+    serializationOrder: 
+  serializedObjectType: i5.VirtualAgents.BehaviourTrees.Visual.RootNode
+  Guid: 1220567cab2f5ef42af049d4e1fb3364
+  Position: {x: 0, y: -175}
+  Children:
+  - {fileID: 4745960247735774674}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3430e2b3fb448544d99baab57de75da2, type: 3}
+  m_Name: SimpleBehaviourTreeAsset
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: -1110205183612325070}
+  Nodes:
+  - {fileID: -1110205183612325070}
+  - {fileID: 6992043360792915195}
+  - {fileID: 4745960247735774674}
+  - {fileID: -5360532587861209857}
+--- !u!114 &4745960247735774674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
+  m_Name: SequencerNode
+  m_EditorClassIdentifier: 
+  Data:
+    serializedVectors:
+      data: []
+    serializedFloats:
+      data: []
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data: []
+    serializedBools:
+      data: []
+    serializedListFloats:
+      data: []
+    serializedTrees:
+      data: []
+    serializationOrder: 
+  serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
+  Guid: 201805933358a1c41a9f82961eb06ef4
+  Position: {x: 0.000061035156, y: 121.310616}
+  Children:
+  - {fileID: 6992043360792915195}
+  - {fileID: -5360532587861209857}
+--- !u!114 &6992043360792915195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
+  m_Name: AgentMovementTask
+  m_EditorClassIdentifier: 
+  Data:
+    serializedVectors:
+      data:
+      - Key: Destination
+        Value: {x: 5, y: 0, z: 5}
+    serializedFloats:
+      data:
+      - Key: Target Speed
+        Value: -1
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data:
+      - Key: Destination Object
+        Value: {fileID: 0}
+    serializedBools:
+      data:
+      - Key: Follow GameObject?
+        Value: 1
+    serializedListFloats:
+      data: []
+    serializedTrees:
+      data: []
+    serializationOrder: 04000000000000000100000005000000
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
+  Guid: 23aa415c65d797f418d786302253e78d
+  Position: {x: -104.66673, y: 250.00002}
+  Children: []

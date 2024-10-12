@@ -43,7 +43,7 @@
         },
         {
             "displayName": "Adaptive Gaze Sample",
-            "description": "Example scene which demonstrates how the automatic gazing behavior of the agent can be set up. With this behavior, the agent can autonomously look at items in the environment.",
+            "description": "Example scene which demonstrates how the automatic gazing behaviour of the agent can be set up. With this behaviour, the agent can autonomously look at items in the environment.",
             "path": "Samples~/AdaptiveGazeSample"
         },
         {
@@ -60,6 +60,11 @@
             "displayName": "Item Pickup Sample",
             "description": "Example scene which demonstrates how the agent can pick up and drop items that are placed in the environment.",
             "path": "Samples~/ItemPickUpSample"
+        },
+        {
+            "displayName": "Behaviour Tree Samples",
+            "description": "Example scenes which demonstrates how to use the behaviour tree editor.",
+            "path": "Samples~/BehaviourTree"
         }
     ]
 }

@@ -1,0 +1,227 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5230462043425892016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  Data:
+    serializedVectors:
+      data: []
+    serializedFloats:
+      data: []
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data: []
+    serializedBools:
+      data: []
+    serializedListFloats:
+      data: []
+    serializedTrees:
+      data: []
+    serializationOrder: 
+  serializedObjectType: i5.VirtualAgents.BehaviourTrees.Visual.RootNode
+  Guid: 84631418ca48da546a0062cbabe159c9
+  Position: {x: 0, y: -175}
+  Children:
+  - {fileID: 548499793758310070}
+--- !u!114 &-3522186328265562824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
+  m_Name: AgentAnimationTask
+  m_EditorClassIdentifier: 
+  Data:
+    serializedVectors:
+      data: []
+    serializedFloats:
+      data:
+      - Key: Play Time
+        Value: 3
+    serializedStrings:
+      data:
+      - Key: Start Trigger
+        Value: WaveRight
+      - Key: Stop Trigger
+        Value: 
+      - Key: Layer
+        Value: 
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data:
+      - Key: Aim Target
+        Value: {fileID: 0}
+    serializedBools:
+      data: []
+    serializedListFloats:
+      data: []
+    serializedTrees:
+      data: []
+    serializationOrder: 0200000002000000010000000400000002000000
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
+  Guid: b5bcf9b7fba122649affaf0608976b0b
+  Position: {x: 0, y: 250}
+  Children: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3430e2b3fb448544d99baab57de75da2, type: 3}
+  m_Name: RandomAnimation
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: -5230462043425892016}
+  Nodes:
+  - {fileID: -5230462043425892016}
+  - {fileID: 548499793758310070}
+  - {fileID: 1157164258825353459}
+  - {fileID: 8427306188764715037}
+  - {fileID: -3522186328265562824}
+--- !u!114 &548499793758310070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
+  m_Name: RandomNode
+  m_EditorClassIdentifier: 
+  Data:
+    serializedVectors:
+      data: []
+    serializedFloats:
+      data: []
+    serializedStrings:
+      data: []
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data: []
+    serializedBools:
+      data: []
+    serializedListFloats:
+      data:
+      - Key: Probabilities
+        Value: []
+    serializedTrees:
+      data: []
+    serializationOrder: 06000000
+  serializedObjectType: i5.VirtualAgents.BehaviourTrees.RandomNode
+  Guid: 88ade8df2da66b14c8798ca199373641
+  Position: {x: 0, y: 125}
+  Children:
+  - {fileID: 1157164258825353459}
+  - {fileID: -3522186328265562824}
+  - {fileID: 8427306188764715037}
+--- !u!114 &1157164258825353459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
+  m_Name: AgentAnimationTask
+  m_EditorClassIdentifier: 
+  Data:
+    serializedVectors:
+      data: []
+    serializedFloats:
+      data:
+      - Key: Play Time
+        Value: 3
+    serializedStrings:
+      data:
+      - Key: Start Trigger
+        Value: WaveLeft
+      - Key: Stop Trigger
+        Value: 
+      - Key: Layer
+        Value: 
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data:
+      - Key: Aim Target
+        Value: {fileID: 0}
+    serializedBools:
+      data: []
+    serializedListFloats:
+      data: []
+    serializedTrees:
+      data: []
+    serializationOrder: 0200000002000000010000000400000002000000
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
+  Guid: c18b78057d0530d428dafd904907080c
+  Position: {x: -209.33327, y: 250}
+  Children: []
+--- !u!114 &8427306188764715037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273b94479bfe09f49a9b751d7f675d69, type: 3}
+  m_Name: AgentAnimationTask
+  m_EditorClassIdentifier: 
+  Data:
+    serializedVectors:
+      data: []
+    serializedFloats:
+      data:
+      - Key: Play Time
+        Value: 3
+    serializedStrings:
+      data:
+      - Key: Start Trigger
+        Value: ShakeHead
+      - Key: Stop Trigger
+        Value: 
+      - Key: Layer
+        Value: 
+    serializedInts:
+      data: []
+    serializedGameobjects:
+      data:
+      - Key: Aim Target
+        Value: {fileID: 0}
+    serializedBools:
+      data: []
+    serializedListFloats:
+      data: []
+    serializedTrees:
+      data: []
+    serializationOrder: 0200000002000000010000000400000002000000
+  serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
+  Guid: 8d8cddb67f98fd3458211611d32ff0be
+  Position: {x: 220, y: 250}
+  Children: []

@@ -8,7 +8,7 @@ namespace i5.VirtualAgents.AgentTasks
     public class AgentAdaptiveGazeTask : AgentBaseTask, ISerializable
     {
 
-        private readonly bool shouldStartOrStop;
+        private bool shouldStartOrStop;
 
         AdaptiveGaze adaptiveGazeScript;
 
@@ -60,12 +60,12 @@ namespace i5.VirtualAgents.AgentTasks
 
         public void Serialize(SerializationDataContainer serializer)
         {
-            //serializer.AddSerializedData("Should Start Or Stop", shouldStartOrStop);
+            serializer.AddSerializedData("Should Adaptive Gaze start or stop?",shouldStartOrStop);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
         {
-            //shouldStartOrStop = serializer.GetSerializedBool("Should Start Or Stop");
+            shouldStartOrStop = serializer.GetSerializedBool("Should Adaptive Gaze start or stop?");
         }
     }
 }

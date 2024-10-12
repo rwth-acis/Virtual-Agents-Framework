@@ -1,0 +1,24 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/Virtual%20Agents%20Framework/Editor/UI%20Builder/Behaviour%20Tree/NodeViewStyle.uss?fileID=7433441132597879392&amp;guid=2b8cde04cc9000941966cdec00a3fc3f&amp;type=3#NodeViewStyle" />
+    <ui:VisualElement name="node-state" style="flex-grow: 1;" />
+    <ui:VisualElement name="node-border">
+        <ui:VisualElement name="contents" style="background-color: rgba(255, 70, 0, 0);">
+            <ui:VisualElement name="top">
+                <ui:VisualElement name="input" />
+                <ui:VisualElement name="divider" class="horizontal" />
+                <ui:VisualElement name="title">
+                    <ui:Label name="title-label" text="RandomNode" class="unity-text-element unity-label" />
+                    <ui:VisualElement name="title-button-container">
+                        <ui:VisualElement name="collapse-button">
+                            <ui:VisualElement name="icon" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:Label tabindex="-1" text="Optional description." parse-escape-sequences="true" display-tooltip-when-elided="true" name="description" style="white-space: normal;" />
+                <ui:VisualElement name="divider" class="vertical" />
+                <ui:VisualElement name="output" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="selection-border" picking-mode="Ignore" />
+</ui:UXML>
