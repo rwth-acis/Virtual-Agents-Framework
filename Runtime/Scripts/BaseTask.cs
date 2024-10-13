@@ -52,6 +52,15 @@ namespace i5.VirtualAgents
         }
 
         /// <summary>
+        /// Can be used to abort the task outside of its Update method
+        /// </summary>
+        public void StopAsAborted()
+        {
+            State = TaskState.Aborted;
+            StopExecution();
+        }
+
+        /// <summary>
         /// Can be used to let the task succseed outside of its Update method
         /// </summary>
         public void StopAsSucceeded()

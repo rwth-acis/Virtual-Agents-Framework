@@ -1,6 +1,7 @@
 ﻿using i5.Toolkit.Core.Utilities;
 using System;
 using i5.VirtualAgents.AgentTasks;
+using UnityEngine;
 using System.Linq;
 
 namespace i5.VirtualAgents.ScheduleBasedExecution
@@ -234,5 +235,48 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             return IsActive ? TaskState.Running : TaskState.Waiting;
 
         }
+
+        /// <summary>
+        /// Removes all tasks from the queue and sets the state of the task manager to idle
+        /// </summary>
+        /// <param name="clearCurrentTask">Determines whether the current task should be aborted as well</param>
+        public void Clear(bool clearCurrentTask)
+        {
+            queue.Clear();
+            if (clearCurrentTask)
+            {
+                CurrentTask.Abort();
+                CurrentTask = null;
+                CurrentState = TaskManagerState.idle;
+            }
+            lastTask = null;
+        }
+
+        /// <summary>
+        /// Removes a task from the task queue
+        /// </summary>
+        /// <param name="task">The task to be removed</param>
+        public void RemoveTask(IAgentTask task)
+        {
+            queue.RemoveTask(task);
+            if (CurrentTask == task)
+            {
+                Abort();
+            }
+        }
+
+        /// <summary>
+        /// Aborts the current task
+        /// </summary
+        public void Abort()
+        {
+            if (CurrentTask != null)
+            {
+                CurrentTask.Abort();
+                CurrentTask = null;
+                CurrentState = TaskManagerState.idle;
+            }
+        }
+
     }
 }
