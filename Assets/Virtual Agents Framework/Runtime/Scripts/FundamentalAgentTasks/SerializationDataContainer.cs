@@ -109,8 +109,6 @@ namespace i5.VirtualAgents.AgentTasks
     [Serializable]
     public class SerializedAudioSources : SerializationData<AudioSource> { }
 
-
-
     [Serializable]
     public class SerializationDataContainer
     {
@@ -208,7 +206,7 @@ namespace i5.VirtualAgents.AgentTasks
         {
             return serializedBools.Get(key);
         }
-
+      
         public AudioClip GetSerializedAudioClip(string key)
         {
             return serializedAudioClips.Get(key);

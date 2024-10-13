@@ -17,6 +17,8 @@ namespace i5.VirtualAgents
         /// </summary>
         [Tooltip("Controls the forward speed.")]
         [SerializeField] private string forwardSpeed = "Speed";
+        [SerializeField] private string sittingDirection = "SittingDirection";
+        [SerializeField] private string sitting = "Sitting";
 
         /// <summary>
         /// Controls the angular speed.
@@ -27,6 +29,8 @@ namespace i5.VirtualAgents
         // animation IDs
         private int _animIDSpeed;
         private int _animIDAngularSpeed;
+        private int _animIDSittingDirection;
+        private int _animIDSitting;
 
         private void Awake()
         {
