@@ -15,6 +15,11 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         bool CanStart { get; }
 
+        /// <summary>
+        /// Aborts the task
+        /// </summary>
+        public void Abort() {}
+
         event Action OnTaskFinished;
         event Action OnTaskStarted;
     }

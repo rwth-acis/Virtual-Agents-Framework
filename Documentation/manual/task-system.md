@@ -77,3 +77,11 @@ Specifying a GameObject as an `aimTarget` for the animation, will start inverse 
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoToAndDropItem*>: Schedules an GoTo Task that makes the agent walk to the specified coordinates or transform before dropping the specified item or all items, if no item is specified.
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.ActivateOrDeactivateAdaptiveGaze*>: Start or stops adaptive gazing until it is stopped or started again. This is realized with a task that only runs once. This also automatically adds a <xref:i5.VirtualAgents.AdaptiveGaze> component if the agent doesn't have one.
 - <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StartAdaptiveGazeForTime*>: Schedule a task that starts adaptive gazing for the specified time and then deactivates it by scheduling a wait task between a start and stop task.
+
+### Removing Tasks
+The following functions can be used to remove tasks from the agent:
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.ScheduleBasedTaskSystem.RemoveTask*>: Remove a task from the agent by specifying the task instance and its layer.
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.ScheduleBasedTaskSystem.Clear*>: Clear all tasks on a layer. You can specify the layer and whether the current task should be aborted. By default, the Base Layer is used and the current task is aborted.
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.ScheduleBasedTaskSystem.ClearAllLayers*>: Clear all tasks on all layers. You can specify whether the current task should be aborted. By default, the current task is aborted.
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.ScheduleBasedTaskSystem.Abort*>: Abort the current task on a layer. You can specify the layer. By default, the Base Layer is used.
+- <xref:i5.VirtualAgents.ScheduleBasedExecution.ScheduleBasedTaskSystem.AbortAllLayers*>: Abort the current task on all layers.
