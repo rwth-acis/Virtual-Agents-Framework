@@ -170,16 +170,12 @@ namespace i5.VirtualAgents.AgentTasks
 
         public void Serialize(SerializationDataContainer serializer)
         {
-            serializer.AddSerializedData("Animation Duration", animationDuration);
-            //serializer.AddSerializedData("Toggle", Toggle);
-            serializer.AddSerializedData("Sitting", sitting);
+            serializer.AddSerializedData("Chair", Chair);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
         {
-            animationDuration = serializer.GetSerializedFloat("Animation Duration");
-            //Toggle = serializer.GetSerializedBool("Toggle");
-            sitting = serializer.GetSerializedBool("Sitting");
+            Chair = serializer.GetSerializedGameobjects("Chair");
         }
     }
 }
