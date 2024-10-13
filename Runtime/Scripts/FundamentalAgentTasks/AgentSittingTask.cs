@@ -43,11 +43,15 @@ namespace i5.VirtualAgents.AgentTasks
         private readonly Vector3 footrest;
         private readonly Vector3 sitPosition;
 
+        /// <summary>
+        /// Enables the agent to sit on a prepared chair GameObject
+        /// </summary>
+        /// <param name="chair">The chair to be sat on. Needs to have at least "FeetPosition" and "SitPosition" child objects.</param>
+        /// <param name="direction">Either SITDOWN, STANDUP or TOGGLE. TOGGLE is equivalent to SITDOWN while standing and STANDUP while sitting.</param>
         public AgentSittingTask(GameObject chair, SittingDirection direction = SittingDirection.TOGGLE)
         {
             Direction = direction;
             Chair = chair;
-            // TODO: give as parameters
             feetPosition = chair.transform.Find("FeetPosition").position;
             footrest = chair.transform.Find("Footrest") != null ? chair.transform.Find("Footrest").position : feetPosition;
             sitPosition = chair.transform.Find("SitPosition").position;
@@ -106,8 +110,6 @@ namespace i5.VirtualAgents.AgentTasks
                 {
                     animator.SetBool("Sitting", false);
                     agent.StartCoroutine(FadeIK(agent, false));
-
-                    Debug.Log("Standing up");
                 }
 
             }
