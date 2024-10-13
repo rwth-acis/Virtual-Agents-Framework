@@ -1562,20 +1562,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: 
-  description: 'This scene demonstrates how to schedule walking tasks so that the
-    agent navigates a series of waypoints.
+  description: 'During execution of the scene, the agent will walk to a chair, sit
+    down, stand up, and then walk to a stool to do the same.
 
-    The script on the Controller object
-    issues walking tasks to the agent on startup.
-
-
-    Use the scene view during
-    play mode to inspect the scene freely while the agent is walking around.
-
-
-    If
-    Objects are changed in the scene: Select the GameObject "NavMesh Surface" and
-    bake the NavMesh again before running the scene.'
+    Notice the setup
+    of the chair and stool objects, with empties defining various positions needed
+    for sitting.'
   type: 0
   url: 
 --- !u!4 &1264251852

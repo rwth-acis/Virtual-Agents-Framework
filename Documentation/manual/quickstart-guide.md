@@ -57,7 +57,8 @@ Going from least to most complex, it is recommended to look at the samples in th
 5. Parallel Task Sample ([manual page](parallel-tasks.md))
 6. Aiming Sample ([manual page](aiming.md))
 7. Adaptive Gaze Sample ([manual page](adaptive-gaze.md))
-8. Item Pickup Sample ([manual page](items.md))
+8. Sitting Sample ([manual page](sitting.md))
+9. Item Pickup Sample ([manual page](items.md))
 
 ## Customization of agents
 To make the application look more appealing from the beginning custom agent models can be used, see [Adding Own Agent Models and Animations](own-agents.md) for that.
