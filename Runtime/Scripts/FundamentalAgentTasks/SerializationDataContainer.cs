@@ -16,7 +16,7 @@ namespace i5.VirtualAgents.AgentTasks
         INT,
         GAMEOBJECT,
         BOOL,
-        QUATERNION
+        QUATERNION,
         AUDIOCLIP,
         AUDIOSOURCE
     }
