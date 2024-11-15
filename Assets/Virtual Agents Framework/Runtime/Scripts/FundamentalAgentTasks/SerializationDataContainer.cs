@@ -16,6 +16,7 @@ namespace i5.VirtualAgents.AgentTasks
         INT,
         GAMEOBJECT,
         BOOL,
+        QUATERNION,
         AUDIOCLIP,
         AUDIOSOURCE
     }
@@ -104,11 +105,13 @@ namespace i5.VirtualAgents.AgentTasks
     public class SerializedBools : SerializationData<bool> { }
 
     [Serializable]
+    public class SerializedQuaternions : SerializationData<Quaternion> { }
+
+    [Serializable]
     public class SerializedAudioClips : SerializationData<AudioClip> { }
 
     [Serializable]
     public class SerializedAudioSources : SerializationData<AudioSource> { }
-
 
 
     [Serializable]
@@ -121,6 +124,7 @@ namespace i5.VirtualAgents.AgentTasks
         [SerializeField] public SerializedInts serializedInts = new SerializedInts();
         [SerializeField] public SerializedGameobjects serializedGameobjects = new SerializedGameobjects();
         [SerializeField] public SerializedBools serializedBools = new SerializedBools();
+        [SerializeField] public SerializedQuaternions serializedQuaternions = new SerializedQuaternions();
         [SerializeField] public SerializedAudioClips serializedAudioClips = new SerializedAudioClips();
         [SerializeField] public SerializedAudioSources serializedAudioSources = new SerializedAudioSources();
 
@@ -161,7 +165,13 @@ namespace i5.VirtualAgents.AgentTasks
         public void AddSerializedData(string key, bool value)
         {
             serializationOrder.Add(SerializableType.BOOL);
-            serializedBools.Add(key, value);
+            serializedBools.Add(key,value);
+        }
+
+        public void AddSerializedData(string key, Quaternion value)
+        {
+            serializationOrder.Add(SerializableType.QUATERNION);
+            serializedQuaternions.Add(key,value);
         }
 
         public void AddSerializedData(string key, AudioClip value)
@@ -209,6 +219,11 @@ namespace i5.VirtualAgents.AgentTasks
             return serializedBools.Get(key);
         }
 
+        public Quaternion GetSerializedQuaternion(string key)
+        {
+            return serializedQuaternions.Get(key);
+        }
+
         public AudioClip GetSerializedAudioClip(string key)
         {
             return serializedAudioClips.Get(key);
@@ -232,6 +247,7 @@ namespace i5.VirtualAgents.AgentTasks
             serializedInts.Clear();
             serializedGameobjects.Clear();
             serializedBools.Clear();
+            serializedQuaternions.Clear();
             serializedAudioClips.Clear();
             serializedAudioSources.Clear();
         }
@@ -258,6 +274,8 @@ namespace i5.VirtualAgents.AgentTasks
                     return serializedGameobjects.Get(index).Key;
                 case SerializableType.BOOL:
                     return serializedBools.Get(index).Key;
+                case SerializableType.QUATERNION:
+                    return serializedQuaternions.Get(index).Key;
                 case SerializableType.AUDIOCLIP:
                     return serializedAudioClips.Get(index).Key;
                 case SerializableType.AUDIOSOURCE:
