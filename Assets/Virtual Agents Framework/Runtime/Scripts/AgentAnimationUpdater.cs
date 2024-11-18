@@ -19,6 +19,8 @@ namespace i5.VirtualAgents
         /// </summary>
         [Tooltip("Controls the forward speed.")]
         [SerializeField] private string forwardSpeed = "Speed";
+        [SerializeField] private string sittingDirection = "SittingDirection";
+        [SerializeField] private string sitting = "Sitting";
 
         /// <summary>
         /// Controls the angular speed.
@@ -34,7 +36,7 @@ namespace i5.VirtualAgents
         private int _animIDRotationDirection;
         private int _animIDIsRotating;
 
-        private void Awake()
+		private void Awake()
         {
             AssignAnimationIDs();
             agent = GetComponent<NavMeshAgent>();

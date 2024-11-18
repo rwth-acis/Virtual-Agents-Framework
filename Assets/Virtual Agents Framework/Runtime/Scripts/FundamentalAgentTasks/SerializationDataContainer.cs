@@ -113,7 +113,6 @@ namespace i5.VirtualAgents.AgentTasks
     [Serializable]
     public class SerializedAudioSources : SerializationData<AudioSource> { }
 
-
     [Serializable]
     public class SerializationDataContainer
     {
