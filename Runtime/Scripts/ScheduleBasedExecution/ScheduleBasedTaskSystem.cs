@@ -34,6 +34,15 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         }
 
         /// <summary>
+        /// Get the agent component of the game object
+        /// </summary>
+        /// <returns>The agent component</returns>
+        public Agent GetAgent()
+        {
+            return GetComponent<Agent>();
+        }
+
+        /// <summary>
         /// Update the task system
         /// </summary>
         public override void UpdateTaskSystem()
