@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Audio Tasks | Documentation of the Virtual Agents Framework </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Audio Tasks | Documentation of the Virtual Agents Framework ">
+    
+      <link rel="shortcut icon" href="../resources/Logos/Logo_whiteBg.svg">
+      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../resources/Logos/Logo_whiteBg.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="audio-tasks">Audio Tasks</h1>
+
+<p><code>AgentAudioTask</code> is a task that plays an audio clip. It can be used to add sound effects or speech to the agent's actions.
+The <code>PauseAudio()</code> and <code>ContinueAudio()</code> functions can be used to pause and continue the audio playback.
+One can use the SpatialBlend property of the AudioSource component to adjust how much differently the audio sounds, depending on angle and distance towards the agent, meaning how &quot;3D&quot; it sounds.
+When set to 0, the audio sounds the same, regardless of camera position. When set to 1, it can only be heard when near and directly facing the agent.</p>
+<h1 id="construct-an-audio-task">Construct an Audio Task</h1>
+<p>For an audio task the following prerequisites are necessary:</p>
+<ul>
+<li>The agent needs an AudioSource component. This should already be set up in the agent prefab.</li>
+<li>An audio file to be played. You can use all file types supported by Unity's Audio Clip type, see <a href="https://docs.unity3d.com/Manual/class-AudioClip.html">here</a>.</li>
+<li>To receive the audio, you need a GameObject with an AudioListener component, typically the camera.</li>
+</ul>
+<p>Then simply create an AgentAudioTask object and pass the audio clip to its constructor.</p>
+<p>Example:</p>
+<pre><code class="lang-csharp">// Add your audio file in the editor
+[SerializeField] private AudioClip audioClip;
+
+public void Start()
+        {
+            AgentAudioTask audioTask = new AgentAudioTask(audioClip);
+            // The audio should play as soon as the scheduler starts the task
+            taskSystem.ScheduleTask(audioTask);
+            StartCoroutine(PauseAndResumeAudio(audioTask));
+        }
+        // Pause and resume the audio after a few seconds
+        private IEnumerator PauseAndResumeAudio(AgentAudioTask audioTask)
+        {
+            yield return new WaitForSeconds(5);
+            // Pause Audio
+            audioTask.PauseAudio();
+            yield return new WaitForSeconds(2);
+            // Continue Audio
+            audioTask.ContinueAudio();
+        }
+</code></pre>
+<h1 id="example-scene">Example Scene</h1>
+<p>In the provided <code>Audio Sample</code> scene, the agent plays a recording of the documentation page, pausing for a short time while doing so.
+Then a short sound effect follows.</p>
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/rwth-acis/Virtual-Agents-Framework/blob/develop/Documentation/manual/audio.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      Documentation of the Virtual Agents Framework
+      
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

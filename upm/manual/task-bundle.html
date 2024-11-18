@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>TaskBundles | Documentation of the Virtual Agents Framework </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="TaskBundles | Documentation of the Virtual Agents Framework ">
+    
+      <link rel="shortcut icon" href="../resources/Logos/Logo_whiteBg.svg">
+      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../resources/Logos/Logo_whiteBg.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="taskbundles">TaskBundles</h1>
+
+<p>TaskBundles are a way to group multiple sub-tasks together.
+The resulting task bundle can be added to a task system like any other task.
+A TaskBundle can also include a list of boolean preconditions.
+They are checked beforehand and determine if the TaskBundle prematurely finishes, in the event that one of the preconditions is not met.
+Tasks in a TaskBundle are executed back to back in sequence and cannot be interrupted by other tasks.</p>
+<h1 id="construct-a-taskbundle">Construct a TaskBundle</h1>
+<p>The are three TaskBundle constructors, that can be used to create a TaskBundle:</p>
+<ol>
+<li><code>TaskBundle()</code></li>
+<li><code>TaskBundle(List&lt;AgentBaseTask&gt; tasks)</code></li>
+<li><code>TaskBundle(List&lt;AgentBaseTask&gt; tasks, List&lt;Func &lt;bool&gt;&gt; preconditions)</code></li>
+</ol>
+<p><code>tasks</code> is a list of subtasks. Of note is, that TaskActions cannot be used here, as they would also add the sub-tasks to the regular scheduler.
+<code>preconditions</code> is a list of boolean functions, so in particular lambda expressions can be used.
+Other functions may be evaluated beforehand, so are not suitable for this purpose.
+The lambda functions must return a boolean value. <code>() =&gt; {...}</code> syntax is a lambda expression that defines an anonymous function inline.
+Parameters can be added in brackets on the left side of the arrow.</p>
+<p>You can add tasks and preconditions to the TaskBundle after its initialisation. This is possible through the <code>AddTask</code>, <code>AddTasks</code> and <code>AddPrecondition</code> methods.
+Note, that preconditions are checked before the TaskBundle execudes its tasks. If a precondition is added after the TaskBundle has started executing, it will not be checked.</p>
+<p>Example:</p>
+<pre><code class="lang-csharp">public List&lt;Transform&gt; waypoints;
+List&lt;AgentBaseTask&gt; tasks = new List&lt;AgentBaseTask&gt;();
+List&lt;System.Func&lt;bool&gt;&gt; preconditions = new List&lt;System.Func&lt;bool&gt;&gt;();
+
+// In this example we add tasks via the constructor by passing a list
+for (int i = 0; i &lt; waypoints.Count; i++)
+            {
+                tasks.Add(new AgentMovementTask(waypoints[i].position));
+            }
+TaskBundle myTaskBundle = new TaskBundle(tasks);
+// In this example we add a precondition after the initialisation
+myTaskBundle.AddPrecondition(() =&gt;
+            {
+                // This lambda function checks if the agent is close to the last waypoint
+                // Compare vectors equality with accuracy of 0.5
+                float distance = Vector3.Distance(waypoints[waypoints.Count -1].position, agent.transform.position);
+                return distance &gt; 1.0f;
+            });
+</code></pre>
+<h1 id="example-scene">Example Scene</h1>
+<p>The framework contains one example scene that more comprehensively demonstrates the use of TaskBundles.
+In the <code>TaskBundleSample</code> the agent attempts to execute two TaskBundles, of which only one's preconditions are met.</p>
+<p>The <code>TaskBundleController</code> has the option to add multiple waypoints where the agent should walk.
+At the end of the execution of the first TaskBundle, the agent is close to the last waypoint, which leads to the precondition of the second bundle to fail.</p>
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/rwth-acis/Virtual-Agents-Framework/blob/develop/Documentation/manual/task-bundle.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      Documentation of the Virtual Agents Framework
+      
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

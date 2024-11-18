@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Sitting | Documentation of the Virtual Agents Framework </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Sitting | Documentation of the Virtual Agents Framework ">
+    
+      <link rel="shortcut icon" href="../resources/Logos/Logo_whiteBg.svg">
+      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../resources/Logos/Logo_whiteBg.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="sitting">Sitting</h1>
+
+<p>The agent has the ability to sit on chairs or other objects of variable height. To do this, the GameObject the agent should sit on needs to have multiple positions defined, which are marked as Empty child GameObjects.</p>
+<h2 id="requirements">Requirements</h2>
+<p>GameObjects intended to be used for sitting must be set up with the following Empty GameObjects as children:</p>
+<ol>
+<li><strong>&quot;SitPosition&quot;</strong> - The position where the agent should sit, i.e. the position the hip should rest at while sitting.</li>
+<li><strong>&quot;FeetPosition&quot;</strong> - The position the agent should stand before and after sitting. The agent should walk to this position before initiating the task.</li>
+<li><strong>&quot;Footrest&quot;</strong> - The position the agent should rest his feet on while sitting. This might be the literal footrest of a chair or an arbitrary position in the air, for chairs where the agent can't reach the ground with their feet. This is the only optional position, as the FeetPosition will be used instead, if it is missing.</li>
+</ol>
+<p><em>The Empties should be named exactly as described above.</em></p>
+<h2 id="usage">Usage</h2>
+<p>After ensuring that a chair GameObject is set up correctly, the agent can be instructed to sit on it by creating a new <code>AgentSittingTask</code>.
+Its first parameter is the GameObject the agent should sit on, the second parameter is either <code>SittingDirection.SITDOWN</code> or <code>SittingDirection.STANDUP</code>, depending on whether the agent should sit down or stand up.
+Alternatively use <code>SittingDirection.TOGGLE</code> to toggle between sitting and standing, depending on the current state.</p>
+<pre><code class="lang-csharp">AgentSittingTask sittingTask = new AgentSittingTask(Chair, SittingDirection.SITDOWN);
+AgentSittingTask standingTask = new AgentSittingTask(Chair, SittingDirection.STANDUP);
+
+taskSystem.ScheduleTask(sittingTask);
+taskSystem.Tasks.WaitForSeconds(3);
+taskSystem.ScheduleTask(standingTask);
+</code></pre>
+<h2 id="example-scenes">Example Scenes</h2>
+<p>The framework contains an example scene that demonstrates the ability to sit on different chairs and stools.</p>
+<p>During execution of the scene, the agent will walk to a chair, sit down, stand up, and then walk to a stool to do the same.</p>
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/rwth-acis/Virtual-Agents-Framework/blob/develop/Documentation/manual/sitting.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      Documentation of the Virtual Agents Framework
+      
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Rotation | Documentation of the Virtual Agents Framework </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Rotation | Documentation of the Virtual Agents Framework ">
+    
+      <link rel="shortcut icon" href="../resources/Logos/Logo_whiteBg.svg">
+      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../resources/Logos/Logo_whiteBg.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="rotation">Rotation</h1>
+
+<p>The rotation task enables one to rotate the agent by an angle, towards an angle, towards an object or towards coordinates, around the y-axis.</p>
+<h1 id="usage">Usage</h1>
+<p>First create a new <code>AgentRotationTask</code> and provide it either with an angle, a target object or target coordinates.
+The constructor using the angle parameter has an extra boolean parameter <code>isRotationByAngle</code> that determines if the agent should rotate by the angle or towards it.
+This is set to <code>True</code> by default. To then use the task, schedule it as usual.</p>
+<p>This illustration shows the difference between rotating <em>towards</em> and <em>by</em> an angle:
+<img src="../resources/rotation_illustration.svg" alt="3 part illustration: First the initial position is shown, with the agent looking towards the 0° world coordinate angle. Then the agent rotates by 90°, thus also looking towards the 90° world coordinate angle. The last step is split in two: When the agent rotates by 180°, he looks towards 270° in terms of world coordinates. In contrast when he turns towards 180°, he turns by 90°."></p>
+<p>Example:</p>
+<pre><code class="lang-csharp">// Rotate towards a target object
+AgentRotationTask rotationTarget= new AgentRotationTask(waypoints[1].gameObject);
+
+// Rotate towards a coordinate
+AgentRotationTask rotationCoordinate= new AgentRotationTask(waypoints[2].position);
+
+// Rotate by a specific angle, by leaving the second parameter on its default
+AgentRotationTask rotationAngle1= new AgentRotationTask(90);
+
+// Change the rotation value of the agent to a specific angle
+AgentRotationTask rotationAngle2= new AgentRotationTask(90, false);
+
+// Schedule the tasks
+taskSystem.ScheduleTask(rotationTarget, 0, &quot;Base Layer&quot;);
+taskSystem.ScheduleTask(rotationCoordinate, 0, &quot;Base Layer&quot;);
+taskSystem.ScheduleTask(rotationAngle1, 0, &quot;Base Layer&quot;);
+taskSystem.ScheduleTask(rotationAngle2, 0, &quot;Base Layer&quot;);
+</code></pre>
+<h1 id="example-scene">Example Scene</h1>
+<p>The framework's <code>RotationSample</code> example scene demonstrates the different types of rotation.
+The agent first rotates towards a target object (here the first waypoint), then towards a coordinate (the coordinates of the second waypoint),
+and finally rotates by 90° and then towards 90°.</p>
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/rwth-acis/Virtual-Agents-Framework/blob/develop/Documentation/manual/rotation.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      Documentation of the Virtual Agents Framework
+      
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
