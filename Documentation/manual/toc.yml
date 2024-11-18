@@ -6,14 +6,22 @@
       href: task-system.md
     - name: Parallel Tasks
       href: parallel-tasks.md
-    - name: Items
-      href: items.md
-    - name: Adaptive Gaze
-      href: adaptive-gaze.md
-    - name: Aiming and Pointing
-      href: aiming.md
     - name: TaskBundles
       href: task-bundle.md
+    - name: Tasks
+      items:
+        - name: Adaptive Gaze
+          href: adaptive-gaze.md
+        - name: Aiming and Pointing
+          href: aiming.md
+        - name: Audio
+          href: audio.md
+        - name: Item Pick Up
+          href: items.md
+        - name: Rotation
+          href: rotation.md
+        - name: Sitting
+          href: sitting.md
 - name: Customization
   items:
     - name: Adding Own Agent Models and Animations

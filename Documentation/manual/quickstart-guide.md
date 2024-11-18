@@ -47,13 +47,14 @@ At this point it is recommended to take a look at the samples provided with the 
 4. On the right side, expand the samples section.
    Here, you can find a list of available examples.
 5. Click the import button to download the samples.
-   They are saved in your Assets folder in a folder ``Samples/Virtual Agents Framework/1.2.0``. Every sample provides one or more documentation object that explains how the scene and the functions behind that scene work, and also links to recommended manual pages here.
+   They are saved in your Assets folder in a folder ``Samples/Virtual Agents Framework/{version}``.
+1. Every sample provides one or more documentation object that explains how the scene and the functions behind that scene work, and also links to recommended manual pages here.
 
 Going from least to most complex, it is recommended to look at the samples in the following order: 
 1. Navigation Sample
 2. Wait Sample
 3. Dynamic Navigation Sample
-4. Rotation Sample ([manual page](rotation.md)
+4. Rotation Sample ([manual page](rotation.md))
 5. Audio Sample ([manual page](audio.md))
 6. TaskBundle Sample ([manual page](task-bundle.md))
 7. Parallel Task Sample ([manual page](parallel-tasks.md))

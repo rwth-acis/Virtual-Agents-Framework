@@ -7,7 +7,7 @@ The constructor using the angle parameter has an extra boolean parameter `isRota
 This is set to `True` by default. To then use the task, schedule it as usual. 
 
 This illustration shows the difference between rotating _towards_ and _by_ an angle:
-![3 part illustration: First the initial position is shown, with the agent looking towards the 0° world coordinate angle. Then the agent rotates by 90°, thus also looking towards the 90° world coordinate angle. The last step is split in two: When the agent rotates by 180°, he looks towards 270° in terms of world coordinates. In contrast when he turns towards 180°, he turns by 90°.](rotation_illustration.svg)
+![3 part illustration: First the initial position is shown, with the agent looking towards the 0° world coordinate angle. Then the agent rotates by 90°, thus also looking towards the 90° world coordinate angle. The last step is split in two: When the agent rotates by 180°, he looks towards 270° in terms of world coordinates. In contrast when he turns towards 180°, he turns by 90°.](../resources/rotation_illustration.svg)
 
 Example:
 ```csharp
