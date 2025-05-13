@@ -2,6 +2,16 @@
 
 This document keeps track of the changes between versions of the framework.
 
+## 1.3.0 (2024-11-18)
+
+### Added
+- The task queue can be cleared and tasks can be aborted
+- Events to keep track of important events in the task queue, e.g., if it is empty
+- Rotation task: Rotate the agent towards a point of interest, e.g., as a preparation for other tasks
+- Sitting task: The agent can now sit down on chairs and surfaces
+- Audio task: Play audio clips of pre-recorded speech on the agent
+- Task bundles which combine multiple tasks into one composite task
+
 ## 1.2.1 (2024-03-18)
 
 ### Added

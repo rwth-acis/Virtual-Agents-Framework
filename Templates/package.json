@@ -6,7 +6,7 @@
     "unity": "2020.3",
     "unityRelease": "13f1",
     "dependencies": {
-        "com.i5.toolkit.core": "1.9.1",
+        "com.i5.toolkit.core": "1.9.5",
         "com.unity.animation.rigging": "1.2.1",
         "com.unity.ai.navigation": "1.1.5"
     },
@@ -25,41 +25,61 @@
         "name": "Advanced Community Information Systems\nInformatik 5, RWTH Aachen University",
         "url": "https://dbis.rwth-aachen.de/dbis/"
     },
-    "samples": [
-        {
-            "displayName": "Navigation Sample",
-            "description": "Example scene which shows how walking tasks can be issued to the agent. The agent walks along a path defined by a series of waypoints.",
-            "path": "Samples~/Navigation Sample"
-        },
-        {
-            "displayName": "Wait Sample",
-            "description": "Example scene which shows how agents can wait in an idle position.",
-            "path": "Samples~/Wait Sample"
-        },
-        {
-            "displayName": "Parallel Tasks Sample",
-            "description": "Two example scenes which demonstrates the scheduling of independent tasks on multiple body parts in parallel. One of them shows tasks that do not depend on another and in the second scene tasks wait for the completion of other tasks.",
-            "path": "Samples~/Parallel Tasks Sample"
-        },
-        {
-            "displayName": "Adaptive Gaze Sample",
-            "description": "Example scene which demonstrates how the automatic gazing behavior of the agent can be set up. With this behavior, the agent can autonomously look at items in the environment.",
-            "path": "Samples~/AdaptiveGazeSample"
-        },
-        {
-            "displayName": "Aiming Sample",
-            "description": "Example scene which shows how to set up inverse kinematics-based aiming. This, e.g., allows the agent to point at objects.",
-            "path": "Samples~/Aiming Sample"
-        },
-        {
-            "displayName": "Dynamic Navigation Sample",
-            "description": "Example scene where the agent follows to moving objects.",
-            "path": "Samples~/DynamicNavigation"
-        },
-        {
-            "displayName": "Item Pickup Sample",
-            "description": "Example scene which demonstrates how the agent can pick up and drop items that are placed in the environment.",
-            "path": "Samples~/ItemPickUpSample"
-        }
-    ]
+  "samples": [
+    {
+      "displayName": "Navigation Sample",
+      "description": "Example scene which shows how walking tasks can be issued to the agent. The agent walks along a path defined by a series of waypoints.",
+      "path": "Samples~/Navigation Sample"
+    },
+    {
+      "displayName": "Wait Sample",
+      "description": "Example scene which shows how agents can wait in an idle position.",
+      "path": "Samples~/Wait Sample"
+    },
+    {
+      "displayName": "Parallel Tasks Sample",
+      "description": "Two example scenes which demonstrates the scheduling of independent tasks on multiple body parts in parallel. One of them shows tasks that do not depend on another and in the second scene tasks wait for the completion of other tasks.",
+      "path": "Samples~/Parallel Tasks Sample"
+    },
+    {
+      "displayName": "Adaptive Gaze Sample",
+      "description": "Example scene which demonstrates how the automatic gazing behavior of the agent can be set up. With this behavior, the agent can autonomously look at items in the environment.",
+      "path": "Samples~/AdaptiveGazeSample"
+    },
+    {
+      "displayName": "Aiming Sample",
+      "description": "Example scene which shows how to set up inverse kinematics-based aiming. This, e.g., allows the agent to point at objects.",
+      "path": "Samples~/Aiming Sample"
+    },
+    {
+      "displayName": "Rotation Sample",
+      "description": "Example scene which shows how to rotate the agent into specific directions and towards objects.",
+      "path": "Samples~/Rotation Sample"
+    },
+    {
+      "displayName": "Dynamic Navigation Sample",
+      "description": "Example scene where the agent follows to moving objects.",
+      "path": "Samples~/DynamicNavigation"
+    },
+    {
+      "displayName": "Item Pickup Sample",
+      "description": "Example scene which demonstrates how the agent can pick up and drop items that are placed in the environment.",
+      "path": "Samples~/ItemPickUpSample"
+    },
+    {
+      "displayName": "Sitting Sample",
+      "description": "Example scene which shows how to make the agent sit down and stand back up.",
+      "path": "Samples~/Sitting Sample"
+    },
+    {
+      "displayName": "Audio Sample",
+      "description": "Example scene to demonstrate playing audio, e.g., pre-recorded speech on the agent.",
+      "path": "Samples~/Audio Sample"
+    },
+    {
+      "displayName": "Task Bundle Sample",
+      "description": "Example scene which shows how to use task bundle to combine multiple tasks into one.",
+      "path": "Samples~/TaskBundle Sample"
+    }
+  ]
 }

@@ -24,6 +24,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
 
         /// <summary>
         /// Creates an AgentMovementTask for walking/running and schedules it or forces its execution.
+        /// Schedules a AgentRotationTask to rotate the agent towards the destination
         /// Shortcut queue management function
         /// </summary>
         /// <param name="destinationCoordinates">Position the agent should go to</param>
@@ -32,6 +33,8 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         {
             AgentMovementTask movementTask = new AgentMovementTask(destinationCoordinates);
             scheduleTaskSystem.ScheduleTask(movementTask, priority);
+            AgentRotationTask rotationTask = new AgentRotationTask(destinationCoordinates);
+            scheduleTaskSystem.ScheduleTask(rotationTask, priority);
             return movementTask;
         }
 
@@ -59,6 +62,8 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             {
                 AgentMovementTask movementTask = new AgentMovementTask(destinationObject, default, follow);
                 scheduleTaskSystem.ScheduleTask(movementTask, priority);
+                AgentRotationTask rotationTask = new AgentRotationTask(destinationObject);
+                scheduleTaskSystem.ScheduleTask(rotationTask, priority);
                 return movementTask;
             }
             else
@@ -221,6 +226,44 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         {
             AgentBaseTask adaptiveGazeTask = new AgentAdaptiveGazeTask(shouldStartOrStop);
             scheduleTaskSystem.ScheduleTask(adaptiveGazeTask, priority, "Head");
+        }
+
+        /// <summary>
+        /// Use this function to make the agent point at a target object with one arm
+        /// If the target is behind the agent, the agent will first rotate towards the target
+        /// </summary>
+        /// <param name="target">Target to point at</param>
+        /// <param name="aimLeftArm">True if the agent should aim with the left arm</param>
+        /// <param name="aimRightArm">True if the agent should aim with the right arm</param>
+        /// <param name="aimAtTime">How long the agent aims</param>
+        /// <param name="priority">Priority of the task</param>
+        /// <returns></returns>
+        public AgentBaseTask PointAt(GameObject target, bool aimLeftArm = false, bool aimRightArm = false, int aimAtTime = 5, int priority = 0)
+        {
+            AgentAnimationTask pointing = null;
+            Agent agent = scheduleTaskSystem.GetAgent();
+            // Add rotation before pointing if target is behind agent
+            Vector3 directionToTarget = target.transform.position - agent.transform.position;
+            float angleToTarget = Vector3.Angle(agent.transform.forward, directionToTarget);
+
+            // If the target is behind the agent (angle greater than 90 degrees)
+            if (angleToTarget > 90 && angleToTarget < 270)
+            {
+                // Schedule a rotation task towards the target
+                AgentRotationTask rotationTask = new AgentRotationTask(target);
+                scheduleTaskSystem.ScheduleTask(rotationTask, priority, "Left Arm");
+            }
+            if (aimLeftArm)
+            {
+                pointing = new AgentAnimationTask("PointingLeft", aimAtTime, "", "Left Arm", target);
+                scheduleTaskSystem.ScheduleTask(pointing, priority, "Left Arm");
+            }
+            else if (aimRightArm)
+            {
+                pointing = new AgentAnimationTask("PointingRight", aimAtTime, "", "Right Arm", target);
+                scheduleTaskSystem.ScheduleTask(pointing, priority, "Right Arm");
+            }
+            return pointing;
         }
     }
 }

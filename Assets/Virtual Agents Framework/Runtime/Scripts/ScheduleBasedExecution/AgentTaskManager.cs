@@ -267,7 +267,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
 
         /// <summary>
         /// Aborts the current task
-        /// </summary
+        /// </summary>
         public void Abort()
         {
             if (CurrentTask != null)

@@ -48,18 +48,21 @@ At this point it is recommended to take a look at the samples provided with the 
 4. On the right side, expand the samples section.
    Here, you can find a list of available examples.
 5. Click the import button to download the samples.
-   They are saved in your Assets folder in a folder ``Samples/Virtual Agents Framework/1.3.0``. Every sample provides one or more documentation object that explains how the scene and the functions behind that scene work, and also links to recommended manual pages here.
+   They are saved in your Assets folder in a folder ``Samples/Virtual Agents Framework/{version}``.
+6. Every sample provides one or more documentation object that explains how the scene and the functions behind that scene work, and also links to recommended manual pages here.
 
 Going from least to most complex, it is recommended to look at the samples in the following order: 
 1. Navigation Sample
 2. Wait Sample
 3. Dynamic Navigation Sample
-4. Audio Sample ([manual page](audio.md))
-5. TaskBundle Sample ([manual page](task-bundle.md))
-6. Parallel Task Sample ([manual page](parallel-tasks.md))
-7. Aiming Sample ([manual page](aiming.md))
-8. Adaptive Gaze Sample ([manual page](adaptive-gaze.md))
-9. Item Pickup Sample ([manual page](items.md))
+4. Rotation Sample ([manual page](rotation.md))
+5. Audio Sample ([manual page](audio.md))
+6. TaskBundle Sample ([manual page](task-bundle.md))
+7. Parallel Task Sample ([manual page](parallel-tasks.md))
+8. Aiming Sample ([manual page](aiming.md))
+9. Sitting Sample ([manual page](sitting.md))
+10. Adaptive Gaze Sample ([manual page](adaptive-gaze.md))
+11. Item Pickup Sample ([manual page](items.md))
 
 ## Alternative to code
 Instead of relying on dedicated code to schedule tasks for the agent, a newer feature allows tasks to be scheduled by creating a behaviour tree through a user-friendly interface. To learn more about this, visit the Behaviour Tree [manual page](behaviour-tree.md).
