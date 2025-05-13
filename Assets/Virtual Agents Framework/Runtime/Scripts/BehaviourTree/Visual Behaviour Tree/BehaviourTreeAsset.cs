@@ -124,7 +124,7 @@ namespace i5.VirtualAgents.BehaviourTrees.Visual
             // In some edge cases the rood node is not the first node in the list
             if(rootNode.GetCopyOfSerializedInterface() is not IRootNode)
             {
-                rootNode = Nodes.Find(node => node.GetCopyOfSerializedInterface() is IRootNode);
+                rootNode = Nodes.Find(node => node.DeserializeType() is IRootNode);
             }
             SerializationDataContainer rootNodeData = null;
             if (nodesOverwriteData != null && nodesOverwriteData.KeyExists(rootNode.Guid))

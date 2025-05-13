@@ -1,7 +1,9 @@
 using i5.VirtualAgents.BehaviourTrees;
 using i5.VirtualAgents.BehaviourTrees.Visual;
+using NUnit.Framework.Interfaces;
 using System;
 using System.Linq;
+using System.Runtime.Serialization;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -53,24 +55,25 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
 
         private void SetupClasses()
         {
+            var nodeInterface = node.DeserializeType();
             // Set the class of the node
-            if (node.GetCopyOfSerializedInterface() is IRootNode)
+            if (nodeInterface is IRootNode)
             {
                 AddToClassList("rootNode");
             }
-            else if (node.GetCopyOfSerializedInterface() is ICompositeNode)
+            else if (nodeInterface is ICompositeNode)
             {
                 AddToClassList("compositeNode");
-                if (node.GetCopyOfSerializedInterface() is SelectorNode)
+                if (nodeInterface is SelectorNode)
                 {
                     AddToClassList("selectorNode");
                 }
-                else if (node.GetCopyOfSerializedInterface() is SequencerNode)
+                else if (nodeInterface is SequencerNode)
                 {
                     AddToClassList("sequencerNode");
                 }
             }
-            else if (node.GetCopyOfSerializedInterface() is IDecoratorNode)
+            else if (nodeInterface is IDecoratorNode)
             {
                 AddToClassList("decoratorNode");
             }
@@ -83,7 +86,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         private void CreateInputPorts()
         {
             //Every node, except the root, has one input
-            if (node.GetCopyOfSerializedInterface() is not IRootNode)
+            if (node.DeserializeType() is not IRootNode)
             {
                 input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
                 input.portName = "";
@@ -96,15 +99,16 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         private void CreateOutputPorts()
         {
             //Action Nodes/Tasks are leaves => no output
+            var nodeInterface = node.DeserializeType();
 
             //Composite Nodes can have multiple children/outputs
-            if (node.GetCopyOfSerializedInterface() is ICompositeNode)
+            if (nodeInterface is ICompositeNode)
             {
                 output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(bool));
             }
 
             //Decorator Nodes have one childe/output
-            if (node.GetCopyOfSerializedInterface() is IDecoratorNode || node.GetCopyOfSerializedInterface() is IRootNode)
+            if (nodeInterface is IDecoratorNode || nodeInterface is IRootNode)
             {
                 output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
             }
@@ -134,7 +138,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         {
             descriptionLabel = this.Q<Label>("description");
 
-            var ser = node.GetCopyOfSerializedInterface();
+            var ser = node.DeserializeType();
             // First check if the node has a specific custom description
             if (ser is BaseTask task && !string.IsNullOrEmpty(task.description))
             {
