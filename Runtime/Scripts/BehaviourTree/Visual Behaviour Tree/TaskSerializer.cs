@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEditor;
 using UnityEngine;
 
@@ -27,8 +28,18 @@ namespace i5.VirtualAgents.AgentTasks
             serializedTask.Serialize(Data);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ReSerialize()
+        {
+            Data.Clear();
+            var instance = DeserializeType();
+            instance.Serialize(Data);
+        }
+
         // Creates an object from the serialized type
-        private ISerializable DeserializeType()
+        public ISerializable DeserializeType()
         {
 #if UNITY_EDITOR
             //More efficient way to get the type in the editor
@@ -62,23 +73,66 @@ namespace i5.VirtualAgents.AgentTasks
         }
 
         /// <summary>
+        /// Check if Data or, if given, overwriteData still conforms to the serialize method of the task.
+        /// I.e. returns false if a key is serialized that isn't present in Data/overwriteData.
+         /// </summary>
+        /// <param name="overwriteData"></param>
+        /// <returns></returns>
+        public bool CheckIntegrity(SerializationDataContainer overwriteData = null)
+        {
+            try
+            {
+                // Current data
+                SerializationDataContainer oldData = overwriteData == null ? Data : overwriteData;
+                ISerializable copy = DeserializeType();
+
+                // Data resulting from serializing again
+                SerializationDataContainer newData = new SerializationDataContainer();
+                List<string> newDataKeys = new List<string>();
+                copy.Serialize(newData);
+
+                // Transform serialization order into list of keys
+                int wrapperNewData(SerializableType type, int index)
+                {
+                    newDataKeys.Add(newData.GetKeyByIndex(index,type));
+                    return 0;
+                }
+                List<string> oldDatakeys = new List<string>();
+                newData.MapOverData(wrapperNewData);
+                int wrapperOldData(SerializableType type, int index)
+                {
+                    oldDatakeys.Add(oldData.GetKeyByIndex(index,type));
+                    return 0;
+                }
+                oldData.MapOverData(wrapperOldData);
+
+                // If the key lists aren't the same, return false
+                if(newDataKeys.Count != oldDatakeys.Count)
+                    return false;
+                newDataKeys.Sort();
+                oldDatakeys.Sort();
+                for(int i = 0; i < newDataKeys.Count;i++)
+                {
+                    if(newDataKeys[i] != oldDatakeys[i])
+                        return false;
+                }
+                return true;
+                }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Creates a new object from the serialized interface and fills it with the serialized data.
         /// </summary>
         /// <returns></returns>
         public ISerializable GetCopyOfSerializedInterface(SerializationDataContainer overwriteData = null)
         {
+            SerializationDataContainer data = overwriteData != null ? overwriteData : Data;
             ISerializable copy = DeserializeType();
-            try
-            {
-                copy.Deserialize(overwriteData != null ? overwriteData : Data);
-            }
-            catch (KeyNotFoundException e)
-            {
-                Debug.LogWarning("One node seems to have added new attributes since the tree got saved last. Node will now be updated. <b> Please save the tree now and replace the tree used in the scene. </b> Error: " + e + " ");
-                copy.Serialize(overwriteData != null ? overwriteData : Data);
-                copy.Deserialize(overwriteData != null ? overwriteData : Data);
-            }
-
+            copy.Deserialize(data);
             return copy;
         }
     }
