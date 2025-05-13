@@ -1,5 +1,6 @@
 using i5.VirtualAgents.BehaviourTrees.Visual;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -154,64 +155,59 @@ namespace i5.VirtualAgents.AgentTasks
         [SerializeField] public List<SerializableType> serializationOrder = new List<SerializableType>();
 
         #region Overloads for adding data to the serialization
-        public void AddSerializedData(string key, Vector3 value)
+        private bool add(SerializableType type, bool added)
         {
-            if (serializedVectors.Add(key, value))
-                serializationOrder.Add(SerializableType.VECTOR3);
+            if (added) serializationOrder.Add(type);
+            return added;
+        }
+        public bool AddSerializedData(string key, Vector3 value)
+        {
+            return add(SerializableType.VECTOR3,serializedVectors.Add(key,value));
         }
 
-        public void AddSerializedData(string key, float value)
+        public bool AddSerializedData(string key, float value)
         {
-            if (serializedFloats.Add(key, value))
-                serializationOrder.Add(SerializableType.FLOAT);
+            return add(SerializableType.FLOAT,serializedFloats.Add(key,value));
         }
 
-        public void AddSerializedData(string key, string value)
+        public bool AddSerializedData(string key, string value)
         {
-            if (serializedStrings.Add(key, value))
-                serializationOrder.Add(SerializableType.STRING);
+            return add(SerializableType.STRING,serializedStrings.Add(key,value));
         }
 
-        public void AddSerializedData(string key, int value)
+        public bool AddSerializedData(string key, int value)
         {
-            if (serializedInts.Add(key, value))
-                serializationOrder.Add(SerializableType.INT);
+            return add(SerializableType.INT,serializedInts.Add(key,value));
         }
 
-        public void AddSerializedData(string key, GameObject value)
+        public bool AddSerializedData(string key, GameObject value)
         {
-            if (serializedGameobjects.Add(key, value))
-                serializationOrder.Add(SerializableType.GAMEOBJECT);
+            return add(SerializableType.GAMEOBJECT,serializedGameobjects.Add(key,value));
         }
 
-        public void AddSerializedData(string key, bool value)
+        public bool AddSerializedData(string key, bool value)
         {
-            if (serializedBools.Add(key, value))
-                serializationOrder.Add(SerializableType.BOOL);
+            return add(SerializableType.BOOL,serializedBools.Add(key,value));
         }
 
-        public void AddSerializedData(string key, List<float> value)
+        public bool AddSerializedData(string key, List<float> value)
         {
-            if (serializedListFloats.Add(key, value))
-                serializationOrder.Add(SerializableType.LIST_FLOAT);
+            return add(SerializableType.LIST_FLOAT,serializedListFloats.Add(key,value));
         }
 
-        public void AddSerializedData(string key, BehaviourTreeAsset value)
+        public bool AddSerializedData(string key, BehaviourTreeAsset value)
         {
-            if (serializedTrees.Add(key, value))
-                serializationOrder.Add(SerializableType.TREE);
+            return add(SerializableType.TREE,serializedTrees.Add(key,value));
         }
 
-        public void AddSerializedData(string key, AudioClip value)
+        public bool AddSerializedData(string key, AudioClip value)
         {
-            serializationOrder.Add(SerializableType.AUDIOCLIP);
-            serializedBools.Add(key, value);
+            return add(SerializableType.AUDIOCLIP,serializedAudioClips.Add(key,value));
         }
 
-        public void AddSerializedData(string key, AudioSource value)
+        public bool AddSerializedData(string key, AudioSource value)
         {
-            serializationOrder.Add(SerializableType.AUDIOSOURCE);
-            serializedBools.Add(key, value);
+            return add(SerializableType.AUDIOSOURCE,serializedAudioSources.Add(key,value));
         }
         #endregion
 
@@ -266,6 +262,76 @@ namespace i5.VirtualAgents.AgentTasks
             return serializedAudioSources.Get(key);
         }
         #endregion
+
+        public static string TypeToPath(SerializableType type)
+        {
+            return type switch
+            {
+               SerializableType.VECTOR3 => nameof(serializedVectors),
+               SerializableType.FLOAT => nameof(serializedFloats),
+               SerializableType.STRING => nameof(serializedStrings),
+               SerializableType.INT => nameof(serializedInts),
+               SerializableType.GAMEOBJECT => nameof(serializedGameobjects),
+               SerializableType.BOOL => nameof(serializedBools),
+               SerializableType.LIST_FLOAT => nameof(serializedListFloats),
+               SerializableType.TREE => nameof(serializedTrees),
+               SerializableType.AUDIOCLIP => nameof(serializedAudioClips),
+               SerializableType.AUDIOSOURCE => nameof(serializedAudioSources),
+               _ => throw new NotImplementedException()
+            };
+        }
+
+        public void MapOverData(Func<SerializableType,int,int> func)
+        {
+            int vectorCounter = 0;
+            int floatCounter = 0;
+            int stringCounter = 0;
+            int intCounter = 0;
+            int gameobjectCounter = 0;
+            int boolCounter = 0;
+            int listFloatCounter = 0;
+            int treeCounter = 0;
+            int audioClipCounter = 0;
+            int audioSourceCounter = 0;
+
+            int wrapper(SerializableType type, ref int index)
+            {
+                int value = func(type,index);
+                index++;
+                return value;
+            }
+
+            foreach(SerializableType type in serializationOrder)
+            {
+                var value = type switch
+                {
+                    SerializableType.VECTOR3 => wrapper(type,ref vectorCounter),
+                    SerializableType.FLOAT => wrapper(type,ref floatCounter),
+                    SerializableType.STRING => wrapper(type,ref stringCounter),
+                    SerializableType.INT => wrapper(type,ref intCounter),
+                    SerializableType.GAMEOBJECT => wrapper(type,ref gameobjectCounter),
+                    SerializableType.BOOL => wrapper(type,ref boolCounter),
+                    SerializableType.LIST_FLOAT => wrapper(type,ref listFloatCounter),
+                    SerializableType.TREE => wrapper(type,ref treeCounter),
+                    SerializableType.AUDIOCLIP => wrapper(type,ref audioClipCounter),
+                    SerializableType.AUDIOSOURCE => wrapper(type,ref audioSourceCounter),
+                    _ => throw new NotImplementedException()
+                };
+            }
+        }
+
+        public List<string> GetKeysInSerializationOrder()
+        {
+            List<string> keys = new List<string>();
+            // Transform serialization order into list of keys
+            int wrapper(SerializableType type, int index)
+            {
+                keys.Add(GetKeyByIndex(index,type));
+                return 0;
+            }
+            MapOverData(wrapper);
+            return keys;
+        }
 
         /// <summary>
         /// Deletes everything that was serialized
@@ -400,6 +466,7 @@ namespace i5.VirtualAgents.AgentTasks
 
         private void RemoveUnnecessaryEntriesInOrderOfType(SerializableType type)
         {
+            /*
             int amountOfEntries = type switch
             {
                 SerializableType.VECTOR3 => serializedVectors.data.Count,
@@ -418,22 +485,25 @@ namespace i5.VirtualAgents.AgentTasks
             // This can change the order of the entries but only happens when a tree is updated
             int i = 0;
             List<SerializableType> newSerializationOrder = new List<SerializableType>();
-            foreach (SerializableType orderEntry in serializationOrder)
+            foreach (SerializationOrderEntry orderEntry in serializationOrder)
             {
-                if (orderEntry == type)
+                SerializableType orderEntryType = orderEntry.type;
+                if (orderEntryType == type)
                 {
                     i++;
                     if (i <= amountOfEntries)
                     {
-                        newSerializationOrder.Add(orderEntry);
+                        newSerializationOrder.Add(orderEntryType);
                     }
                 }
                 else
                 {
-                    newSerializationOrder.Add(orderEntry);
+                    newSerializationOrder.Add(orderEntryType);
                 }
             }
             this.serializationOrder = newSerializationOrder;
+        */
         }
+        
     }
 }
