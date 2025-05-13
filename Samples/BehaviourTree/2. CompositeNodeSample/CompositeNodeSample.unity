@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -230,6 +229,10 @@ MonoBehaviour:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
@@ -257,6 +260,10 @@ MonoBehaviour:
             Value: {fileID: 0}
         serializedBools:
           data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
@@ -276,6 +283,10 @@ MonoBehaviour:
           data: []
         serializedBools:
           data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
@@ -294,6 +305,10 @@ MonoBehaviour:
         serializedGameobjects:
           data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
@@ -322,6 +337,10 @@ MonoBehaviour:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
@@ -349,6 +368,10 @@ MonoBehaviour:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
@@ -376,6 +399,10 @@ MonoBehaviour:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
@@ -403,6 +430,10 @@ MonoBehaviour:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
@@ -430,6 +461,161 @@ MonoBehaviour:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: 8d1c59c1f95251941ba59db11069fca2
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data:
+          - Key: message
+            Value: The 1. SequencerNode has been selected by the RandomNode. The
+              agent will first try to walk to waypoint 1, fail and contiue to waypoint
+              2.
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedBools:
+          data:
+          - Key: fail
+            Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: 29af902f2c88a574a9bf80df7f027313
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data:
+          - Key: message
+            Value: The 2. SequencerNode has been selected by the RandomNode. The
+              agent will walk to Waypoint 2 directly.
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedBools:
+          data:
+          - Key: fail
+            Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: db61e9d93ca634640841e115d99cc4c7
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: c230d35c3695c5d4fb258beb7a5d6eb0
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data:
+          - Key: Probabilities
+            Value: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: 874d5c8aef9e7ad4f930356cfc370a4a
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializationOrder: 
+    - Key: bb77118ba3840ab4aa3bad21aaaf468a
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
@@ -1311,7 +1497,8 @@ MonoBehaviour:
     in the folder of this scene. Move the opened window so that you can see this
     Inspector and the Behaviour Tree at the same time.
 
-    See how the nodes are executed when playing the scene, and pay attention to the debug messages emplaning
+    See how the nodes are
+    executed when playing the scene, and pay attention to the debug messages emplaning
     what happens.'
   type: 0
   url: https://rwth-acis.github.io/Virtual-Agents-Framework/latest/manual/behaviour-tree.html
