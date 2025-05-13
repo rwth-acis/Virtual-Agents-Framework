@@ -25,6 +25,10 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -69,6 +73,10 @@ MonoBehaviour:
       - Key: Aim Target
         Value: {fileID: 0}
     serializedBools:
+      data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
       data: []
     serializedListFloats:
       data: []
@@ -123,13 +131,17 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data:
       - Key: Probabilities
         Value: []
     serializedTrees:
       data: []
-    serializationOrder: 06000000
+    serializationOrder: 08000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.RandomNode
   Guid: 88ade8df2da66b14c8798ca199373641
   Position: {x: 0, y: 125}
@@ -172,6 +184,10 @@ MonoBehaviour:
         Value: {fileID: 0}
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -179,7 +195,7 @@ MonoBehaviour:
     serializationOrder: 0200000002000000010000000400000002000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
   Guid: c18b78057d0530d428dafd904907080c
-  Position: {x: -209.33327, y: 250}
+  Position: {x: -220, y: 250}
   Children: []
 --- !u!114 &8427306188764715037
 MonoBehaviour:
@@ -215,6 +231,10 @@ MonoBehaviour:
       - Key: Aim Target
         Value: {fileID: 0}
     serializedBools:
+      data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
       data: []
     serializedListFloats:
       data: []

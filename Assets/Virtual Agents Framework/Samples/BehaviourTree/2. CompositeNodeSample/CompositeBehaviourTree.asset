@@ -25,6 +25,10 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -69,6 +73,10 @@ MonoBehaviour:
       data:
       - Key: Follow GameObject?
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -111,6 +119,10 @@ MonoBehaviour:
       data:
       - Key: Follow GameObject?
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -153,6 +165,10 @@ MonoBehaviour:
       data:
       - Key: Follow GameObject?
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -187,16 +203,20 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data:
       - Key: Probabilities
         Value: []
     serializedTrees:
       data: []
-    serializationOrder: 06000000
+    serializationOrder: 08000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.RandomNode
   Guid: c230d35c3695c5d4fb258beb7a5d6eb0
-  Position: {x: 0, y: 125}
+  Position: {x: 6.0001893, y: 124.99998}
   Children:
   - {fileID: 628806803359913781}
   - {fileID: 7688257982993288398}
@@ -230,6 +250,10 @@ MonoBehaviour:
       data:
       - Key: fail
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -290,6 +314,10 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -325,6 +353,10 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
       data: []
     serializedListFloats:
       data: []
@@ -367,6 +399,10 @@ MonoBehaviour:
       data:
       - Key: fail
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -409,6 +445,10 @@ MonoBehaviour:
       data:
       - Key: Follow GameObject?
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -442,6 +482,10 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
       data: []
     serializedListFloats:
       data: []
@@ -477,6 +521,10 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
       data: []
     serializedListFloats:
       data: []

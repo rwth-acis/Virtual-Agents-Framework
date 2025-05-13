@@ -33,6 +33,10 @@ MonoBehaviour:
       data:
       - Key: Follow GameObject?
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -66,6 +70,10 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
       data: []
     serializedListFloats:
       data: []
@@ -120,6 +128,10 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -147,7 +159,7 @@ MonoBehaviour:
     serializedVectors:
       data:
       - Key: Destination
-        Value: {x: 5, y: 0, z: 5}
+        Value: {x: 0, y: 0, z: 0}
     serializedFloats:
       data:
       - Key: Target Speed
@@ -163,7 +175,11 @@ MonoBehaviour:
     serializedBools:
       data:
       - Key: Follow GameObject?
-        Value: 1
+        Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:

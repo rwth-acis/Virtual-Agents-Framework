@@ -25,6 +25,10 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -32,7 +36,7 @@ MonoBehaviour:
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.Visual.RootNode
   Guid: 1c835f574058d754db1113ec2688dcfd
-  Position: {x: 0, y: 0}
+  Position: {x: 0, y: -175}
   Children:
   - {fileID: -4756400614855396186}
 --- !u!114 &-6364489319786786356
@@ -60,6 +64,10 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -67,7 +75,7 @@ MonoBehaviour:
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.InverterNode
   Guid: ccdcd84637f429f4d8901196d8f4bc61
-  Position: {x: 0, y: 425.80008}
+  Position: {x: 0, y: 250}
   Children:
   - {fileID: 3427031890533889646}
 --- !u!114 &-4756400614855396186
@@ -97,6 +105,10 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -104,7 +116,7 @@ MonoBehaviour:
     serializationOrder: 03000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.RepeatUntilSuccessNode
   Guid: ec33fc88bd970004ea591631d134aaf4
-  Position: {x: 0, y: 297.77216}
+  Position: {x: 0, y: 125}
   Children:
   - {fileID: -6364489319786786356}
 --- !u!114 &-2645668736711422380
@@ -140,6 +152,10 @@ MonoBehaviour:
       data:
       - Key: Follow GameObject?
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -147,7 +163,7 @@ MonoBehaviour:
     serializationOrder: 04000000000000000100000005000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 3e866926a1fd4a04bbc0f5c8a5527765
-  Position: {x: -104.000015, y: 718.67346}
+  Position: {x: -110, y: 500}
   Children: []
 --- !u!114 &11400000
 MonoBehaviour:
@@ -202,6 +218,10 @@ MonoBehaviour:
       data:
       - Key: Follow GameObject?
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -209,7 +229,7 @@ MonoBehaviour:
     serializationOrder: 04000000000000000100000005000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 7c0bfd91e28df9b43a0d05a9229b2a5a
-  Position: {x: 103.99996, y: 718.67346}
+  Position: {x: 110, y: 500}
   Children: []
 --- !u!114 &3427031890533889646
 MonoBehaviour:
@@ -236,6 +256,10 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -243,7 +267,7 @@ MonoBehaviour:
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
   Guid: 4330abf383491054298a79c1f188f800
-  Position: {x: -0.000030517578, y: 559.485}
+  Position: {x: 0, y: 375}
   Children:
   - {fileID: -2645668736711422380}
   - {fileID: 467683902968360709}

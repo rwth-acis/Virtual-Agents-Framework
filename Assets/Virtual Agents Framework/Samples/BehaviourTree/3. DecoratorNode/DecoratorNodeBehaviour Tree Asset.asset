@@ -25,6 +25,10 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -66,6 +70,10 @@ MonoBehaviour:
       data:
       - Key: fail
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -95,7 +103,7 @@ MonoBehaviour:
     serializedStrings:
       data:
       - Key: message
-        Value: The first AgentMovementTask failed because there is no path to the
+        Value: re is no path to the destination yet.cause there is no path to the
           destination yet.
     serializedInts:
       data: []
@@ -105,6 +113,10 @@ MonoBehaviour:
       data:
       - Key: fail
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -147,6 +159,10 @@ MonoBehaviour:
       data:
       - Key: Follow GameObject?
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -183,6 +199,10 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -217,6 +237,10 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
       data: []
     serializedListFloats:
       data: []
@@ -261,6 +285,10 @@ MonoBehaviour:
       data:
       - Key: Follow GameObject?
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -335,6 +363,10 @@ MonoBehaviour:
         Value: {fileID: 0}
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -370,6 +402,10 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
       data: []
     serializedListFloats:
       data: []
@@ -411,6 +447,10 @@ MonoBehaviour:
       data:
       - Key: Allow Partial Paths
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -418,7 +458,7 @@ MonoBehaviour:
     serializationOrder: 0400000005000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.CheckForValidPath
   Guid: a6a91a50914becf43b7ec575864cf25a
-  Position: {x: -209.33334, y: 499.99997}
+  Position: {x: -209, y: 500}
   Children: []
 --- !u!114 &2555766021547102206
 MonoBehaviour:
@@ -444,6 +484,10 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
       data: []
     serializedListFloats:
       data: []
@@ -484,6 +528,10 @@ MonoBehaviour:
       data:
       - Key: fail
         Value: 0
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -517,6 +565,10 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
       data: []
     serializedListFloats:
       data: []
@@ -553,6 +605,10 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
       data: []
     serializedListFloats:
       data: []
@@ -592,6 +648,10 @@ MonoBehaviour:
       data: []
     serializedBools:
       data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
+      data: []
     serializedListFloats:
       data: []
     serializedTrees:
@@ -626,6 +686,10 @@ MonoBehaviour:
     serializedGameobjects:
       data: []
     serializedBools:
+      data: []
+    serializedAudioClips:
+      data: []
+    serializedAudioSources:
       data: []
     serializedListFloats:
       data: []
