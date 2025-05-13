@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 namespace i5.VirtualAgents.Editor
@@ -20,6 +21,8 @@ namespace i5.VirtualAgents.Editor
 
         // The property fields used to display the properties of the currently selected node
         private List<PropertyField> propertyFieldsForCurrentNode = new List<PropertyField>();
+
+        private NodeView currentlySelectedNode = null;
 
         public override VisualElement CreateInspectorGUI()
         {
@@ -51,35 +54,25 @@ namespace i5.VirtualAgents.Editor
             // Setup tree when a new one is selected
             PropertyField treePropertyField = inspector.Query<PropertyField>("tree");
             treePropertyField.RegisterValueChangeCallback((x) => SetupNewTree(x.changedProperty.objectReferenceValue as BehaviourTreeAsset));
+            
+            // Reset overwrite data on button press
+            UnityEngine.UIElements.Button resetButton = inspector.Query<UnityEngine.UIElements.Button>("reset");
+            resetButton.clicked += () => {
+                if(currentlySelectedNode != null)
+                {
+                    var property = SearchValidOverwriteData(currentlySelectedNode,true);
+                    CreatePropertyFields(property,currentlySelectedNode);
+                }
+            };
+            
 
             // Return the finished inspector UI
             return inspector;
         }
 
 
-
-        private void OnNodeSelectionChanged(NodeView view)
+        private void CreatePropertyFields(SerializedProperty serializedNodeOverwriteData, NodeView view)
         {
-            // Search if overwrite data exists
-            BehaviourTreeRunner runner = target as BehaviourTreeRunner;
-            var nodesData = runner.nodesOverwriteData.data;
-            SerializedProperty nodeOverwriteData = null;
-            for (int i = 0; i < nodesData.Count && nodeOverwriteData == null; i++)
-            {
-                SerializationEntry<SerializationDataContainer> entry = nodesData[i];
-                if (entry.Key == view.node.Guid)
-                {
-                    nodeOverwriteData = serializedObject.FindProperty("nodesOverwriteData.data").GetArrayElementAtIndex(i).FindPropertyRelative("Value");
-                }
-            }
-
-            if (nodeOverwriteData == null)
-            {
-                // No data found => create it!
-                nodeOverwriteData = CreateNodeOverwriteData(view);
-            }
-            // Create Property fields for the overwrite data
-
             // Clear old property fields
             foreach (var propertyField in propertyFieldsForCurrentNode)
             {
@@ -87,59 +80,42 @@ namespace i5.VirtualAgents.Editor
             }
             propertyFieldsForCurrentNode.Clear();
 
-            // Create new ones for current node data
-            VisualNode targetNode = view.node;
-
-            // Needed in order to expose the data in the original order
-            int vectorCounter = 0;
-            int floatCounter = 0;
-            int stringCounter = 0;
-            int intCounter = 0;
-            int gameobjectCounter = 0;
-            int boolCounter = 0;
-            int listFloatCounter = 0;
-            int treesCounter = 0;
-
-            SerializableType[] serializationOrder = new SerializableType[targetNode.Data.serializationOrder.Count];
-
-            targetNode.Data.serializationOrder.CopyTo(serializationOrder);
-
-            int index = 1;
-            foreach (var type in serializationOrder)
+            // Just a wrapper to pass targetNode and serializedNodeOverwriteData to CreatePropertyField, while having a valid signature for MapOverData
+            int wrapper(SerializableType type, int index)
             {
-
-                switch (type)
-                {
-                    case SerializableType.VECTOR3:
-                        CreatePropertyField("serializedVectors", ref vectorCounter, SerializableType.VECTOR3, targetNode, nodeOverwriteData, index);
-                        break;
-                    case SerializableType.FLOAT:
-                        CreatePropertyField("serializedFloats", ref floatCounter, SerializableType.FLOAT, targetNode, nodeOverwriteData, index);
-                        break;
-                    case SerializableType.STRING:
-                        CreatePropertyField("serializedStrings", ref stringCounter, SerializableType.STRING, targetNode, nodeOverwriteData, index);
-                        break;
-                    case SerializableType.INT:
-                        CreatePropertyField("serializedInts", ref intCounter, SerializableType.INT, targetNode, nodeOverwriteData, index);
-                        break;
-                    case SerializableType.GAMEOBJECT:
-                        CreatePropertyField("serializedGameobjects", ref gameobjectCounter, SerializableType.GAMEOBJECT, targetNode, nodeOverwriteData, index);
-                        break;
-                    case SerializableType.BOOL:
-                        CreatePropertyField("serializedBools", ref boolCounter, SerializableType.BOOL, targetNode, nodeOverwriteData, index);
-                        break;
-                    case SerializableType.LIST_FLOAT:
-                        CreatePropertyField("serializedListFloats", ref listFloatCounter, SerializableType.LIST_FLOAT, targetNode, nodeOverwriteData, index);
-                        break;
-                    case SerializableType.TREE:
-                        CreatePropertyField("serializedTrees", ref treesCounter, SerializableType.TREE, targetNode, nodeOverwriteData, index);
-                        break;
-                    default:
-                        throw new NotImplementedException(type + " has no property field handler");
-                }
-                index++;
+                return CreatePropertyField(type,index,view.node,serializedNodeOverwriteData);
             }
 
+            view.node.Data.MapOverData(wrapper);
+        }
+
+        private SerializedProperty SearchValidOverwriteData(NodeView view, bool forceReset)
+        {
+            BehaviourTreeRunner runner = target as BehaviourTreeRunner;
+            var nodesData = runner.nodesOverwriteData.data;
+            SerializedProperty serializedNodeOverwriteData = null;
+            int entryIndex = nodesData.FindIndex((SerializationEntry<SerializationDataContainer> o) => o.Key == view.node.Guid);
+            if(entryIndex >= 0)
+            {
+                SerializedProperty serializedArray = serializedObject.FindProperty("nodesOverwriteData.data");
+                serializedNodeOverwriteData = serializedArray.GetArrayElementAtIndex(entryIndex).FindPropertyRelative("Value");
+                // Check integrity
+                if(view.node.CheckIntegrity(nodesData[entryIndex].Value) || forceReset)
+                {
+                    serializedArray.DeleteArrayElementAtIndex(entryIndex);
+                    serializedObject.ApplyModifiedProperties();
+                    return CreateNodeOverwriteData(view);
+                }
+                return serializedNodeOverwriteData;
+            }
+            return CreateNodeOverwriteData(view);
+        }
+
+        private void OnNodeSelectionChanged(NodeView view)
+        {
+            currentlySelectedNode = view;
+            SerializedProperty property = SearchValidOverwriteData(view, false);
+            CreatePropertyFields(property,view);
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -215,33 +191,43 @@ namespace i5.VirtualAgents.Editor
             }
 
             // Copy the serialization data from the node to the newly created nodesData
-            CopySerializedData(view.node.Data.serializedVectors.data, "serializedVectors.data");
-            CopySerializedData(view.node.Data.serializedFloats.data, "serializedFloats.data");
-            CopySerializedData(view.node.Data.serializedStrings.data, "serializedStrings.data");
-            CopySerializedData(view.node.Data.serializedInts.data, "serializedInts.data");
-            CopySerializedData(view.node.Data.serializedGameobjects.data, "serializedGameobjects.data");
-            CopySerializedData(view.node.Data.serializedBools.data, "serializedBools.data");
-            CopySerializedData(view.node.Data.serializedListFloats.data, "serializedListFloats.data");
-            CopySerializedData(view.node.Data.serializedTrees.data, "serializedTrees.data");
+            var d = view.node.Data;
+            CopySerializedData(d.serializedVectors.data, "serializedVectors.data");
+            CopySerializedData(d.serializedFloats.data, "serializedFloats.data");
+            CopySerializedData(d.serializedStrings.data, "serializedStrings.data");
+            CopySerializedData(d.serializedInts.data, "serializedInts.data");
+            CopySerializedData(d.serializedGameobjects.data, "serializedGameobjects.data");
+            CopySerializedData(d.serializedBools.data, "serializedBools.data");
+            CopySerializedData(d.serializedListFloats.data, "serializedListFloats.data");
+            CopySerializedData(d.serializedTrees.data, "serializedTrees.data");
 
             return nodeOverwriteData;
         }
 
         // Creates a property field of the provided type for the serialized data saved in the array with the name propertyName
-        private void CreatePropertyField(string propertyName, ref int counter, SerializableType type, VisualNode targetNode, SerializedProperty nodeOverwriteData, int index)
+        private int CreatePropertyField(SerializableType type, int counter, VisualNode targetNode, SerializedProperty nodeOverwriteData)
         {
+            string propertyName = SerializationDataContainer.TypeToPath(type);
             // Retrieve the serialized array
-            SerializedProperty baseProperty = nodeOverwriteData.FindPropertyRelative(propertyName + ".data").GetArrayElementAtIndex(counter).FindPropertyRelative("Value");
-            // Create the property field for the element with index counter
-            PropertyField field = new PropertyField(baseProperty);
-            field.label = targetNode.Data.GetKeyByIndex(counter, type);
-            field.BindProperty(serializedObject);
+            SerializedProperty propertyArray = nodeOverwriteData.FindPropertyRelative(propertyName + ".data");
+            if(propertyArray != null && counter < propertyArray.arraySize)
+            {
+                SerializedProperty propertyValue = propertyArray.GetArrayElementAtIndex(counter).FindPropertyRelative("Value");
+                // Create the property field for the element with index counter
+                PropertyField field = new PropertyField(propertyValue);
+                field.label = targetNode.Data.GetKeyByIndex(counter, type);
+                field.BindProperty(serializedObject);
 
-            // Insert the field at the beginning of the inspector's children list
-            inspector.Insert(index, field); // Use the Insert method with index 0 to add the field above existing tree
+                // Insert the field at the beginning of the inspector's children list
+                inspector.Insert(inspector.childCount - 2, field); // Use the Insert method with index 0 to add the field above existing tree
 
-            propertyFieldsForCurrentNode.Add(field);
-            counter++;
+                propertyFieldsForCurrentNode.Add(field);
+            }
+            else
+            {
+                Debug.LogWarning("Serialized property not found");
+            }
+            return 0;
         }
     }
 }
