@@ -21,7 +21,8 @@ namespace i5.VirtualAgents.AgentTasks
         AUDIOCLIP,
         AUDIOSOURCE,
         LIST_FLOAT,
-        TREE
+        TREE,
+        QUATERNION
     }
 
     /// <summary>
@@ -137,6 +138,9 @@ namespace i5.VirtualAgents.AgentTasks
     public class SerializedAudioSources : SerializationData<AudioSource> { }
 
     [Serializable]
+    public class SerializedQuaternions : SerializationData<Quaternion> { }
+
+    [Serializable]
     public class SerializationDataContainer
     {
         //Serialized data
@@ -150,6 +154,7 @@ namespace i5.VirtualAgents.AgentTasks
         [SerializeField] public SerializedAudioSources serializedAudioSources = new SerializedAudioSources();
         [SerializeField] public SerializedListFloats serializedListFloats = new SerializedListFloats();
         [SerializeField] public SerializedTrees serializedTrees = new SerializedTrees();
+        [SerializeField] public SerializedQuaternions serializedQuaternions = new SerializedQuaternions();
 
         //Saves the order in which the data was serialized. Allows custom inspectors to replicate that order.
         [SerializeField] public List<SerializableType> serializationOrder = new List<SerializableType>();
@@ -209,6 +214,11 @@ namespace i5.VirtualAgents.AgentTasks
         {
             return add(SerializableType.AUDIOSOURCE,serializedAudioSources.Add(key,value));
         }
+
+        public bool AddSerializedData(string key, Quaternion value)
+        {
+            return add(SerializableType.QUATERNION,serializedQuaternions.Add(key,value));
+        }
         #endregion
 
         #region Overloads for retrieving serialized data
@@ -261,6 +271,11 @@ namespace i5.VirtualAgents.AgentTasks
         {
             return serializedAudioSources.Get(key);
         }
+
+        public Quaternion GetSerializedQuaternion(string key)
+        {
+            return serializedQuaternions.Get(key);
+        }
         #endregion
 
         public static string TypeToPath(SerializableType type)
@@ -277,6 +292,7 @@ namespace i5.VirtualAgents.AgentTasks
                SerializableType.TREE => nameof(serializedTrees),
                SerializableType.AUDIOCLIP => nameof(serializedAudioClips),
                SerializableType.AUDIOSOURCE => nameof(serializedAudioSources),
+               SerializableType.QUATERNION => nameof(serializedQuaternions),
                _ => throw new NotImplementedException()
             };
         }
@@ -293,6 +309,7 @@ namespace i5.VirtualAgents.AgentTasks
             int treeCounter = 0;
             int audioClipCounter = 0;
             int audioSourceCounter = 0;
+            int quaternionCounter = 0;
 
             int wrapper(SerializableType type, ref int index)
             {
@@ -315,6 +332,7 @@ namespace i5.VirtualAgents.AgentTasks
                     SerializableType.TREE => wrapper(type,ref treeCounter),
                     SerializableType.AUDIOCLIP => wrapper(type,ref audioClipCounter),
                     SerializableType.AUDIOSOURCE => wrapper(type,ref audioSourceCounter),
+                    SerializableType.QUATERNION => wrapper(type,ref quaternionCounter),
                     _ => throw new NotImplementedException()
                 };
             }
@@ -349,6 +367,7 @@ namespace i5.VirtualAgents.AgentTasks
             serializedTrees.Clear();
             serializedAudioClips.Clear();
             serializedAudioSources.Clear();
+            serializedQuaternions.Clear();
         }
 
         /// <summary>
@@ -371,6 +390,7 @@ namespace i5.VirtualAgents.AgentTasks
                 SerializableType.TREE => serializedTrees.Get(index).Key,
                 SerializableType.AUDIOCLIP => serializedAudioClips.Get(index).Key,
                 SerializableType.AUDIOSOURCE => serializedAudioSources.Get(index).Key,
+                SerializableType.QUATERNION => serializedQuaternions.Get(index).Key,
                 _ => throw new NotImplementedException(),
             };
         }
