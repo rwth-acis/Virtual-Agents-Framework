@@ -14,9 +14,9 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public float WaitTimeInSeconds { get; set; }
 
-        private Coroutine waitCoroutine;
-
         private Agent agent;
+
+		private float startTime;
 
         public AgentWaitTask() { }
 
@@ -29,37 +29,21 @@ namespace i5.VirtualAgents.AgentTasks
             WaitTimeInSeconds = timeInSeconds;
         }
 
-        /// <summary>
-        /// Start the waiting task
-        /// Called by the agent
-        /// </summary>
-        /// <param name="agent">The agent which executes this task</param>
-        public override void StartExecution(Agent agent)
+        public override void StartExecution(Agent executingAgent)
         {
-            this.agent = agent;
-            base.StartExecution(agent);
-
-            if (WaitTimeInSeconds <= 0)
-            {
-                if (WaitTimeInSeconds == 0)
-                {
-                    i5Debug.LogWarning("Skipping waiting task as its wait time is set to 0 seconds.", this);
-                }
-                else
-                {
-                    i5Debug.LogWarning($"Skipping waiting task as it was provided with a negative time of {WaitTimeInSeconds} seconds given.", this);
-                }
-                FinishTaskAsFailed();
-                return;
-            }
-            waitCoroutine = agent.StartCoroutine(Wait(WaitTimeInSeconds));
+            startTime = Time.realtimeSinceStartup;
         }
 
-        // wait for the given time and then finish the task
-        private IEnumerator Wait(float timeInSeconds)
+        public override TaskState EvaluateTaskState()
         {
-            yield return new WaitForSeconds(timeInSeconds);
-            FinishTask();
+            if(Time.realtimeSinceStartup - startTime > WaitTimeInSeconds)
+			{
+				return TaskState.Success;
+			}
+			else
+			{
+				return TaskState.Running;
+			}
         }
 
         public void Serialize(SerializationDataContainer serializer)
@@ -72,17 +56,5 @@ namespace i5.VirtualAgents.AgentTasks
             WaitTimeInSeconds = serializer.GetSerializedFloat("Wait time");
         }
 
-        /// <summary>
-        /// Aborts the wait task
-        /// </summary>
-        public override void Abort()
-        {
-            if (waitCoroutine != null)
-            {
-                agent.StopCoroutine(waitCoroutine);
-                waitCoroutine = null;
-            }
-            State = TaskState.Aborted;
-        }
     }
 }
