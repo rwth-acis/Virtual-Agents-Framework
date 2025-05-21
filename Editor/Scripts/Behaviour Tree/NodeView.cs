@@ -21,7 +21,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         public Port input;
         public Port output;
         private Label descriptionLabel;
-        public NodeView(VisualNode node) : base("Assets/Virtual Agents Framework/Editor/UI Builder/Behaviour Tree/NodeView.uxml")
+        public NodeView(VisualNode node) : base(AssetManager.assetPrefix + "NodeView.uxml")
         {
 
             this.node = node;

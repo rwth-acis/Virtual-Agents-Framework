@@ -30,7 +30,7 @@ namespace i5.VirtualAgents.Editor
             inspector = new VisualElement();
 
             // Load and clone a visual tree from UXML
-            VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Virtual Agents Framework/Editor/UI Builder/Behaviour Tree/BehaviourTreeRunnerInspector.uxml");
+            VisualTreeAsset visualTree = AssetManager.Load<VisualTreeAsset>("BehaviourTreeRunnerInspector.uxml");
             visualTree.CloneTree(inspector);
 
             // Setup the Behaviour Tree view
