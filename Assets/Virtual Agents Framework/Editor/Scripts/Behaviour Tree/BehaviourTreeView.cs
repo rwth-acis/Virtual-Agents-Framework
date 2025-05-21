@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -31,9 +32,8 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         public BehaviourTreeView()
         {
             Insert(0, new GridBackground());
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Virtual Agents Framework/Editor/UI Builder/Behaviour Tree/BehaviourTreeEditorStyleSheet.uss");
+            var styleSheet = AssetManager.Load<StyleSheet>("BehaviourTreeEditorStyleSheet.uss");
             styleSheets.Add(styleSheet);
-
             Undo.undoRedoPerformed += OnUndoRedo;
         }
 
