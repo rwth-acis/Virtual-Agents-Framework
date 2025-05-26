@@ -1,13 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-namespace i5.VirtualAgents.Editor
+namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
+    /// <summary>
+    /// Manages the changing pathes depending on if the main project is used or if the VAF is included as package.
+    /// </summary>
     public static class AssetManager
     {
         private static string _assetPrefix = "";
+        /// <summary>
+        /// Path prefix to the beviour tree editor assets
+        /// </summary>
         public static string assetPrefix
         {
             get
@@ -21,16 +24,22 @@ namespace i5.VirtualAgents.Editor
                     }
                     else
                     {
-                        // We are used in the agent main project
+                        // We are used in the VAF main project
                         _assetPrefix = "Assets/Virtual Agents Framework/Editor/UI Builder/Behaviour Tree/";
                     }
                 }
                 return _assetPrefix;
             }
         }
-            public static T Load<T>(string suffix) where T : Object
+        /// <summary>
+        /// Load asset from the beviour tree asset path
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="assetSuffix"></param>
+        /// <returns></returns>
+        public static T Load<T>(string assetSuffix) where T : Object
         {
-            return AssetDatabase.LoadAssetAtPath<T>(assetPrefix + suffix);
+            return AssetDatabase.LoadAssetAtPath<T>(assetPrefix + assetSuffix);
         }
     }
 }
