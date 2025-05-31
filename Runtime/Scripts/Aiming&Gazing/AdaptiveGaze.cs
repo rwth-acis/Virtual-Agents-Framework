@@ -153,7 +153,7 @@ namespace i5.VirtualAgents
                 // Check if scene is not one of the sample scenes
                 if (!SceneManager.GetActiveScene().name.ToLower().Contains("sample"))
                 {
-                    Debug.LogWarning("The seeLayers of AdaptiveGaze component of the agent are still set to Everything. This might cause performance issues. Please set the seeLayers to a more specific layer mask or deactivate the AdaptiveGaze component. See AdaptiveGaze in the documentation manuel.");
+                    Debug.LogWarning("The seeLayers of AdaptiveGaze component of the agent are still set to Everything. This might cause performance issues. Please set the seeLayers to a more specific layer mask or deactivate the AdaptiveGaze component. See AdaptiveGaze in the documentation manual.");
                 }
             }
             aimScript = this.gameObject.AddComponent<HeadPreset>();
