@@ -1,6 +1,6 @@
 - name: Quickstart Guide
   href: quickstart-guide.md
-- name: Agent Behavior
+- name: Agent Behaviour
   items:
     - name: Task System
       href: task-system.md
@@ -22,6 +22,8 @@
           href: rotation.md
         - name: Sitting
           href: sitting.md
+    - name: Behaviour Tree
+      href: behaviour-tree.md
 - name: Customization
   items:
     - name: Adding Own Agent Models and Animations
