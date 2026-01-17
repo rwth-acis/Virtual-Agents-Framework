@@ -52,6 +52,14 @@ namespace i5.VirtualAgents.AgentTasks
 		/// </summary>
 		public float PathUpdateInterval { get; set; } = 1f;
 
+        /// <summary>
+        /// Percentage of how much the agent crouches
+        /// 0 means no crouching, while 1 means full crouching
+        /// </summary>
+        public float CrouchPercentage { get; set;} = 0f;
+
+        private static Animator _animator;
+
 		public AgentMovementTask()
 		{
 			TargetSpeed = -1;
@@ -62,11 +70,12 @@ namespace i5.VirtualAgents.AgentTasks
 		/// </summary>
 		/// <param name="destinationCoordinates">The position to which the agent should move</param>
 		/// <param name="targetSpeed">The target speed of the agent, e.g. to set running or walking; if not set, the default value in the NavMeshAgent is taken</param>
-		public AgentMovementTask(Vector3 destinationCoordinates, float targetSpeed = -1)
+		public AgentMovementTask(Vector3 destinationCoordinates, float targetSpeed = -1, float crouchPercentage = 0f)
 		{
 			Destination = destinationCoordinates;
 			TargetSpeed = targetSpeed;
 			followGameObject = false;
+			CrouchPercentage = crouchPercentage;
 		}
         /// <summary>
         /// Create an AgentMovementTask using a destination object
@@ -74,10 +83,11 @@ namespace i5.VirtualAgents.AgentTasks
         /// <param name="destinationObject">The object that the agent should move to or follow</param>
         /// <param name="targetSpeed">The target speed of the agent, e.g. to set running or walking; if not set, the default value in the NavMeshAgent is taken</param>
 		/// <param name="followGameObject">Determines if the agent should follow the DestinationObject automatically, even when path is noncomplete</param>
-        public AgentMovementTask(GameObject destinationObject, float targetSpeed = -1, bool followGameObject = false)
+        public AgentMovementTask(GameObject destinationObject, float targetSpeed = -1, bool followGameObject = false, float crouchPercentage = 0f)
 		{
 			DestinationObject = destinationObject;
 			TargetSpeed = targetSpeed;
+			CrouchPercentage = crouchPercentage;
 			this.followGameObject = followGameObject;
 		}
 
@@ -88,7 +98,7 @@ namespace i5.VirtualAgents.AgentTasks
 		public override void StartExecution(Agent agent)
 		{
 			base.StartExecution(agent);
-            
+
 			// only proceed on agents with a NavMeshAgent
 			if (!agent.TryGetComponent<NavMeshAgent>(out navMeshAgent))
 			{
@@ -98,6 +108,10 @@ namespace i5.VirtualAgents.AgentTasks
                 FinishTaskAsFailed();
 				return;
 			}
+
+			// set animator crouch parameter
+			_animator = agent.GetComponent<Animator>();
+			_animator.SetFloat("Crouch", CrouchPercentage);
 
 			StartMovement();
 		}
@@ -185,6 +199,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public override void StopExecution()
         {
+	        if(_animator) _animator.SetFloat("Crouch", 0);
             navMeshAgent.isStopped = true;
         }
 

@@ -29,9 +29,9 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// </summary>
         /// <param name="destinationCoordinates">Position the agent should go to</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
-        public AgentBaseTask GoTo(Vector3 destinationCoordinates, int priority = 0)
+        public AgentBaseTask GoTo(Vector3 destinationCoordinates, int priority = 0, float crouchPercentage = 0f)
         {
-            AgentMovementTask movementTask = new AgentMovementTask(destinationCoordinates);
+            AgentMovementTask movementTask = new AgentMovementTask(destinationCoordinates, -1, crouchPercentage);
             scheduleTaskSystem.ScheduleTask(movementTask, priority);
             AgentRotationTask rotationTask = new AgentRotationTask(destinationCoordinates);
             scheduleTaskSystem.ScheduleTask(rotationTask, priority);

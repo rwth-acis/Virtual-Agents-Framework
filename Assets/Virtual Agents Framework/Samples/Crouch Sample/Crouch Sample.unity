@@ -435,7 +435,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.11000001
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 8c72f201cfd445d42ae7253bd3148edd, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: a39b334b9efd4974ca20b6bb67fe84a8, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &244015121
 Transform:
@@ -554,11 +554,6 @@ PrefabInstance:
       addedObject: {fileID: 717296191}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0cdb6d1ca77e8644ba96b04bb986b127, type: 3}
---- !u!1 &376222293 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0cdb6d1ca77e8644ba96b04bb986b127, type: 3}
-  m_PrefabInstance: {fileID: 336926561}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &471645977
 GameObject:
   m_ObjectHideFlags: 0
@@ -1698,12 +1693,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1351748437}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07f89b511e1b95347be67ff29b53f422, type: 3}
+  m_Script: {fileID: 11500000, guid: 8dc883c79efd0de4caeb34f4d370b84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1747714761}
-  Chair: {fileID: 376222293}
-  Stool: {fileID: 148573333}
+  waypoints:
+  - {fileID: 1735457799}
+  - {fileID: 1644641974}
+  - {fileID: 717973402}
 --- !u!4 &1359470443 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7361196445417945142, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
