@@ -101,6 +101,10 @@ namespace i5.VirtualAgents.AgentTasks
         public override void StartExecution(Agent agent)
         {
             base.StartExecution(agent);
+            if (agent.TryGetComponent(out AgentAnimationUpdater updater))
+            {
+                updater.MaxAngularTurnSpeed = AngularSpeed;
+            }
             
             // For target and coordinates rotation
             if (!IsRotationTowardsAngle && !IsRotationByAngle)
