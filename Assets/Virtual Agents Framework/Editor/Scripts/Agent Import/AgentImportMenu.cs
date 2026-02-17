@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
@@ -97,7 +98,7 @@ namespace i5.VirtualAgents
             }
             else
             {
-                Debug.LogWarning("No Animator component found. Using default animator. This is usually a problem. It is recommended to add a Animator Component with a fitting avatar, usually this happens automatically when importing the model into unity. ");
+                Debug.LogWarning("No Animator component found. Using default animator. This is might a problem. It is recommended to add a Animator Component with a fitting avatar, usually this happens automatically when importing the model as ab FBX file into Unity.");
             }
 
 
@@ -129,57 +130,315 @@ namespace i5.VirtualAgents
                 Debug.LogError("No Animator component found. Please check that the CustomAgentWithoutModel prefab has an Animator component.");
                 return;
             }
-            Debug.Log("Checking if the Avatar " + animator.avatar.name + " fits the provided model: ");
-            if (animator.GetBoneTransform(HumanBodyBones.Hips) == null && animator.GetBoneTransform(HumanBodyBones.RightLowerArm) == null)
+            Debug.Log("Checking if the Avatar " + (animator.avatar ? animator.avatar.name : "null") + " fits the provided model: ");
+            
+            bool isAvatarValid = animator.avatar != null && 
+                                 animator.GetBoneTransform(HumanBodyBones.Hips) != null && 
+                                 animator.GetBoneTransform(HumanBodyBones.RightLowerArm) != null;
+
+            if (!isAvatarValid)
             {
-                selectedObject.name = "Failed" + selectedObject.name;
-                Debug.LogError("The Avatar " + animator.avatar.name + " doesn't fit the provided model. Please change the Avatar to the Avatar that comes with the Model, e.g. MasculineAnimationAvatar.");
+                Debug.LogWarning("Avatar is invalid or missing bones. Attempting automatic fix for hierarchy...");
+                
+                if (TryCreateAutomaticAvatar(selectedObject, animator))
+                {
+                    Debug.Log("Successfully created and assigned a new Avatar for the hierarchy.");
+                    FixAnimationRiggingBasedOnAnimatorAvatar(selectedObject, animator);
+                }
+                else
+                {
+                    selectedObject.name = "Failed" + selectedObject.name;
+                    Debug.LogError("Automatic fix failed. The model hierarchy does not match the known structure, or the Avatar is fundamentally incompatible.");
+                }
             }
             else
             {
-                Debug.Log("The Avatar " + animator.avatar.name + " fits the provided model. Mesh Sockets and Animation Rigging will be set up according to that.");
+                Debug.Log("The Avatar fits the provided model. Mesh Sockets and Animation Rigging will be set up according to that.");
                 FixAnimationRiggingBasedOnAnimatorAvatar(selectedObject, animator);
             }
+        }
+        
+        /// <summary>
+        /// Attempts to build a Humanoid Avatar for some naming convention, e.g. Ready Player Me avatars.
+        /// </summary>
+        private static bool TryCreateAutomaticAvatar(GameObject rootObject, Animator animator)
+        {
+            // Verify the basic hierarchy
+            Transform hips = FindRecursive(rootObject.transform, "Hips");
+            if (hips == null) return false;
 
+            Dictionary<Transform, Quaternion> originalRotations = new Dictionary<Transform, Quaternion>();
+            EnforceTPose(rootObject.transform, originalRotations);
+            
+            HumanDescription description = new HumanDescription();
+            
+            // 1. Setup Skeleton (List of all bones in the hierarchy)
+            List<SkeletonBone> skeletonBones = new List<SkeletonBone>();
+            // We need to traverse the entire hierarchy to build the skeleton definition
+            foreach (Transform t in rootObject.GetComponentsInChildren<Transform>())
+            {
+                SkeletonBone bone = new SkeletonBone();
+                bone.name = t.name;
+                bone.position = t.localPosition;
+                bone.rotation = t.localRotation;
+                bone.scale = t.localScale;
+                skeletonBones.Add(bone);
+            }
+            description.skeleton = skeletonBones.ToArray();
+
+            // 2. Setup Human (Mapping from Bone Name -> Unity HumanBone)
+            List<UnityEngine.HumanBone> humanBones = new List<UnityEngine.HumanBone>();
+            
+            // Helper to add mapping if bone exists in hierarchy
+            void AddMap(string boneName, string humanName) {
+                if (skeletonBones.Any(b => b.name == boneName)) {
+                    humanBones.Add(new UnityEngine.HumanBone { boneName = boneName, humanName = humanName, limit = new HumanLimit { useDefaultValues = true } });
+                }
+            }
+
+            // -- Body --
+            AddMap("Hips", "Hips");
+            AddMap("Spine", "Spine");
+            AddMap("Spine1", "Chest");
+            AddMap("Spine2", "UpperChest");
+            AddMap("Neck", "Neck");
+            AddMap("Head", "Head");
+
+            // -- Legs --
+            AddMap("LeftUpLeg", "LeftUpperLeg");
+            AddMap("LeftLeg", "LeftLowerLeg");
+            AddMap("LeftFoot", "LeftFoot");
+            AddMap("LeftToeBase", "LeftToes");
+            
+            AddMap("RightUpLeg", "RightUpperLeg");
+            AddMap("RightLeg", "RightLowerLeg");
+            AddMap("RightFoot", "RightFoot");
+            AddMap("RightToeBase", "RightToes");
+
+            // -- Arms --
+            AddMap("LeftShoulder", "LeftShoulder");
+            AddMap("LeftArm", "LeftUpperArm");
+            AddMap("LeftForeArm", "LeftLowerArm");
+            AddMap("LeftHand", "LeftHand");
+
+            AddMap("RightShoulder", "RightShoulder");
+            AddMap("RightArm", "RightUpperArm");
+            AddMap("RightForeArm", "RightLowerArm");
+            AddMap("RightHand", "RightHand");
+
+            // -- Fingers --
+            // Left Hand
+            AddMap("LeftHandThumb1", "Left Thumb Proximal");
+            AddMap("LeftHandThumb2", "Left Thumb Intermediate");
+            AddMap("LeftHandThumb3", "Left Thumb Distal");
+
+            AddMap("LeftHandIndex1", "Left Index Proximal");
+            AddMap("LeftHandIndex2", "Left Index Intermediate");
+            AddMap("LeftHandIndex3", "Left Index Distal");
+
+            AddMap("LeftHandMiddle1", "Left Middle Proximal");
+            AddMap("LeftHandMiddle2", "Left Middle Intermediate");
+            AddMap("LeftHandMiddle3", "Left Middle Distal");
+
+            AddMap("LeftHandRing1", "Left Ring Proximal");
+            AddMap("LeftHandRing2", "Left Ring Intermediate");
+            AddMap("LeftHandRing3", "Left Ring Distal");
+
+            AddMap("LeftHandPinky1", "Left Little Proximal");
+            AddMap("LeftHandPinky2", "Left Little Intermediate");
+            AddMap("LeftHandPinky3", "Left Little Distal");
+
+            // Right Hand
+            AddMap("RightHandThumb1", "Right Thumb Proximal");
+            AddMap("RightHandThumb2", "Right Thumb Intermediate");
+            AddMap("RightHandThumb3", "Right Thumb Distal");
+
+            AddMap("RightHandIndex1", "Right Index Proximal");
+            AddMap("RightHandIndex2", "Right Index Intermediate");
+            AddMap("RightHandIndex3", "Right Index Distal");
+
+            AddMap("RightHandMiddle1", "Right Middle Proximal");
+            AddMap("RightHandMiddle2", "Right Middle Intermediate");
+            AddMap("RightHandMiddle3", "Right Middle Distal");
+
+            AddMap("RightHandRing1", "Right Ring Proximal");
+            AddMap("RightHandRing2", "Right Ring Intermediate");
+            AddMap("RightHandRing3", "Right Ring Distal");
+
+            AddMap("RightHandPinky1", "Right Little Proximal");
+            AddMap("RightHandPinky2", "Right Little Intermediate");
+            AddMap("RightHandPinky3", "Right Little Distal");
+            
+
+            description.human = humanBones.ToArray();
+
+            // 3. Build the Avatar
+            Avatar newAvatar = AvatarBuilder.BuildHumanAvatar(rootObject, description);
+            
+            if (newAvatar != null && newAvatar.isValid)
+            {
+                newAvatar.name = "AutoGeneratedAvatar";
+                animator.avatar = newAvatar;
+                return true;
+            }
+            
+            return false;
         }
 
+        /// <summary>
+        /// Forces the Upper Arms to align horizontally (T-Pose) based on the character's facing direction.
+        /// </summary>
+        private static void EnforceTPose(Transform root, Dictionary<Transform, Quaternion> undoList)
+        {
+            // Find all necessary bone transforms
+            Transform leftArm = FindRecursive(root, "LeftArm");
+            Transform leftForeArm = FindRecursive(root, "LeftForeArm");
+            Transform leftHand = FindRecursive(root, "LeftHand");
+
+            Transform rightArm = FindRecursive(root, "RightArm");
+            Transform rightForeArm = FindRecursive(root, "RightForeArm");
+            Transform rightHand = FindRecursive(root, "RightHand");
+
+            // Local helper to align a bone segment to a target direction
+            void AlignBone(Transform boneToRotate, Transform childBone, Vector3 targetDirection)
+            {
+                if (boneToRotate == null || childBone == null) return;
+
+                // 1. Save original rotation for restoration later
+                if (!undoList.ContainsKey(boneToRotate))
+                {
+                    undoList[boneToRotate] = boneToRotate.localRotation;
+                }
+
+                // 2. Calculate the current direction of the bone (vector to its child)
+                Vector3 currentDirection = (childBone.position - boneToRotate.position).normalized;
+
+                // 3. Calculate the rotation needed to align current direction to target
+                Quaternion rotationFix = Quaternion.FromToRotation(currentDirection, targetDirection);
+
+                // 4. Apply the rotation
+                boneToRotate.rotation = rotationFix * boneToRotate.rotation;
+            }
+
+            // --- LEFT SIDE (Target: Negative Right / Local -X) ---
+            Vector3 leftTarget = -root.right;
+            
+            // Step 1: Straighten Upper Arm (Aligns Shoulder -> Elbow)
+            AlignBone(leftArm, leftForeArm, leftTarget);
+            
+            // Step 2: Straighten Forearm (Aligns Elbow -> Hand)
+            AlignBone(leftForeArm, leftHand, leftTarget);
+
+
+            // --- RIGHT SIDE (Target: Positive Right / Local +X) ---
+            Vector3 rightTarget = root.right;
+
+            // Step 1: Straighten Upper Arm (Aligns Shoulder -> Elbow)
+            AlignBone(rightArm, rightForeArm, rightTarget);
+
+            // Step 2: Straighten Forearm (Aligns Elbow -> Hand)
+            AlignBone(rightForeArm, rightHand, rightTarget);
+        }
+        
+        private static Transform FindRecursive(Transform current, string name)
+        {
+            if (current.name == name) return current;
+            foreach (Transform child in current)
+            {
+                var found = FindRecursive(child, name);
+                if (found != null) return found;
+            }
+            return null;
+        }
 
         private static void FixAnimationRiggingBasedOnAnimatorAvatar(GameObject selectedObject, Animator animator)
         {
-            // Add correct Source Objects to MeshSockets
-            WeightedTransform weightedTransform = new(animator.GetBoneTransform(HumanBodyBones.RightHand), 1.0f);
-            selectedObject.transform.Find("AnimationRigging/MeshSockets/RightHandSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
-            weightedTransform = new WeightedTransform(animator.GetBoneTransform(HumanBodyBones.LeftHand), 1.0f);
-            selectedObject.transform.Find("AnimationRigging/MeshSockets/LeftHandSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
-            weightedTransform = new WeightedTransform(animator.GetBoneTransform(HumanBodyBones.RightLowerArm), 1.0f);
-            selectedObject.transform.Find("AnimationRigging/MeshSockets/RightLowerArmSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
-            weightedTransform = new WeightedTransform(animator.GetBoneTransform(HumanBodyBones.LeftLowerArm), 1.0f);
-            selectedObject.transform.Find("AnimationRigging/MeshSockets/LeftLowerArmSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
-            weightedTransform = new WeightedTransform(animator.GetBoneTransform(HumanBodyBones.RightUpperArm), 1.0f);
-            selectedObject.transform.Find("AnimationRigging/MeshSockets/RightUpperArmSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
-            weightedTransform = new WeightedTransform(animator.GetBoneTransform(HumanBodyBones.LeftUpperArm), 1.0f);
-            selectedObject.transform.Find("AnimationRigging/MeshSockets/LeftUpperArmSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
+            // 1. Validation Checks
+            bool isAvatarValid = animator.avatar != null &&
+                                 animator.GetBoneTransform(HumanBodyBones.Hips) != null &&
+                                 animator.GetBoneTransform(HumanBodyBones.RightLowerArm) != null;
 
-            weightedTransform = new WeightedTransform(animator.GetBoneTransform(HumanBodyBones.Chest), 1.0f);
-            selectedObject.transform.Find("AnimationRigging/MeshSockets/RightBackSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
-            selectedObject.transform.Find("AnimationRigging/MeshSockets/LeftBackSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
+            if (!isAvatarValid)
+            {
+                Debug.LogError("Cannot set up Animation Rigging: Avatar is invalid or missing critical bones.");
+                return;
+            }
 
-            weightedTransform = new WeightedTransform(animator.GetBoneTransform(HumanBodyBones.Hips), 1.0f);
-            selectedObject.transform.Find("AnimationRigging/MeshSockets/HipsBackLeftSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
-            selectedObject.transform.Find("AnimationRigging/MeshSockets/HipsBackRightSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
-            selectedObject.transform.Find("AnimationRigging/MeshSockets/HipsFrontLeftSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
+            // 2. Helper Method
+            void AddSourceToConstraint(string socketPath, HumanBodyBones boneType)
+            {
+                Transform bone = animator.GetBoneTransform(boneType);
+                if (bone == null)
+                {
+                    Debug.LogWarning($"Bone {boneType} not found in Animator. Skipping {socketPath}.");
+                    return;
+                }
 
-            selectedObject.transform.Find("AnimationRigging/MeshSockets/HipsFrontRightSocket").GetComponent<MultiParentConstraint>().data.sourceObjects.Add(weightedTransform);
+                Transform socket = selectedObject.transform.Find(socketPath);
+                if (socket == null)
+                {
+                    Debug.LogError($"Socket path not found: {socketPath}");
+                    return;
+                }
 
-            //TODO: The following changes only show up once in the inspector/editor and are not actually saved afterwards for yet unknown reasons. For now this is fixed by an automatic failsafe in AgentPickUpTask which is computationally heavy  
+                var constraint = socket.GetComponent<MultiParentConstraint>();
+                if (constraint != null)
+                {
+                    WeightedTransform newSource = new WeightedTransform(bone, 1.0f);
+                    WeightedTransformArray sources = new WeightedTransformArray{ newSource };
+
+                    constraint.data.sourceObjects = sources;
+                }
+                else
+                {
+                    Debug.LogError($"MultiParentConstraint missing on {socket.name}");
+                }
+            }
+
+            // 3. Apply constraints using the helper
+            Debug.Log("Starting Animation Rigging Setup...");
+
+            AddSourceToConstraint("AnimationRigging/MeshSockets/RightHandSocket", HumanBodyBones.RightHand);
+            AddSourceToConstraint("AnimationRigging/MeshSockets/LeftHandSocket", HumanBodyBones.LeftHand);
+            
+            AddSourceToConstraint("AnimationRigging/MeshSockets/RightLowerArmSocket", HumanBodyBones.RightLowerArm);
+            AddSourceToConstraint("AnimationRigging/MeshSockets/LeftLowerArmSocket", HumanBodyBones.LeftLowerArm);
+            
+            AddSourceToConstraint("AnimationRigging/MeshSockets/RightUpperArmSocket", HumanBodyBones.RightUpperArm);
+            AddSourceToConstraint("AnimationRigging/MeshSockets/LeftUpperArmSocket", HumanBodyBones.LeftUpperArm);
+
+            // For sockets that share the same bone (Chest/Spine), we call it multiple times
+            AddSourceToConstraint("AnimationRigging/MeshSockets/RightBackSocket", HumanBodyBones.Chest);
+            AddSourceToConstraint("AnimationRigging/MeshSockets/LeftBackSocket", HumanBodyBones.Chest);
+
+            // For Hips
+            AddSourceToConstraint("AnimationRigging/MeshSockets/HipsBackLeftSocket", HumanBodyBones.Hips);
+            AddSourceToConstraint("AnimationRigging/MeshSockets/HipsBackRightSocket", HumanBodyBones.Hips);
+            AddSourceToConstraint("AnimationRigging/MeshSockets/HipsFrontLeftSocket", HumanBodyBones.Hips);
+            AddSourceToConstraint("AnimationRigging/MeshSockets/HipsFrontRightSocket", HumanBodyBones.Hips);
+            
+            
             MeshSockets meshSockets = selectedObject.GetComponent<MeshSockets>();
-            meshSockets.TwoBoneIKConstraintLeftArm.data.root = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
-            meshSockets.TwoBoneIKConstraintLeftArm.data.mid = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
-            meshSockets.TwoBoneIKConstraintLeftArm.data.tip = animator.GetBoneTransform(HumanBodyBones.LeftHand);
+            if (meshSockets == null)
+            {
+                Debug.LogWarning("MeshSockets component not found on the used prefab. Skipping Two Bone IK setup. Please check that the CustomAgentWithoutModel prefab has a MeshSockets component with the correct socket structure.");
+            }
+            else
+            {
+                meshSockets.TwoBoneIKConstraintLeftArm.data.root = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
+                meshSockets.TwoBoneIKConstraintLeftArm.data.mid = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
+                meshSockets.TwoBoneIKConstraintLeftArm.data.tip = animator.GetBoneTransform(HumanBodyBones.LeftHand);
 
-            meshSockets.TwoBoneIKConstraintRightArm.data.root = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
-            meshSockets.TwoBoneIKConstraintRightArm.data.mid = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
-            meshSockets.TwoBoneIKConstraintRightArm.data.tip = animator.GetBoneTransform(HumanBodyBones.RightHand);
+                meshSockets.TwoBoneIKConstraintRightArm.data.root = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
+                meshSockets.TwoBoneIKConstraintRightArm.data.mid = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
+                meshSockets.TwoBoneIKConstraintRightArm.data.tip = animator.GetBoneTransform(HumanBodyBones.RightHand);
+            }
+            
+            EditorUtility.SetDirty(selectedObject);
+            EditorUtility.SetDirty(meshSockets);
+            
+            Debug.Log("Successfully set up Animation Rigging based on the Animator's Avatar.");
+
         }
     }
 }
