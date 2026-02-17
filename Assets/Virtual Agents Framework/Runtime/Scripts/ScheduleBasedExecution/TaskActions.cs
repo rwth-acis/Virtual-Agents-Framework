@@ -29,6 +29,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// </summary>
         /// <param name="destinationCoordinates">Position the agent should go to</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
+        /// <param name="crouchPercentage">The amount the agent should crouch while walking, 0 being a fully upright walk and 1 being a full crouch. Note, that the agent gets slower while crouching lower</param>
         public AgentBaseTask GoTo(Vector3 destinationCoordinates, int priority = 0, float crouchPercentage = 0f)
         {
             AgentMovementTask movementTask = new AgentMovementTask(destinationCoordinates, -1, crouchPercentage);
@@ -44,9 +45,10 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// </summary>
         /// <param name="destinationObject">Transform the agent should go to</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
-        public AgentBaseTask GoTo(Transform destinationTransform, Vector3 offset = default, int priority = 0)
+        /// <param name="crouchPercentage">The amount the agent should crouch while walking, 0 being a fully upright walk and 1 being a full crouch. Note, that the agent gets slower while crouching lower</param>
+        public AgentBaseTask GoTo(Transform destinationTransform, Vector3 offset = default, int priority = 0, float crouchPercentage = 0f)
         {
-            return GoTo(destinationTransform.position + offset, priority);
+            return GoTo(destinationTransform.position + offset, priority, crouchPercentage);
         }
 
         /// <summary>
@@ -56,11 +58,12 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <param name="destinationObject">GameObject the agent should go to</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
         /// <param name="follow">Decides if the Agent should follow the GameObject, dynamically, even if the path cannot reach the GameObject</param>
-        public AgentBaseTask GoTo(GameObject destinationObject, Vector3 offset = default, int priority = 0, bool follow = false)
+        /// <param name="crouchPercentage">The amount the agent should crouch while walking, 0 being a fully upright walk and 1 being a full crouch. Note, that the agent gets slower while crouching lower</param>
+        public AgentBaseTask GoTo(GameObject destinationObject, Vector3 offset = default, int priority = 0, bool follow = false , float crouchPercentage = 0f)
         {
             if (follow)
             {
-                AgentMovementTask movementTask = new AgentMovementTask(destinationObject, default, follow);
+                AgentMovementTask movementTask = new AgentMovementTask(destinationObject, default, follow, crouchPercentage);
                 scheduleTaskSystem.ScheduleTask(movementTask, priority);
                 AgentRotationTask rotationTask = new AgentRotationTask(destinationObject);
                 scheduleTaskSystem.ScheduleTask(rotationTask, priority);
@@ -68,8 +71,15 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             }
             else
             {
-                return GoTo(destinationObject.transform, offset, priority);
+                return GoTo(destinationObject.transform, offset, priority, crouchPercentage);
             }
+        }
+
+        public AgentBaseTask GoToAndStayCrouching(Transform destinationTransform, int priority = 0, float crouchPercentage = 1f)
+        {
+            AgentMovementTask movementTask = new AgentMovementTask(destinationTransform, default, crouchPercentage, false);
+            scheduleTaskSystem.ScheduleTask(movementTask, priority);
+            return movementTask;
         }
 
         /// <summary>

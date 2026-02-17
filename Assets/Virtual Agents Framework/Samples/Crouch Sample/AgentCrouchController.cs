@@ -19,7 +19,7 @@ namespace i5.VirtualAgents.Examples
             base.Start();
             for (int i = 0; i < waypoints.Count-1; i++)
             {
-                taskSystem.Tasks.GoTo(waypoints[i].position, 0, 1f);
+                taskSystem.Tasks.GoToAndStayCrouching(waypoints[i], 0, 0.9f);
             }
         }
 
