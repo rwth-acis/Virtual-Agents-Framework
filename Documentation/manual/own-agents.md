@@ -47,12 +47,23 @@ With a lower value, the agent will not be able to walk at the full speed as inte
 A higher value will cause foot sliding as the animation is too slow to keep up with the movement speed.
 
 ## Importing Custom Models from Ready Player Me
-[Ready Player Me](https://readyplayer.me/) is a service that provides easy assess to custom avatars that can be used for rapid prototyping or as an avatar system. As an example we will show here how an avatar created on [Ready Player Me](https://readyplayer.me/) can be turned into an agent.
+[!IMPORTANT] The services offered by Ready Player Me have become unavailable as of January 31, 2026. Already downloaded glb files of avatars can be imported by using the steps provided [below](own-agents.md#importing-downloaded-models-from-ready-player-me).
+
+### Legacy instructions
+[Ready Player Me](https://readyplayer.me/) is a service that provides easy access to custom avatars that can be used for rapid prototyping or as an avatar system. As an example we will show here how an avatar created on [Ready Player Me](https://readyplayer.me/) can be turned into an agent.
 1. Create a Ready Player Me avatar [here](https://readyplayer.me/en/hub/avatars)
-To easily import the avatar, the Ready Player Me SDK for Unity can be used. Optionally the Avatar can also be downloaded as a gbl file and turned into a fbx file with programs like blender to import the avatar normally as in the steps above.
-2. Copy the provided .gbl URL after avatar creation
-3. Follow the first step [here](https://docs.readyplayer.me/ready-player-me/integration-guides/unity/quickstart) to import the Ready Player Me Unity SDK into your package. Optionally, the other steps of the installation guide can be followed but there are not needed here. Close the Setup Guide menu.
-4. In the top menu of Unity click ``Ready Player Me`` > ``Avatar Loaded``. In the new window copy the .gbl URL of step 2 and load the avatar.
+To easily import the avatar, the Ready Player Me SDK for Unity can be used. Optionally the Avatar can also be downloaded as a glb file and turned into a fbx file with programs like Blender to import the avatar normally as in the steps above.
+2. Copy the provided .glb URL after avatar creation
+3. Follow the first step [here](https://docs.readyplayer.me/ready-player-me/integration-guides/unity/quickstart) to import the Ready Player Me Unity SDK into your package. Optionally, the other steps of the installation guide can be followed but they are not needed here. Close the Setup Guide menu.
+4. In the top menu of Unity click ``Ready Player Me`` > ``Avatar Loaded``. In the new window copy the .glb URL of step 2 and load the avatar.
 5. Select the loaded avatar in the scene and in the top menu of Unity click `Virtual Agents Framework` > `Custom Model Agent Import` > ` Create Agent from Humanoid Model`.
 The avatar should now be ready to function as an agent.
 
+### Importing Downloaded Models from Ready Player Me
+
+1. Install the [Unity GLTF Importer](https://docs.unity3d.com/Packages/com.unity.cloud.gltfast@6.16//manual/index.html) package from the Unity Package Manager by following the instructions [here](https://docs.unity3d.com/Packages/com.unity.cloud.gltfast@6.16//manual/installation.html).
+2. Move or copy the .glb asset files into your project's Assets folder.
+3. Drag and drop the asset file from the project window into a scene.
+4. Select the loaded asset in the scene and in the top menu of Unity click `Virtual Agents Framework` > `Custom Model Agent Import` > ` Create Agent from Humanoid Model`.
+   An agent called AgentBasedOnAssetName will appear in the scene next to the original asset. This avatar should now be ready to function as an agent.
+5. Remove the original asset from the scene. 
