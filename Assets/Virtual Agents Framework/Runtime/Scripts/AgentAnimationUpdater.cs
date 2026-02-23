@@ -46,6 +46,8 @@ namespace i5.VirtualAgents
             agent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();
             animator.applyRootMotion = false;
+            animator.SetFloat(_animIDRotationDirection, 0);
+            animator.SetBool(_animIDIsRotating, false);
         }
 
         private void AssignAnimationIDs()
@@ -69,18 +71,20 @@ namespace i5.VirtualAgents
 
             // normalize to -1..1 using an expected max turning speed
             float targetRotation = Mathf.Clamp(degPerSec / maxAngularTurnSpeed, -1f, 1f);
-
+            
             // suppress rotation while moving
             if (agent.velocity.magnitude > 0.01f)
                 targetRotation = 0f;
-
+            
             // smooth the rotation value for continuous transitions
             float prevRotation = animator.GetFloat(_animIDRotationDirection);
-            const float smoothSpeed = 15f;
-            float rotation = Mathf.Lerp(prevRotation, targetRotation, 1f - Mathf.Exp(-smoothSpeed * Time.deltaTime));
+            const float smoothSpeedUp = 20f;
+            const float smoothSpeedDown = 5f;
+            float smooth = targetRotation != 0 && agent.velocity.magnitude < 0.01f? smoothSpeedUp : smoothSpeedDown;
+            float rotation = Mathf.Lerp(prevRotation, targetRotation, 1f - Mathf.Exp(-smooth * Time.deltaTime));
 
             // snap to -1, 0, or 1 when close enough to avoid blending around those values
-            rotation = Mathf.Abs(rotation) > 0.98f ? Mathf.Sign(rotation) : (Mathf.Abs(rotation) < 0.02f ? 0f : rotation);
+            rotation = Mathf.Abs(rotation) > 0.95f ? Mathf.Sign(rotation) : (Mathf.Abs(rotation) < 0.05f ? 0f : rotation);
 
             animator.SetFloat(_animIDRotationDirection, rotation);
             animator.SetBool(_animIDIsRotating, Mathf.Abs(rotation) > 0.01f);
