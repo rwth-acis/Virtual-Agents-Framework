@@ -33,6 +33,11 @@ namespace i5.VirtualAgents.AgentTasks
         /// The transform the agent should rotate towards
         /// </summary>
         public Transform TargetTransform { get; protected set; }
+        
+        /// <summary>
+        /// The coordinates the agent should rotate towards
+        /// </summary>
+        public Vector3? TargetPosition { get; protected set; }
 
         /// <summary>
         /// The angular speed at which the agent should rotate (degrees per second)
@@ -54,6 +59,7 @@ namespace i5.VirtualAgents.AgentTasks
             TargetTransform = target.transform;
             IsRotationByAngle = false;
             AngularSpeed = angularSpeed;
+            TargetPosition = null;
         }
 
         /// <summary>
@@ -63,10 +69,10 @@ namespace i5.VirtualAgents.AgentTasks
         /// <param name="angularSpeed">Angular speed in degrees per second (default 90)</param>
         public AgentRotationTask(Vector3 coordinates, float angularSpeed = 90f)
         {
-            TargetTransform = new GameObject().transform;
-            TargetTransform.position = coordinates;
+            TargetPosition = coordinates;
             IsRotationByAngle = false;
             AngularSpeed = angularSpeed;
+            TargetTransform = null;
         }
 
         /// <summary>
@@ -76,7 +82,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// In this case the agent rotates in the direction that minimises the distance.
         /// </summary>
         /// <param name="angle">The angle to rotate by or towards, in degrees</param>
-        /// <param name="isRotationByAngle">True if agent should rotate by "angle" degrees, false if the rotation value of the agent should be set to "angle"</param>
+        /// <param name="isRotationByAngle">True if agent should rotate by "angle" degrees, false if the rotation value of the agent should be set to "angle" (default true)</param>
         /// <param name="angularSpeed">Angular speed in degrees per second (default 90)</param>
         public AgentRotationTask(float angle, bool isRotationByAngle = true, float angularSpeed = 90f)
         {
@@ -109,7 +115,8 @@ namespace i5.VirtualAgents.AgentTasks
             // For target and coordinates rotation
             if (!IsRotationTowardsAngle && !IsRotationByAngle)
             {
-                Vector3 newTargetPosition = new Vector3(TargetTransform.position.x, 0, TargetTransform.position.z);
+                Vector3 targetPos = TargetPosition ?? TargetTransform.position;
+                Vector3 newTargetPosition = new Vector3(targetPos.x, 0, targetPos.z);
                 Vector3 newAgentPosition = new Vector3(agent.transform.position.x, 0, agent.transform.position.z);
                 float angle = Vector3.SignedAngle(agent.transform.forward, newTargetPosition - newAgentPosition, Vector3.up);
                 TargetRotation = agent.transform.rotation * Quaternion.Euler(0, angle, 0);
