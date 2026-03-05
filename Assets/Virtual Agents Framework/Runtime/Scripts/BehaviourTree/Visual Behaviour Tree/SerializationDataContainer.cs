@@ -17,6 +17,7 @@ namespace i5.VirtualAgents.AgentTasks
         STRING,
         INT,
         GAMEOBJECT,
+        TRANSFORM,
         BOOL,
         AUDIOCLIP,
         AUDIOSOURCE,
@@ -124,6 +125,8 @@ namespace i5.VirtualAgents.AgentTasks
     [Serializable]
     public class SerializedGameObjects : SerializationData<GameObject> { }
     [Serializable]
+    public class SerializedTransform : SerializationData<Transform> { }
+    [Serializable]
     public class SerializedBools : SerializationData<bool> { }
     [Serializable]
     public class SerializedListFloats : SerializationData<List<float>> { }
@@ -149,6 +152,7 @@ namespace i5.VirtualAgents.AgentTasks
         [SerializeField] public SerializedStrings serializedStrings = new SerializedStrings();
         [SerializeField] public SerializedInts serializedInts = new SerializedInts();
         [SerializeField] public SerializedGameObjects serializedGameobjects = new SerializedGameObjects();
+        [SerializeField] public SerializedTransform serializedTransforms = new SerializedTransform();
         [SerializeField] public SerializedBools serializedBools = new SerializedBools();
         [SerializeField] public SerializedAudioClips serializedAudioClips = new SerializedAudioClips();
         [SerializeField] public SerializedAudioSources serializedAudioSources = new SerializedAudioSources();
@@ -188,6 +192,11 @@ namespace i5.VirtualAgents.AgentTasks
         public bool AddSerializedData(string key, GameObject value)
         {
             return add(SerializableType.GAMEOBJECT,serializedGameobjects.Add(key,value));
+        }
+        
+        public bool AddSerializedData(string key, Transform value)
+        {
+            return add(SerializableType.TRANSFORM,serializedTransforms.Add(key,value));
         }
 
         public bool AddSerializedData(string key, bool value)
@@ -246,6 +255,11 @@ namespace i5.VirtualAgents.AgentTasks
         {
             return serializedGameobjects.Get(key);
         }
+        
+        public Transform GetSerializedTransform(string key)
+        {
+            return serializedTransforms.Get(key);
+        }
 
         public bool GetSerializedBool(string key)
         {
@@ -287,6 +301,7 @@ namespace i5.VirtualAgents.AgentTasks
                SerializableType.STRING => nameof(serializedStrings),
                SerializableType.INT => nameof(serializedInts),
                SerializableType.GAMEOBJECT => nameof(serializedGameobjects),
+               SerializableType.TRANSFORM => nameof(serializedTransforms),
                SerializableType.BOOL => nameof(serializedBools),
                SerializableType.LIST_FLOAT => nameof(serializedListFloats),
                SerializableType.TREE => nameof(serializedTrees),
@@ -304,6 +319,7 @@ namespace i5.VirtualAgents.AgentTasks
             int stringCounter = 0;
             int intCounter = 0;
             int gameobjectCounter = 0;
+            int transformCounter = 0;
             int boolCounter = 0;
             int listFloatCounter = 0;
             int treeCounter = 0;
@@ -327,6 +343,7 @@ namespace i5.VirtualAgents.AgentTasks
                     SerializableType.STRING => wrapper(type,ref stringCounter),
                     SerializableType.INT => wrapper(type,ref intCounter),
                     SerializableType.GAMEOBJECT => wrapper(type,ref gameobjectCounter),
+                    SerializableType.TRANSFORM => wrapper(type,ref transformCounter),
                     SerializableType.BOOL => wrapper(type,ref boolCounter),
                     SerializableType.LIST_FLOAT => wrapper(type,ref listFloatCounter),
                     SerializableType.TREE => wrapper(type,ref treeCounter),
@@ -362,6 +379,7 @@ namespace i5.VirtualAgents.AgentTasks
             serializedFloats.Clear();
             serializedInts.Clear();
             serializedGameobjects.Clear();
+            serializedTransforms.Clear();
             serializedBools.Clear();
             serializedListFloats.Clear();
             serializedTrees.Clear();
@@ -385,6 +403,7 @@ namespace i5.VirtualAgents.AgentTasks
                 SerializableType.STRING => serializedStrings.Get(index).Key,
                 SerializableType.INT => serializedInts.Get(index).Key,
                 SerializableType.GAMEOBJECT => serializedGameobjects.Get(index).Key,
+                SerializableType.TRANSFORM => serializedTransforms.Get(index).Key,
                 SerializableType.BOOL => serializedBools.Get(index).Key,
                 SerializableType.LIST_FLOAT => serializedListFloats.Get(index).Key,
                 SerializableType.TREE => serializedTrees.Get(index).Key,
@@ -441,6 +460,13 @@ namespace i5.VirtualAgents.AgentTasks
                     serializedGameobjects.SetValue(newName, serializedGameobjects.Get(oldName));
                 serializedGameobjects.data.RemoveAll(x => x.Key == oldName);
                 RemoveUnnecessaryEntriesInOrderOfType(SerializableType.GAMEOBJECT);
+            }
+            else if (serializedTransforms.KeyExists(oldName))
+            {
+                if (!serializedTransforms.Add(newName, serializedTransforms.Get(oldName)))
+                    serializedTransforms.SetValue(newName, serializedTransforms.Get(oldName));
+                serializedTransforms.data.RemoveAll(x => x.Key == oldName);
+                RemoveUnnecessaryEntriesInOrderOfType(SerializableType.TRANSFORM);
             }
             else if (serializedBools.KeyExists(oldName))
             {

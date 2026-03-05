@@ -23,6 +23,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -32,6 +34,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.Visual.RootNode
@@ -72,6 +76,8 @@ MonoBehaviour:
       data:
       - Key: Aim Target
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -81,6 +87,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 0200000002000000010000000400000002000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
@@ -129,6 +137,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -141,7 +151,9 @@ MonoBehaviour:
         Value: []
     serializedTrees:
       data: []
-    serializationOrder: 08000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 09000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.RandomNode
   Guid: 88ade8df2da66b14c8798ca199373641
   Position: {x: 0, y: 125}
@@ -182,6 +194,8 @@ MonoBehaviour:
       data:
       - Key: Aim Target
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -191,6 +205,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 0200000002000000010000000400000002000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
@@ -230,6 +246,8 @@ MonoBehaviour:
       data:
       - Key: Aim Target
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -239,6 +257,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 0200000002000000010000000400000002000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask

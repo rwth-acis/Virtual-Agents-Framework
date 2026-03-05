@@ -165,6 +165,10 @@ namespace i5.VirtualAgents.Editor
                     {
                         value.objectReferenceValue = data.Value as GameObject;
                     }
+                    else if (typeof(T) == typeof(Transform))
+                    {
+                        value.objectReferenceValue = data.Value as Transform;
+                    }
                     else if (typeof(T) == typeof(bool))
                     {
                         value.boolValue = (bool)(data.Value as bool?);
@@ -182,6 +186,19 @@ namespace i5.VirtualAgents.Editor
                     {
                         value.objectReferenceValue = data.Value as BehaviourTreeAsset;
                     }
+                    else if (typeof(T) == typeof(Quaternion))
+                    {
+                        // Cast to nullable Quaternion first, just like you did with Vector3
+                        value.quaternionValue = (Quaternion)(data.Value as Quaternion?); 
+                    }
+                    else if (typeof(T) == typeof(AudioClip))
+                    {
+                        value.objectReferenceValue = data.Value as AudioClip;
+                    }
+                    else if (typeof(T) == typeof(AudioSource))
+                    {
+                        value.objectReferenceValue = data.Value as AudioSource;
+                    }
                     else
                     {
                         throw new NotImplementedException(typeof(T) + " has no copy handler");
@@ -197,9 +214,13 @@ namespace i5.VirtualAgents.Editor
             CopySerializedData(d.serializedStrings.data, "serializedStrings.data");
             CopySerializedData(d.serializedInts.data, "serializedInts.data");
             CopySerializedData(d.serializedGameobjects.data, "serializedGameobjects.data");
+            CopySerializedData(d.serializedTransforms.data, "serializedTransforms.data");
             CopySerializedData(d.serializedBools.data, "serializedBools.data");
             CopySerializedData(d.serializedListFloats.data, "serializedListFloats.data");
             CopySerializedData(d.serializedTrees.data, "serializedTrees.data");
+            CopySerializedData(d.serializedQuaternions.data, "serializedQuaternions.data");
+            CopySerializedData(d.serializedAudioClips.data, "serializedAudioClips.data");
+            CopySerializedData(d.serializedAudioSources.data, "serializedAudioSources.data");
 
             return nodeOverwriteData;
         }
@@ -225,7 +246,7 @@ namespace i5.VirtualAgents.Editor
             }
             else
             {
-                Debug.LogWarning("Serialized property not found");
+                Debug.LogWarning("Serialized property of type " + type + " not found. Check that this type is fully implemented.");
             }
             return 0;
         }
