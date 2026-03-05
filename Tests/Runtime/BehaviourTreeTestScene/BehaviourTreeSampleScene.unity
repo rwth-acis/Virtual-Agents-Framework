@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -226,13 +225,21 @@ MonoBehaviour:
           data:
           - Key: Destination Object
             Value: {fileID: 1644641973}
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: e56ea1ce2be784c438e37007a50cf81b
@@ -255,11 +262,19 @@ MonoBehaviour:
           data:
           - Key: Pickup Object
             Value: {fileID: 0}
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 201805933358a1c41a9f82961eb06ef4
@@ -274,11 +289,19 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 1220567cab2f5ef42af049d4e1fb3364
@@ -293,11 +316,19 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: dd71ea9932fc27e4c936650d95c19b20
@@ -318,13 +349,21 @@ MonoBehaviour:
           data:
           - Key: Destination Object
             Value: {fileID: 1735457798}
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 734a9b9f1cb2e4b469389ce8e9e55dd7
@@ -345,13 +384,21 @@ MonoBehaviour:
           data:
           - Key: Destination Object
             Value: {fileID: 1867069256}
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: bb5228f173cf0e1438dce3312d1609d8
@@ -374,11 +421,19 @@ MonoBehaviour:
           data:
           - Key: Pickup Object
             Value: {fileID: 1867069256}
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 7d1d6bdd4481a2d41b3d87d6bd573b54
@@ -395,13 +450,21 @@ MonoBehaviour:
           data:
           - Key: Destination
             Value: {fileID: 1867069256}
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Allow Partial Paths
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: f6d656ad5e7b8f045a4660a4f1cc4337
@@ -420,11 +483,19 @@ MonoBehaviour:
           data:
           - Key: Target
             Value: {fileID: 1867069256}
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 8e52bf5c33c45be4c9666dc8479061e6
@@ -439,13 +510,21 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Should Adaptive Gaze start or stop?
             Value: 1
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 49b0adad53ffcc34d9961f09cfc118d5
@@ -470,11 +549,19 @@ MonoBehaviour:
           data:
           - Key: Aim Target
             Value: {fileID: 0}
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 4b5268f58060f2c4eb9bfdbd3147aca2
@@ -489,13 +576,21 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Should Adaptive Gaze start or stop?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 441782077ba729642a4cb8fef0c63ebf
@@ -512,11 +607,19 @@ MonoBehaviour:
           data:
           - Key: Drop Object
             Value: {fileID: 1867069256}
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: d022e518167be1845aa2347d9aea3d77
@@ -533,11 +636,188 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
+          data: []
+        serializationOrder: 
+    - Key: c6ec20a7b9ce9154b97f99c3d43fee16
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data:
+          - Key: Angle
+            Value: 0
+          - Key: Speed
+            Value: 100
+          - Key: Angle Threshold Deg
+            Value: 0.5
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedTransforms:
+          data:
+          - Key: Target Transform
+            Value: {fileID: 0}
+        serializedBools:
+          data:
+          - Key: Is Rotation By Angle
+            Value: 1
+          - Key: Is Rotation Towards Angle
+            Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializedQuaternions:
+          data:
+          - Key: Target Rotation
+            Value: {x: 0, y: 0, z: 0, w: 0}
+        serializationOrder: 
+    - Key: bf317bc5dde25074ca8c99f4647a905f
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedTransforms:
+          data: []
+        serializedBools:
+          data:
+          - Key: Should Adaptive Gaze start or stop?
+            Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializedQuaternions:
+          data: []
+        serializationOrder: 
+    - Key: 369b46e9d0fcbcf4daaf43a5ad115121
+      Value:
+        serializedVectors:
+          data:
+          - Key: Destination
+            Value: {x: 0, y: 0, z: 0}
+        serializedFloats:
+          data:
+          - Key: Target Speed
+            Value: -1
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Destination Object
+            Value: {fileID: 0}
+        serializedTransforms:
+          data: []
+        serializedBools:
+          data:
+          - Key: Follow GameObject?
+            Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializedQuaternions:
+          data: []
+        serializationOrder: 
+    - Key: 372135e1e7d3fb9428593b5abe0c60cd
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data:
+          - Key: Play Time
+            Value: 5
+        serializedStrings:
+          data:
+          - Key: Start Trigger
+            Value: WaveRight
+          - Key: Stop Trigger
+            Value: 
+          - Key: Layer
+            Value: Right Arm
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Aim Target
+            Value: {fileID: 0}
+        serializedTransforms:
+          data: []
+        serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializedQuaternions:
+          data: []
+        serializationOrder: 
+    - Key: 9e0de9841b72c2247b736ecd8d633cd9
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedTransforms:
+          data: []
+        serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
 --- !u!1 &52754172

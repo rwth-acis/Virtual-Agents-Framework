@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace i5.VirtualAgents.AgentTasks
 {
@@ -43,13 +41,19 @@ namespace i5.VirtualAgents.AgentTasks
         /// <summary>
         /// The angular speed at which the agent should rotate (degrees per second)
         /// </summary>
-        public float AngularSpeed { get; protected set; }
+        public float AngularSpeed { get; protected set; } = 100f;
 
         /// <summary>
         /// The angle difference (in degrees) at which the task is considered finished
         /// </summary>
         public float AngleThresholdDeg = 0.5f;
 
+        // Only used for serialization purposes
+        public AgentRotationTask()
+        {
+            
+        }
+        
         /// <summary>
         /// Create an AgentRotationTask using a target object to turn towards, position will be evaluated when task is started
         /// </summary>
@@ -80,7 +84,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// Create an AgentRotationTask using the angle that the agent should rotate by.
         /// Positive angle turns right, negative angle turns left.
         /// When isRotationByAngle is set to false, the agents rotation attribute will be set to the angle specified instead.
-        /// In this case the agent rotates in the direction that minimises the distance.
+        /// In this case the agent rotates in the direction that minimizes the distance.
         /// </summary>
         /// <param name="angle">The angle to rotate by or towards, in degrees</param>
         /// <param name="isRotationByAngle">True if agent should rotate by "angle" degrees, false if the rotation value of the agent should be set to "angle" (default true)</param>
@@ -141,22 +145,22 @@ namespace i5.VirtualAgents.AgentTasks
         {
             serializer.AddSerializedData("Target Rotation", TargetRotation);
             serializer.AddSerializedData("Is Rotation By Angle", IsRotationByAngle);
+            serializer.AddSerializedData("Is Rotation Towards Angle", IsRotationTowardsAngle);
             serializer.AddSerializedData("Angle", Angle);
             serializer.AddSerializedData("Speed", AngularSpeed);
-            if (TargetTransform != null) serializer.AddSerializedData("Target Transform", TargetTransform.gameObject);
-            if (TargetPosition.HasValue) serializer.AddSerializedData("Target Position", TargetPosition.Value);
+            serializer.AddSerializedData("Target Transform", TargetTransform);
+            serializer.AddSerializedData("Angle Threshold Deg", AngleThresholdDeg);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
         {
             TargetRotation = serializer.GetSerializedQuaternion("Target Rotation");
             IsRotationByAngle = serializer.GetSerializedBool("Is Rotation By Angle");
+            IsRotationTowardsAngle = serializer.GetSerializedBool("Is Rotation Towards Angle");
             Angle = serializer.GetSerializedFloat("Angle");
             AngularSpeed = serializer.GetSerializedFloat("Speed");
-            try { TargetTransform = serializer.GetSerializedGameobjects("Target Transform").transform; }
-            catch (System.Collections.Generic.KeyNotFoundException) { TargetTransform = null; }
-            try { TargetPosition = serializer.GetSerializedVector("Target Position"); }
-            catch (System.Collections.Generic.KeyNotFoundException) { TargetPosition = null; }
+            TargetTransform = serializer.GetSerializedTransform("Target Transform");
+            AngleThresholdDeg = serializer.GetSerializedFloat("Angle Threshold Deg");
         }
     }
 }
