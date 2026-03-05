@@ -11,6 +11,8 @@ namespace i5.VirtualAgents.Examples
         public Transform waypointUp;
         public Transform waypointDown;
 
+        public float waitTime = 3f;
+
         protected override void Start()
         {
             base.Start();
@@ -27,17 +29,17 @@ namespace i5.VirtualAgents.Examples
             AgentRotationTask rotationAngle2= new AgentRotationTask(90, false);
 
             
-            taskSystem.Tasks.WaitForSeconds(1, 0);
+            taskSystem.Tasks.WaitForSeconds(waitTime, 0);
             taskSystem.ScheduleTask(rotationTarget, 0, "Base Layer");
-            taskSystem.Tasks.WaitForSeconds(1, 0);
+            taskSystem.Tasks.WaitForSeconds(waitTime, 0);
             taskSystem.ScheduleTask(rotationCoordinate, 0, "Base Layer");
-            taskSystem.Tasks.WaitForSeconds(1, 0);
+            taskSystem.Tasks.WaitForSeconds(waitTime, 0);
             taskSystem.ScheduleTask(rotationAngle1, 0, "Base Layer");
-            taskSystem.Tasks.WaitForSeconds(1, 0);
+            taskSystem.Tasks.WaitForSeconds(waitTime, 0);
             taskSystem.ScheduleTask(rotationAngle2, 0, "Base Layer");
-            taskSystem.Tasks.WaitForSeconds(1, 0);
+            taskSystem.Tasks.WaitForSeconds(waitTime, 0);
             
-            // Navigate to the Up waypoint and then rotate towards it
+            // Navigate to the Up waypoint and then automatically rotate towards it
             taskSystem.Tasks.GoTo(waypointUp.gameObject, default, 0, true);
         }
     }
