@@ -251,7 +251,7 @@ namespace i5.VirtualAgents
             bool isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
             Assert.That(isMoving, Is.True);
 
-            yield return new WaitForSeconds(25);
+            yield return new WaitForSeconds(18);
 
             //Check if the agent has stopped moving
             isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
