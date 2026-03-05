@@ -12,8 +12,8 @@ namespace i5.VirtualAgents
         Waiting, // Task created, but never executed
         Running, // Task currently running
         Failure, // Task has finished executing and failed
-        Success,  // Task has finished executing and succeeded
-        Aborted // Task has been aborted
+        Success, // Task has finished executing and succeeded
+        Aborted  // Task has been aborted
     }
 
     /// <summary>
@@ -49,5 +49,10 @@ namespace i5.VirtualAgents
         /// <param name="executingAgent"></param>
         /// <returns></returns>
         TaskState Tick(Agent executingAgent);
+
+        /// <summary>
+        /// Resets the task to its beginning state
+        /// </summary>
+        void Reset();
     }
 }

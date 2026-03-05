@@ -3,7 +3,8 @@
     "rootNamespace": "i5.VirtualAgents",
     "references": [
         "GUID:f32d19dcd8c86204c933aa66960594a6",
-        "GUID:7f7d1af65c2641843945d409d28f2e20"
+        "GUID:7f7d1af65c2641843945d409d28f2e20",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
