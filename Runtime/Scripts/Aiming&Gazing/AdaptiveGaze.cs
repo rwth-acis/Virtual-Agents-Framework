@@ -150,8 +150,8 @@ namespace i5.VirtualAgents
             // Check if the seeLayers are set to Everything (-1)
             if (seeLayers.value == -1)
             {
-                // Check if scene is not one of the sample scenes
-                if (!SceneManager.GetActiveScene().name.ToLower().Contains("sample"))
+                // Check if scene is not one of the sample or test scenes
+                if (!(SceneManager.GetActiveScene().name.ToLower().Contains("sample") || SceneManager.GetActiveScene().name.ToLower().Contains("test")))
                 {
                     Debug.LogWarning("The seeLayers of AdaptiveGaze component of the agent are still set to Everything. This might cause performance issues. Please set the seeLayers to a more specific layer mask or deactivate the AdaptiveGaze component. See AdaptiveGaze in the documentation manuel.");
                 }
@@ -371,10 +371,10 @@ namespace i5.VirtualAgents
             Vector3 dest = obj.transform.position;
             if (Physics.Linecast(origin, dest, occlusionLayers))
             {
-                // Debug.DrawLine(origin, dest, Color.red, 2f);
+                Debug.DrawLine(origin, dest, Color.red, 2f);
                 return false;
             }
-            // Debug.DrawLine(origin, dest, Color.green, 2f);
+            Debug.DrawLine(origin, dest, Color.green, 2f);
             return true;
         }
 
