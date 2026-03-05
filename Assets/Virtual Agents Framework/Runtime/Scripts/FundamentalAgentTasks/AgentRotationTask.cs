@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace i5.VirtualAgents.AgentTasks
 {
@@ -53,8 +54,8 @@ namespace i5.VirtualAgents.AgentTasks
         /// Create an AgentRotationTask using a target object to turn towards, position will be evaluated when task is started
         /// </summary>
         /// <param name="target">Target object of the rotation task</param>
-        /// <param name="angularSpeed">Angular speed in degrees per second (default 90)</param>
-        public AgentRotationTask(GameObject target, float angularSpeed = 90f)
+        /// <param name="angularSpeed">Angular speed in degrees per second</param>
+        public AgentRotationTask(GameObject target, float angularSpeed = 110f)
         {
             TargetTransform = target.transform;
             IsRotationByAngle = false;
@@ -66,8 +67,8 @@ namespace i5.VirtualAgents.AgentTasks
         /// Create an AgentRotationTask using the destination coordinates
         /// </summary>
         /// <param name="coordinates">Coordinates of the rotation task</param>
-        /// <param name="angularSpeed">Angular speed in degrees per second (default 90)</param>
-        public AgentRotationTask(Vector3 coordinates, float angularSpeed = 90f)
+        /// <param name="angularSpeed">Angular speed in degrees per second</param>
+        public AgentRotationTask(Vector3 coordinates, float angularSpeed = 110f)
         {
             TargetPosition = coordinates;
             IsRotationByAngle = false;
@@ -83,8 +84,8 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         /// <param name="angle">The angle to rotate by or towards, in degrees</param>
         /// <param name="isRotationByAngle">True if agent should rotate by "angle" degrees, false if the rotation value of the agent should be set to "angle" (default true)</param>
-        /// <param name="angularSpeed">Angular speed in degrees per second (default 90)</param>
-        public AgentRotationTask(float angle, bool isRotationByAngle = true, float angularSpeed = 90f)
+        /// <param name="angularSpeed">Angular speed in degrees per second</param>
+        public AgentRotationTask(float angle, bool isRotationByAngle = true, float angularSpeed = 110f)
         {
             IsRotationByAngle = isRotationByAngle;
             if (!isRotationByAngle)
@@ -107,12 +108,7 @@ namespace i5.VirtualAgents.AgentTasks
         public override void StartExecution(Agent agent)
         {
             base.StartExecution(agent);
-            if (agent.TryGetComponent(out AgentAnimationUpdater updater))
-            {
-                updater.MaxAngularTurnSpeed = AngularSpeed;
-            }
-            
-            // For target and coordinates rotation
+            // Calculate target rotation based on task parameters
             if (!IsRotationTowardsAngle && !IsRotationByAngle)
             {
                 Vector3 targetPos = TargetPosition ?? TargetTransform.position;
@@ -122,33 +118,22 @@ namespace i5.VirtualAgents.AgentTasks
                 TargetRotation = agent.transform.rotation * Quaternion.Euler(0, angle, 0);
             }
 
-            //For Angle rotation
             if (IsRotationByAngle)
             {
                 TargetRotation = agent.transform.rotation * Quaternion.Euler(0, Angle, 0);
             }
-            agent.StartCoroutine(Rotate(agent.transform));
-        }
 
-        private IEnumerator Rotate(Transform transform)
-        {
-            // RotateTowards uses degrees for the maxDegreesDelta parameter so we express AngularSpeed in deg/s
-            while (Quaternion.Angle(transform.rotation, TargetRotation) > AngleThresholdDeg)
+            // Delegate execution to the AgentAnimationUpdater
+            if (agent.TryGetComponent(out AgentAnimationUpdater updater))
             {
-                float step = AngularSpeed * Time.deltaTime; // degrees to rotate this frame
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, TargetRotation, step);
-                yield return null;
-            }
-
-            // Snap to target rotation to avoid tiny remaining differences
-            if (Quaternion.Angle(transform.rotation, TargetRotation) <= AngleThresholdDeg)
-            {
-                transform.rotation = TargetRotation;
-                FinishTask();
+                // Pass FinishTask as an Action delegate so the task resolves when the Coroutine ends
+                agent.StartCoroutine(updater.RotateTowardsTarget(TargetRotation, AngularSpeed, AngleThresholdDeg, FinishTask));
             }
             else
             {
-                FinishTaskAsFailed();
+                Debug.LogWarning("AgentAnimationUpdater missing. Snapping to target rotation instantly.");
+                agent.transform.rotation = TargetRotation;
+                FinishTask();
             }
         }
 
@@ -158,6 +143,8 @@ namespace i5.VirtualAgents.AgentTasks
             serializer.AddSerializedData("Is Rotation By Angle", IsRotationByAngle);
             serializer.AddSerializedData("Angle", Angle);
             serializer.AddSerializedData("Speed", AngularSpeed);
+            if (TargetTransform != null) serializer.AddSerializedData("Target Transform", TargetTransform.gameObject);
+            if (TargetPosition.HasValue) serializer.AddSerializedData("Target Position", TargetPosition.Value);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
@@ -166,6 +153,10 @@ namespace i5.VirtualAgents.AgentTasks
             IsRotationByAngle = serializer.GetSerializedBool("Is Rotation By Angle");
             Angle = serializer.GetSerializedFloat("Angle");
             AngularSpeed = serializer.GetSerializedFloat("Speed");
+            try { TargetTransform = serializer.GetSerializedGameobjects("Target Transform").transform; }
+            catch (System.Collections.Generic.KeyNotFoundException) { TargetTransform = null; }
+            try { TargetPosition = serializer.GetSerializedVector("Target Position"); }
+            catch (System.Collections.Generic.KeyNotFoundException) { TargetPosition = null; }
         }
     }
 }
