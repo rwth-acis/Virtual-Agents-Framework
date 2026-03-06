@@ -32,7 +32,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// The transform the agent should rotate towards
         /// </summary>
         public Transform TargetTransform { get; protected set; }
-        
+
         /// <summary>
         /// The coordinates the agent should rotate towards
         /// </summary>
@@ -51,9 +51,9 @@ namespace i5.VirtualAgents.AgentTasks
         // Only used for serialization purposes
         public AgentRotationTask()
         {
-            
+
         }
-        
+
         /// <summary>
         /// Create an AgentRotationTask using a target object to turn towards, position will be evaluated when task is started
         /// </summary>
@@ -143,6 +143,10 @@ namespace i5.VirtualAgents.AgentTasks
 
         public void Serialize(SerializationDataContainer serializer)
         {
+            if (TargetPosition != null)
+            {
+                serializer.AddSerializedData("Target Position", (Vector3)TargetPosition);
+            }
             serializer.AddSerializedData("Target Rotation", TargetRotation);
             serializer.AddSerializedData("Is Rotation By Angle", IsRotationByAngle);
             serializer.AddSerializedData("Is Rotation Towards Angle", IsRotationTowardsAngle);
@@ -154,6 +158,10 @@ namespace i5.VirtualAgents.AgentTasks
 
         public void Deserialize(SerializationDataContainer serializer)
         {
+            if (serializer.serializedVectors.KeyExists("Target Position"))
+            {
+                TargetPosition = serializer.GetSerializedVector("Target Position");
+            }
             TargetRotation = serializer.GetSerializedQuaternion("Target Rotation");
             IsRotationByAngle = serializer.GetSerializedBool("Is Rotation By Angle");
             IsRotationTowardsAngle = serializer.GetSerializedBool("Is Rotation Towards Angle");

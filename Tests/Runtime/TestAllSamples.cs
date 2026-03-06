@@ -306,7 +306,7 @@ namespace i5.VirtualAgents
         [UnityTest]
         public IEnumerator VerifyRotationTask()
         {
-            pathToScenes.TryGetValue("TaskBundle", out string path);
+            pathToScenes.TryGetValue("Rotation", out string path);
             AsyncOperation sceneLoaded = SceneManager.LoadSceneAsync(path);
             while (!sceneLoaded.isDone)
             {

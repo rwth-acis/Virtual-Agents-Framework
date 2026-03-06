@@ -371,10 +371,14 @@ namespace i5.VirtualAgents
             Vector3 dest = obj.transform.position;
             if (Physics.Linecast(origin, dest, occlusionLayers))
             {
+#if UNITY_EDITOR
                 Debug.DrawLine(origin, dest, Color.red, 2f);
+#endif
                 return false;
             }
+#if UNITY_EDITOR
             Debug.DrawLine(origin, dest, Color.green, 2f);
+#endif
             return true;
         }
 
