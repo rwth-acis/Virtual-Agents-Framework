@@ -30,6 +30,7 @@ namespace i5.VirtualAgents
             { "Synchronized Tasks", "Assets/Virtual Agents Framework/Samples/Parallel Tasks Sample/Synchronized Tasks/Synchronized Tasks Sample.unity" },
             { "Wait", "Assets/Virtual Agents Framework/Samples/Wait Sample/Wait Sample.unity" },
             { "TaskBundle", "Assets/Virtual Agents Framework/Samples/TaskBundle Sample/TaskBundle Sample.unity" },
+            { "Rotation", "Assets/Virtual Agents Framework/Samples/Rotation Sample/Rotation Sample.unity" },
             { "Behaviour", "Assets/Virtual Agents Framework/Tests/Runtime/BehaviourTreeTestScene/BehaviourTreeSampleScene.unity" }
         };
 
@@ -250,7 +251,7 @@ namespace i5.VirtualAgents
             bool isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
             Assert.That(isMoving, Is.True);
 
-            yield return new WaitForSeconds(25);
+            yield return new WaitForSeconds(18);
 
             //Check if the agent has stopped moving
             isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
@@ -300,6 +301,23 @@ namespace i5.VirtualAgents
             yield return new WaitForSeconds(45);
 
             //TODO: Add more sample specific asserts
+        }
+        
+        [UnityTest]
+        public IEnumerator VerifyRotationTask()
+        {
+            pathToScenes.TryGetValue("Rotation", out string path);
+            AsyncOperation sceneLoaded = SceneManager.LoadSceneAsync(path);
+            while (!sceneLoaded.isDone)
+            {
+                yield return null;
+            }
+            var Agent = GameObject.Find("AgentStandard");
+            Assert.That(Agent, Is.Not.Null);
+
+            yield return new WaitForSeconds(30);
+
+            //TODO: Add more sample specific asserts 
         }
 #endif
     }

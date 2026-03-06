@@ -29,6 +29,8 @@ MonoBehaviour:
       data:
       - Key: Destination Object
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data:
       - Key: Follow GameObject?
@@ -41,7 +43,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 04000000000000000100000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 04000000000000000100000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: dd71ea9932fc27e4c936650d95c19b20
   Position: {x: 104.666626, y: 250.00002}
@@ -69,6 +73,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -78,6 +84,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.Visual.RootNode
@@ -126,6 +134,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -135,6 +145,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
@@ -172,6 +184,8 @@ MonoBehaviour:
       data:
       - Key: Destination Object
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data:
       - Key: Follow GameObject?
@@ -184,7 +198,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 04000000000000000100000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 04000000000000000100000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 23aa415c65d797f418d786302253e78d
   Position: {x: -104.66673, y: 250.00002}

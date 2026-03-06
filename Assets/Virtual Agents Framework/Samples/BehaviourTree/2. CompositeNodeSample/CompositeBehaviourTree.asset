@@ -23,6 +23,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -32,6 +34,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
@@ -69,6 +73,8 @@ MonoBehaviour:
       data:
       - Key: Destination Object
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data:
       - Key: Follow GameObject?
@@ -81,7 +87,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 04000000000000000100000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 04000000000000000100000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 1d27ef711db317d4dbfe20c9b4ddee41
   Position: {x: 330, y: 500}
@@ -115,6 +123,8 @@ MonoBehaviour:
       data:
       - Key: Destination Object
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data:
       - Key: Follow GameObject?
@@ -127,7 +137,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 04000000000000000100000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 04000000000000000100000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 0111b33995aeee0438522524ec85331e
   Position: {x: -330, y: 500}
@@ -161,6 +173,8 @@ MonoBehaviour:
       data:
       - Key: Destination Object
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data:
       - Key: Follow GameObject?
@@ -173,7 +187,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 04000000000000000100000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 04000000000000000100000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 8de75082b6aadad4a8a9c0e7bcd6456a
   Position: {x: 550, y: 500}
@@ -201,6 +217,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -213,7 +231,9 @@ MonoBehaviour:
         Value: []
     serializedTrees:
       data: []
-    serializationOrder: 08000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 09000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.RandomNode
   Guid: c230d35c3695c5d4fb258beb7a5d6eb0
   Position: {x: 6.0001893, y: 124.99998}
@@ -240,11 +260,12 @@ MonoBehaviour:
     serializedStrings:
       data:
       - Key: message
-        Value: The 1. SequencerNode has been selected by the RandomNode. The agent
-          will first try to walk to waypoint 1, fail and contiue to waypoint 2.
+        Value: Debug task executed
     serializedInts:
       data: []
     serializedGameobjects:
+      data: []
+    serializedTransforms:
       data: []
     serializedBools:
       data:
@@ -258,7 +279,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 0200000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 0200000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.DebugTask
   Guid: 8d1c59c1f95251941ba59db11069fca2
   Position: {x: -550, y: 375}
@@ -312,6 +335,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -321,6 +346,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
@@ -352,6 +379,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -361,6 +390,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
@@ -389,11 +420,12 @@ MonoBehaviour:
     serializedStrings:
       data:
       - Key: message
-        Value: The 2. SequencerNode has been selected by the RandomNode. The agent
-          will walk to Waypoint 2 directly.
+        Value: Debug task executed
     serializedInts:
       data: []
     serializedGameobjects:
+      data: []
+    serializedTransforms:
       data: []
     serializedBools:
       data:
@@ -407,7 +439,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 0200000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 0200000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.DebugTask
   Guid: 29af902f2c88a574a9bf80df7f027313
   Position: {x: 110, y: 375}
@@ -441,6 +475,8 @@ MonoBehaviour:
       data:
       - Key: Destination Object
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data:
       - Key: Follow GameObject?
@@ -453,7 +489,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 04000000000000000100000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 04000000000000000100000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: ce5498f681603bc47815e384af051682
   Position: {x: -110, y: 500}
@@ -481,6 +519,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -490,6 +530,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.Visual.RootNode
@@ -520,6 +562,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -529,6 +573,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode

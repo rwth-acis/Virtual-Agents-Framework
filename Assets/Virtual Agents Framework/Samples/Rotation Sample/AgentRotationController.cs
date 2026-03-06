@@ -8,15 +8,19 @@ namespace i5.VirtualAgents.Examples
     public class AgentRotationController : SampleScheduleController
     {
         public List<Transform> waypoints;
+        public Transform waypointUp;
+        public Transform waypointDown;
+
+        public float waitTime = 3f;
 
         protected override void Start()
         {
             base.Start();
             // Rotate towards a target object
-            AgentRotationTask rotationTarget= new AgentRotationTask(waypoints[1].gameObject);
+            AgentRotationTask rotationTarget= new AgentRotationTask(waypoints[0].gameObject);
 
             // Rotate towards a coordinate
-            AgentRotationTask rotationCoordinate= new AgentRotationTask(waypoints[2].position);
+            AgentRotationTask rotationCoordinate= new AgentRotationTask(waypoints[1].position);
 
             // Rotate by a specific angle
             AgentRotationTask rotationAngle1= new AgentRotationTask(45);
@@ -24,14 +28,19 @@ namespace i5.VirtualAgents.Examples
             // Change the rotation value of the agent to a specific angle
             AgentRotationTask rotationAngle2= new AgentRotationTask(90, false);
 
-            taskSystem.Tasks.WaitForSeconds(1, 0);
+            
+            taskSystem.Tasks.WaitForSeconds(waitTime, 0);
             taskSystem.ScheduleTask(rotationTarget, 0, "Base Layer");
-            taskSystem.Tasks.WaitForSeconds(1, 0);
+            taskSystem.Tasks.WaitForSeconds(waitTime, 0);
             taskSystem.ScheduleTask(rotationCoordinate, 0, "Base Layer");
-            taskSystem.Tasks.WaitForSeconds(1, 0);
+            taskSystem.Tasks.WaitForSeconds(waitTime, 0);
             taskSystem.ScheduleTask(rotationAngle1, 0, "Base Layer");
-            taskSystem.Tasks.WaitForSeconds(1, 0);
+            taskSystem.Tasks.WaitForSeconds(waitTime, 0);
             taskSystem.ScheduleTask(rotationAngle2, 0, "Base Layer");
+            taskSystem.Tasks.WaitForSeconds(waitTime, 0);
+            
+            // Navigate to the Up waypoint and then automatically rotate towards it
+            taskSystem.Tasks.GoTo(waypointUp.gameObject, default, 0, true);
         }
     }
 }

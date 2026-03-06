@@ -23,6 +23,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -34,8 +36,10 @@ MonoBehaviour:
     serializedTrees:
       data:
       - Key: Tree
-        Value: {fileID: 11400000, guid: 5e5ccf8fd48d4994690767d82546ad15, type: 2}
-    serializationOrder: 09000000
+        Value: {fileID: 0}
+    serializedQuaternions:
+      data: []
+    serializationOrder: 0a000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.BehaviourTreeTask
   Guid: eb876f6df3d9fe8428e809707c709d1d
   Position: {x: 220, y: 250}
@@ -63,6 +67,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -74,8 +80,10 @@ MonoBehaviour:
     serializedTrees:
       data:
       - Key: Tree
-        Value: {fileID: 11400000, guid: 5e5ccf8fd48d4994690767d82546ad15, type: 2}
-    serializationOrder: 09000000
+        Value: {fileID: 0}
+    serializedQuaternions:
+      data: []
+    serializationOrder: 0a000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.BehaviourTreeTask
   Guid: 0dae404b58dbd9241b3d6af65a7098db
   Position: {x: -220, y: 250}
@@ -103,6 +111,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -112,6 +122,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.Visual.RootNode
@@ -142,6 +154,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -153,8 +167,10 @@ MonoBehaviour:
     serializedTrees:
       data:
       - Key: Tree
-        Value: {fileID: 11400000, guid: 5e5ccf8fd48d4994690767d82546ad15, type: 2}
-    serializationOrder: 09000000
+        Value: {fileID: 0}
+    serializedQuaternions:
+      data: []
+    serializationOrder: 0a000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.BehaviourTreeTask
   Guid: ac3ee6488534bbf4f97d934df2fbb044
   Position: {x: 0, y: 250}
@@ -201,6 +217,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -210,6 +228,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode

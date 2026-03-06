@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -226,13 +225,21 @@ MonoBehaviour:
           data:
           - Key: Destination Object
             Value: {fileID: 1735457798}
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: abcfbc14295604f468718a1f2bf14f14
@@ -253,11 +260,19 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: b163c23a2f522124e829c75489a1d669
@@ -278,13 +293,21 @@ MonoBehaviour:
           data:
           - Key: Destination Object
             Value: {fileID: 213695202}
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: d0733c8764c4eaf42bd54ca295e246c6
@@ -301,11 +324,19 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 1aa8d6a16cfeb8a4a87ea823b9b0d01b
@@ -322,11 +353,19 @@ MonoBehaviour:
             Value: 0
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: edbcae40fd15ca043963e468a9668bed
@@ -343,13 +382,21 @@ MonoBehaviour:
           data:
           - Key: Destination
             Value: {fileID: 1735457798}
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Allow Partial Paths
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: e93a232ea1fb97647b12edc22d4ca7a4
@@ -370,13 +417,21 @@ MonoBehaviour:
           data:
           - Key: Destination Object
             Value: {fileID: 1735457798}
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 89286c356cc0bf84888e4065f66b4940
@@ -397,11 +452,19 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 4b9002bf6ca04a243bab4512cfb9f6cd
@@ -416,7 +479,13 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data:
@@ -425,6 +494,8 @@ MonoBehaviour:
             - 0.7
             - 0.3
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 055a980e88ed8c54a89dba922adf52cf
@@ -445,11 +516,19 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 3d2790e448be36048bd46d0136da0c7a
@@ -470,13 +549,21 @@ MonoBehaviour:
           data:
           - Key: Destination Object
             Value: {fileID: 0}
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 5ebc8aad211ced5419414ba82fd4fd83
@@ -497,13 +584,21 @@ MonoBehaviour:
           data:
           - Key: Destination Object
             Value: {fileID: 1735457798}
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 5623e76fe1d0b2e4f8f5e5b16e64b82d
@@ -520,11 +615,19 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: d18bbd3796edebe44bd98f265e57acc2
@@ -541,11 +644,19 @@ MonoBehaviour:
             Value: 0
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 1f3ec7627f96f8349ab6493badaf41a6
@@ -560,11 +671,19 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 2ba8d23481811e84e8c6351ff7c52056
@@ -581,30 +700,19 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
           data: []
         serializedListFloats:
           data: []
         serializedTrees:
           data: []
-        serializationOrder: 
-    - Key: e7740b5c085d37d4cbab694dd34d0a63
-      Value:
-        serializedVectors:
-          data: []
-        serializedFloats:
-          data: []
-        serializedStrings:
-          data: []
-        serializedInts:
-          data: []
-        serializedGameobjects:
-          data: []
-        serializedBools:
-          data: []
-        serializedListFloats:
-          data: []
-        serializedTrees:
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 9b49fd1d1759d924795a83124ad45d85
@@ -625,13 +733,21 @@ MonoBehaviour:
           data:
           - Key: Destination Object
             Value: {fileID: 0}
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 42417ce063124304aa0008fcb112541d
@@ -652,13 +768,21 @@ MonoBehaviour:
           data:
           - Key: Destination Object
             Value: {fileID: 0}
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: fe96ec5e4c80be144b81753fb215b9cc
@@ -679,13 +803,21 @@ MonoBehaviour:
           data:
           - Key: Destination Object
             Value: {fileID: 1735457798}
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Follow GameObject?
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: b86e5564b7d0ce441966c77db5303500
@@ -702,13 +834,21 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: fail
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: a6a91a50914becf43b7ec575864cf25a
@@ -725,13 +865,21 @@ MonoBehaviour:
           data:
           - Key: Destination
             Value: {fileID: 1735457798}
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: Allow Partial Paths
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
     - Key: 4eb57f6c6ffca4949aae17a5dfd1edbd
@@ -749,13 +897,278 @@ MonoBehaviour:
           data: []
         serializedGameobjects:
           data: []
+        serializedTransforms:
+          data: []
         serializedBools:
           data:
           - Key: fail
             Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
         serializedListFloats:
           data: []
         serializedTrees:
+          data: []
+        serializedQuaternions:
+          data: []
+        serializationOrder: 
+    - Key: f9548b7358c63d746b570bc9059a65be
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data:
+          - Key: message
+            Value: Debug task executed
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedTransforms:
+          data: []
+        serializedBools:
+          data:
+          - Key: fail
+            Value: 0
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializedQuaternions:
+          data: []
+        serializationOrder: 
+    - Key: 5c2ab3bc4609b064588af05f77e49f26
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedTransforms:
+          data: []
+        serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializedQuaternions:
+          data: []
+        serializationOrder: 
+    - Key: 70870af2062eff147b7d28433fa241bb
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedTransforms:
+          data: []
+        serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializedQuaternions:
+          data: []
+        serializationOrder: 
+    - Key: 159910c37eb165749a68676c4516fb69
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data:
+          - Key: Play Time
+            Value: 10
+        serializedStrings:
+          data:
+          - Key: Start Trigger
+            Value: WaveLeft
+          - Key: Stop Trigger
+            Value: 
+          - Key: Layer
+            Value: 
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data:
+          - Key: Aim Target
+            Value: {fileID: 0}
+        serializedTransforms:
+          data: []
+        serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializedQuaternions:
+          data: []
+        serializationOrder: 
+    - Key: 17fb853cc6bd2244da8effc2bfc952a3
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedTransforms:
+          data: []
+        serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializedQuaternions:
+          data: []
+        serializationOrder: 
+    - Key: 245e77f1f5252814590656321aaba36d
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedTransforms:
+          data: []
+        serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializedQuaternions:
+          data: []
+        serializationOrder: 
+    - Key: 78ad3f2088904e24e9361a45a77b3292
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedTransforms:
+          data: []
+        serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializedQuaternions:
+          data: []
+        serializationOrder: 
+    - Key: e7740b5c085d37d4cbab694dd34d0a63
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedTransforms:
+          data: []
+        serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializedQuaternions:
+          data: []
+        serializationOrder: 
+    - Key: 3cb72db99257ee64a860e223dabbc4ea
+      Value:
+        serializedVectors:
+          data: []
+        serializedFloats:
+          data: []
+        serializedStrings:
+          data: []
+        serializedInts:
+          data: []
+        serializedGameobjects:
+          data: []
+        serializedTransforms:
+          data: []
+        serializedBools:
+          data: []
+        serializedAudioClips:
+          data: []
+        serializedAudioSources:
+          data: []
+        serializedListFloats:
+          data: []
+        serializedTrees:
+          data: []
+        serializedQuaternions:
           data: []
         serializationOrder: 
 --- !u!1 &52754172
@@ -1634,7 +2047,8 @@ MonoBehaviour:
     in the folder of this scene. Move the opened window so that you can see this
     Inspector and the Behaviour Tree at the same time.
 
-    See how the nodes are executed when playing the scene, and pay attention to the debug messages emplaning
+    See how the nodes are
+    executed when playing the scene, and pay attention to the debug messages emplaning
     what happens.'
   type: 0
   url: https://rwth-acis.github.io/Virtual-Agents-Framework/latest/manual/behaviour-tree.html
