@@ -100,6 +100,15 @@ namespace i5.VirtualAgents
         /// </summary>
         public IEnumerator RotateTowardsTarget(Quaternion targetRotation, float speed, float threshold, Action onComplete)
         {
+            // safe-guard against invalid speed values; using them would otherwise cause an infinite loop
+            if (speed <= 0f)
+            {
+                transform.rotation = targetRotation;
+                rotationAnimationDirection = 0f;
+                onComplete?.Invoke();
+                yield break;
+            }
+
             // Determine target rotation direction for blending to the rotation animation in UpdateAnimatorParameters
             Vector3 cross = Vector3.Cross(transform.forward, targetRotation * Vector3.forward);
             rotationAnimationDirection = cross.y < 0 ? -1f : 1f;
