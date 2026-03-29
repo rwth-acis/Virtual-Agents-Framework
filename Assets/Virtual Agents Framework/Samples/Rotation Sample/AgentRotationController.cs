@@ -9,7 +9,6 @@ namespace i5.VirtualAgents.Examples
     {
         public List<Transform> waypoints;
         public Transform waypointUp;
-        public Transform waypointDown;
 
         public float waitTime = 3f;
 
