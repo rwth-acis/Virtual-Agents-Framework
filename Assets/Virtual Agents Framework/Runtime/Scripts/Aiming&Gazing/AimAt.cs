@@ -1,8 +1,6 @@
-using i5.VirtualAgents.Utilities;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
 
 namespace i5.VirtualAgents
 {
@@ -18,9 +16,9 @@ namespace i5.VirtualAgents
 		[SerializeField] protected Transform targetTransform;
 
 		/// <summary>
-		/// The Transform of the agent childobjects that should directly aim at the target, e.g. the tip of a finger 
+		/// The Transform of the agent child objects that should directly aim at the target, e.g. the tip of a finger 
 		/// </summary>
-		[Tooltip("The Transform of the agent childobjects that should directly aim at the target")]
+		[Tooltip("The Transform of the agent child objects that should directly aim at the target")]
 		[SerializeField] protected Transform aimTransform;
 
 		/// <summary>
@@ -31,7 +29,8 @@ namespace i5.VirtualAgents
 		/// <summary>
 		/// The Position that is actually looked at and which will follow the target smoothly
 		/// </summary>
-		protected Vector3 targetFollower = Vector3.zero;
+		protected Vector3 targetFollower;
+		protected bool isTargetFollowerInitialized = false;
 
 		/// <summary>
 		/// The speed at which the agent looks at the target
@@ -69,8 +68,8 @@ namespace i5.VirtualAgents
 		/// <summary>
 		/// The position where the targetFollower should be placed when no target is set
 		/// </summary>
-		[Tooltip("The position where the targetFollower should be placed when no target is set")]
-		[SerializeField] protected Vector3 startingPosition = Vector3.zero;
+		protected Vector3 startingPosition;
+		protected bool isStartingPositionInitialized = false;
 
 		/// <summary>
 		/// The bones that should be moved to accomplish the aiming
@@ -140,7 +139,7 @@ namespace i5.VirtualAgents
 		{
 			TemporarilyIncreaseLookSpeed(navMeshAgent.velocity.magnitude);
 
-			if (targetFollower != Vector3.zero)
+			if (isTargetFollowerInitialized)
 			{
 				UpdateTargetFollower();
 
@@ -161,11 +160,10 @@ namespace i5.VirtualAgents
 		// Calculates where to aim at based on the target and the angle and distance limit
 		protected Vector3 CalculateWhereToLook()
 		{
-
 			Vector3 targetDirection = targetFollower - aimTransform.position;
-			Vector3 aimDirection = GetAimDirectionVector();
+			Vector3 aimDirectionVector = GetAimDirectionVector();
 			float blendOut = 0.0f;
-			float targetAngle = Vector3.Angle(targetDirection, aimDirection);
+			float targetAngle = Vector3.Angle(targetDirection, aimDirectionVector);
 			if (targetAngle > angleLimit)
 			{
 				blendOut += (targetAngle - angleLimit) / 50.0f;
@@ -178,7 +176,7 @@ namespace i5.VirtualAgents
 			}
 
 
-			Vector3 direction = Vector3.Slerp(targetDirection, aimDirection, blendOut);
+			Vector3 direction = Vector3.Slerp(targetDirection, aimDirectionVector, blendOut);
 			return aimTransform.position + direction;
 		}
 
@@ -224,9 +222,9 @@ namespace i5.VirtualAgents
 
 		protected void AimAtTarget(Transform bone, Vector3 targetPosition, float weight)
 		{
-			Vector3 aimDirection = GetAimDirectionVector();
+			Vector3 aimDirectionVector = GetAimDirectionVector();
 			Vector3 targetDirection = targetPosition - aimTransform.position;
-			Quaternion aimTowards = Quaternion.FromToRotation(aimDirection, targetDirection);
+			Quaternion aimTowards = Quaternion.FromToRotation(aimDirectionVector, targetDirection);
 			Quaternion blendedRotation = Quaternion.Slerp(Quaternion.identity, aimTowards, weight);
 			bone.rotation = blendedRotation * bone.rotation;
 		}
@@ -245,15 +243,13 @@ namespace i5.VirtualAgents
 
 		public void SetTargetTransform(Transform targetTransform)
 		{
-			// If there is no targetFollower, create one
-			if (targetFollower == Vector3.zero)
+			if (!isTargetFollowerInitialized || !isStartingPositionInitialized)
 			{
-				targetFollower = new Vector3();
-
 				// Set starting position of targetFollower 1 unit along the current aiming direction getAimDirectionVector() * 1f
-				startingPosition = new Vector3();
 				startingPosition = transform.InverseTransformPoint(aimTransform.position + (GetAimDirectionVector() * 1f));
 				targetFollower = transform.TransformPoint(startingPosition);
+				isStartingPositionInitialized = true;
+				isTargetFollowerInitialized = true;
 			}
 
 			this.targetTransform = targetTransform;
@@ -281,7 +277,6 @@ namespace i5.VirtualAgents
 		/// <summary>
 		/// To set up the aiming at a specific body part, a preset of bones and weights and related settings can be selected
 		/// </summary>
-		/// <param name="layer">Which bonepreset should be selected based on the layer of the human body</param>
 		public abstract void SetBonePreset();
 
 
@@ -300,13 +295,13 @@ namespace i5.VirtualAgents
 		protected void OnDrawGizmos()
 		{
 			Gizmos.color = Color.green;
-			if (startingPosition != Vector3.zero)
+			if (isStartingPositionInitialized && aimTransform != null)
 			{
 				Gizmos.DrawWireSphere(transform.TransformPoint(startingPosition), 0.25f);
 				Gizmos.DrawLine(aimTransform.position, transform.TransformPoint(startingPosition));
 			}
 			Gizmos.color = Color.red;
-			if (targetFollower != Vector3.zero)
+			if (isTargetFollowerInitialized)
 			{
 				Gizmos.DrawWireSphere(targetFollower, 0.25f);
 			}
