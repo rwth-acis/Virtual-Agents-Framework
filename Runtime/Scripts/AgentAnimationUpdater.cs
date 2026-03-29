@@ -39,10 +39,6 @@ namespace i5.VirtualAgents
         private const float smoothSpeedDown = 5f;
         private const float smoothSpeedWalking = 25f;
         
-        // expected maximum turning speed in degrees per second, used for normalizing the rotation parameter
-        private float maxAngularTurnSpeed = 360f;
-        public float MaxAngularTurnSpeed { set => maxAngularTurnSpeed = value; }
-        
         // target direction set by the active rotation task
         private float rotationAnimationDirection = 0f;
         private float prevRotationBlending = 0;

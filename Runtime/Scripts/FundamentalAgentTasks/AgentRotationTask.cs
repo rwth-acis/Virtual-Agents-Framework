@@ -46,7 +46,7 @@ namespace i5.VirtualAgents.AgentTasks
         /// <summary>
         /// The angle difference (in degrees) at which the task is considered finished
         /// </summary>
-        public float AngleThresholdDeg = 0.5f;
+        public float AngleThresholdDeg { get; set; } = 0.5f;
 
         // Only used for serialization purposes
         public AgentRotationTask()
