@@ -25,7 +25,7 @@ namespace i5.VirtualAgents
             public float distance = 0;
 
             /// <summary>
-            /// The importance of the item for the agent. The higher the value, the more liekly it is the agent to look at it. Increases during runtime resets novelty for the agent
+            /// The importance of the item for the agent. The higher the value, the more likely it is the agent to look at it. Increases during runtime resets novelty for the agent
             /// </summary>
             public float importance = 0;
 
@@ -65,7 +65,8 @@ namespace i5.VirtualAgents
         /// The maximum number of targets in range that are considered for the gaze
         /// </summary>
         [Tooltip("The maximum number of targets in range that are considered for the gaze")]
-        [SerializeField] private const int maxNumberOfTargetsInRange = 50;
+        [Min(1)]
+        [SerializeField] private int maxNumberOfTargetsInRange = 50;
 
         /// <summary>
         /// The interval in seconds in which the agent looks for new targets when not moving
@@ -97,7 +98,7 @@ namespace i5.VirtualAgents
         [SerializeField] private float chanceSecondHighestTarget = 0.1f;
 
         /// <summary>
-        /// The chance that the agent looks at the third highest ranked target based on the algorithm, see documentation
+        /// The chance that the agent looks at the third-highest ranked target based on the algorithm, see documentation
         /// </summary>
         [Tooltip("The chance that the agent looks at the third highest ranked target based on the algorithm, see documentation")]
         [Range(0f, 1f)]
@@ -139,12 +140,19 @@ namespace i5.VirtualAgents
         [Tooltip("The layers that can block the view between a gaze target and the agent")]
         [SerializeField] public LayerMask occlusionLayers = 0;
 
-        private List<AdaptiveGazeTargetInfo> nearbyLookAtTargets = new List<AdaptiveGazeTargetInfo>();
+        private List<AdaptiveGazeTargetInfo> nearbyLookAtTargets = new();
+        private Collider[] colliders;
         private float timer = 0f;
         [Range(0f, 1f)]
         private float maxWeight = 0.8f;
 
         private AimAt aimScript;
+
+        private void Awake()
+        {
+            maxNumberOfTargetsInRange = Mathf.Max(1, maxNumberOfTargetsInRange);
+            colliders = new Collider[maxNumberOfTargetsInRange];
+        }
 
         // initialization of the script
         private void Start()
@@ -152,8 +160,8 @@ namespace i5.VirtualAgents
             // Check if the seeLayers are set to Everything (-1)
             if (seeLayers.value == -1)
             {
-                // Check if scene is not one of the sample scenes
-                if (!SceneManager.GetActiveScene().name.ToLower().Contains("sample"))
+                // Check if scene is not one of the sample/test scenes
+                if (!(SceneManager.GetActiveScene().name.ToLower().Contains("sample") || SceneManager.GetActiveScene().name.ToLower().Contains("test")))
                 {
                     Debug.LogWarning("The seeLayers of AdaptiveGaze component of the agent are still set to Everything. This might cause performance issues. Please set the seeLayers to a more specific layer mask or deactivate the AdaptiveGaze component. See AdaptiveGaze in the documentation manuel.");
                 }
@@ -175,7 +183,7 @@ namespace i5.VirtualAgents
             chanceThirdHighestTarget += chanceSecondHighestTarget;
             chanceRandomTarget += chanceThirdHighestTarget;
             chanceIdleTarget += chanceRandomTarget;
-            if (chanceIdleTarget != 1f)
+            if (!Mathf.Approximately(chanceIdleTarget, 1f))
             {
                 Debug.LogWarning("Normalisation of gaze chances went wrong");
             }
@@ -202,9 +210,16 @@ namespace i5.VirtualAgents
             this.enabled = false;
         }
 
-        // If changes are made to the lookSpeed in the inspector, update the aim script
+        // If changes are made to the lookSpeed or maxNumberOfTargetsInRange in the inspector, update the aim script
         private void OnValidate()
         {
+            maxNumberOfTargetsInRange = Mathf.Max(1, maxNumberOfTargetsInRange);
+
+            if (colliders == null || colliders.Length != maxNumberOfTargetsInRange)
+            {
+                colliders = new Collider[maxNumberOfTargetsInRange];
+            }
+
             if (aimScript != null)
                 aimScript.LookSpeed = lookSpeed;
         }
@@ -249,7 +264,6 @@ namespace i5.VirtualAgents
             }
         }
         
-        private Collider[] colliders = new Collider[maxNumberOfTargetsInRange];
         private void CheckWhichTargetsAreNearbyAndVisible()
         {
             timer += Time.deltaTime;
