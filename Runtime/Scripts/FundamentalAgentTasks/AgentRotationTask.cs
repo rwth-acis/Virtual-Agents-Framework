@@ -1,4 +1,3 @@
-﻿using System.Collections;
 using UnityEngine;
 
 namespace i5.VirtualAgents.AgentTasks
@@ -15,9 +14,14 @@ namespace i5.VirtualAgents.AgentTasks
         public Quaternion TargetRotation { get; protected set; }
 
         /// <summary>
-        /// Used to determine if the agent should rotate by a specific angle or towards a specific angle.
+        /// Used to determine if the agent should rotate by a specific angle
         /// </summary>
-        public bool IsRotationByAngle{ get; protected set; }
+        public bool IsRotationByAngle { get; protected set; }
+
+        /// <summary>
+        /// Used to determine if the agent should rotate towards a specific angle.
+        /// </summary>
+        public bool IsRotationTowardsAngle { get; protected set; }
 
         /// <summary>
         /// The angle the agent should rotate by or towards
@@ -25,55 +29,79 @@ namespace i5.VirtualAgents.AgentTasks
         public float Angle { get; protected set; }
 
         /// <summary>
-        /// The speed at which the agent should rotate
+        /// The transform the agent should rotate towards
         /// </summary>
-        public float Speed { get; protected set; }
+        public Transform TargetTransform { get; protected set; }
 
         /// <summary>
-        /// Create an AgentRotationTask using a target object to turn towards
+        /// The coordinates the agent should rotate towards
+        /// </summary>
+        public Vector3? TargetPosition { get; protected set; }
+
+        /// <summary>
+        /// The angular speed at which the agent should rotate (degrees per second)
+        /// </summary>
+        public float AngularSpeed { get; protected set; } = 100f;
+
+        /// <summary>
+        /// The angle difference (in degrees) at which the task is considered finished
+        /// </summary>
+        public float AngleThresholdDeg { get; set; } = 0.5f;
+
+        // Only used for serialization purposes
+        public AgentRotationTask()
+        {
+
+        }
+
+        /// <summary>
+        /// Create an AgentRotationTask using a target object to turn towards, position will be evaluated when task is started
         /// </summary>
         /// <param name="target">Target object of the rotation task</param>
-        public AgentRotationTask(GameObject target, float speed = 10f)
+        /// <param name="angularSpeed">Angular speed in degrees per second</param>
+        public AgentRotationTask(GameObject target, float angularSpeed = 110f)
         {
-            Vector3 position = target.transform.position;
-            position.y = 0;
-            TargetRotation = Quaternion.LookRotation(position);
+            TargetTransform = target.transform;
             IsRotationByAngle = false;
-            Speed = speed;
+            AngularSpeed = angularSpeed;
+            TargetPosition = null;
         }
 
         /// <summary>
         /// Create an AgentRotationTask using the destination coordinates
         /// </summary>
         /// <param name="coordinates">Coordinates of the rotation task</param>
-        public AgentRotationTask(Vector3 coordinates, float speed = 10f)
+        /// <param name="angularSpeed">Angular speed in degrees per second</param>
+        public AgentRotationTask(Vector3 coordinates, float angularSpeed = 110f)
         {
-            coordinates.y = 0;
-            TargetRotation = Quaternion.LookRotation(coordinates);
+            TargetPosition = coordinates;
             IsRotationByAngle = false;
-            Speed = speed;
+            AngularSpeed = angularSpeed;
+            TargetTransform = null;
         }
 
         /// <summary>
         /// Create an AgentRotationTask using the angle that the agent should rotate by.
         /// Positive angle turns right, negative angle turns left.
         /// When isRotationByAngle is set to false, the agents rotation attribute will be set to the angle specified instead.
-        /// In this case the agent rotates in the direction that minimises the distance.
+        /// In this case the agent rotates in the direction that minimizes the distance.
         /// </summary>
         /// <param name="angle">The angle to rotate by or towards, in degrees</param>
-        /// <param name="isRotationByAngle">True if agent should rotate by "angle" degrees, false if the rotation value of the agent should be set to "angle"</param>
-        public AgentRotationTask(float angle, bool isRotationByAngle = true, float speed= 10f)
+        /// <param name="isRotationByAngle">True if agent should rotate by "angle" degrees, false if the rotation value of the agent should be set to "angle" (default true)</param>
+        /// <param name="angularSpeed">Angular speed in degrees per second</param>
+        public AgentRotationTask(float angle, bool isRotationByAngle = true, float angularSpeed = 110f)
         {
             IsRotationByAngle = isRotationByAngle;
             if (!isRotationByAngle)
             {
                 TargetRotation = Quaternion.Euler(0, angle, 0);
+                IsRotationTowardsAngle = true;
             }
             else
             {
                 Angle = angle;
             }
-            Speed = speed;
+            AngularSpeed = angularSpeed;
         }
 
         /// <summary>
@@ -83,50 +111,64 @@ namespace i5.VirtualAgents.AgentTasks
         /// <param name="agent">The agent which executes this task</param>
         public override void StartExecution(Agent agent)
         {
-            Animator animator = agent.GetComponent<Animator>();
             base.StartExecution(agent);
-            //For Angle rotation
-            if(IsRotationByAngle)
+            // Calculate target rotation based on task parameters
+            if (!IsRotationTowardsAngle && !IsRotationByAngle)
+            {
+                Vector3 targetPos = TargetPosition ?? TargetTransform.position;
+                Vector3 newTargetPosition = new Vector3(targetPos.x, 0, targetPos.z);
+                Vector3 newAgentPosition = new Vector3(agent.transform.position.x, 0, agent.transform.position.z);
+                float angle = Vector3.SignedAngle(agent.transform.forward, newTargetPosition - newAgentPosition, Vector3.up);
+                TargetRotation = agent.transform.rotation * Quaternion.Euler(0, angle, 0);
+            }
+
+            if (IsRotationByAngle)
             {
                 TargetRotation = agent.transform.rotation * Quaternion.Euler(0, Angle, 0);
             }
-            agent.StartCoroutine(Rotate(agent.transform));
-        }
 
-        private IEnumerator Rotate(Transform transform)
-        {
-            float time = 0;
-            while (Vector3.Distance(transform.rotation.eulerAngles, TargetRotation.eulerAngles) > 0.01f)
+            // Delegate execution to the AgentAnimationUpdater
+            if (agent.TryGetComponent(out AgentAnimationUpdater updater))
             {
-                time += Time.deltaTime/Speed; //to control the speed of rotation
-                // Rotate the agent a step closer to the target
-                transform.rotation = Quaternion.Slerp(transform.rotation, TargetRotation, time);
-                yield return null;
-            }
-            if (Quaternion.Angle(transform.rotation, TargetRotation) <= 0.01f)
-            {
-                FinishTask();
+                // Pass FinishTask as an Action delegate so the task resolves when the Coroutine ends
+                agent.StartCoroutine(updater.RotateTowardsTarget(TargetRotation, AngularSpeed, AngleThresholdDeg, FinishTask));
             }
             else
             {
-                FinishTaskAsFailed();
+                Debug.LogWarning("AgentAnimationUpdater missing. Snapping to target rotation instantly.");
+                agent.transform.rotation = TargetRotation;
+                FinishTask();
             }
         }
 
         public void Serialize(SerializationDataContainer serializer)
         {
+            if (TargetPosition != null)
+            {
+                serializer.AddSerializedData("Target Position", (Vector3)TargetPosition);
+            }
             serializer.AddSerializedData("Target Rotation", TargetRotation);
             serializer.AddSerializedData("Is Rotation By Angle", IsRotationByAngle);
+            serializer.AddSerializedData("Is Rotation Towards Angle", IsRotationTowardsAngle);
             serializer.AddSerializedData("Angle", Angle);
-            serializer.AddSerializedData("Speed", Speed);
+            serializer.AddSerializedData("Speed", AngularSpeed);
+            serializer.AddSerializedData("Target Transform", TargetTransform);
+            serializer.AddSerializedData("Angle Threshold Deg", AngleThresholdDeg);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
         {
+            if (serializer.serializedVectors.KeyExists("Target Position"))
+            {
+                TargetPosition = serializer.GetSerializedVector("Target Position");
+            }
             TargetRotation = serializer.GetSerializedQuaternion("Target Rotation");
             IsRotationByAngle = serializer.GetSerializedBool("Is Rotation By Angle");
+            IsRotationTowardsAngle = serializer.GetSerializedBool("Is Rotation Towards Angle");
             Angle = serializer.GetSerializedFloat("Angle");
-            Speed = serializer.GetSerializedFloat("Speed");
+            AngularSpeed = serializer.GetSerializedFloat("Speed");
+            TargetTransform = serializer.GetSerializedTransform("Target Transform");
+            AngleThresholdDeg = serializer.GetSerializedFloat("Angle Threshold Deg");
         }
     }
 }
