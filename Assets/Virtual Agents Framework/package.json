@@ -25,6 +25,7 @@
         "name": "Advanced Community Information Systems\nInformatik 5, RWTH Aachen University",
         "url": "https://dbis.rwth-aachen.de/dbis/"
     },
+
   "samples": [
     {
       "displayName": "Navigation Sample",
@@ -65,6 +66,11 @@
       "displayName": "Item Pickup Sample",
       "description": "Example scene which demonstrates how the agent can pick up and drop items that are placed in the environment.",
       "path": "Samples~/ItemPickUpSample"
+    },
+	{
+      "displayName": "Behaviour Tree Samples",
+	  "description": "Example scenes which demonstrates how to use the behaviour tree editor.",
+	  "path": "Samples~/BehaviourTree"
     },
     {
       "displayName": "Sitting Sample",

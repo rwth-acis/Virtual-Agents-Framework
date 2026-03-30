@@ -8,7 +8,7 @@ However, if you want to add your own character, for example from a 3D scan, this
 To create a new agent from scratch, first add a humanoid character to your project.
 The character needs to be rigged.
 So, it requires a skeleton that was set up in a 3D software like Blender.
-The rig is what drives the movements of the character and it defines which parts of the mesh are deformed during an animation.
+The rig is what drives the movements of the character, and it defines which parts of the mesh are deformed during an animation.
 
 ## Import Into Unity
 
