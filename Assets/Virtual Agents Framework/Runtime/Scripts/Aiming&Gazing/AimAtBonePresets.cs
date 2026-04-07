@@ -46,7 +46,7 @@ namespace i5.VirtualAgents
             aimDirection = AimDirection.Y;
             angleLimit = 180f;  
 
-            GetBoneTransformsFromAnimatior(HumanBodyBones.RightIndexDistal);
+            GetBoneTransformsFromAnimator(HumanBodyBones.RightIndexDistal);
         }
     }
     public class LeftArmPreset : AimAt
@@ -93,7 +93,7 @@ namespace i5.VirtualAgents
             aimDirection = AimDirection.Y;
             angleLimit = 180f;
 
-            GetBoneTransformsFromAnimatior(HumanBodyBones.LeftIndexDistal);
+            GetBoneTransformsFromAnimator(HumanBodyBones.LeftIndexDistal);
         }
     }
 
@@ -135,7 +135,7 @@ namespace i5.VirtualAgents
 
             aimDirection = AimDirection.Y;
             angleLimit = 180f;
-            GetBoneTransformsFromAnimatior(HumanBodyBones.RightToes);
+            GetBoneTransformsFromAnimator(HumanBodyBones.RightToes);
         }
     }
     public class LeftLegPreset : AimAt
@@ -175,7 +175,7 @@ namespace i5.VirtualAgents
             };
             aimDirection = AimDirection.Y;
             angleLimit = 180f;
-            GetBoneTransformsFromAnimatior(HumanBodyBones.LeftToes);
+            GetBoneTransformsFromAnimator(HumanBodyBones.LeftToes);
         }
     }
 
@@ -203,7 +203,7 @@ namespace i5.VirtualAgents
             angleLimit = 100f;
             aimDirection = AimDirection.Z;
 
-            GetBoneTransformsFromAnimatior(HumanBodyBones.Head);
+            GetBoneTransformsFromAnimator(HumanBodyBones.Head);
         }
     }
     public class BaseLayerPreset : AimAt
@@ -230,7 +230,7 @@ namespace i5.VirtualAgents
             angleLimit = 90.0f;
             aimDirection = AimDirection.Z;
 
-            GetBoneTransformsFromAnimatior(HumanBodyBones.Chest);
+            GetBoneTransformsFromAnimator(HumanBodyBones.Chest);
         }
     }
 }

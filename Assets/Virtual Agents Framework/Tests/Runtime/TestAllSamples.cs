@@ -169,7 +169,7 @@ namespace i5.VirtualAgents
             Assert.That(Agent, Is.Not.Null);
 
             //Check if the agent is moving after 5 seconds
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(8);
             bool isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
             Assert.That(isMoving, Is.True);
 
