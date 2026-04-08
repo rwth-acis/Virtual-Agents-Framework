@@ -39,6 +39,8 @@ namespace i5.VirtualAgents
         private const float smoothSpeedDown = 5f;
         private const float smoothSpeedWalking = 25f;
         
+        float lastAgentVelocityMagnitude = 0f;
+        
         // target direction set by the active rotation task
         private float rotationAnimationDirection = 0f;
         private float prevRotationBlending = 0;
@@ -60,12 +62,26 @@ namespace i5.VirtualAgents
             _animIDRotationDirection = Animator.StringToHash(rotationDirection);
             _animIDIsRotating = Animator.StringToHash(isRotating);
         }
-
+        
+        
         // Updates the animation parameters for the blend trees
         private void UpdateAnimatorParameters()
         {
             float agentVelocityMag =  agent.velocity.magnitude;
-            animator.SetFloat(_animIDSpeed, agentVelocityMag);
+
+            // If the NavMesh Agent is recalculating it's path over multiple frames, stay in the current animation
+            if (!agent.pathPending)
+            {
+                // Update velocity magnitude
+                animator.SetFloat(_animIDSpeed, agentVelocityMag);
+                lastAgentVelocityMagnitude = agentVelocityMag;
+            }
+            else
+            {
+                // Keep same velocity magnitude
+                agentVelocityMag = lastAgentVelocityMagnitude;
+                animator.SetFloat(_animIDSpeed, lastAgentVelocityMagnitude);
+            }
             
             // Rotation blending
             
