@@ -315,7 +315,11 @@ namespace i5.VirtualAgents
             var Agent = GameObject.Find("AgentStandard");
             Assert.That(Agent, Is.Not.Null);
 
-            yield return new WaitForSeconds(30);
+            yield return new WaitForSeconds(45);
+
+            // Assert that rotation Y of agent is 7.044
+            float rotationY = Agent.transform.rotation.eulerAngles.y;
+            Assert.That(rotationY, Is.EqualTo(7.044f).Within(0.5f));
 
             //TODO: Add more sample specific asserts 
         }
