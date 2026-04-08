@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using i5.VirtualAgents.AgentTasks;
 using UnityEngine;
 using static i5.VirtualAgents.MeshSockets;
@@ -42,7 +41,8 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// Creates an AgentMovementTask for walking/running and schedules it or forces its execution.
         /// Shortcut queue management function
         /// </summary>
-        /// <param name="destinationObject">Transform the agent should go to</param>
+        /// <param name="destinationTransform">Transform the agent should go to</param>
+        /// <param name="offset"> Destination offset applied to the transforms position</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
         public AgentBaseTask GoTo(Transform destinationTransform, Vector3 offset = default, int priority = 0)
         {
@@ -54,13 +54,14 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// Shortcut queue management function
         /// </summary>
         /// <param name="destinationObject">GameObject the agent should go to</param>
+        /// <param name="offset">Destination offset applied to the object's position</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
         /// <param name="follow">Decides if the Agent should follow the GameObject, dynamically, even if the path cannot reach the GameObject</param>
         public AgentBaseTask GoTo(GameObject destinationObject, Vector3 offset = default, int priority = 0, bool follow = false)
         {
             if (follow)
             {
-                AgentMovementTask movementTask = new AgentMovementTask(destinationObject, default, follow);
+                AgentMovementTask movementTask = new AgentMovementTask(destinationObject, offset, default, true);
                 scheduleTaskSystem.ScheduleTask(movementTask, priority);
                 AgentRotationTask rotationTask = new AgentRotationTask(destinationObject);
                 scheduleTaskSystem.ScheduleTask(rotationTask, priority);
@@ -126,7 +127,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <param name="destinationObject">Object the agent should go to and pick up. Needs to have an item component and be reachable by the agent.</param>
         /// <param name="priority">Priority of the task. Tasks with high importance should get a positive value, less important tasks a negative value. Default tasks have a priority of 0.</param>
         /// <param name="bodyAttachPoint">Agent socket that the object should be attached to, standard is the right Hand</param>
-        /// <param name="minDistance">Distance at which the the agent will try to pick up the object</param>
+        /// <param name="minDistance">Distance at which the agent will try to pick up the object</param>
         /// <returns></returns>
         public AgentBaseTask GoToAndPickUp(GameObject destinationObject, int priority = 0, SocketId bodyAttachPoint = SocketId.RightHand, float minDistance = 0.3f)
         {
@@ -247,7 +248,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             float angleToTarget = Vector3.Angle(agent.transform.forward, directionToTarget);
 
             // If the target is behind the agent (angle greater than 90 degrees)
-            if (angleToTarget > 90 && angleToTarget < 270)
+            if (angleToTarget is > 90 and < 270)
             {
                 // Schedule a rotation task towards the target
                 AgentRotationTask rotationTask = new AgentRotationTask(target);
