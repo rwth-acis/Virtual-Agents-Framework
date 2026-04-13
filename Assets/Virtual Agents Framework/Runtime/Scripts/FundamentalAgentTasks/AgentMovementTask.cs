@@ -79,9 +79,16 @@ namespace i5.VirtualAgents.AgentTasks
 		/// <param name="crouchPercentage">The amount the agent should crouch while walking, 0 being a fully upright walk and 1 being a full crouch. Note, that the agent gets slower while crouching lower</param>
 		public AgentMovementTask(Vector3 destinationCoordinates, float targetSpeed = -1, float crouchPercentage = 0f)
 		{
+			if (crouchPercentage > 0.5f)
+			{
+				TargetSpeed = 1- (crouchPercentage/2); // This is due to the nature of the 2D blend tree enforcing crouches to be higher when walking faster, which is unintuitive.
+			}
+			else
+			{
+				TargetSpeed = targetSpeed;
+			}
 			StopCrouch = true;
 			Destination = destinationCoordinates;
-			TargetSpeed = targetSpeed;
 			followGameObject = false;
 			CrouchPercentage = crouchPercentage;
 		}
@@ -95,9 +102,16 @@ namespace i5.VirtualAgents.AgentTasks
 		/// <param name="crouchPercentage">The amount the agent should crouch while walking, 0 being a fully upright walk and 1 being a full crouch. Note, that the agent gets slower while crouching lower</param>
 		public AgentMovementTask(GameObject destinationObject, float targetSpeed = -1, bool followGameObject = false, float crouchPercentage = 0f)
 		{
+			if (crouchPercentage > 0.5f)
+			{
+				TargetSpeed = 1- (crouchPercentage/2); // This is due to the nature of the 2D blend tree enforcing crouches to be higher when walking faster, which is unintuitive.
+			}
+			else
+			{
+				TargetSpeed = targetSpeed;
+			}
 			StopCrouch = true;
 			DestinationObject = destinationObject;
-			TargetSpeed = targetSpeed;
 			CrouchPercentage = crouchPercentage;
 			this.followGameObject = followGameObject;
 		}
@@ -111,9 +125,16 @@ namespace i5.VirtualAgents.AgentTasks
 		/// <param name="stopCrouch">If false, the agent stays down, even after the task has stopped.</param>
 		internal AgentMovementTask(Transform destinationTransform, float targetSpeed = -1, float crouchPercentage = 0.5f, bool stopCrouch = false)
 		{
+			if (crouchPercentage > 0.5f)
+			{
+				TargetSpeed = 1- (crouchPercentage/2); // This is due to the nature of the 2D blend tree enforcing crouches to be higher when walking faster, which is unintuitive.
+			}
+			else
+			{
+				TargetSpeed = targetSpeed;
+			}
 			Destination = destinationTransform.position;
 			StopCrouch = stopCrouch;
-			TargetSpeed = targetSpeed;
 			CrouchPercentage = crouchPercentage;
 		}
 
