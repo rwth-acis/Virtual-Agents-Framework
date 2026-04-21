@@ -10,14 +10,19 @@ namespace i5.VirtualAgents.Examples
         /// The time to wait between movements in seconds.
         /// </summary>
         [Tooltip("The time to wait between movements in seconds.")]
-        [SerializeField] private float waitTime;
+        [SerializeField] public float waitTime;
 
         /// <summary>
         /// The distance to move left and right from the start position.
         /// </summary>
         [Tooltip("The distance to move left and right from the start position.")]
-        [SerializeField] private float moveDistance = 3.5f; // Distance to move left and right from the start position
+        [SerializeField] public float moveDistance = 3.5f; // Distance to move left and right from the start position
         private Vector3 startPos;
+
+        public bool moveBack = true;
+        public bool moveLeft = true;
+        public bool moveRight = true;
+        public bool moveForward = true;
 
         private void Start()
         {
@@ -30,14 +35,29 @@ namespace i5.VirtualAgents.Examples
         {
             while (true)
             {
-                yield return StartCoroutine(MoveLeft());
-                yield return new WaitForSeconds(waittime);
-                yield return StartCoroutine(MoveForward());
-                yield return new WaitForSeconds(waittime);
-                yield return StartCoroutine(MoveRight());
-                yield return new WaitForSeconds(waittime);
-                yield return StartCoroutine(MoveBackward());
-                yield return new WaitForSeconds(waittime);
+                if (moveLeft)
+                {
+                    yield return StartCoroutine(MoveLeft());
+                    yield return new WaitForSeconds(waittime);
+                }
+
+                if (moveForward)
+                {
+                    yield return StartCoroutine(MoveForward());
+                    yield return new WaitForSeconds(waittime);
+                }
+
+                if (moveRight)
+                {
+                    yield return StartCoroutine(MoveRight());
+                    yield return new WaitForSeconds(waittime);
+                }
+
+                if (moveBack)
+                {
+                    yield return StartCoroutine(MoveBackward());
+                    yield return new WaitForSeconds(waittime);
+                }
             }
         }
 
