@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -179,7 +178,7 @@ namespace i5.VirtualAgents
 			Vector3 direction = Vector3.Slerp(targetDirection, aimDirectionVector, blendOut);
 			return aimTransform.position + direction;
 		}
-
+		
 		protected void UpdateTargetFollower()
 		{
 			Vector3 targetPosition;
@@ -192,27 +191,28 @@ namespace i5.VirtualAgents
 			}
 			else
 			{
-				// Return to the starting point
-				targetPosition = transform.TransformPoint(startingPosition);;
-
-
-				if (Vector3.Distance(targetFollower, targetPosition) >= 0.05f)
+				// Target position stays where the agent was last looking at
+				targetPosition = targetFollower;
+				
+				// Fade out IK weight
+				Weight = Mathf.Lerp(Weight, 0f, Time.deltaTime * 3f);
+				targetPosition = aimTransform.position + (GetAimDirectionVector() * 1f);
+				if (Weight < 0.001f)
 				{
-					// increase LookSpeed over time to finish up the movement
-					increaseLookSpeedBy = Math.Min(10, increaseLookSpeedBy + 0.7f);
-					Weight = Math.Max(0, Weight - 0.01f);
-				}
-				else
-				{
-					targetFollower = transform.TransformPoint(startingPosition);
-					// When target position of the standard look is reached destroy this component
 					Weight = 0f;
+					
 					if (ShouldDestroyItself)
 					{
 						Destroy(this);
 					}
+					else
+					{
+						// Reset target position and target follower
+						targetPosition = transform.TransformPoint(startingPosition);
+						targetFollower = targetPosition;
+					}
+					
 				}
-
 			}
 
 			// Smooth transition to target position
