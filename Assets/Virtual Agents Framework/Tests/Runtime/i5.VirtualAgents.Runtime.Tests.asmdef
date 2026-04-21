@@ -5,7 +5,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "i5.VirtualAgents.Runtime",
-        "i5.VirtualAgents.Editor"
+        "i5.VirtualAgents.Editor",
+        "i5.VirtualAgents.Examples"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
