@@ -89,7 +89,7 @@ namespace i5.VirtualAgents
         {
             // Set the time scale to speed up the simulation
             // Also ensures that the simulation can handle frame drops
-            Time.timeScale = 1f;
+            Time.timeScale = 10f;
         }
         [TearDown]
         public void TearDownTest()
@@ -189,10 +189,10 @@ namespace i5.VirtualAgents
             obsNevMesh.carveOnlyStationary = false;
 
             WaypointController obsController = obstacle.AddComponent<WaypointController>();
-            obsController.waitTime = 1f;
-            obsController.moveDistance = 6;
-            obsController.moveLeft = false;
-            obsController.moveRight = false;
+            obsController.WaitTime = 1f;
+            obsController.MoveDistance = 6;
+            obsController.MoveLeft = false;
+            obsController.MoveRight = false;
             
             // Check that the obstacle was not completely ignored and the target is already reached
             yield return new WaitForSeconds(12);

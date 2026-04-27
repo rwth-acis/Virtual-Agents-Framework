@@ -31,6 +31,7 @@ namespace i5.VirtualAgents.AgentTasks
 
         public override void StartExecution(Agent executingAgent)
         {
+            base.StartExecution(executingAgent);
             startTime = Time.realtimeSinceStartup;
         }
 
