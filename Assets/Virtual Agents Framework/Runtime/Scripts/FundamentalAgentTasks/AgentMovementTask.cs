@@ -58,9 +58,9 @@ namespace i5.VirtualAgents.AgentTasks
 		public float PathUpdateInterval { get; set; } = 1f;
 
 		/// <summary>
-		/// Minimum positional delta required before a follow target triggers a new SetDestination call.
+		/// Minimum positional delta required before a follow target triggers a new SetDestination call in the next PathUpdateInterval
 		/// </summary>
-		public float FollowRepathDistanceThreshold { get; set; } = 0.01f;
+		public float FollowRepathDistanceThreshold { get; set; } = 0.1f;
 
 		private Vector3 lastFollowDestination;
 		private bool hasLastFollowDestination;

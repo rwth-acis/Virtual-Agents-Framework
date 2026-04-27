@@ -53,6 +53,7 @@ namespace i5.VirtualAgents
             animator.applyRootMotion = false;
             animator.SetFloat(_animIDRotationDirection, 0);
             animator.SetBool(_animIDIsRotating, false);
+            lastAgentVelocityMagnitude = agent.velocity.magnitude;
         }
 
         private void AssignAnimationIDs()
@@ -69,7 +70,7 @@ namespace i5.VirtualAgents
         {
             float agentVelocityMag =  agent.velocity.magnitude;
 
-            // If the NavMesh Agent is recalculating it's path over multiple frames, stay in the current animation
+            // If the NavMesh Agent is recalculating its path over multiple frames, stay in the current animation
             if (!agent.pathPending)
             {
                 // Update velocity magnitude
@@ -79,7 +80,6 @@ namespace i5.VirtualAgents
             else
             {
                 // Keep same velocity magnitude
-                agentVelocityMag = lastAgentVelocityMagnitude;
                 animator.SetFloat(_animIDSpeed, lastAgentVelocityMagnitude);
             }
             
