@@ -89,9 +89,14 @@ namespace i5.VirtualAgents
             foreach (Transform child in childrenToMove)
             {
                 child.SetParent(instantiatedPrefab.transform, false);
+                
+                // Move rig to local 0 X/Z to remove export offset; preserve Y.
+                // Anything with a Mesh Renderer is unaffected by this action
+                Vector3 localPosition = child.localPosition;
+                child.localPosition = new Vector3(0f, localPosition.y, 0f);
             }
 
-            // If imported model already has a animator component with a avatar, use that one, otherwise use the default avatar
+            // If imported model already has an animator component with an avatar, use that one, otherwise use the default avatar
             if (selectedObject.TryGetComponent<Animator>(out var animator))
             {
                 if (animator.avatar != null)
@@ -114,7 +119,7 @@ namespace i5.VirtualAgents
                     }
                     instantiatedAnimator.avatar = animator.avatar;
                 }
-                // Otherwise the default avatar thats specified in the prefab will be used
+                // Otherwise the default avatar that is specified in the prefab will be used
             }
             else
             {
@@ -184,7 +189,7 @@ namespace i5.VirtualAgents
         }
         
         /// <summary>
-        /// Attempts to build a Humanoid Avatar for some naming convention, e.g. Ready Player Me avatars.
+        /// Attempts to build a Humanoid Avatar for some naming convention, e.g. Ready Player Me & Blender avatars.
         /// </summary>
         private static AvatarCreationResult TryCreateAutomaticAvatar(GameObject rootObject, Animator animator)
         {
@@ -206,11 +211,13 @@ namespace i5.VirtualAgents
             // We need to traverse the entire hierarchy to build the skeleton definition
             foreach (Transform t in rootObject.GetComponentsInChildren<Transform>())
             {
-                SkeletonBone bone = new SkeletonBone();
-                bone.name = t.name;
-                bone.position = t.localPosition;
-                bone.rotation = t.localRotation;
-                bone.scale = t.localScale;
+                SkeletonBone bone = new SkeletonBone
+                {
+                    name = t.name,
+                    position = t.localPosition,
+                    rotation = t.localRotation,
+                    scale = t.localScale
+                };
                 skeletonBones.Add(bone);
             }
             description.skeleton = skeletonBones.ToArray();
