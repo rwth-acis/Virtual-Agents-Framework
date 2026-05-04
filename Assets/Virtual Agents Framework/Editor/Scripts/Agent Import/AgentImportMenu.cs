@@ -448,6 +448,8 @@ namespace i5.VirtualAgents
                 return;
             }
 
+            const float socketSnapThreshold = 0.1f;
+
             // 2. Helper Method
             void AddSourceToConstraint(string socketPath, HumanBodyBones boneType)
             {
@@ -469,13 +471,34 @@ namespace i5.VirtualAgents
                 if (constraint != null)
                 {
                     WeightedTransform newSource = new WeightedTransform(bone, 1.0f);
-                    WeightedTransformArray sources = new WeightedTransformArray{ newSource };
+                    WeightedTransformArray sources = new WeightedTransformArray { newSource };
 
                     constraint.data.sourceObjects = sources;
                 }
                 else
                 {
                     Debug.LogError($"MultiParentConstraint missing on {socket.name}");
+                }
+            }
+
+            void AlignSocketToBone(string socketPath, HumanBodyBones boneType)
+            {
+                Transform bone = animator.GetBoneTransform(boneType);
+                if (bone == null)
+                {
+                    return;
+                }
+
+                Transform socket = selectedObject.transform.Find(socketPath);
+                if (socket == null)
+                {
+                    return;
+                }
+
+                if (Vector3.Distance(socket.position, bone.position) > socketSnapThreshold)
+                {
+                    socket.position = bone.position;
+                    EditorUtility.SetDirty(socket);
                 }
             }
 
@@ -490,6 +513,15 @@ namespace i5.VirtualAgents
             
             AddSourceToConstraint("AnimationRigging/MeshSockets/RightUpperArmSocket", HumanBodyBones.RightUpperArm);
             AddSourceToConstraint("AnimationRigging/MeshSockets/LeftUpperArmSocket", HumanBodyBones.LeftUpperArm);
+
+            AlignSocketToBone("AnimationRigging/MeshSockets/RightHandSocket", HumanBodyBones.RightHand);
+            AlignSocketToBone("AnimationRigging/MeshSockets/LeftHandSocket", HumanBodyBones.LeftHand);
+            AlignSocketToBone("AnimationRigging/MeshSockets/RightLowerArmSocket", HumanBodyBones.RightLowerArm);
+            AlignSocketToBone("AnimationRigging/MeshSockets/LeftLowerArmSocket", HumanBodyBones.LeftLowerArm);
+            AlignSocketToBone("AnimationRigging/MeshSockets/RightUpperArmSocket", HumanBodyBones.RightUpperArm);
+            AlignSocketToBone("AnimationRigging/MeshSockets/LeftUpperArmSocket", HumanBodyBones.LeftUpperArm);
+
+            Debug.LogWarning("Mesh sockets were aligned automatically. You may still need to manually readjust item pickup sockets for best results.");
 
             // For sockets that share the same bone (Chest/Spine), we call it multiple times
             AddSourceToConstraint("AnimationRigging/MeshSockets/RightBackSocket", HumanBodyBones.Chest);
