@@ -11,6 +11,13 @@ namespace i5.VirtualAgents
     /// </summary>
     public class AgentImportMenu : EditorWindow
     {
+        private enum AvatarCreationResult
+        {
+            Success,
+            PendingManual,
+            Failed
+        }
+
         [MenuItem("Virtual Agents Framework/Custom Agent Model Import/Create Agent from Humanoid Model")]
         public static void TurnAvatarIntoAgent()
         {
@@ -60,6 +67,11 @@ namespace i5.VirtualAgents
 
             // Instantiate the prefab into the scene
             GameObject instantiatedPrefab = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+            if (instantiatedPrefab == null)
+            {
+                Debug.LogError("Failed to instantiate prefab.");
+                return;
+            }
 
             // Create a copy of the selected object that can be used to move the children out, just copying the children wouldn't keep the connections between the children
             GameObject copyOfSelectedObject = Instantiate(selectedObject);
@@ -86,13 +98,21 @@ namespace i5.VirtualAgents
                 {
                     Debug.Log("Using Animator avatar provided by the model. ");
                     // Set the avatar to null to avoid problems when the new avatar is the same as the old one
-                    instantiatedPrefab.GetComponent<Animator>().avatar = null;
+                    Animator instantiatedAnimator = instantiatedPrefab.GetComponent<Animator>();
+                    if (instantiatedAnimator == null)
+                    {
+                        Debug.LogError("Instantiated prefab has no Animator component.");
+                        DestroyImmediate(copyOfSelectedObject);
+                        return;
+                    }
+
+                    instantiatedAnimator.avatar = null;
                     // Making sure that the avatar was set to null and that the previous line was not optimized away by the compiler
-                    if (instantiatedPrefab.GetComponent<Animator>().avatar != null)
+                    if (instantiatedAnimator.avatar != null)
                     {
                         Debug.LogError("Avatar was not successfully set to null, this causes problems, when the new avatar is the same and result in Unity not updating the HumanBones correctly. ");
                     }
-                    instantiatedPrefab.GetComponent<Animator>().avatar = animator.avatar;
+                    instantiatedAnimator.avatar = animator.avatar;
                 }
                 // Otherwise the default avatar thats specified in the prefab will be used
             }
@@ -140,10 +160,15 @@ namespace i5.VirtualAgents
             {
                 Debug.LogWarning("Avatar is invalid or missing bones. Attempting automatic fix for hierarchy...");
                 
-                if (TryCreateAutomaticAvatar(selectedObject, animator))
+                AvatarCreationResult creationResult = TryCreateAutomaticAvatar(selectedObject, animator);
+                if (creationResult == AvatarCreationResult.Success)
                 {
                     Debug.Log("Successfully created and assigned a new Avatar for the hierarchy.");
                     FixAnimationRiggingBasedOnAnimatorAvatar(selectedObject, animator);
+                }
+                else if (creationResult == AvatarCreationResult.PendingManual)
+                {
+                    Debug.Log("Automatic fix could not resolve all bones. Manual mapping window opened.");
                 }
                 else
                 {
@@ -161,11 +186,15 @@ namespace i5.VirtualAgents
         /// <summary>
         /// Attempts to build a Humanoid Avatar for some naming convention, e.g. Ready Player Me avatars.
         /// </summary>
-        private static bool TryCreateAutomaticAvatar(GameObject rootObject, Animator animator)
+        private static AvatarCreationResult TryCreateAutomaticAvatar(GameObject rootObject, Animator animator)
         {
+            Dictionary<string, Transform> boneLookup = rootObject.GetComponentsInChildren<Transform>()
+                .GroupBy(t => t.name)
+                .ToDictionary(g => g.Key, g => g.First());
+
             // Verify the basic hierarchy
-            Transform hips = FindRecursive(rootObject.transform, "Hips");
-            if (hips == null) return false;
+            Transform hips = FindRecursive(rootObject.transform, "Hips", "pelvis");
+            if (hips == null) return AvatarCreationResult.Failed;
 
             Dictionary<Transform, Quaternion> originalRotations = new Dictionary<Transform, Quaternion>();
             EnforceTPose(rootObject.transform, originalRotations);
@@ -189,85 +218,91 @@ namespace i5.VirtualAgents
             // 2. Setup Human (Mapping from Bone Name -> Unity HumanBone)
             List<UnityEngine.HumanBone> humanBones = new List<UnityEngine.HumanBone>();
             
-            // Helper to add mapping if bone exists in hierarchy
-            void AddMap(string boneName, string humanName) {
-                if (skeletonBones.Any(b => b.name == boneName)) {
-                    humanBones.Add(new UnityEngine.HumanBone { boneName = boneName, humanName = humanName, limit = new HumanLimit { useDefaultValues = true } });
+            // Helper to add mapping if a candidate bone exists in hierarchy
+            void AddMap(string humanName, params string[] boneNames)
+            {
+                foreach (string boneName in boneNames)
+                {
+                    if (boneLookup.ContainsKey(boneName))
+                    {
+                        humanBones.Add(new UnityEngine.HumanBone { boneName = boneName, humanName = humanName, limit = new HumanLimit { useDefaultValues = true } });
+                        return;
+                    }
                 }
             }
 
             // -- Body --
-            AddMap("Hips", "Hips");
-            AddMap("Spine", "Spine");
-            AddMap("Spine1", "Chest");
-            AddMap("Spine2", "UpperChest");
-            AddMap("Neck", "Neck");
-            AddMap("Head", "Head");
+            AddMap("Hips", "Hips", "pelvis");
+            AddMap("Spine", "Spine", "spine_01");
+            AddMap("Chest", "Spine1", "spine_02");
+            AddMap("UpperChest", "Spine2", "spine_03");
+            AddMap("Neck", "Neck", "neck_01");
+            AddMap("Head", "Head", "head");
 
             // -- Legs --
-            AddMap("LeftUpLeg", "LeftUpperLeg");
-            AddMap("LeftLeg", "LeftLowerLeg");
-            AddMap("LeftFoot", "LeftFoot");
-            AddMap("LeftToeBase", "LeftToes");
+            AddMap("LeftUpperLeg", "LeftUpLeg", "thigh_l");
+            AddMap("LeftLowerLeg", "LeftLeg", "calf_l");
+            AddMap("LeftFoot", "LeftFoot", "foot_l");
+            AddMap("LeftToes", "LeftToeBase", "ball_l");
             
-            AddMap("RightUpLeg", "RightUpperLeg");
-            AddMap("RightLeg", "RightLowerLeg");
-            AddMap("RightFoot", "RightFoot");
-            AddMap("RightToeBase", "RightToes");
+            AddMap("RightUpperLeg", "RightUpLeg", "thigh_r");
+            AddMap("RightLowerLeg", "RightLeg", "calf_r");
+            AddMap("RightFoot", "RightFoot", "foot_r");
+            AddMap("RightToes", "RightToeBase", "ball_r");
 
             // -- Arms --
-            AddMap("LeftShoulder", "LeftShoulder");
-            AddMap("LeftArm", "LeftUpperArm");
-            AddMap("LeftForeArm", "LeftLowerArm");
-            AddMap("LeftHand", "LeftHand");
+            AddMap("LeftShoulder", "LeftShoulder", "clavicle_l");
+            AddMap("LeftUpperArm", "LeftArm", "upperarm_l");
+            AddMap("LeftLowerArm", "LeftForeArm", "lowerarm_l");
+            AddMap("LeftHand", "LeftHand", "hand_l");
 
-            AddMap("RightShoulder", "RightShoulder");
-            AddMap("RightArm", "RightUpperArm");
-            AddMap("RightForeArm", "RightLowerArm");
-            AddMap("RightHand", "RightHand");
+            AddMap("RightShoulder", "RightShoulder", "clavicle_r");
+            AddMap("RightUpperArm", "RightArm", "upperarm_r");
+            AddMap("RightLowerArm", "RightForeArm", "lowerarm_r");
+            AddMap("RightHand", "RightHand", "hand_r");
 
             // -- Fingers --
             // Left Hand
-            AddMap("LeftHandThumb1", "Left Thumb Proximal");
-            AddMap("LeftHandThumb2", "Left Thumb Intermediate");
-            AddMap("LeftHandThumb3", "Left Thumb Distal");
+            AddMap("Left Thumb Proximal", "LeftHandThumb1", "thumb_01_l");
+            AddMap("Left Thumb Intermediate", "LeftHandThumb2", "thumb_02_l");
+            AddMap("Left Thumb Distal", "LeftHandThumb3", "thumb_03_l");
 
-            AddMap("LeftHandIndex1", "Left Index Proximal");
-            AddMap("LeftHandIndex2", "Left Index Intermediate");
-            AddMap("LeftHandIndex3", "Left Index Distal");
+            AddMap("Left Index Proximal", "LeftHandIndex1", "index_01_l");
+            AddMap("Left Index Intermediate", "LeftHandIndex2", "index_02_l");
+            AddMap("Left Index Distal", "LeftHandIndex3", "index_03_l");
 
-            AddMap("LeftHandMiddle1", "Left Middle Proximal");
-            AddMap("LeftHandMiddle2", "Left Middle Intermediate");
-            AddMap("LeftHandMiddle3", "Left Middle Distal");
+            AddMap("Left Middle Proximal", "LeftHandMiddle1", "middle_01_l");
+            AddMap("Left Middle Intermediate", "LeftHandMiddle2", "middle_02_l");
+            AddMap("Left Middle Distal", "LeftHandMiddle3", "middle_03_l");
 
-            AddMap("LeftHandRing1", "Left Ring Proximal");
-            AddMap("LeftHandRing2", "Left Ring Intermediate");
-            AddMap("LeftHandRing3", "Left Ring Distal");
+            AddMap("Left Ring Proximal", "LeftHandRing1", "ring_01_l");
+            AddMap("Left Ring Intermediate", "LeftHandRing2", "ring_02_l");
+            AddMap("Left Ring Distal", "LeftHandRing3", "ring_03_l");
 
-            AddMap("LeftHandPinky1", "Left Little Proximal");
-            AddMap("LeftHandPinky2", "Left Little Intermediate");
-            AddMap("LeftHandPinky3", "Left Little Distal");
+            AddMap("Left Little Proximal", "LeftHandPinky1", "pinky_01_l");
+            AddMap("Left Little Intermediate", "LeftHandPinky2", "pinky_02_l");
+            AddMap("Left Little Distal", "LeftHandPinky3", "pinky_03_l");
 
             // Right Hand
-            AddMap("RightHandThumb1", "Right Thumb Proximal");
-            AddMap("RightHandThumb2", "Right Thumb Intermediate");
-            AddMap("RightHandThumb3", "Right Thumb Distal");
+            AddMap("Right Thumb Proximal", "RightHandThumb1", "thumb_01_r");
+            AddMap("Right Thumb Intermediate", "RightHandThumb2", "thumb_02_r");
+            AddMap("Right Thumb Distal", "RightHandThumb3", "thumb_03_r");
 
-            AddMap("RightHandIndex1", "Right Index Proximal");
-            AddMap("RightHandIndex2", "Right Index Intermediate");
-            AddMap("RightHandIndex3", "Right Index Distal");
+            AddMap("Right Index Proximal", "RightHandIndex1", "index_01_r");
+            AddMap("Right Index Intermediate", "RightHandIndex2", "index_02_r");
+            AddMap("Right Index Distal", "RightHandIndex3", "index_03_r");
 
-            AddMap("RightHandMiddle1", "Right Middle Proximal");
-            AddMap("RightHandMiddle2", "Right Middle Intermediate");
-            AddMap("RightHandMiddle3", "Right Middle Distal");
+            AddMap("Right Middle Proximal", "RightHandMiddle1", "middle_01_r");
+            AddMap("Right Middle Intermediate", "RightHandMiddle2", "middle_02_r");
+            AddMap("Right Middle Distal", "RightHandMiddle3", "middle_03_r");
 
-            AddMap("RightHandRing1", "Right Ring Proximal");
-            AddMap("RightHandRing2", "Right Ring Intermediate");
-            AddMap("RightHandRing3", "Right Ring Distal");
+            AddMap("Right Ring Proximal", "RightHandRing1", "ring_01_r");
+            AddMap("Right Ring Intermediate", "RightHandRing2", "ring_02_r");
+            AddMap("Right Ring Distal", "RightHandRing3", "ring_03_r");
 
-            AddMap("RightHandPinky1", "Right Little Proximal");
-            AddMap("RightHandPinky2", "Right Little Intermediate");
-            AddMap("RightHandPinky3", "Right Little Distal");
+            AddMap("Right Little Proximal", "RightHandPinky1", "pinky_01_r");
+            AddMap("Right Little Intermediate", "RightHandPinky2", "pinky_02_r");
+            AddMap("Right Little Distal", "RightHandPinky3", "pinky_03_r");
             
 
             description.human = humanBones.ToArray();
@@ -279,10 +314,17 @@ namespace i5.VirtualAgents
             {
                 newAvatar.name = "AutoGeneratedAvatar";
                 animator.avatar = newAvatar;
-                return true;
+                return AvatarCreationResult.Success;
             }
-            
-            return false;
+
+            List<HumanBodyBones> missingBones = GetMissingHumanBones(humanBones, ManualAvatarMappingWindow.SupportedHumanBones);
+            if (missingBones.Count > 0)
+            {
+                ManualAvatarMappingWindow.Show(rootObject, animator, description, humanBones, missingBones);
+                return AvatarCreationResult.PendingManual;
+            }
+
+            return AvatarCreationResult.Failed;
         }
 
         /// <summary>
@@ -291,13 +333,13 @@ namespace i5.VirtualAgents
         private static void EnforceTPose(Transform root, Dictionary<Transform, Quaternion> undoList)
         {
             // Find all necessary bone transforms
-            Transform leftArm = FindRecursive(root, "LeftArm");
-            Transform leftForeArm = FindRecursive(root, "LeftForeArm");
-            Transform leftHand = FindRecursive(root, "LeftHand");
+            Transform leftArm = FindRecursive(root, "LeftArm", "upperarm_l");
+            Transform leftForeArm = FindRecursive(root, "LeftForeArm", "lowerarm_l");
+            Transform leftHand = FindRecursive(root, "LeftHand", "hand_l");
 
-            Transform rightArm = FindRecursive(root, "RightArm");
-            Transform rightForeArm = FindRecursive(root, "RightForeArm");
-            Transform rightHand = FindRecursive(root, "RightHand");
+            Transform rightArm = FindRecursive(root, "RightArm", "upperarm_r");
+            Transform rightForeArm = FindRecursive(root, "RightForeArm", "lowerarm_r");
+            Transform rightHand = FindRecursive(root, "RightHand", "hand_r");
 
             // Local helper to align a bone segment to a target direction
             void AlignBone(Transform boneToRotate, Transform childBone, Vector3 targetDirection)
@@ -349,6 +391,48 @@ namespace i5.VirtualAgents
                 if (found != null) return found;
             }
             return null;
+        }
+
+        private static Transform FindRecursive(Transform current, params string[] names)
+        {
+            foreach (string name in names)
+            {
+                Transform found = FindRecursive(current, name);
+                if (found != null)
+                {
+                    return found;
+                }
+            }
+
+            return null;
+        }
+
+        private static List<HumanBodyBones> GetMissingHumanBones(List<UnityEngine.HumanBone> mappedBones, IReadOnlyList<HumanBodyBones> supportedBones)
+        {
+            HashSet<string> mappedHumanNames = new HashSet<string>(mappedBones.Select(b => b.humanName));
+            List<HumanBodyBones> missing = new List<HumanBodyBones>();
+
+            foreach (HumanBodyBones bone in supportedBones)
+            {
+                string humanName = GetHumanName(bone);
+                if (!mappedHumanNames.Contains(humanName))
+                {
+                    missing.Add(bone);
+                }
+            }
+
+            return missing;
+        }
+
+        private static string GetHumanName(HumanBodyBones bone)
+        {
+            int index = (int)bone;
+            if (index < 0 || index >= HumanTrait.BoneName.Length)
+            {
+                return bone.ToString();
+            }
+
+            return HumanTrait.BoneName[index];
         }
 
         private static void FixAnimationRiggingBasedOnAnimatorAvatar(GameObject selectedObject, Animator animator)
@@ -439,6 +523,188 @@ namespace i5.VirtualAgents
             
             Debug.Log("Successfully set up Animation Rigging based on the Animator's Avatar.");
 
+        }
+
+        private sealed class ManualAvatarMappingWindow : EditorWindow
+        {
+            public static readonly HumanBodyBones[] SupportedHumanBones =
+            {
+                HumanBodyBones.Hips,
+                HumanBodyBones.Spine,
+                HumanBodyBones.Chest,
+                HumanBodyBones.UpperChest,
+                HumanBodyBones.Neck,
+                HumanBodyBones.Head,
+                HumanBodyBones.LeftShoulder,
+                HumanBodyBones.LeftUpperArm,
+                HumanBodyBones.LeftLowerArm,
+                HumanBodyBones.LeftHand,
+                HumanBodyBones.RightShoulder,
+                HumanBodyBones.RightUpperArm,
+                HumanBodyBones.RightLowerArm,
+                HumanBodyBones.RightHand,
+                HumanBodyBones.LeftUpperLeg,
+                HumanBodyBones.LeftLowerLeg,
+                HumanBodyBones.LeftFoot,
+                HumanBodyBones.LeftToes,
+                HumanBodyBones.RightUpperLeg,
+                HumanBodyBones.RightLowerLeg,
+                HumanBodyBones.RightFoot,
+                HumanBodyBones.RightToes,
+                HumanBodyBones.LeftThumbProximal,
+                HumanBodyBones.LeftThumbIntermediate,
+                HumanBodyBones.LeftThumbDistal,
+                HumanBodyBones.LeftIndexProximal,
+                HumanBodyBones.LeftIndexIntermediate,
+                HumanBodyBones.LeftIndexDistal,
+                HumanBodyBones.LeftMiddleProximal,
+                HumanBodyBones.LeftMiddleIntermediate,
+                HumanBodyBones.LeftMiddleDistal,
+                HumanBodyBones.LeftRingProximal,
+                HumanBodyBones.LeftRingIntermediate,
+                HumanBodyBones.LeftRingDistal,
+                HumanBodyBones.LeftLittleProximal,
+                HumanBodyBones.LeftLittleIntermediate,
+                HumanBodyBones.LeftLittleDistal,
+                HumanBodyBones.RightThumbProximal,
+                HumanBodyBones.RightThumbIntermediate,
+                HumanBodyBones.RightThumbDistal,
+                HumanBodyBones.RightIndexProximal,
+                HumanBodyBones.RightIndexIntermediate,
+                HumanBodyBones.RightIndexDistal,
+                HumanBodyBones.RightMiddleProximal,
+                HumanBodyBones.RightMiddleIntermediate,
+                HumanBodyBones.RightMiddleDistal,
+                HumanBodyBones.RightRingProximal,
+                HumanBodyBones.RightRingIntermediate,
+                HumanBodyBones.RightRingDistal,
+                HumanBodyBones.RightLittleProximal,
+                HumanBodyBones.RightLittleIntermediate,
+                HumanBodyBones.RightLittleDistal
+            };
+
+            private sealed class MissingBoneEntry
+            {
+                public HumanBodyBones Bone;
+                public Transform AssignedTransform;
+            }
+
+            private static readonly HumanBodyBones[] RequiredHumanBones =
+            {
+                HumanBodyBones.Hips,
+                HumanBodyBones.Spine,
+                HumanBodyBones.Chest,
+                HumanBodyBones.Neck,
+                HumanBodyBones.Head,
+                HumanBodyBones.LeftUpperArm,
+                HumanBodyBones.LeftLowerArm,
+                HumanBodyBones.LeftHand,
+                HumanBodyBones.RightUpperArm,
+                HumanBodyBones.RightLowerArm,
+                HumanBodyBones.RightHand,
+                HumanBodyBones.LeftUpperLeg,
+                HumanBodyBones.LeftLowerLeg,
+                HumanBodyBones.LeftFoot,
+                HumanBodyBones.RightUpperLeg,
+                HumanBodyBones.RightLowerLeg,
+                HumanBodyBones.RightFoot
+            };
+
+            private GameObject rootObject;
+            private Animator animator;
+            private HumanDescription description;
+            private List<UnityEngine.HumanBone> autoHumanBones;
+            private List<MissingBoneEntry> missingBoneEntries;
+            private Vector2 scrollPosition;
+
+            public static void Show(
+                GameObject rootObject,
+                Animator animator,
+                HumanDescription description,
+                List<UnityEngine.HumanBone> autoHumanBones,
+                List<HumanBodyBones> missingBones)
+            {
+                ManualAvatarMappingWindow window = CreateInstance<ManualAvatarMappingWindow>();
+                window.titleContent = new GUIContent("Manual Avatar Mapping");
+                window.rootObject = rootObject;
+                window.animator = animator;
+                window.description = description;
+                window.autoHumanBones = new List<UnityEngine.HumanBone>(autoHumanBones);
+                window.missingBoneEntries = missingBones
+                    .Select(bone => new MissingBoneEntry { Bone = bone })
+                    .ToList();
+                window.minSize = new Vector2(420f, 320f);
+                window.ShowUtility();
+            }
+
+            private void OnGUI()
+            {
+                EditorGUILayout.LabelField("Map missing bones", EditorStyles.boldLabel);
+                EditorGUILayout.HelpBox("Drag the matching Transform from the hierarchy for each bone that could not be mapped automatically.", MessageType.Info);
+
+                scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+                foreach (MissingBoneEntry entry in missingBoneEntries)
+                {
+                    string label = GetHumanName(entry.Bone);
+                    entry.AssignedTransform = (Transform)EditorGUILayout.ObjectField(label, entry.AssignedTransform, typeof(Transform), true);
+                }
+                EditorGUILayout.EndScrollView();
+
+                EditorGUILayout.Space();
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    if (GUILayout.Button("Build Avatar"))
+                    {
+                        TryBuildAvatar();
+                    }
+
+                    if (GUILayout.Button("Cancel"))
+                    {
+                        Close();
+                    }
+                }
+            }
+
+            private void TryBuildAvatar()
+            {
+                List<UnityEngine.HumanBone> mergedBones = new List<UnityEngine.HumanBone>(autoHumanBones);
+                foreach (MissingBoneEntry entry in missingBoneEntries)
+                {
+                    if (entry.AssignedTransform == null)
+                    {
+                        continue;
+                    }
+
+                    mergedBones.Add(new UnityEngine.HumanBone
+                    {
+                        boneName = entry.AssignedTransform.name,
+                        humanName = GetHumanName(entry.Bone),
+                        limit = new HumanLimit { useDefaultValues = true }
+                    });
+                }
+
+                List<HumanBodyBones> stillMissing = GetMissingHumanBones(mergedBones, RequiredHumanBones);
+                if (stillMissing.Count > 0)
+                {
+                    string missingList = string.Join(", ", stillMissing.Select(GetHumanName));
+                    EditorUtility.DisplayDialog("Missing Required Bones", "Please assign: " + missingList, "OK");
+                    return;
+                }
+
+                description.human = mergedBones.ToArray();
+                Avatar newAvatar = AvatarBuilder.BuildHumanAvatar(rootObject, description);
+                if (newAvatar != null && newAvatar.isValid)
+                {
+                    newAvatar.name = "AutoGeneratedAvatar";
+                    animator.avatar = newAvatar;
+                    FixAnimationRiggingBasedOnAnimatorAvatar(rootObject, animator);
+                    Debug.Log("Successfully created and assigned a new Avatar for the hierarchy.");
+                    Close();
+                    return;
+                }
+
+                EditorUtility.DisplayDialog("Avatar Build Failed", "Unity could not build a valid avatar. Please verify the bone assignments.", "OK");
+            }
         }
     }
 }
