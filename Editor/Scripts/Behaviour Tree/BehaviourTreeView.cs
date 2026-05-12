@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,18 +14,16 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
     /// <summary>
     /// Displays a Behaviour Tree in the Behaviour Tree Editor and provides the means to manipulate it.
     /// </summary>
-    public class BehaviourTreeView : GraphView
+    [UxmlElement]
+    public partial class BehaviourTreeView : GraphView
     {
         public Action<NodeView> OnNodeSelect;
 
         public Agent CurrentlySelectedAgent { get; set; }
 
-
-        // Needed for the UI Builder
-        public new class UxmlFactory : UxmlFactory<BehaviourTreeView, UxmlTraits> { }
         public BehaviourTreeAsset Tree;
 
-        private bool readOnly = false;
+        private bool readOnly;
 
 
         public BehaviourTreeView()
@@ -113,14 +110,15 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                 {
                     foreach (var elemToRemove in graphViewChange.elementsToRemove)
                     {
-                        if (elemToRemove is NodeView nodeToRemove && nodeToRemove.node is not IRootNode)
+                        switch (elemToRemove)
                         {
-                            Tree.DeleteNode(nodeToRemove.node);
-                        }
-                        if (elemToRemove is Edge edge)
-                        {
-                            //Remove the child, so that the edge is not added again
-                            Tree.RemoveChild(((NodeView)edge.output.node).node, ((NodeView)edge.input.node).node);
+                            case NodeView { node: not IRootNode } nodeToRemove:
+                                Tree.DeleteNode(nodeToRemove.node);
+                                break;
+                            case Edge edge:
+                                //Remove the child, so that the edge is not added again
+                                Tree.RemoveChild(((NodeView)edge.output.node).node, ((NodeView)edge.input.node).node);
+                                break;
                         }
                     }
                 }
@@ -144,7 +142,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         }
 
         /// <summary>
-        /// Builds a context menu with options for creating nodes. Every non abstract class that (1) implements IAgentTask, ICompositeNode or IDecoratorNode, (2) additionally implements ISerializable
+        /// Builds a context menu with options for creating nodes. Every non-abstract class that (1) implements IAgentTask, ICompositeNode or IDecoratorNode, (2) additionally implements ISerializable
         /// and (3) has an empty constructor will automatically get its own context menu entry and can be fully used as node in the Behaviour Tree.
         /// </summary>
         /// <param name="evt"></param>
@@ -164,15 +162,15 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                 foreach (var type in derivedTypes)
                 {
                     //Get the empty constructor. If no empty constructor exists, a corresponding node can't be created by the context menu.
-                    var constructor = type.GetConstructor(new Type[0]);
+                    var constructor = type.GetConstructor(Type.EmptyTypes);
 
                     if (constructor != null && !type.IsAbstract) // Can only instantiate a task, if it has an empty constructor
                     {
                         //Can only use it as node if it is serializable
-                        if (constructor.Invoke(new object[0]) is ISerializable task && task is not IRootNode)
+                        if (constructor.Invoke(Array.Empty<object>()) is ISerializable task && task is not IRootNode)
                         {
                             Vector2 nodePosition = this.ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
-                            evt.menu.AppendAction(menuName + "/" + type.Name, (a) => CreateVisualNode(task, nodePosition));
+                            evt.menu.AppendAction(menuName + "/" + type.Name, (_) => CreateVisualNode(task, nodePosition));
                         }
                     }
                 }
@@ -229,7 +227,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             }
         }
 
-        // ----------------- Auto Layouting Of Tree-----------------
+        // ----------------- Auto Lay-outing Of Tree-----------------
         private class NodeInfoForAutoLayouting
         {
             public VisualNode Node { get; }
@@ -309,11 +307,11 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             // Sort all depth lists by the x position of the nodes
             foreach (var depthList in nodesByDepth)
             {
-                depthList.Sort((node1, node2) => { return node1.Node.Position.x.CompareTo(node2.Node.Position.x); });
+                depthList.Sort((node1, node2) => node1.Node.Position.x.CompareTo(node2.Node.Position.x));
             }
 
             // Set the position of the root node to 0
-            NodeView rootNode = FindNodeView(nodesByDepth[0].FirstOrDefault().Node);
+            NodeView rootNode = FindNodeView(nodesByDepth[0].FirstOrDefault()?.Node);
             rootNode.SetPosition(new Rect(0, rootNode.style.top.value.value, 0, 0));
 
             // Calculate the x position of all other nodes
@@ -321,18 +319,16 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             {
 
                 int widthOfLayerAbove = nodesByDepth[i - 1].Sum(n => n.SubTreeWidth);
-                int count = nodesByDepth[i].Count();
                 int currentlyUsedSpace = 0;
 
                 int childrenIndex = 0;
-                List<int> emptySpaceWhenIndex = new List<int>();
                 foreach (var nodeInfo in nodesByDepth[i])
                 {
                     // Calculate the x position of the node based on:
                     // the space that other nodes in the same layer already occupy left of the node
                     // the width of the subtree of the node, so that the node is centered above its own subtree
                     // the width of the layer above, so that the tree is cantered at 0 under the roodNode
-                    float xPosition = (float)(currentlyUsedSpace) + ((float)nodeInfo.SubTreeWidth / 2) - ((float)widthOfLayerAbove / 2);
+                    float xPosition = currentlyUsedSpace + (float)nodeInfo.SubTreeWidth / 2 - (float)widthOfLayerAbove / 2;
                     xPosition *= 220;// 220 is the width of a node + space between nodes
                     
                     // the node occupies the space of its subtree in the layer and is centered above its subtree

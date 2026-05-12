@@ -1,9 +1,7 @@
 using i5.VirtualAgents.BehaviourTrees;
 using i5.VirtualAgents.BehaviourTrees.Visual;
-using NUnit.Framework.Interfaces;
 using System;
 using System.Linq;
-using System.Runtime.Serialization;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
