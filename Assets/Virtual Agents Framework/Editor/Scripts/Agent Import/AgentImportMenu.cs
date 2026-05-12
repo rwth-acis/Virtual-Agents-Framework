@@ -30,6 +30,26 @@ namespace i5.VirtualAgents
                 return;
             }
 
+            // Prevent importing generic-rigged model assets directly
+            string selectedAssetPath = AssetDatabase.GetAssetPath(selectedObject);
+            if (string.IsNullOrEmpty(selectedAssetPath))
+            {
+                Object sourceAsset = PrefabUtility.GetCorrespondingObjectFromSource(selectedObject);
+                if (sourceAsset != null)
+                {
+                    selectedAssetPath = AssetDatabase.GetAssetPath(sourceAsset);
+                }
+            }
+            if (!string.IsNullOrEmpty(selectedAssetPath))
+            {
+                AssetImporter importer = AssetImporter.GetAtPath(selectedAssetPath);
+                if (importer is ModelImporter modelImporter && modelImporter.animationType == ModelImporterAnimationType.Generic)
+                {
+                    Debug.LogError("Selected model asset uses a Genric rig. Please set the rig animation type to Humanoid before importing as an agent model. In the project window select " + selectedAssetPath + " and then in the Inspector window select Rig > Animation Type > Generic. Then click apply.");
+                    return;
+                }
+            }
+
             // Specify the name to the existing prefab
             string prefabName = "AgentWithoutModel";
             string customPrefabName = "CustomAgentWithoutModel";
