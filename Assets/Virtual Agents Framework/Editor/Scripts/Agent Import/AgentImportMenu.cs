@@ -253,6 +253,22 @@ namespace i5.VirtualAgents
         {
             EnforceTPose(rootObject.transform, description.human); // AvatarBuilder.BuildHumanAvatar requires T-Pose
 
+            // Rebuild skeleton to match the enforced T-pose transforms
+            List<SkeletonBone> skeletonBones = new List<SkeletonBone>();
+            foreach (Transform t in rootObject.GetComponentsInChildren<Transform>())
+            {
+                SkeletonBone bone = new SkeletonBone
+                {
+                    name = t.name,
+                    position = t.localPosition,
+                    rotation = t.localRotation,
+                    scale = t.localScale
+                };
+                skeletonBones.Add(bone);
+            }
+
+            description.skeleton = skeletonBones.ToArray();
+
             Avatar newAvatar = AvatarBuilder.BuildHumanAvatar(rootObject, description);
             if (newAvatar != null && newAvatar.isValid)
             {
@@ -410,7 +426,6 @@ namespace i5.VirtualAgents
 
             // 1. Setup Skeleton (List of all bones in the hierarchy)
             List<SkeletonBone> skeletonBones = new List<SkeletonBone>();
-            // We need to traverse the entire hierarchy to build the skeleton definition
             foreach (Transform t in rootObject.GetComponentsInChildren<Transform>())
             {
                 SkeletonBone bone = new SkeletonBone
