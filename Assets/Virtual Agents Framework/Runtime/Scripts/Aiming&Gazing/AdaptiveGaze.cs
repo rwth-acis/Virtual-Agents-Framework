@@ -212,7 +212,7 @@ namespace i5.VirtualAgents
             // Check if the agent is walking
             AdjustIntervalBasedOnWalkingSpeed();
 
-            // Every second check which targets are nearby and invoke the function to calculate the most interesting target
+            // Dynamically check which targets are nearby and invoke the function to calculate the most interesting target
             CheckWhichTargetsAreNearbyAndVisible();
 
             // Position of the currently looked at target is updated every frame in case it moves 
@@ -281,7 +281,7 @@ namespace i5.VirtualAgents
             for (int i = 0; i < count; i++)
             {
                 AdaptiveGazeTarget target = colliders[i].GetComponent<AdaptiveGazeTarget>();
-                // Check that the object has an PossibleLookAtTarget component and that it is not picked up
+                // Check that the object has an AdaptiveGazeTarget component and that it is not picked up
                 if (target == null || !target.canCurrentlyBeLookedAt)
                 {
                     continue;

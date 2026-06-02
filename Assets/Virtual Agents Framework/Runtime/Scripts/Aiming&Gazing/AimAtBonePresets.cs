@@ -43,8 +43,10 @@ namespace i5.VirtualAgents
                 bone = HumanBodyBones.RightIndexProximal,
                 weight = 0.01f
             };
-            aimDirection = AimDirection.Y;
-            angleLimit = 180f;  
+            
+            angleLimit = 180f;
+            
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Chain;
 
             GetBoneTransformsFromAnimatior(HumanBodyBones.RightIndexDistal);
         }
@@ -90,8 +92,9 @@ namespace i5.VirtualAgents
                 weight = 0.01f
             };
 
-            aimDirection = AimDirection.Y;
             angleLimit = 180f;
+            
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Chain;
 
             GetBoneTransformsFromAnimatior(HumanBodyBones.LeftIndexDistal);
         }
@@ -133,8 +136,10 @@ namespace i5.VirtualAgents
                 weight = 0.9f
             };
 
-            aimDirection = AimDirection.Y;
             angleLimit = 180f;
+            
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Chain;
+            
             GetBoneTransformsFromAnimatior(HumanBodyBones.RightToes);
         }
     }
@@ -173,8 +178,11 @@ namespace i5.VirtualAgents
                 bone = HumanBodyBones.LeftToes,
                 weight = 0.9f
             };
-            aimDirection = AimDirection.Y;
+            
             angleLimit = 180f;
+            
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Chain;
+            
             GetBoneTransformsFromAnimatior(HumanBodyBones.LeftToes);
         }
     }
@@ -201,7 +209,8 @@ namespace i5.VirtualAgents
             };
 
             angleLimit = 100f;
-            aimDirection = AimDirection.Z;
+            
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Forward;
 
             GetBoneTransformsFromAnimatior(HumanBodyBones.Head);
         }
@@ -228,7 +237,8 @@ namespace i5.VirtualAgents
             };
 
             angleLimit = 90.0f;
-            aimDirection = AimDirection.Z;
+            
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Forward;
 
             GetBoneTransformsFromAnimatior(HumanBodyBones.Chest);
         }

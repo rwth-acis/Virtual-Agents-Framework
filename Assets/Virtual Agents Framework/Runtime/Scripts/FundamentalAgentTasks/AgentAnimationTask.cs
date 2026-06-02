@@ -44,7 +44,7 @@ namespace i5.VirtualAgents.AgentTasks
             {
                 if (layer == "")
                 {
-                    Debug.LogError("When aming at a target a layer coresponding to the body area that should aim at the target has to be choosen.");
+                    Debug.LogError("When aiming at a target a layer corresponding to the body area that should aim at the target has to be chosen.");
                 }
 
                 switch (layer)
