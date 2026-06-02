@@ -1836,7 +1836,7 @@ MonoBehaviour:
     m_SourceObjects:
       m_Length: 1
       m_Item0:
-        transform: {fileID: 0}
+        transform: {fileID: 517708087313375981}
         weight: 1
       m_Item1:
         transform: {fileID: 0}
@@ -2374,9 +2374,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forwardSpeed: Speed
-  sittingDirection: SittingDirection
-  sitting: Sitting
   angularSpeed: Turn
+  rotationDirection: RotationDirection
+  isRotating: IsRotating
 --- !u!195 &7788638724650443711
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2413,6 +2413,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <TwoBoneIKConstraintRightArm>k__BackingField: {fileID: 480406094898911219}
   <TwoBoneIKConstraintLeftArm>k__BackingField: {fileID: 2009437644724414400}
+  <MultiParentConstraintHip>k__BackingField: {fileID: 3171231385932343981}
+  <TwoBoneIKConstraintLeftLeg>k__BackingField: {fileID: 0}
+  <TwoBoneIKConstraintRightLeg>k__BackingField: {fileID: 0}
+  <MultiAimConstraintSpine>k__BackingField: {fileID: 0}
 --- !u!114 &1372687343423552459
 MonoBehaviour:
   m_ObjectHideFlags: 0

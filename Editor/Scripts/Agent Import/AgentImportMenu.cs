@@ -392,17 +392,41 @@ namespace i5.VirtualAgents
             }
             else
             {
+                // Left Arm
                 meshSockets.TwoBoneIKConstraintLeftArm.data.root =
                     animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
                 meshSockets.TwoBoneIKConstraintLeftArm.data.mid =
                     animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
                 meshSockets.TwoBoneIKConstraintLeftArm.data.tip = animator.GetBoneTransform(HumanBodyBones.LeftHand);
-
+                
+                // Right Arm
                 meshSockets.TwoBoneIKConstraintRightArm.data.root =
                     animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
                 meshSockets.TwoBoneIKConstraintRightArm.data.mid =
                     animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
                 meshSockets.TwoBoneIKConstraintRightArm.data.tip = animator.GetBoneTransform(HumanBodyBones.RightHand);
+                
+                // Left Leg
+                meshSockets.TwoBoneIKConstraintLeftLeg.data.root =
+                    animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg);
+                meshSockets.TwoBoneIKConstraintLeftLeg.data.mid =
+                    animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg);
+                meshSockets.TwoBoneIKConstraintLeftLeg.data.tip = animator.GetBoneTransform(HumanBodyBones.LeftFoot);
+
+                // Right Leg
+                meshSockets.TwoBoneIKConstraintRightLeg.data.root =
+                    animator.GetBoneTransform(HumanBodyBones.RightUpperLeg);
+                meshSockets.TwoBoneIKConstraintRightLeg.data.mid =
+                    animator.GetBoneTransform(HumanBodyBones.RightLowerLeg);
+                meshSockets.TwoBoneIKConstraintRightLeg.data.tip = animator.GetBoneTransform(HumanBodyBones.RightFoot);
+                
+                // Hips
+                meshSockets.MultiParentConstraintHip.data.constrainedObject =
+                    animator.GetBoneTransform(HumanBodyBones.Hips);
+                
+                // Spine
+                meshSockets.MultiAimConstraintSpine.data.constrainedObject =
+                    animator.GetBoneTransform(HumanBodyBones.Spine);
             }
 
             EditorUtility.SetDirty(selectedObject);
