@@ -98,7 +98,7 @@ namespace i5.VirtualAgents.AgentTasks
                 // case: sitting down
                 if (currentState)
                 {
-                    agent.transform.rotation = Chair.transform.rotation;
+                    agent.StartCoroutine(RotateOverTime(agent, Chair.transform.rotation));
                     hipIKTarget.transform.position = sitPosition;
 
                     animator.SetBool("Sitting", sitting);
@@ -156,6 +156,28 @@ namespace i5.VirtualAgents.AgentTasks
 
             finished = true;
 
+        }
+
+        /// <summary>
+        /// Smoothly rotate the agent to align its back to the the chair
+        /// </summary>
+        /// <param name="agent">The agent</param>
+        /// <param name="targetRotation">The target rotation to rotate towards</param>
+        /// <param name="duration">The duration of the rotation</param>
+        /// <returns></returns>
+        private IEnumerator RotateOverTime(Agent agent, Quaternion targetRotation, float duration = 1f)
+        {
+            float time = 0;
+            Quaternion startRotation = agent.transform.rotation;
+
+            while (time < duration)
+            {
+                time += Time.deltaTime;
+                agent.transform.rotation = Quaternion.Lerp(startRotation, targetRotation, time / duration);
+                yield return null;
+            }
+
+            agent.transform.rotation = targetRotation;
         }
 
         public override TaskState EvaluateTaskState()
