@@ -32,10 +32,11 @@ namespace i5.VirtualAgents
             { "Wait", "Assets/Virtual Agents Framework/Samples/Wait Sample/Wait Sample.unity" },
             { "TaskBundle", "Assets/Virtual Agents Framework/Samples/TaskBundle Sample/TaskBundle Sample.unity" },
             { "Rotation", "Assets/Virtual Agents Framework/Samples/Rotation Sample/Rotation Sample.unity" },
-            { "Behaviour", "Assets/Virtual Agents Framework/Tests/Runtime/BehaviourTreeTestScene/BehaviourTreeSampleScene.unity" }
+            { "Behaviour", "Assets/Virtual Agents Framework/Tests/Runtime/BehaviourTreeTestScene/BehaviourTreeSampleScene.unity" },
+            { "Sitting", "Assets/Virtual Agents Framework/Samples/Sitting Sample/Sitting Sample.unity" }
         };
 
-        //Method to setup the test, is called once before building the tests (IPrebuildSetup)
+        //Method to set up the test, is called once before building the tests (IPrebuildSetup)
         public void Setup()
         {
 #if UNITY_EDITOR // This is still executed for the build tests
@@ -393,6 +394,23 @@ namespace i5.VirtualAgents
             Assert.That(rotationY, Is.EqualTo(7.044f).Within(0.5f));
 
             //TODO: Add more sample specific asserts 
+        }
+        
+        [UnityTest]
+        public IEnumerator VerifySittingTask()
+        {
+            pathToScenes.TryGetValue("Sitting", out string path);
+            AsyncOperation sceneLoaded = SceneManager.LoadSceneAsync(path);
+            while (!sceneLoaded.isDone)
+            {
+                yield return null;
+            }
+            var Agent = GameObject.Find("AgentStandard");
+            Assert.That(Agent, Is.Not.Null);
+
+            yield return new WaitForSeconds(75);
+
+            //TODO: Add more sample specific asserts
         }
 #endif
     }
