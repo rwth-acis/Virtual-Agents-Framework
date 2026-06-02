@@ -80,7 +80,7 @@ The [Microsoft Rocketbox Avatar library](https://github.com/microsoft/Microsoft-
 5. Drag and drop the `.fbx` into your scene.
 6. Select the model in your scene and in the menu ribbon select `Virtual Agents Framework` > `Custom Model Agent Import` > `Create Agent from Humanoid Model`.
 7. A warning about "Wrong rigging" appears, click `Continue anyway`.
-8. If another window opens, close it and repeat step 6.
+8. If a "Manual Avatar Mapping" window opens, close it and repeat step 4.
 
 You should now have an `AgentBasedOnFemale_Adult_01` (or equivalent) in the scene that can be used like the standard agent.
 
