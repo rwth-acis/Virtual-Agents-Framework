@@ -95,7 +95,7 @@ To update to the newest current version, remove the package again and re-downloa
 
 ## Quickstart Guide
 
-As part of the documentation a quickstart guide can be found [here](https://rwth-acis.github.io/Virtual-Agents-Framework/1.2.1/manual/task-system.html).
+As part of the documentation a quickstart guide can be found [here](https://rwth-acis.github.io/Virtual-Agents-Framework/${version}/manual/quickstart-guide.html).
 
 ## Documentation
 
