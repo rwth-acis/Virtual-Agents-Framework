@@ -22,6 +22,24 @@ namespace i5.VirtualAgents.Utilities
         /// </summary>
         [Tooltip("Draw the blue Z axis of the transform.")]
         [SerializeField] private bool drawBlueZ = true;
+        
+        /// <summary>
+        /// Draw the green -Y axis of the transform.
+        /// </summary>
+        [Tooltip("Draw the green -Y axis of the transform.")]
+        [SerializeField] private bool drawGreenMinusY = false;
+
+        /// <summary>
+        /// Draw the red -X axis of the transform.
+        /// </summary>
+        [Tooltip("Draw the red -X axis of the transform.")]
+        [SerializeField] private bool drawRedMinusX = false;
+
+        /// <summary>
+        /// Draw the blue -Z axis of the transform.
+        /// </summary>
+        [Tooltip("Draw the blue -Z axis of the transform.")]
+        [SerializeField] private bool drawBlueMinusZ = false;
 
         private void OnDrawGizmos()
         {
@@ -31,6 +49,12 @@ namespace i5.VirtualAgents.Utilities
                 Debug.DrawLine(transform.position, transform.position + transform.right * 50, Color.red);
             if (drawBlueZ)
                 Debug.DrawLine(transform.position, transform.position + transform.forward * 50, Color.blue);
+            if (drawGreenMinusY)
+                Debug.DrawLine(transform.position, transform.position + transform.up * -50, Color.green);
+            if (drawRedMinusX)
+                Debug.DrawLine(transform.position, transform.position + transform.right * -50, Color.red);
+            if (drawBlueMinusZ)
+                Debug.DrawLine(transform.position, transform.position + transform.forward * -50, Color.blue);
         }
     }
 }
