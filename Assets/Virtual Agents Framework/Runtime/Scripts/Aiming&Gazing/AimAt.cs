@@ -131,6 +131,19 @@ namespace i5.VirtualAgents
 		{
 			navMeshAgent = GetComponent<NavMeshAgent>();
 		}
+		
+		/// <summary>
+		/// Setup the aiming script without starting it, e.g. for passive gazing
+		/// </summary>
+		/// <param name="shouldDestroyItself">If the component should destroy itself after aiming is stopped</param>
+		/// <param name="lookSpeed">The speed at which the agent looks at the target</param>
+		public void Setup(bool shouldDestroyItself = true, float lookSpeed = 2f)
+		{
+			SetBonePreset();
+			localAimAxis = GetAimDirectionVector();
+			this.ShouldDestroyItself = shouldDestroyItself;
+			LookSpeed = lookSpeed;
+		}
 
         /// <summary>
         /// Starts the aiming at the target with the given layer and target

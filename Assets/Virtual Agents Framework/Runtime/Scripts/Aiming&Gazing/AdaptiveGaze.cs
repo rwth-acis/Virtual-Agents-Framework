@@ -157,11 +157,8 @@ namespace i5.VirtualAgents
                 }
             }
             aimScript = this.gameObject.AddComponent<HeadPreset>();
-
-            aimScript.SetBonePreset();
-            aimScript.ShouldDestroyItself = false;
-            aimScript.LookSpeed = lookSpeed;
-
+            aimScript.Setup(false,lookSpeed);
+            
             // Normalize chances
             float sum = chanceHighestRankedTarget + chanceSecondHighestTarget + chanceThirdHighestTarget + chanceRandomTarget + chanceIdleTarget;
             chanceHighestRankedTarget /= sum;
