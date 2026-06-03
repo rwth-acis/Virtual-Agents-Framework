@@ -333,9 +333,10 @@ namespace i5.VirtualAgents
                 }
             }
 
-            void AlignSocketToBone(string socketPath, HumanBodyBones boneType)
+            void AlignSocketToBone(string socketPath, HumanBodyBones boneType, HumanBodyBones? boneType2 = null)
             {
                 Transform bone = animator.GetBoneTransform(boneType);
+                Transform bone2 = boneType2.HasValue ? animator.GetBoneTransform(boneType2.Value) : null;
                 if (bone == null)
                 {
                     return;
@@ -346,10 +347,12 @@ namespace i5.VirtualAgents
                 {
                     return;
                 }
+                // If we have a second bone, then the position should be in between both bones
+                Vector3 position = bone2 == null ? bone.position : (bone.position + bone2.position) / 2f;
 
-                if (Vector3.Distance(socket.position, bone.position) > socketSnapThreshold)
+                if (Vector3.Distance(socket.position, position) > socketSnapThreshold)
                 {
-                    socket.position = bone.position;
+                    socket.position = position;
                     EditorUtility.SetDirty(socket);
                 }
             }
@@ -366,8 +369,8 @@ namespace i5.VirtualAgents
             AddSourceToConstraint("AnimationRigging/MeshSockets/RightUpperArmSocket", HumanBodyBones.RightUpperArm);
             AddSourceToConstraint("AnimationRigging/MeshSockets/LeftUpperArmSocket", HumanBodyBones.LeftUpperArm);
 
-            AlignSocketToBone("AnimationRigging/MeshSockets/RightHandSocket", HumanBodyBones.RightHand);
-            AlignSocketToBone("AnimationRigging/MeshSockets/LeftHandSocket", HumanBodyBones.LeftHand);
+            AlignSocketToBone("AnimationRigging/MeshSockets/RightHandSocket", HumanBodyBones.RightHand,HumanBodyBones.RightMiddleProximal);
+            AlignSocketToBone("AnimationRigging/MeshSockets/LeftHandSocket", HumanBodyBones.LeftHand, HumanBodyBones.LeftMiddleProximal);
             AlignSocketToBone("AnimationRigging/MeshSockets/RightLowerArmSocket", HumanBodyBones.RightLowerArm);
             AlignSocketToBone("AnimationRigging/MeshSockets/LeftLowerArmSocket", HumanBodyBones.LeftLowerArm);
             AlignSocketToBone("AnimationRigging/MeshSockets/RightUpperArmSocket", HumanBodyBones.RightUpperArm);
