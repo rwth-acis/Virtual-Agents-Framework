@@ -23,6 +23,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -32,6 +34,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.Visual.RootNode
@@ -62,6 +66,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -71,6 +77,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.InverterNode
@@ -103,6 +111,8 @@ MonoBehaviour:
         Value: 0
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -112,6 +122,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 03000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.RepeatUntilSuccessNode
@@ -135,7 +147,7 @@ MonoBehaviour:
     serializedVectors:
       data:
       - Key: Destination
-        Value: {x: 6, y: 0, z: 6}
+        Value: {x: 0, y: 0, z: 0}
     serializedFloats:
       data:
       - Key: Target Speed
@@ -148,6 +160,8 @@ MonoBehaviour:
       data:
       - Key: Destination Object
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data:
       - Key: Follow GameObject?
@@ -160,7 +174,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 04000000000000000100000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 04000000000000000100000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 3e866926a1fd4a04bbc0f5c8a5527765
   Position: {x: -110, y: 500}
@@ -201,7 +217,7 @@ MonoBehaviour:
     serializedVectors:
       data:
       - Key: Destination
-        Value: {x: 0, y: 6, z: 0}
+        Value: {x: 0, y: 0, z: 0}
     serializedFloats:
       data:
       - Key: Target Speed
@@ -214,6 +230,8 @@ MonoBehaviour:
       data:
       - Key: Destination Object
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data:
       - Key: Follow GameObject?
@@ -226,7 +244,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 04000000000000000100000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 04000000000000000100000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 7c0bfd91e28df9b43a0d05a9229b2a5a
   Position: {x: 110, y: 500}
@@ -254,6 +274,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -263,6 +285,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode

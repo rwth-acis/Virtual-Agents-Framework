@@ -23,6 +23,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -32,6 +34,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
@@ -60,11 +64,12 @@ MonoBehaviour:
     serializedStrings:
       data:
       - Key: message
-        Value: The agent checked every two seconds if the path was available. Agent
-          will now wave.
+        Value: Debug task executed
     serializedInts:
       data: []
     serializedGameobjects:
+      data: []
+    serializedTransforms:
       data: []
     serializedBools:
       data:
@@ -78,7 +83,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 0200000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 0200000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.DebugTask
   Guid: f9548b7358c63d746b570bc9059a65be
   Position: {x: 220.00005, y: 640.01196}
@@ -103,11 +110,12 @@ MonoBehaviour:
     serializedStrings:
       data:
       - Key: message
-        Value: re is no path to the destination yet.cause there is no path to the
-          destination yet.
+        Value: Debug task executed
     serializedInts:
       data: []
     serializedGameobjects:
+      data: []
+    serializedTransforms:
       data: []
     serializedBools:
       data:
@@ -121,7 +129,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 0200000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 0200000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.DebugTask
   Guid: 4eb57f6c6ffca4949aae17a5dfd1edbd
   Position: {x: -209.33331, y: 249.99998}
@@ -155,6 +165,8 @@ MonoBehaviour:
       data:
       - Key: Destination Object
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data:
       - Key: Follow GameObject?
@@ -167,7 +179,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 04000000000000000100000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 04000000000000000100000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: fe96ec5e4c80be144b81753fb215b9cc
   Position: {x: 0, y: 500}
@@ -197,6 +211,8 @@ MonoBehaviour:
         Value: 0
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -206,6 +222,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 03000000
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.RepeatUntilSuccessNode
@@ -236,6 +254,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -245,6 +265,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.Visual.RootNode
@@ -281,6 +303,8 @@ MonoBehaviour:
       data:
       - Key: Destination Object
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data:
       - Key: Follow GameObject?
@@ -293,7 +317,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 04000000000000000100000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 04000000000000000100000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentMovementTask
   Guid: 5ebc8aad211ced5419414ba82fd4fd83
   Position: {x: -440, y: 500}
@@ -361,6 +387,8 @@ MonoBehaviour:
       data:
       - Key: Aim Target
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -370,6 +398,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 0200000002000000010000000400000002000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.AgentAnimationTask
@@ -394,12 +424,12 @@ MonoBehaviour:
     serializedFloats:
       data: []
     serializedStrings:
-      data:
-      - Key: Description
-        Value: Test
+      data: []
     serializedInts:
       data: []
     serializedGameobjects:
+      data: []
+    serializedTransforms:
       data: []
     serializedBools:
       data: []
@@ -411,7 +441,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 02000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SelectorNode
   Guid: 78ad3f2088904e24e9361a45a77b3292
   Position: {x: -439.9999, y: 250}
@@ -443,6 +475,8 @@ MonoBehaviour:
       data:
       - Key: Destination
         Value: {fileID: 0}
+    serializedTransforms:
+      data: []
     serializedBools:
       data:
       - Key: Allow Partial Paths
@@ -455,7 +489,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 0400000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 0400000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.CheckForValidPath
   Guid: a6a91a50914becf43b7ec575864cf25a
   Position: {x: -209, y: 500}
@@ -483,6 +519,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -492,6 +530,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.AlwaysSucceedNode
@@ -519,10 +559,12 @@ MonoBehaviour:
     serializedStrings:
       data:
       - Key: message
-        Value: This tasked will never be reached.
+        Value: Debug task executed
     serializedInts:
       data: []
     serializedGameobjects:
+      data: []
+    serializedTransforms:
       data: []
     serializedBools:
       data:
@@ -536,7 +578,9 @@ MonoBehaviour:
       data: []
     serializedTrees:
       data: []
-    serializationOrder: 0200000005000000
+    serializedQuaternions:
+      data: []
+    serializationOrder: 0200000006000000
   serializedObjectType: i5.VirtualAgents.AgentTasks.DebugTask
   Guid: b86e5564b7d0ce441966c77db5303500
   Position: {x: -220, y: 375}
@@ -564,6 +608,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -573,6 +619,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
@@ -604,6 +652,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -613,6 +663,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.SequencerNode
@@ -646,6 +698,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -655,6 +709,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.AlwaysSucceedNode
@@ -685,6 +741,8 @@ MonoBehaviour:
       data: []
     serializedGameobjects:
       data: []
+    serializedTransforms:
+      data: []
     serializedBools:
       data: []
     serializedAudioClips:
@@ -694,6 +752,8 @@ MonoBehaviour:
     serializedListFloats:
       data: []
     serializedTrees:
+      data: []
+    serializedQuaternions:
       data: []
     serializationOrder: 
   serializedObjectType: i5.VirtualAgents.BehaviourTrees.InverterNode
