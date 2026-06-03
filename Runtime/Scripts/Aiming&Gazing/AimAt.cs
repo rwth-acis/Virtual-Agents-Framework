@@ -1,4 +1,3 @@
-using i5.VirtualAgents.Utilities;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,7 +16,7 @@ namespace i5.VirtualAgents
 		[SerializeField] protected Transform targetTransform;
 
 		/// <summary>
-		/// The Transform of the agent child objects that should directly aim at the target
+		/// The Transform of the agent child objects that should directly aim at the target, e.g. the tip of a finger 
 		/// </summary>
 		[Tooltip("The Transform of the agent child objects that should directly aim at the target")]
 		[SerializeField] protected Transform aimTransform;
@@ -28,9 +27,10 @@ namespace i5.VirtualAgents
 		protected AimAxisAlignmentMode aimAxisAlignmentMode = AimAxisAlignmentMode.Forward;
 
 		/// <summary>
-		/// The Transform that is actually looked at and will follow the target smoothly
+		/// The Position that is actually looked at and which will follow the target smoothly
 		/// </summary>
-		protected Transform targetFollower;
+		protected Vector3 targetFollower;
+		protected bool isTargetFollowerInitialized = false;
 
 		/// <summary>
 		/// The speed at which the agent looks at the target
@@ -68,8 +68,8 @@ namespace i5.VirtualAgents
 		/// <summary>
 		/// The position where the targetFollower should be placed when no target is set
 		/// </summary>
-		[Tooltip("The position where the targetFollower should be placed when no target is set")]
-		[SerializeField] protected Transform startingTransform;
+		protected Vector3 startingPosition;
+		protected bool isStartingPositionInitialized = false;
 
 		/// <summary>
 		/// The bones that should be moved to accomplish the aiming
@@ -154,7 +154,7 @@ namespace i5.VirtualAgents
 		{
 			SetBonePreset();
 			localAimAxis = GetAimDirectionVector();
-			this.ShouldDestroyItself = shouldDestroyItself;
+			ShouldDestroyItself = shouldDestroyItself;
 			SetTargetTransform(target);
 		}
 
@@ -163,7 +163,7 @@ namespace i5.VirtualAgents
 		/// </summary>
 		public void Stop()
 		{
-			this.targetTransform = null;
+			targetTransform = null;
 		}
 
 		// LateUpdate is called once per frame, after Update
@@ -171,7 +171,7 @@ namespace i5.VirtualAgents
 		{
 			TemporarilyIncreaseLookSpeed(navMeshAgent.velocity.magnitude);
 
-			if (targetFollower != null)
+			if (isTargetFollowerInitialized)
 			{
 				UpdateTargetFollower();
 
@@ -192,10 +192,10 @@ namespace i5.VirtualAgents
 		// Calculates where to aim at based on the target and the angle and distance limit
 		protected Vector3 CalculateWhereToLook()
 		{
-			Vector3 targetDirection = targetFollower.position - aimTransform.position;
-			Vector3 aimDirection = GetCachedWorldAimDirection();
+			Vector3 targetDirection = targetFollower - aimTransform.position;
+			Vector3 aimDirectionVector = GetCachedWorldAimDirection();
 			float blendOut = 0.0f;
-			float targetAngle = Vector3.Angle(targetDirection, aimDirection);
+			float targetAngle = Vector3.Angle(targetDirection, aimDirectionVector);
 			if (targetAngle > angleLimit)
 			{
 				blendOut += (targetAngle - angleLimit) / 50.0f;
@@ -208,7 +208,7 @@ namespace i5.VirtualAgents
 			}
 
 
-			Vector3 direction = Vector3.Slerp(targetDirection, aimDirection, blendOut);
+			Vector3 direction = Vector3.Slerp(targetDirection, aimDirectionVector, blendOut);
 			return aimTransform.position + direction;
 		}
 
@@ -217,7 +217,7 @@ namespace i5.VirtualAgents
 			Vector3 targetPosition;
 
 			// If targetTransform was not removed in Stop()
-			if (targetTransform != null)
+			if (targetTransform)
 			{
 				targetPosition = targetTransform.position;
 				increaseLookSpeedBy = 1;
@@ -225,10 +225,10 @@ namespace i5.VirtualAgents
 			else
 			{
 				// Return to the starting position
-				targetPosition = startingTransform.position;
+				targetPosition = transform.TransformPoint(startingPosition);;
 
 
-				if (Vector3.Distance(targetFollower.position, targetPosition) >= 0.05f)
+				if (Vector3.Distance(targetFollower, targetPosition) >= 0.05f)
 				{
 					// increase LookSpeed over time to finish up the movement
 					increaseLookSpeedBy = Math.Min(10, increaseLookSpeedBy + 0.7f);
@@ -236,11 +236,11 @@ namespace i5.VirtualAgents
 				}
 				else
 				{
+					targetFollower = transform.TransformPoint(startingPosition);
 					// When target position of the standard look is reached destroy this component
 					Weight = 0f;
 					if (ShouldDestroyItself)
 					{
-						Destroy(targetFollower.gameObject);
 						Destroy(this);
 					}
 				}
@@ -248,15 +248,15 @@ namespace i5.VirtualAgents
 			}
 
 			// Smooth transition to target position
-			targetFollower.transform.position = Vector3.Lerp(targetFollower.transform.position, targetPosition, Time.deltaTime * (currentLookSpeed * increaseLookSpeedBy));
+			targetFollower = Vector3.Lerp(targetFollower, targetPosition, Time.deltaTime * (currentLookSpeed * increaseLookSpeedBy));
 		}
 
 
 		protected void AimAtTarget(Transform bone, Vector3 targetPosition, float weight)
 		{
-			Vector3 aimDirection = GetCachedWorldAimDirection();
+			Vector3 aimDirectionVector = GetCachedWorldAimDirection();
 			Vector3 targetDirection = targetPosition - aimTransform.position;
-			Quaternion aimTowards = Quaternion.FromToRotation(aimDirection, targetDirection);
+			Quaternion aimTowards = Quaternion.FromToRotation(aimDirectionVector, targetDirection);
 			Quaternion blendedRotation = Quaternion.Slerp(Quaternion.identity, aimTowards, weight);
 			bone.rotation = blendedRotation * bone.rotation;
 		}
@@ -356,28 +356,20 @@ namespace i5.VirtualAgents
 
 		public void SetTargetTransform(Transform targetTransform)
 		{
-			// If there is no targetFollower, create one
-			if (targetFollower == null)
+			if (!isTargetFollowerInitialized || !isStartingPositionInitialized)
 			{
-				targetFollower = new GameObject().transform;
-				targetFollower.gameObject.name = "TargetFollower";
-				DebugDrawTransformSphere targetVisualizer = targetFollower.gameObject.AddComponent<DebugDrawTransformSphere>();
-				targetVisualizer.color = Color.red;
-				targetVisualizer.radius = 0.50f;
-
-				// Set starting position of targetFollower 1 unit along the current aiming direction GetCachedWorldAimDirection()() * 1f
-				this.startingTransform = new GameObject().transform;
-				this.startingTransform.gameObject.name = "StartingPosition";
-				this.startingTransform.position = aimTransform.position + (GetCachedWorldAimDirection() * 1f);
-				this.startingTransform.parent = this.transform;
-				this.targetFollower.position = startingTransform.position;
+				// Set starting position of targetFollower 1 unit along the current aiming direction GetCachedWorldAimDirection() * 1f
+				startingPosition = transform.InverseTransformPoint(aimTransform.position + (GetCachedWorldAimDirection() * 1f));
+				targetFollower = transform.TransformPoint(startingPosition);
+				isStartingPositionInitialized = true;
+				isTargetFollowerInitialized = true;
 			}
 
 			this.targetTransform = targetTransform;
 		}
 		public void TemporarilyIncreaseLookSpeed(float increase)
 		{
-			this.currentLookSpeed = LookSpeed + increase;
+			currentLookSpeed = LookSpeed + increase;
 		}
 
 		/// <summary>
@@ -398,11 +390,10 @@ namespace i5.VirtualAgents
 		/// <summary>
 		/// To set up the aiming at a specific body part, a preset of bones and weights and related settings can be selected
 		/// </summary>
-		/// <param name="layer">Which bonepreset should be selected based on the layer of the human body</param>
 		public abstract void SetBonePreset();
 
 
-		protected void GetBoneTransformsFromAnimatior(HumanBodyBones aimingTip)
+		protected void GetBoneTransformsFromAnimator(HumanBodyBones aimingTip)
 		{
 			Animator animator = GetComponent<Animator>();
 			boneTransforms = new Transform[humanBones.Length];
@@ -417,10 +408,15 @@ namespace i5.VirtualAgents
 		protected void OnDrawGizmos()
 		{
 			Gizmos.color = Color.green;
-			if (startingTransform)
+			if (isStartingPositionInitialized && aimTransform != null)
 			{
-				Gizmos.DrawWireSphere(startingTransform.position, 0.25f);
-				Gizmos.DrawLine(aimTransform.position, startingTransform.position);
+				Gizmos.DrawWireSphere(transform.TransformPoint(startingPosition), 0.25f);
+				Gizmos.DrawLine(aimTransform.position, transform.TransformPoint(startingPosition));
+			}
+			Gizmos.color = Color.red;
+			if (isTargetFollowerInitialized)
+			{
+				Gizmos.DrawWireSphere(targetFollower, 0.25f);
 			}
 		}
 	}

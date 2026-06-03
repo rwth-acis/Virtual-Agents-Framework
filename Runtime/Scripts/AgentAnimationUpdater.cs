@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,7 +12,6 @@ namespace i5.VirtualAgents
     {
         private NavMeshAgent agent;
         private Animator animator;
-        private float lastKnownRotation = 0;
 
 
         // animation Parameter Names
@@ -33,6 +34,16 @@ namespace i5.VirtualAgents
         private int _animIDAngularSpeed;
         private int _animIDRotationDirection;
         private int _animIDIsRotating;
+        
+        private const float smoothSpeedUp = 20f;
+        private const float smoothSpeedDown = 5f;
+        private const float smoothSpeedWalking = 25f;
+        
+        float lastAgentVelocityMagnitude = 0f;
+        
+        // target direction set by the active rotation task
+        private float rotationAnimationDirection = 0f;
+        private float prevRotationBlending = 0;
 
 		private void Awake()
         {
@@ -40,6 +51,9 @@ namespace i5.VirtualAgents
             agent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();
             animator.applyRootMotion = false;
+            animator.SetFloat(_animIDRotationDirection, 0);
+            animator.SetBool(_animIDIsRotating, false);
+            lastAgentVelocityMagnitude = agent.velocity.magnitude;
         }
 
         private void AssignAnimationIDs()
@@ -49,29 +63,84 @@ namespace i5.VirtualAgents
             _animIDRotationDirection = Animator.StringToHash(rotationDirection);
             _animIDIsRotating = Animator.StringToHash(isRotating);
         }
-
-
-
+        
+        
         // Updates the animation parameters for the blend trees
         private void UpdateAnimatorParameters()
         {
-            animator.SetFloat(_animIDSpeed, agent.velocity.magnitude);
-            float rotation = 0;
+            float agentVelocityMag =  agent.velocity.magnitude;
 
-            if (agent.transform.rotation.eulerAngles.y > lastKnownRotation)
+            // If the NavMesh Agent is recalculating its path over multiple frames, stay in the current animation
+            if (!agent.pathPending)
             {
-                rotation = 1;
+                // Update velocity magnitude
+                animator.SetFloat(_animIDSpeed, agentVelocityMag);
+                lastAgentVelocityMagnitude = agentVelocityMag;
             }
-            else if (agent.transform.rotation.eulerAngles.y < lastKnownRotation)
+            else
             {
-                rotation = -1;
+                // Keep same velocity magnitude
+                animator.SetFloat(_animIDSpeed, lastAgentVelocityMagnitude);
+            }
+            
+            // Rotation blending
+            
+            float rotAniDir = rotationAnimationDirection;
+            
+            // Blending the rotation animation differently for starting and stopping rotation
+            float smoothSpeed = rotAniDir != 0 ? smoothSpeedUp : smoothSpeedDown;
+            
+            // Suppress rotation animation while moving
+            if (agentVelocityMag > 0.01f)
+            {
+                rotAniDir = 0f;
+                smoothSpeed = smoothSpeedWalking;
+            }
+            float rotationAnimationBlending = Mathf.Lerp(prevRotationBlending, rotAniDir, 1f - Mathf.Exp(-smoothSpeed * Time.deltaTime));
+            
+            prevRotationBlending = rotationAnimationBlending; // Store rotation before snapping
+            
+            // Snap to -1, 0, or 1 when close enough to avoid blending around those values
+            rotationAnimationBlending = Mathf.Abs(rotationAnimationBlending) > 0.95f ? Mathf.Sign(rotationAnimationBlending) : (Mathf.Abs(rotationAnimationBlending) < 0.05f ? 0f : rotationAnimationBlending);
+
+            animator.SetFloat(_animIDRotationDirection, rotationAnimationBlending);
+            animator.SetBool(_animIDIsRotating, Mathf.Abs(rotationAnimationBlending) > 0.01f);
+        }
+        
+        /// <summary>
+        /// Physically rotates the agent towards the target rotation
+        /// </summary>
+        public IEnumerator RotateTowardsTarget(Quaternion targetRotation, float speed, float threshold, Action onComplete)
+        {
+            // safe-guard against invalid speed values; using them would otherwise cause an infinite loop
+            if (speed <= 0f)
+            {
+                transform.rotation = targetRotation;
+                rotationAnimationDirection = 0f;
+                onComplete?.Invoke();
+                yield break;
             }
 
-            rotation = agent.velocity.magnitude > 0 ? 0 : rotation;
+            // Determine target rotation direction for blending to the rotation animation in UpdateAnimatorParameters
+            Vector3 cross = Vector3.Cross(transform.forward, targetRotation * Vector3.forward);
+            rotationAnimationDirection = cross.y < 0 ? -1f : 1f;
+            
+            // Do the physical rotation according to speed
+            while (Quaternion.Angle(transform.rotation, targetRotation) > threshold)
+            {
+                float step = speed * Time.deltaTime; // degrees to rotate this frame
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
+                yield return null;
+            }
 
-            animator.SetFloat(_animIDRotationDirection, rotation);
-            animator.SetBool(_animIDIsRotating, rotation != 0);
-            lastKnownRotation = agent.transform.rotation.eulerAngles.y;
+            // Snap to target rotation to avoid tiny remaining differences
+            transform.rotation = targetRotation;
+            
+            // Reset the target so the Update method can smoothly blend it back to 0
+            rotationAnimationDirection = 0f;
+
+            // Signal the task that the physical rotation is finished
+            onComplete?.Invoke();
         }
 
         private void Update()
