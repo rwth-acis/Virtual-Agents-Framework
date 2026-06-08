@@ -4,11 +4,9 @@ using i5.VirtualAgents.BehaviourTrees.Visual;
 using i5.VirtualAgents.Editor.BehaviourTrees;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 namespace i5.VirtualAgents.Editor
@@ -22,7 +20,7 @@ namespace i5.VirtualAgents.Editor
         // The property fields used to display the properties of the currently selected node
         private List<PropertyField> propertyFieldsForCurrentNode = new List<PropertyField>();
 
-        private NodeView currentlySelectedNode = null;
+        private NodeView currentlySelectedNode;
 
         public override VisualElement CreateInspectorGUI()
         {
@@ -33,18 +31,18 @@ namespace i5.VirtualAgents.Editor
             VisualTreeAsset visualTree = AssetManager.Load<VisualTreeAsset>("BehaviourTreeRunnerInspector.uxml");
             visualTree.CloneTree(inspector);
 
-            // Setup the Behaviour Tree view
+            // Set up the Behaviour Tree view
             BehaviourTreeView behaviourTreeView = inspector.Query<BehaviourTreeView>();
             behaviourTreeView.SetupManipulators(true);
             behaviourTreeView.OnNodeSelect = OnNodeSelectionChanged; // Register callback on node select in order to display the corresponding property fields for the node
-            BehaviourTreeAsset tree = (target as BehaviourTreeRunner).Tree;
+            BehaviourTreeAsset tree = (target as BehaviourTreeRunner)?.Tree;
 
-            void SetupNewTree(BehaviourTreeAsset tree)
+            void SetupNewTree(BehaviourTreeAsset localTree)
             {
-                if (tree != null)
+                if (localTree != null)
                 {
-                    behaviourTreeView.Tree = tree;
-                    behaviourTreeView.PopulateView(tree);
+                    behaviourTreeView.Tree = localTree;
+                    behaviourTreeView.PopulateView(localTree);
                 }
             }
 
@@ -53,10 +51,10 @@ namespace i5.VirtualAgents.Editor
 
             // Setup tree when a new one is selected
             PropertyField treePropertyField = inspector.Query<PropertyField>("tree");
-            treePropertyField.RegisterValueChangeCallback((x) => SetupNewTree(x.changedProperty.objectReferenceValue as BehaviourTreeAsset));
+            treePropertyField.RegisterValueChangeCallback(x => SetupNewTree(x.changedProperty.objectReferenceValue as BehaviourTreeAsset));
             
             // Reset overwrite data on button press
-            UnityEngine.UIElements.Button resetButton = inspector.Query<UnityEngine.UIElements.Button>("reset");
+            Button resetButton = inspector.Query<Button>("reset");
             resetButton.clicked += () => {
                 if(currentlySelectedNode != null)
                 {
@@ -92,22 +90,25 @@ namespace i5.VirtualAgents.Editor
         private SerializedProperty SearchValidOverwriteData(NodeView view, bool forceReset)
         {
             BehaviourTreeRunner runner = target as BehaviourTreeRunner;
-            var nodesData = runner.nodesOverwriteData.data;
-            SerializedProperty serializedNodeOverwriteData = null;
-            int entryIndex = nodesData.FindIndex((SerializationEntry<SerializationDataContainer> o) => o.Key == view.node.Guid);
-            if(entryIndex >= 0)
+            if (runner != null)
             {
-                SerializedProperty serializedArray = serializedObject.FindProperty("nodesOverwriteData.data");
-                serializedNodeOverwriteData = serializedArray.GetArrayElementAtIndex(entryIndex).FindPropertyRelative("Value");
-                // Check integrity
-                if(view.node.CheckIntegrity(nodesData[entryIndex].Value) || forceReset)
+                var nodesData = runner.nodesOverwriteData.data;
+                int entryIndex = nodesData.FindIndex((SerializationEntry<SerializationDataContainer> o) => o.Key == view.node.Guid);
+                if(entryIndex >= 0)
                 {
-                    serializedArray.DeleteArrayElementAtIndex(entryIndex);
-                    serializedObject.ApplyModifiedProperties();
-                    return CreateNodeOverwriteData(view);
+                    SerializedProperty serializedArray = serializedObject.FindProperty("nodesOverwriteData.data");
+                    var serializedNodeOverwriteData = serializedArray.GetArrayElementAtIndex(entryIndex).FindPropertyRelative("Value");
+                    // Check integrity
+                    if(view.node.CheckIntegrity(nodesData[entryIndex].Value) || forceReset)
+                    {
+                        serializedArray.DeleteArrayElementAtIndex(entryIndex);
+                        serializedObject.ApplyModifiedProperties();
+                        return CreateNodeOverwriteData(view);
+                    }
+                    return serializedNodeOverwriteData;
                 }
-                return serializedNodeOverwriteData;
             }
+
             return CreateNodeOverwriteData(view);
         }
 
@@ -147,7 +148,7 @@ namespace i5.VirtualAgents.Editor
                     if (typeof(T) == typeof(Vector3))
                     {
                         value.vector3Value = (Vector3)(data.Value as Vector3?); // This is necessary, since direct cast can't be used because T is not constrained to inherit from Vector3 and the as operator
-                                                                                // can only be used on nullable types. Therefore the conversion to the nullable type Vector3? which is then casted to the actual Vector3 type
+                                                                                // can only be used on nullable types. Therefore, the conversion to the nullable type Vector3? which is then cast to the actual Vector3 type
                     }
                     else if (typeof(T) == typeof(float))
                     {
@@ -228,15 +229,17 @@ namespace i5.VirtualAgents.Editor
         // Creates a property field of the provided type for the serialized data saved in the array with the name propertyName
         private int CreatePropertyField(SerializableType type, int counter, VisualNode targetNode, SerializedProperty nodeOverwriteData)
         {
-            string propertyName = SerializationDataContainer.TypeToPath(type);
+            var propertyName = SerializationDataContainer.TypeToPath(type);
             // Retrieve the serialized array
-            SerializedProperty propertyArray = nodeOverwriteData.FindPropertyRelative(propertyName + ".data");
+            var propertyArray = nodeOverwriteData.FindPropertyRelative(propertyName + ".data");
             if(propertyArray != null && counter < propertyArray.arraySize)
             {
-                SerializedProperty propertyValue = propertyArray.GetArrayElementAtIndex(counter).FindPropertyRelative("Value");
+                var propertyValue = propertyArray.GetArrayElementAtIndex(counter).FindPropertyRelative("Value");
                 // Create the property field for the element with index counter
-                PropertyField field = new PropertyField(propertyValue);
-                field.label = targetNode.Data.GetKeyByIndex(counter, type);
+                var field = new PropertyField(propertyValue)
+                {
+                    label = targetNode.Data.GetKeyByIndex(counter, type)
+                };
                 field.BindProperty(serializedObject);
 
                 // Insert the field at the beginning of the inspector's children list

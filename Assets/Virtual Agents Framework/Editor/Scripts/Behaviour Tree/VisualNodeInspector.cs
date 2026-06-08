@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using i5.VirtualAgents.BehaviourTrees.Visual;
 using i5.VirtualAgents.AgentTasks;
-using System;
-using Unity.Properties;
 
 namespace i5.VirtualAgents.Editor.BehaviourTrees
 {
