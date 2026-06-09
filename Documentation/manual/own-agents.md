@@ -2,6 +2,8 @@
 
 The framework already provides a standard agent which can be added as a prefab.
 However, if you want to add your own character, for example from a 3D scan, this is also possible. The following explains how to create a new agent from scratch or as an alternative example how to [import models created with the service called Ready Player Me.](own-agents.md#importing-custom-models-from-ready-player-me) Own characters can also be modeled using the [MPFB Blender Extension.](own-agents.md#creating-custom-models-from-mpfb)
+If you already have a rigged character or use one from an online library you can follow the steps in the section ["Importing Custom Models"](own-agents.md#importing-custom-models).
+
 
 ## Preparing the Character
 
@@ -24,12 +26,12 @@ After finishing the setup, you can add the character to your scene. The characte
 Select the parent GameObject of your character in the scene and in the top menu of Unity click `Virtual Agents Framework` > `Custom Model Agent Import` > `Create Agent from Humanoid Model`.
 Now a GameObject called `AgentBasedOnCharacterObjectName` should be selected in the scene. The character is now ready to be used as an agent with all functionalities.
 
-The automatic import function uses an agent prefab without a model found at `Packages/com.i5.virtualagents/Runtime/Prefabs/AgentWithoutModel.prefab`. To make the import of multiple agents that all need the same changes easier, the `AgentWithoutModel.prefab` can be copied and named ``CustomAgentWithoutModel.prefab``. If that prefab is anywhere in the project the import function always uses the ``CustomAgentWithoutModel.prefab`` to configure the new agents.
+The automatic import function uses an agent prefab without a model found at `Packages/com.i5.virtualagents/Runtime/Prefabs/AgentWithoutModel.prefab`. To make the import of multiple agents that all need the same changes easier, the `AgentWithoutModel.prefab` can be copied and named `CustomAgentWithoutModel.prefab`. If that prefab is anywhere in the project the import function always uses the `CustomAgentWithoutModel.prefab` to configure the new agents.
 
 ## Optional: Adjust Animation Controller
 
 Usually, it suffices to take the existing standard controller as a basis.
-T extend the animation range of the agent, it is recommended to copy the existing controller and to extend it rather than starting with a blank controller.
+To extend the animation range of the agent, it is recommended to copy the existing controller and to extend it rather than starting with a blank controller.
 However, to create a controller from scratch, it needs to follow these guidelines:
 There needs to be a blend tree that mixes an idle and a walking animation so that the agent can walk.
 The blend tree is driven by an input parameter called "Speed".
@@ -83,7 +85,46 @@ The official video tutorial can be found [here](https://www.youtube.com/watch?v=
 4. Click `Store in Library` or `Save as files` respectively to save the clothing in the library or as a .MHCLO file. You should now be able to find the clothing in the library or load it from the file and add it to your avatar. You can delete or move the original clothing mesh at this point. Check that everything works by selecting the rig, going into pose mode and moving the avatar around. The clothing should move with the avatar.
    1. If you add the clothes to a different model to the one you used to create them, you might have to use sculpt mode with a low brush strength to smoothen things out.
    2. If the clothing moves when moving bones that it should not move with, you may need to select the clothing, go into `Weight Paint` mode and redraw the influence of the offending bone. You select the bone in the dropdown menu at the top of the viewport. To lower the influence of the bone on a vertex, hold `Ctrl` while painting.
-## Importing Custom Models from MPFB
+
+## Importing Custom Models
+If you already have a rigged character or use one from an online library, you can follow the steps below to import it as an agent. While the general workflow is similar for both .fbx and .glb files, specific import settings will vary depending on your file type and the model's source. We have provided general instructions below, followed by step-by-step examples for importing Rocketbox and Ready Player Me avatars.
+
+### For .fbx Files
+
+1. Move or copy the `.fbx` asset files into your project's Assets folder or subfolder.
+2. Select the `.fbx` file in the project window.
+3. In the Inspector, under `Rig` > `Animation Type`, change `Generic` to `Humanoid` and click `Apply`.
+4. Drag and drop the asset file from the project window into a scene.
+5. Select the loaded asset in the scene and in the top menu of Unity click `Virtual Agents Framework` > `Custom Model Agent Import` > `Create Agent from Humanoid Model`.
+   An agent called AgentBasedOnAssetName will appear in the scene next to the original asset. This avatar should now be ready to function as an agent.
+6. Remove the original asset from the scene.
+
+### For .glb Files
+
+1. Install the [Unity GLTF Importer](https://docs.unity3d.com/Packages/com.unity.cloud.gltfast@6.16//manual/index.html) package from the Unity Package Manager by following the instructions [here](https://docs.unity3d.com/Packages/com.unity.cloud.gltfast@6.16//manual/installation.html).
+2. Move or copy the `.glb` asset files into your project's Assets folder or subfolder.
+3. Drag and drop the asset file from the project window into a scene.
+4. Select the loaded asset in the scene and in the top menu of Unity click `Virtual Agents Framework` > `Custom Model Agent Import` > ` Create Agent from Humanoid Model`.
+   An agent called AgentBasedOnAssetName will appear in the scene next to the original asset. This avatar should now be ready to function as an agent.
+5. Remove the original asset from the scene.
+
+
+### Importing Rocketbox Avatars
+
+The [Microsoft Rocketbox Avatar library](https://github.com/microsoft/Microsoft-Rocketbox) consists of 115  high definition avatars in several profession categories. Rocketbox avatars can be imported and converted into agents with a small additional editor helper.
+
+1. Copy `FixRocketboxMaxImport` into your project at `Assets/Editor` from the Rocketbox repository: https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Editor
+2. Copy one of the avatar folders (for example `Adults/Female_Adult_01`) into any `Assets` folder from [here](https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Avatars).
+3. Open the `Export` folder inside the avatar folder (for example `Female_Adult_01/Export`) and select the `.fbx` file (for example `Female_Adult_01.fbx`).
+4. In the Inspector, under `Rig` > `Animation Type`, change `Generic` to `Humanoid` and click `Apply`. The setting may revert to `Generic` afterward, but it needs to be set to `Humanoid` once for the import to work, as that creates the necessary humanoid animation avatar for the model.
+5. Drag and drop the `.fbx` into your scene.
+6. Select the model in your scene and in the menu ribbon select `Virtual Agents Framework` > `Custom Model Agent Import` > `Create Agent from Humanoid Model`.
+7. A warning about "Wrong rigging" appears, click `Continue anyway`.
+8. If a "Manual Avatar Mapping" window opens, close it and repeat step 4.
+
+You should now have an `AgentBasedOnFemale_Adult_01` (or equivalent) in the scene that can be used like the standard agent.
+
+### Importing Custom Models from MPFB
 1. In the MPFB menu select `Operations` > `Export copy` > `Create Export copy`. This creates a copy of the avatar with helpers removed. You find it in the Blender collection `export copy` and it is probably standing inside the original model. 
 1. Export the export copy as an fbx file and import it into Unity by selecting `File` > `Export` > `FBX (.fbx)`. Make sure to select them with clothes and bones and check `Limit to Selected Objects` in the export settings. 
 2. Before clicking on `Export FBX`, make sure to set `Path Mode` to `Copy` and check `Embed Textures` (the small box icon right next to the Path Mode dropdown) to include the textures in the fbx file.
@@ -94,7 +135,7 @@ The official video tutorial can be found [here](https://www.youtube.com/watch?v=
 5. Now you need to reassign the textures to the corresponding materials. To do this, drag each texture on to the `Albedo` slot of the right material. For eyebrows, eyelashes and hair you likely have to change the `Rendering Mode` of the material to `Cutout`.
 6. If you drag the model into the scene, it should now be correctly textured and ready to be set up as an agent by following the steps described in the previous sections.
 
-## Importing Custom Models from Ready Player Me
+### Importing Custom Models from Ready Player Me
 **Ready Player Me has shut down its services in January 2026, so this section is only relevant for users who have already created and saved avatars with Ready Player Me and want to use them as agents in their project.** The steps might not work anymore.
 [Ready Player Me](https://readyplayer.me/) was a service that provided easy access to custom avatars that could be used for rapid prototyping or as an avatar system. As an example we will show here how an avatar created on [Ready Player Me](https://readyplayer.me/) can be turned into an agent.
 1. ~~Create a Ready Player Me avatar [here](https://readyplayer.me/en/hub/avatars)~~
@@ -104,3 +145,4 @@ The official video tutorial can be found [here](https://www.youtube.com/watch?v=
 4. In the top menu of Unity click ``Ready Player Me`` > ``Avatar Loaded``. In the new window copy the .gbl URL of step 2 and load the avatar.
 5. Select the loaded avatar in the scene and in the top menu of Unity click `Virtual Agents Framework` > `Custom Model Agent Import` > ` Create Agent from Humanoid Model`.
    The avatar should now be ready to function as an agent.
+
