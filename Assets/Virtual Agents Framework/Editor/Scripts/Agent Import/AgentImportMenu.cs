@@ -167,7 +167,7 @@ namespace i5.VirtualAgents
             else
             {
                 Debug.LogWarning(
-                    "No Animator component found. Using default animator. This might be a problem. It is recommended to add a Animator Component with a fitting avatar, usually this happens automatically when importing the model as ab FBX file into Unity.");
+                    "No Animator component found. Using default animator. This might be a problem. It is recommended to add an Animator Component with a fitting avatar, usually this happens automatically when importing the model as an FBX file into Unity.");
             }
 
             // Destroy the cloned object
