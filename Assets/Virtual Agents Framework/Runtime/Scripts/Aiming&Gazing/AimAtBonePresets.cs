@@ -43,9 +43,9 @@ namespace i5.VirtualAgents
                 bone = HumanBodyBones.RightIndexProximal,
                 weight = 0.01f
             };
-            aimDirection = AimDirection.Y;
-            angleLimit = 180f;  
-
+            
+            angleLimit = 180f;
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Chain;
             GetBoneTransformsFromAnimator(HumanBodyBones.RightIndexDistal);
         }
     }
@@ -90,9 +90,8 @@ namespace i5.VirtualAgents
                 weight = 0.01f
             };
 
-            aimDirection = AimDirection.Y;
             angleLimit = 180f;
-
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Chain;
             GetBoneTransformsFromAnimator(HumanBodyBones.LeftIndexDistal);
         }
     }
@@ -133,8 +132,8 @@ namespace i5.VirtualAgents
                 weight = 0.9f
             };
 
-            aimDirection = AimDirection.Y;
             angleLimit = 180f;
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Chain;
             GetBoneTransformsFromAnimator(HumanBodyBones.RightToes);
         }
     }
@@ -173,8 +172,9 @@ namespace i5.VirtualAgents
                 bone = HumanBodyBones.LeftToes,
                 weight = 0.9f
             };
-            aimDirection = AimDirection.Y;
+            
             angleLimit = 180f;
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Chain;
             GetBoneTransformsFromAnimator(HumanBodyBones.LeftToes);
         }
     }
@@ -201,8 +201,7 @@ namespace i5.VirtualAgents
             };
 
             angleLimit = 100f;
-            aimDirection = AimDirection.Z;
-
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Forward;
             GetBoneTransformsFromAnimator(HumanBodyBones.Head);
         }
     }
@@ -228,8 +227,7 @@ namespace i5.VirtualAgents
             };
 
             angleLimit = 90.0f;
-            aimDirection = AimDirection.Z;
-
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Forward;
             GetBoneTransformsFromAnimator(HumanBodyBones.Chest);
         }
     }

@@ -48,6 +48,30 @@ namespace i5.VirtualAgents
         [field:Tooltip("Defines the two bone IK constraints for the left arm that is used in the AgentPickUpTask")]
         [field: SerializeField]
         public TwoBoneIKConstraint TwoBoneIKConstraintLeftArm { get; set; }
+        
+        /// <summary>
+        /// Defines the multi-parent constraint used to drive the hips during the sitting task.
+        /// </summary>
+        [field: Tooltip("Defines the multi-parent constraint used to drive the hips during the sitting task.")]
+        [field: SerializeField] public MultiParentConstraint MultiParentConstraintHip { get; set; }
+
+        /// <summary>
+        /// Defines the two bone IK constraint used to position the left leg during the sitting task.
+        /// </summary>
+        [field: Tooltip("Defines the two bone IK constraint used to position the left leg during the sitting task.")]
+        [field: SerializeField] public TwoBoneIKConstraint TwoBoneIKConstraintLeftLeg { get; private set; }
+
+        /// <summary>
+        /// Defines the two bone IK constraint used to position the right leg during the sitting task.
+        /// </summary>
+        [field: Tooltip("Defines the two bone IK constraint used to position the right leg during the sitting task.")]
+        [field: SerializeField] public TwoBoneIKConstraint TwoBoneIKConstraintRightLeg { get; private set; }
+
+        /// <summary>
+        /// Defines the multi-aim constraint used to orient the spine during the sitting task.
+        /// </summary>
+        [field: Tooltip("Defines the multi-aim constraint used to orient the spine during the sitting task.")]
+        [field: SerializeField] public MultiAimConstraint MultiAimConstraintSpine { get; private set; }
 
         Dictionary<SocketId, MeshSocket> socketMap = new();
         Dictionary<Item, SocketId> itemSocketMap = new();
