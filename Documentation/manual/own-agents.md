@@ -56,15 +56,37 @@ To use the MPFB Blender extension for creating avatars, you need to have at leas
 Further tips for getting started with MPFB can be found [here.](https://static.makehumancommunity.org/mpfb/docs/getting_started.html)
 ### Clothing
 1. Additional [asset packs](https://static.makehumancommunity.org/assets/assetpacks.html) including clothes are also available. Make sure to check the licence of each pack and correctly attribute the creator if necessary.
-2. When wearing a top, the mesh of the avatar gets replaced by the top. When grabbing and removing the top there are holes in the mesh. You can fix this two ways:
+2. When wearing a top, the mesh of the avatar gets replaced by the top. When grabbing and removing the top there are holes in the mesh. This should be fine, if you do not want or need to remove the clothes, f.e. to swap them in Unity or modify them in Blender. Otherwise, you can fix this two ways:
    1. Add the mesh back in: `Apply assets` > `Topologies library` > find the correct mesh for your avatar
-   2. Create a preset for your avatar before adding clothing: First select the avatar in Blender, then select `Manage save files` > `Human save files` > and choose a name for your preset and save it. After that you can load the preset under `New human` > `From save file` and add the preset avatar to the scene. Then you can choose clothes for the preset avatar and remove them to put on the original avatar. You can then delete the preset avatar again.
+   2. Create a preset for your avatar before adding clothing: First select the avatar in Blender, then select `Manage save files` > `Human save files` > and choose a name for your preset and save it. After that you can load the preset under `New human` > `From save file` and add the preset avatar to the scene. Then you can choose clothes for the preset avatar and remove them to put on the original avatar. You can then delete the preset avatar again. If you do this, the clothes may not react to the movements of the avatar. To fix this, you need to create a new piece of clothing from them within MPFB, see [the bottom instructions at section Custom Clothing](#custom-clothing).
+#### Custom Clothing
+To create custom clothing, you need to have a basic understanding of 3D modelling in Blender, i.e. be comfortable with scaling, extruding, modifiers, the edit mode etc. We will follow and summarise the process described in [this video](https://www.youtube.com/watch?v=v_WMJLudpvg).
+1. Create a cube (or other fitting base mesh) and scale it roughly to fit the size of the avatar at the position of the item of clothing you want to create.
+2. Enter edit mode and further fit the mesh to the avatar. Add loop cuts to add geometry, especially where the clothing should later deform.
+3. Delete one half of the mesh and add a mirror modifier to create the other half of the clothing. This way you only have to model one half of the clothing.
+4. Add a shrinkwrap modifier to the mesh and select the avatar as the target. This will make the clothing fit to the avatar. In the modifier's settings add a small offset, also depending on the desired fit. In places where the clothing clips through the avatar, you can move and/or add more geometry to the clothing to make it fit better.
+5. Make sure that no vertices of the half you are modelling are behind the mirror axis, to avoid problems with the mirror modifier. Then apply the mirror modifier.
+6. Use sculpting to loosen up the clothing and to add details to it, like for example folds.
+7. Add a material. This can be a texture or simply a fitting colour.
 
+If you are happy with your new piece of clothing, you need to make it a piece of clothing within MPFB. Otherwise, the clothing will not react to the movements of the avatar and will just stay in place.
+The official video tutorial can be found [here](https://www.youtube.com/watch?v=b5AA5nlelxc).
+1. Select your clothes and mark them as such in MPFB using `Create assets` > `MakeClothes` > `Change type`, making sure to select "Clothes" as object type in the dropdown menu.
+2. In the same menu further below, fill out the properties of the clothing ("Clothes props"), and generate a new unique UUID. 
+2. In edit mode, select all vertices of the clothing (press `a`) and assign them to a new vertex group called exactly "body". Vertex groups can be found in the properties panel on the right side of the viewport, under the tab with the green triangle icon.
+3. Back in object mode use the `Check clothes` function in the MPFB `MakeClothes` menu to check if the clothing is correctly set up.
+   1. If not all faces have the same number of vertices, go into edit mode, select all vertices and use `Face` > `Triangulate Faces` to convert all faces to polygons with three vertices.
+   2. If not all vertices belong to a face, go into edit mode, select all vertices, go into the vertex select mode (the leftmost icon to the right of the mode selection dropdown) and use `Select` > `Select All by Trait` > `Loose Geometry` to select all vertices that do not belong to a face. Then you can delete them.
+4. Click `Store in Library` or `Save as files` respectively to save the clothing in the library or as a .MHCLO file. You should now be able to find the clothing in the library or load it from the file and add it to your avatar. You can delete or move the original clothing mesh at this point. Check that everything works by selecting the rig, going into pose mode and moving the avatar around. The clothing should move with the avatar.
+   1. If you add the clothes to a different model to the one you used to create them, you might have to use sculpt mode with a low brush strength to smoothen things out.
+   2. If the clothing moves when moving bones that it should not move with, you may need to select the clothing, go into `Weight Paint` mode and redraw the influence of the offending bone. You select the bone in the dropdown menu at the top of the viewport. To lower the influence of the bone on a vertex, hold `Ctrl` while painting.
 ## Importing Custom Models from MPFB
-1. Export the avatar as an fbx file and import it into Unity by selecting `File` > `Export` > `FBX (.fbx)`. If you have multiple avatars, make sure to select them with clothes and bones and check `Limit to Selected Objects` in the export settings.
+1. In the MPFB menu select `Operations` > `Export copy` > `Create Export copy`. This creates a copy of the avatar with helpers removed. You find it in the Blender collection `export copy` and it is probably standing inside the original model. 
+1. Export the export copy as an fbx file and import it into Unity by selecting `File` > `Export` > `FBX (.fbx)`. Make sure to select them with clothes and bones and check `Limit to Selected Objects` in the export settings. 
 2. Before clicking on `Export FBX`, make sure to set `Path Mode` to `Copy` and check `Embed Textures` (the small box icon right next to the Path Mode dropdown) to include the textures in the fbx file.
 2. In Unity right-click the project window and import the fbx file as a new asset. 
-3. In the inspector select the `Rig` tab and set the `Animation type` to `Humanoid`. Then click on `Apply`.
+3. If you have multiple avatars you might have to set the position of the model to the origin, as Blender exports the model at the position where it is in the scene. To do this, select the model in the scene and set the position to (0,0,0) in the inspector. Alternatively you can move the model in Blender to the origin before exporting it. 
+4. In the inspector select the `Rig` tab and set the `Animation type` to `Humanoid`. Then click on `Apply`.
 4. In the `Materials` tab, click on `Extract Textures` and choose a folder to save the textures. Repeat this with `Extract Materials` to save the materials as well.
 5. Now you need to reassign the textures to the corresponding materials. To do this, drag each texture on to the `Albedo` slot of the right material. For eyebrows, eyelashes and hair you likely have to change the `Rendering Mode` of the material to `Cutout`.
 6. If you drag the model into the scene, it should now be correctly textured and ready to be set up as an agent by following the steps described in the previous sections.
