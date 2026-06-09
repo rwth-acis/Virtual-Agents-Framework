@@ -24,7 +24,7 @@ namespace i5.VirtualAgents
 		/// <summary>
 		/// Axis of the aimTransform that should aim at the target
 		/// </summary>
-		protected AimDirection aimDirection = AimDirection.Y;
+		protected AimAxisAlignmentMode aimAxisAlignmentMode = AimAxisAlignmentMode.Forward;
 
 		/// <summary>
 		/// The Position that is actually looked at and which will follow the target smoothly
@@ -83,10 +83,28 @@ namespace i5.VirtualAgents
 		protected Transform[] boneTransforms;
 
 		/// <summary>
-		/// The direction of the aimTransform that should aim at the target
+		/// Defines the strategy used to automatically calculate the correct local forward axis for an aiming bone.
 		/// </summary>
-		public enum AimDirection { Y, X, Z };
+		public enum AimAxisAlignmentMode { 
+			/// <summary>
+			/// Compares the bone's local axes against the character's root forward direction to find the best match. 
+			/// Best suited for independent bones like the head or torso.
+			/// </summary>
+			Forward, 
 
+			/// <summary>
+			/// Compares the bone's local axes against the directional vector of the bone chain (e.g., from the parent bone to the aiming tip). 
+			/// Best suited for connected extremities like arms or fingers.
+			/// </summary>
+			Chain
+			
+		};
+		
+		/// <summary>
+		/// The cached local axis of the aimTransform that represents "forward". 
+		/// Calculated once during setup.
+		/// </summary>
+		protected Vector3 localAimAxis = Vector3.forward;
 
 		/// <summary>
 		/// <see langword="true"/> if the component should destroy itself, when the aiming stops and the aim is back at the starting position
@@ -113,6 +131,19 @@ namespace i5.VirtualAgents
 		{
 			navMeshAgent = GetComponent<NavMeshAgent>();
 		}
+		
+		/// <summary>
+		/// Setup the aiming script without starting it, e.g. for passive gazing
+		/// </summary>
+		/// <param name="shouldDestroyItself">If the component should destroy itself after aiming is stopped</param>
+		/// <param name="lookSpeed">The speed at which the agent looks at the target</param>
+		public void Setup(bool shouldDestroyItself = true, float lookSpeed = 2f)
+		{
+			SetBonePreset();
+			localAimAxis = GetAimDirectionVector();
+			this.ShouldDestroyItself = shouldDestroyItself;
+			LookSpeed = lookSpeed;
+		}
 
         /// <summary>
         /// Starts the aiming at the target with the given layer and target
@@ -122,6 +153,7 @@ namespace i5.VirtualAgents
         public void SetupAndStart(Transform target, bool shouldDestroyItself = true)
 		{
 			SetBonePreset();
+			localAimAxis = GetAimDirectionVector();
 			ShouldDestroyItself = shouldDestroyItself;
 			SetTargetTransform(target);
 		}
@@ -161,7 +193,7 @@ namespace i5.VirtualAgents
 		protected Vector3 CalculateWhereToLook()
 		{
 			Vector3 targetDirection = targetFollower - aimTransform.position;
-			Vector3 aimDirectionVector = GetAimDirectionVector();
+			Vector3 aimDirectionVector = GetCachedWorldAimDirection();
 			float blendOut = 0.0f;
 			float targetAngle = Vector3.Angle(targetDirection, aimDirectionVector);
 			if (targetAngle > angleLimit)
@@ -192,7 +224,7 @@ namespace i5.VirtualAgents
 			}
 			else
 			{
-				// Return to the starting point
+				// Return to the starting position
 				targetPosition = transform.TransformPoint(startingPosition);;
 
 
@@ -222,31 +254,112 @@ namespace i5.VirtualAgents
 
 		protected void AimAtTarget(Transform bone, Vector3 targetPosition, float weight)
 		{
-			Vector3 aimDirectionVector = GetAimDirectionVector();
+			Vector3 aimDirectionVector = GetCachedWorldAimDirection();
 			Vector3 targetDirection = targetPosition - aimTransform.position;
 			Quaternion aimTowards = Quaternion.FromToRotation(aimDirectionVector, targetDirection);
 			Quaternion blendedRotation = Quaternion.Slerp(Quaternion.identity, aimTowards, weight);
 			bone.rotation = blendedRotation * bone.rotation;
 		}
 
+		/// <summary>
+		/// Calculates the correct aiming vector for this specific bone based on the selected <see cref="AimAxisAlignmentMode"/>.
+		/// It calculates the closest local axis by comparing the bone's orientation against either the character's root 
+		/// forward direction or the directional vector of the bone chain, depending on the selected mode.
+		/// </summary>
+		/// <returns>A normalized local-space vector representing the bone's primary aiming axis.</returns>
 		protected Vector3 GetAimDirectionVector()
 		{
-			if (aimDirection == AimDirection.Y)
-				return aimTransform.up.normalized;
-			if (aimDirection == AimDirection.X)
-				return aimTransform.right.normalized;
-			if (aimDirection == AimDirection.Z)
-				return aimTransform.forward;
+			// Strategy 1: Align with the Agent's Forward Direction (Best for Heads)
+			if (this.aimAxisAlignmentMode == AimAxisAlignmentMode.Forward)
+			{
+				// Pass the agent root's forward vector into our calculation
+				return GetClosestAxis(transform.forward);
+			}
+    
+			// Strategy 2: Align with the Bone Chain (Best for Limbs/Fingers)
+			if (this.aimAxisAlignmentMode == AimAxisAlignmentMode.Chain)
+			{
+				Vector3 chainDirection = Vector3.zero;
 
-			return aimTransform.up.normalized;
+				// Calculate direction from the last bone in the array to the aimTransform tip
+				if (boneTransforms != null && boneTransforms.Length > 0)
+				{
+					Transform lastBone = boneTransforms[^1];
+					chainDirection = aimTransform.position - lastBone.position;
+				}
+				// Fallback: If no bone chain array exists, use the direct parent
+				else if (aimTransform.parent != null)
+				{
+					chainDirection = aimTransform.position - aimTransform.parent.position;
+				}
+
+				if (chainDirection != Vector3.zero)
+				{
+					return GetClosestAxis(chainDirection);
+				}
+			}
+			Debug.LogWarning("AimAxisAlignmentMode is set to " + aimAxisAlignmentMode + " but no valid direction vector could be calculated. Defaulting to aimTransform.forward.");
+
+			return Vector3.forward;
+		}
+
+		/// <summary>
+		/// Evaluates all 6 primary local axes of the <see cref="aimTransform"/> and returns the one that most closely aligns 
+		/// with the provided target direction.
+		/// </summary>
+		/// <param name="targetVector">The desired world-space direction the bone is attempting to point towards.</param>
+		/// <returns>A normalized local vector representing the closest matching local axis.</returns>
+		protected Vector3 GetClosestAxis(Vector3 targetVector)
+		{
+			if (aimTransform == null) return Vector3.up;
+			
+			Vector3 normalizedTarget = targetVector.normalized;
+			
+			Vector3 localTarget = aimTransform.InverseTransformDirection(normalizedTarget);
+			
+			Vector3[] localAxes =
+			{
+				Vector3.right,   // X
+				Vector3.left,    // -X
+				Vector3.up,      // Y
+				Vector3.down,    // -Y
+				Vector3.forward, // Z
+				Vector3.back     // -Z
+			};
+
+			Vector3 bestLocalAxis = Vector3.up; // Fallback
+			float maxDot = -Mathf.Infinity;
+
+			// Find which local axis most closely aligns with the target direction
+			foreach (Vector3 axis in localAxes)
+			{
+				float dot = Vector3.Dot(localTarget, axis);
+				if (dot > maxDot)
+				{
+					maxDot = dot;
+					bestLocalAxis = axis;
+				}
+			}
+			
+			return bestLocalAxis;
+		}
+		/// <summary>
+		/// Converts cached aim direction to world space
+		/// </summary>
+		protected Vector3 GetCachedWorldAimDirection()
+		{
+			if (aimTransform == null) return Vector3.forward;
+    
+			// Converts the static local axis (e.g. up) into where it's pointing in the world right now
+			return aimTransform.TransformDirection(localAimAxis);
 		}
 
 		public void SetTargetTransform(Transform targetTransform)
 		{
 			if (!isTargetFollowerInitialized || !isStartingPositionInitialized)
 			{
-				// Set starting position of targetFollower 1 unit along the current aiming direction getAimDirectionVector() * 1f
-				startingPosition = transform.InverseTransformPoint(aimTransform.position + (GetAimDirectionVector() * 1f));
+				// Set starting position of targetFollower 1 unit along the current aiming direction GetCachedWorldAimDirection() * 1f
+				startingPosition = transform.InverseTransformPoint(aimTransform.position + (GetCachedWorldAimDirection() * 1f));
 				targetFollower = transform.TransformPoint(startingPosition);
 				isStartingPositionInitialized = true;
 				isTargetFollowerInitialized = true;
@@ -263,13 +376,13 @@ namespace i5.VirtualAgents
 		/// Instead of using a bone preset, the bones can be selected and weighted manually
 		/// </summary>
 		/// <param name="humanBones">The bones and weights that should be moved to accomplish the aiming</param>
-		/// <param name="aimDirection">The direction going out of the aimTransform that should directly point at the target</param>
+		/// <param name="aimAxisAlignmentMode">The mode for aligning the aiming direction</param>
 		/// <param name="aimTransform">The last point of the bones that should directly point at the target</param>
 		/// <param name="angleLimit">The limit at which pointing will be stopped, i.e. 90f to only aim when target is somewhere in front of the agent</param>
-		public void UseNewBoneset(HumanBone[] humanBones, AimDirection aimDirection, Transform aimTransform, float angleLimit)
+		public void UseNewBoneset(HumanBone[] humanBones, AimAxisAlignmentMode aimAxisAlignmentMode, Transform aimTransform, float angleLimit)
 		{
 			this.humanBones = humanBones;
-			this.aimDirection = aimDirection;
+			this.aimAxisAlignmentMode = aimAxisAlignmentMode;
 			this.aimTransform = aimTransform;
 			this.angleLimit = angleLimit;
 

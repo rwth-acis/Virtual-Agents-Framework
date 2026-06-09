@@ -5,7 +5,7 @@ namespace i5.VirtualAgents
 	public class AdaptiveGazeTarget : MonoBehaviour
     {
         /// <summary>
-        /// The importance of the item for the agent. The higher the value, the more liekly it is the agent to look at it. Increases during runtime resets novelty for the agent
+        /// The importance of the item for the agent. The higher the value, the more likely it is the agent to look at it. Increases during runtime resets novelty for the agent
         /// </summary>
         [Range(1f, 10f)]
         public float importance = 1f;
