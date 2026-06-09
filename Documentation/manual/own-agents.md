@@ -53,7 +53,10 @@ To use the MPFB Blender extension for creating avatars, you need to have at leas
 2. Restart Blender
 3. You can find MPFB on the right side of the Viewport after pressing "n"
 4. In the [create a human](https://static.makehumancommunity.org/mpfb/docs/getting_started.html#create-a-human) section of the startup guide you can find the steps to create your avatar
+   1. As a rig please choose GameEngine (with or without breasts), this works better with Unity than the standard rig.
+
 Further tips for getting started with MPFB can be found [here.](https://static.makehumancommunity.org/mpfb/docs/getting_started.html)
+
 ### Clothing
 1. Additional [asset packs](https://static.makehumancommunity.org/assets/assetpacks.html) including clothes are also available. Make sure to check the licence of each pack and correctly attribute the creator if necessary.
 2. When wearing a top, the mesh of the avatar gets replaced by the top. When grabbing and removing the top there are holes in the mesh. This should be fine, if you do not want or need to remove the clothes, f.e. to swap them in Unity or modify them in Blender. Otherwise, you can fix this two ways:
