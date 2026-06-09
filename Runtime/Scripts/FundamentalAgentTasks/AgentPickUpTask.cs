@@ -122,31 +122,37 @@ namespace i5.VirtualAgents.AgentTasks
                 // SocketId == SocketId.LeftHand or SocketId == SocketId.Spine
                 constraint = meshSockets.TwoBoneIKConstraintRightArm;
             }
-            if(constraint == null)
+            if(!constraint)
             {
                 Debug.LogError("No TwoBoneIKConstraint found on the meshSockets component ");
                 FinishTaskAsFailed();
                 yield break;
             }
 
-            if(constraint.data.tip == null || constraint.data.mid == null || constraint.data.root == null)
+            if(!constraint.data.tip || !constraint.data.mid || !constraint.data.root)
             {
                 // Add correct Root, Mid and Tip to CharacterRig for IK animation
                 if (!agent.TryGetComponent<Animator>(out var animator))
                 {
                     Debug.LogWarning("Agent has no Animator component.");
-
                 }
-                meshSockets.TwoBoneIKConstraintLeftArm.data.root = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
-                meshSockets.TwoBoneIKConstraintLeftArm.data.mid = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
-                meshSockets.TwoBoneIKConstraintLeftArm.data.tip = animator.GetBoneTransform(HumanBodyBones.LeftHand);
+                else
+                {
+                    meshSockets.TwoBoneIKConstraintLeftArm.data.root = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
+                    meshSockets.TwoBoneIKConstraintLeftArm.data.mid = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
+                    meshSockets.TwoBoneIKConstraintLeftArm.data.tip = animator.GetBoneTransform(HumanBodyBones.LeftHand);
 
-                meshSockets.TwoBoneIKConstraintRightArm.data.root = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
-                meshSockets.TwoBoneIKConstraintRightArm.data.mid = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
-                meshSockets.TwoBoneIKConstraintRightArm.data.tip = animator.GetBoneTransform(HumanBodyBones.RightHand);
-                //TODO: This is a computational heavy operation, it would be advisable to not do this during runtime
-                RigBuilder rigs = agent.GetComponent<RigBuilder>();
-                rigs.Build();
+                    meshSockets.TwoBoneIKConstraintRightArm.data.root = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
+                    meshSockets.TwoBoneIKConstraintRightArm.data.mid = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
+                    meshSockets.TwoBoneIKConstraintRightArm.data.tip = animator.GetBoneTransform(HumanBodyBones.RightHand);
+                    Debug.LogWarning("The TwoBoneIKConstraint of the Right Arm IK/Left Arm IK had no root, mid or tip assigned. " +
+                                     "The correct Transforms were assigned automatically, but it is recommended to assign them in the scene manually to avoid this computational heavy operation during runtime. \n" +
+                                     "Check " + agent.gameObject.name + "/AnimationRigging/MeshSockets/" + (SocketId == SocketId.LeftHand ? "LeftArmIK" : "RightArmIK") + " for the assigned root, mid and tip. \n" +
+                                     "Assign them with the Transforms of the agent model, like this: \n Root: " + constraint.data.root.name + ",\n Mid: " + constraint.data.mid.name + ",\n Tip: " + constraint.data.tip.name);
+                    RigBuilder rigs = agent.GetComponent<RigBuilder>();
+                    rigs.Build();
+                }
+                
             }
             constraint.data.target.SetPositionAndRotation(constraint.data.tip.position, constraint.data.tip.rotation);
             constraint.weight = 1;
