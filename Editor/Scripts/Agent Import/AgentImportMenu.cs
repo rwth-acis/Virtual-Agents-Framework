@@ -52,7 +52,7 @@ namespace i5.VirtualAgents
                     modelImporter.animationType != ModelImporterAnimationType.Human)
                 {
                     string message =
-                        "Selected model asset uses a genric or non-human rig. Please set the rig animation type to Humanoid before importing it as an agent model.\n " +
+                        "Selected model asset uses a generic or non-human rig. Please set the rig animation type to Humanoid before importing it as an agent model.\n " +
                         "1. In the project window select your asset at \"" + selectedAssetPath + "\"\n " +
                         "2. In the Inspector window select Rig > Animation Type > Generic." + "\n " +
                         "3. Click apply." + "\n " +
