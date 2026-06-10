@@ -139,7 +139,7 @@ You should now have an `AgentBasedOnFemale_Adult_01` (or equivalent) in the scen
 **Ready Player Me has shut down its services in January 2026, so this section is only relevant for users who have already created and saved avatars with Ready Player Me and want to use them as agents in their project.** The steps might not work anymore.
 [Ready Player Me](https://readyplayer.me/) was a service that provided easy access to custom avatars that could be used for rapid prototyping or as an avatar system. As an example we will show here how an avatar created on [Ready Player Me](https://readyplayer.me/) can be turned into an agent.
 1. ~~Create a Ready Player Me avatar [here](https://readyplayer.me/en/hub/avatars)~~
-   To easily import the avatar, the Ready Player Me SDK for Unity can be used. Optionally the Avatar can also be downloaded as a gbl file and turned into a fbx file with programs like blender to import the avatar normally as in the steps above.
+   To easily import the avatar, the Ready Player Me SDK for Unity can be used. Optionally the Avatar can also be downloaded as a glb file and turned into a fbx file with programs like Blender to import the avatar normally as in the steps above.
 2. Copy the provided .gbl URL after avatar creation
 3. Follow the first step [here](https://docs.readyplayer.me/ready-player-me/integration-guides/unity/quickstart) to import the Ready Player Me Unity SDK into your package. Optionally, the other steps of the installation guide can be followed but there are not needed here. Close the Setup Guide menu.
 4. In the top menu of Unity click ``Ready Player Me`` > ``Avatar Loaded``. In the new window copy the .gbl URL of step 2 and load the avatar.
