@@ -18,10 +18,14 @@ namespace i5.VirtualAgents.Examples
         private ScheduleBasedTaskSystem taskSystem2;
         protected override void Start()
         {
+            if (waypoints == null || waypoints.Count < 2 || waypoints[0] == null || waypoints[1] == null)
+            {
+                Debug.LogError("MultipleAgentsSampleController requires at least 2 waypoints.");
+                return;
+            }
             base.Start();
             taskSystem.Tasks.GoTo(waypoints[0]);
-            this.agent = agentTwo;
-            taskSystem2 = (ScheduleBasedTaskSystem)agent.TaskSystem;
+            taskSystem2 = (ScheduleBasedTaskSystem)agentTwo.TaskSystem;
             taskSystem2.Tasks.GoTo(waypoints[1]);
         }
     }

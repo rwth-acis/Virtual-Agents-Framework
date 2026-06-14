@@ -61,7 +61,7 @@ Further tips for getting started with MPFB can be found [here.](https://static.m
 
 ### Clothing
 1. Additional [asset packs](https://static.makehumancommunity.org/assets/assetpacks.html) including clothes are also available. Make sure to check the licence of each pack and correctly attribute the creator if necessary.
-2. When wearing a top, the mesh of the avatar gets replaced by the top. When grabbing and removing the top there are holes in the mesh. This should be fine, if you do not want or need to remove the clothes, f.e. to swap them in Unity or modify them in Blender. Otherwise, you can fix this two ways:
+2. When wearing a top, the mesh of the avatar gets replaced by the top. When grabbing and removing the top there are holes in the mesh. This should be fine, if you do not want or need to remove the clothes, e.g. to swap them in Unity or modify them in Blender. Otherwise, you can fix this two ways:
    1. Add the mesh back in: `Apply assets` > `Topologies library` > find the correct mesh for your avatar
    2. Create a preset for your avatar before adding clothing: First select the avatar in Blender, then select `Manage save files` > `Human save files` > and choose a name for your preset and save it. After that you can load the preset under `New human` > `From save file` and add the preset avatar to the scene. Then you can choose clothes for the preset avatar and remove them to put on the original avatar. You can then delete the preset avatar again. If you do this, the clothes may not react to the movements of the avatar. To fix this, you need to create a new piece of clothing from them within MPFB, see [the bottom instructions at section Custom Clothing](#custom-clothing).
 #### Custom Clothing
@@ -140,7 +140,7 @@ You should now have an `AgentBasedOnFemale_Adult_01` (or equivalent) in the scen
 [Ready Player Me](https://readyplayer.me/) was a service that provided easy access to custom avatars that could be used for rapid prototyping or as an avatar system. As an example we will show here how an avatar created on [Ready Player Me](https://readyplayer.me/) can be turned into an agent.
 1. ~~Create a Ready Player Me avatar [here](https://readyplayer.me/en/hub/avatars)~~
    To easily import the avatar, the Ready Player Me SDK for Unity can be used. Optionally the Avatar can also be downloaded as a glb file and turned into a fbx file with programs like Blender to import the avatar normally as in the steps above.
-2. Copy the provided .gbl URL after avatar creation
+2. Copy the provided .glb URL after avatar creation
 3. Follow the first step [here](https://docs.readyplayer.me/ready-player-me/integration-guides/unity/quickstart) to import the Ready Player Me Unity SDK into your package. Optionally, the other steps of the installation guide can be followed but there are not needed here. Close the Setup Guide menu.
 4. In the top menu of Unity click ``Ready Player Me`` > ``Avatar Loaded``. In the new window copy the .glb URL of step 2 and load the avatar.
 5. Select the loaded avatar in the scene and in the top menu of Unity click `Virtual Agents Framework` > `Custom Model Agent Import` > ` Create Agent from Humanoid Model`.
