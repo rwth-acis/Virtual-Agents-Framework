@@ -20,7 +20,12 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
         private Button layoutButton;
 
         [MenuItem("Virtual Agents Framework/Behaviour Tree Editor")]
-        public static BehaviourTreeEditor ShowWindow()
+        public static void MenuOpenWindow()
+        {
+            ShowWindow();
+        }
+
+        private static BehaviourTreeEditor ShowWindow()
         {
             BehaviourTreeEditor window = GetWindow<BehaviourTreeEditor>();
             window.titleContent = new GUIContent("Behaviour Tree Editor");
@@ -52,11 +57,11 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
             treeViewOccludeLabel = root.Query<Label>("treeViewOccludeLabel");
             occludeLabelParent = treeViewOccludeLabel.parent;
 
-            // Setup the save button
+            // Set up the save button
             saveButton = root.Query<Button>("Save");
             saveButton.clicked += SaveTree;
 
-            // Setup the auto layout button
+            // Set up the auto layout button
             layoutButton = root.Query<Button>("AutoLayout");
             layoutButton.clicked += AutoLayoutTree;
 
@@ -116,9 +121,9 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
 
         [OnOpenAsset]
         // Handles opening the editor window when double-clicking BehaviourTreeAsset files
-        public static bool OnOpenAsset(int instanceID, int line)
+        public static bool OnOpenAsset(EntityId instanceID, int line)
         {
-            UnityEngine.Object obj = EditorUtility.InstanceIDToObject(instanceID);
+            Object obj = EditorUtility.EntityIdToObject(instanceID);
 
             if (obj is BehaviourTreeAsset)
             {

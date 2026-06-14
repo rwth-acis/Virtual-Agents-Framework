@@ -52,9 +52,9 @@ namespace i5.VirtualAgents
                     modelImporter.animationType != ModelImporterAnimationType.Human)
                 {
                     string message =
-                        "Selected model asset uses a genric or non-human rig. Please set the rig animation type to Humanoid before importing it as an agent model.\n " +
+                        "Selected model asset uses a generic or non-human rig. Please set the rig animation type to Humanoid before importing it as an agent model.\n " +
                         "1. In the project window select your asset at \"" + selectedAssetPath + "\"\n " +
-                        "2. In the Inspector window select Rig > Animation Type > Generic." + "\n " +
+                        "2. In the Inspector window select Rig > Animation Type > Humanoid." + "\n " +
                         "3. Click apply." + "\n " +
                         "4. Then try again.";
                     int answer = EditorUtility.DisplayDialogComplex("Wrong rigging", message, "Select the asset for me",
@@ -167,7 +167,7 @@ namespace i5.VirtualAgents
             else
             {
                 Debug.LogWarning(
-                    "No Animator component found. Using default animator. This might be a problem. It is recommended to add a Animator Component with a fitting avatar, usually this happens automatically when importing the model as ab FBX file into Unity.");
+                    "No Animator component found. Using default animator. This might be a problem. It is recommended to add an Animator Component with a fitting avatar, usually this happens automatically when importing the model as an FBX file into Unity.");
             }
 
             // Destroy the cloned object
@@ -188,22 +188,33 @@ namespace i5.VirtualAgents
         {
             obj.name = "Failed" + obj.name;
             Debug.LogError(errorMessage);
+            string message = "An error occurred while setting up the agent:\n" + errorMessage + "\n" +
+                             "The incomplete agent is named " + obj.name + ".\n" +
+                             "Would you like to delete it or keep it and resolve the issue manually?";
+            bool answer = EditorUtility.DisplayDialog("Import Setup Error", message, "Delete Failed Agent (recommended)",
+                "Keep Failed Agent");
+            if (answer)
+            {
+                DestroyImmediate(obj);
+            }
+            
+            
         }
 
         private static void CheckAnimatorAvatar()
         {
-            GameObject selectedObject = Selection.activeGameObject; // This should be the newly created agent
+            GameObject newlyCreatedAgent = Selection.activeGameObject; // This should be the newly created agent
 
-            if (!selectedObject.TryGetComponent<Agent>(out _))
+            if (!newlyCreatedAgent.TryGetComponent<Agent>(out _))
             {
-                FailSetup(selectedObject,
+                FailSetup(newlyCreatedAgent,
                     "No agent component found. Please check that the CustomAgentWithoutModel prefab has an Agent component.");
                 return;
             }
 
-            if (!selectedObject.TryGetComponent<Animator>(out var animator))
+            if (!newlyCreatedAgent.TryGetComponent<Animator>(out var animator))
             {
-                FailSetup(selectedObject,
+                FailSetup(newlyCreatedAgent,
                     "No Animator component found. Please check that the CustomAgentWithoutModel prefab has an Animator component.");
                 return;
             }
@@ -220,11 +231,11 @@ namespace i5.VirtualAgents
             {
                 Debug.LogWarning("Avatar is invalid or missing bones. Attempting automatic fix for hierarchy...");
 
-                AvatarCreationResult creationResult = TryCreateAutomaticAvatar(selectedObject, animator);
+                AvatarCreationResult creationResult = TryCreateAutomaticAvatar(newlyCreatedAgent, animator);
                 if (creationResult == AvatarCreationResult.Success)
                 {
                     Debug.Log("Successfully created and assigned a new Avatar for the hierarchy.");
-                    FixAnimationRiggingBasedOnAnimatorAvatar(selectedObject, animator);
+                    FixAnimationRiggingBasedOnAnimatorAvatar(newlyCreatedAgent, animator);
                 }
                 else if (creationResult == AvatarCreationResult.PendingManual)
                 {
@@ -233,7 +244,7 @@ namespace i5.VirtualAgents
                 }
                 else
                 {
-                    FailSetup(selectedObject,
+                    FailSetup(newlyCreatedAgent,
                         "Automatic fix failed. The model hierarchy does not match the known structure, or the Avatar is fundamentally incompatible.");
                 }
             }
@@ -241,7 +252,7 @@ namespace i5.VirtualAgents
             {
                 Debug.Log(
                     "The Avatar fits the provided model. Mesh Sockets and Animation Rigging will be set up according to that.");
-                FixAnimationRiggingBasedOnAnimatorAvatar(selectedObject, animator);
+                FixAnimationRiggingBasedOnAnimatorAvatar(newlyCreatedAgent, animator);
             }
         }
 
@@ -251,6 +262,26 @@ namespace i5.VirtualAgents
         private static bool TryBuildAvatar(GameObject rootObject, Animator animator, HumanDescription description,
             bool applyRiggingNow)
         {
+            // Check if the hip bone is at the top level of the agent, if yes inject an "ArmatureRoot" in between to allow constraints to be used on the hip bone
+            string hipsBoneName = description.human.FirstOrDefault(b => b.humanName == "Hips").boneName;
+            if (!string.IsNullOrEmpty(hipsBoneName))
+            {
+                Transform hipsBone = rootObject.GetComponentsInChildren<Transform>().FirstOrDefault(t => t.name == hipsBoneName);
+                
+                if (hipsBone != null && (hipsBone.parent == rootObject.transform || hipsBone.parent.name.Contains("Scene")))
+                {
+                    Debug.Log($"Identified Hips bone ('{hipsBone.name}') from mapping. Injecting 'ArmatureRoot' to preserve Root Motion.");
+                    GameObject armatureRoot = new GameObject("ArmatureRoot");
+                    armatureRoot.transform.SetParent(hipsBone.parent, false);
+            
+                    armatureRoot.transform.localPosition = hipsBone.localPosition;
+                    armatureRoot.transform.localRotation = hipsBone.localRotation;
+                    armatureRoot.transform.localScale = Vector3.one;
+
+                    hipsBone.SetParent(armatureRoot.transform, true);
+                }
+            }
+            
             EnforceTPose(rootObject.transform, description.human); // AvatarBuilder.BuildHumanAvatar requires T-Pose
 
             // Rebuild skeleton to match the enforced T-pose transforms
@@ -272,8 +303,15 @@ namespace i5.VirtualAgents
             Avatar newAvatar = AvatarBuilder.BuildHumanAvatar(rootObject, description);
             if (newAvatar != null && newAvatar.isValid)
             {
-                newAvatar.name = "AutoGeneratedAvatar";
+                newAvatar.name = $"AutoGeneratedAvatarFor_{rootObject.name}";
+
+                string avatarAssetPath = AssetDatabase.GenerateUniqueAssetPath(
+                    $"Assets/{newAvatar.name}.asset");
+                AssetDatabase.CreateAsset(newAvatar, avatarAssetPath);
+                AssetDatabase.SaveAssets();
+
                 animator.avatar = newAvatar;
+                Debug.Log($"Saved generated avatar to AssetDatabase at '{avatarAssetPath}'.");
 
                 if (applyRiggingNow)
                 {
@@ -444,8 +482,9 @@ namespace i5.VirtualAgents
         /// </summary>
         private static AvatarCreationResult TryCreateAutomaticAvatar(GameObject rootObject, Animator animator)
         {
+            // Create dictionary for quick bone lookup by name, ignoring case and common separators, and taking the first match in case of duplicates
             Dictionary<string, Transform> boneLookup = rootObject.GetComponentsInChildren<Transform>()
-                .GroupBy(t => t.name)
+                .GroupBy(t => NormalizeBoneName(t.name))
                 .ToDictionary(g => g.Key, g => g.First());
 
 
@@ -470,16 +509,31 @@ namespace i5.VirtualAgents
             // 2. Setup Human (Mapping from Bone Name -> Unity HumanBone)
             List<UnityEngine.HumanBone> humanBones = new List<UnityEngine.HumanBone>();
 
+            string NormalizeBoneName(string boneName)
+            {
+                if (string.IsNullOrEmpty(boneName))
+                {
+                    return string.Empty;
+                }
+
+                return new string(boneName
+                    .Where(c => c != ' ' && c != '-' && c != '_')
+                    .Select(char.ToLowerInvariant)
+                    .ToArray());
+            }
+            
             // Helper to add mapping if a candidate bone exists in hierarchy
             void AddMap(string humanName, params string[] boneNames)
             {
                 foreach (string boneName in boneNames)
                 {
-                    if (boneLookup.ContainsKey(boneName))
+                    string normalizedName = NormalizeBoneName(boneName);
+                    if (boneLookup.TryGetValue(normalizedName, out Transform actualBone))
                     {
                         humanBones.Add(new UnityEngine.HumanBone
                         {
-                            boneName = boneName, humanName = humanName,
+                            boneName = actualBone.name, // Keep the original name in tact!
+                            humanName = humanName,
                             limit = new HumanLimit { useDefaultValues = true }
                         });
                         return;
@@ -636,12 +690,7 @@ namespace i5.VirtualAgents
             // Straighten Right Leg
             AlignBone(GetMappedBone("RightUpperLeg"), GetMappedBone("RightLowerLeg"), legTarget);
             AlignBone(GetMappedBone("RightLowerLeg"), GetMappedBone("RightFoot"), legTarget);
-
-            // --- FEET (Target: Forward) ---
-            Vector3 footTarget = root.forward;
-
-            AlignBone(GetMappedBone("LeftFoot"), GetMappedBone("LeftToes"), footTarget);
-            AlignBone(GetMappedBone("RightFoot"), GetMappedBone("RightToes"), footTarget);
+            
         }
 
         private static List<HumanBodyBones> GetMissingHumanBones(List<UnityEngine.HumanBone> mappedBones,
@@ -768,6 +817,7 @@ namespace i5.VirtualAgents
             private List<MissingBoneEntry> missingBoneEntries;
             private Vector2 scrollPosition;
             private bool setupCompleted;
+            private string validationWarning = "";
 
             public static void Show(
                 GameObject rootObject,
@@ -793,15 +843,41 @@ namespace i5.VirtualAgents
             {
                 EditorGUILayout.LabelField("Map missing bones", EditorStyles.boldLabel);
                 EditorGUILayout.HelpBox(
-                    "Drag the matching Transform from the hierarchy of the original model for each bone that could not be mapped automatically.",
+                    "Drag the matching Transform from the hierarchy of the model " + rootObject.name + " for each bone that could not be mapped automatically.",
                     MessageType.Info);
+                
+                if (!string.IsNullOrEmpty(validationWarning))
+                {
+                    EditorGUILayout.HelpBox(validationWarning, MessageType.Warning);
+                }
+                EditorGUILayout.Space();
 
                 scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
                 foreach (MissingBoneEntry entry in missingBoneEntries)
                 {
                     string label = GetHumanName(entry.Bone);
-                    entry.AssignedTransform =
-                        (Transform)EditorGUILayout.ObjectField(label, entry.AssignedTransform, typeof(Transform), true);
+                    // 1. Capture the user's input into a temporary variable
+                    Transform pickedTransform = (Transform)EditorGUILayout.ObjectField(label, entry.AssignedTransform, typeof(Transform), true);
+
+                    // 2. Validate if the user changed the field
+                    if (pickedTransform != entry.AssignedTransform)
+                    {
+                        if (pickedTransform == null)
+                        {
+                            // Always allow clearing the field
+                            entry.AssignedTransform = null; 
+                        }
+                        else if (!pickedTransform.IsChildOf(rootObject.transform))
+                        {
+                            // Must belong to this avatar's hierarchy
+                            validationWarning = $"Cannot assign '{pickedTransform.name}'. It must be a child of '{rootObject.name}'.";
+                        }
+                        else
+                        {
+                            // Valid! Accept the assignment.
+                            entry.AssignedTransform = pickedTransform;
+                        }
+                    }
                 }
 
                 EditorGUILayout.EndScrollView();

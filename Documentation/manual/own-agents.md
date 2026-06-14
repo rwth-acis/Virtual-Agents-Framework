@@ -55,7 +55,7 @@ If you already have a rigged character or use one from an online library, you ca
 2. Select the `.fbx` file in the project window.
 3. In the Inspector, under `Rig` > `Animation Type`, change `Generic` to `Humanoid` and click `Apply`.
 4. Drag and drop the asset file from the project window into a scene.
-5. Select the loaded asset in the scene and in the top menu of Unity click `Virtual Agents Framework` > `Custom Model Agent Import` > ` Create Agent from Humanoid Model`.
+5. Select the loaded asset in the scene and in the top menu of Unity click `Virtual Agents Framework` > `Custom Model Agent Import` > `Create Agent from Humanoid Model`.
    An agent called AgentBasedOnAssetName will appear in the scene next to the original asset. This avatar should now be ready to function as an agent.
 6. Remove the original asset from the scene.
 
