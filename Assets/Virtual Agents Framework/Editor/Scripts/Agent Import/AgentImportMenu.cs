@@ -54,7 +54,7 @@ namespace i5.VirtualAgents
                     string message =
                         "Selected model asset uses a generic or non-human rig. Please set the rig animation type to Humanoid before importing it as an agent model.\n " +
                         "1. In the project window select your asset at \"" + selectedAssetPath + "\"\n " +
-                        "2. In the Inspector window select Rig > Animation Type > Generic." + "\n " +
+                        "2. In the Inspector window select Rig > Animation Type > Humanoid." + "\n " +
                         "3. Click apply." + "\n " +
                         "4. Then try again.";
                     int answer = EditorUtility.DisplayDialogComplex("Wrong rigging", message, "Select the asset for me",
