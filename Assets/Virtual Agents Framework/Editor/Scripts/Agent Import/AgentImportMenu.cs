@@ -203,18 +203,18 @@ namespace i5.VirtualAgents
 
         private static void CheckAnimatorAvatar()
         {
-            GameObject selectedObject = Selection.activeGameObject; // This should be the newly created agent
+            GameObject newlyCreatedAgent = Selection.activeGameObject; // This should be the newly created agent
 
-            if (!selectedObject.TryGetComponent<Agent>(out _))
+            if (!newlyCreatedAgent.TryGetComponent<Agent>(out _))
             {
-                FailSetup(selectedObject,
+                FailSetup(newlyCreatedAgent,
                     "No agent component found. Please check that the CustomAgentWithoutModel prefab has an Agent component.");
                 return;
             }
 
-            if (!selectedObject.TryGetComponent<Animator>(out var animator))
+            if (!newlyCreatedAgent.TryGetComponent<Animator>(out var animator))
             {
-                FailSetup(selectedObject,
+                FailSetup(newlyCreatedAgent,
                     "No Animator component found. Please check that the CustomAgentWithoutModel prefab has an Animator component.");
                 return;
             }
@@ -231,11 +231,11 @@ namespace i5.VirtualAgents
             {
                 Debug.LogWarning("Avatar is invalid or missing bones. Attempting automatic fix for hierarchy...");
 
-                AvatarCreationResult creationResult = TryCreateAutomaticAvatar(selectedObject, animator);
+                AvatarCreationResult creationResult = TryCreateAutomaticAvatar(newlyCreatedAgent, animator);
                 if (creationResult == AvatarCreationResult.Success)
                 {
                     Debug.Log("Successfully created and assigned a new Avatar for the hierarchy.");
-                    FixAnimationRiggingBasedOnAnimatorAvatar(selectedObject, animator);
+                    FixAnimationRiggingBasedOnAnimatorAvatar(newlyCreatedAgent, animator);
                 }
                 else if (creationResult == AvatarCreationResult.PendingManual)
                 {
@@ -244,7 +244,7 @@ namespace i5.VirtualAgents
                 }
                 else
                 {
-                    FailSetup(selectedObject,
+                    FailSetup(newlyCreatedAgent,
                         "Automatic fix failed. The model hierarchy does not match the known structure, or the Avatar is fundamentally incompatible.");
                 }
             }
@@ -252,7 +252,7 @@ namespace i5.VirtualAgents
             {
                 Debug.Log(
                     "The Avatar fits the provided model. Mesh Sockets and Animation Rigging will be set up according to that.");
-                FixAnimationRiggingBasedOnAnimatorAvatar(selectedObject, animator);
+                FixAnimationRiggingBasedOnAnimatorAvatar(newlyCreatedAgent, animator);
             }
         }
 
@@ -795,6 +795,7 @@ namespace i5.VirtualAgents
             private List<MissingBoneEntry> missingBoneEntries;
             private Vector2 scrollPosition;
             private bool setupCompleted;
+            private string validationWarning = "";
 
             public static void Show(
                 GameObject rootObject,
@@ -820,15 +821,41 @@ namespace i5.VirtualAgents
             {
                 EditorGUILayout.LabelField("Map missing bones", EditorStyles.boldLabel);
                 EditorGUILayout.HelpBox(
-                    "Drag the matching Transform from the hierarchy of the original model for each bone that could not be mapped automatically.",
+                    "Drag the matching Transform from the hierarchy of the model " + rootObject.name + " for each bone that could not be mapped automatically.",
                     MessageType.Info);
+                
+                if (!string.IsNullOrEmpty(validationWarning))
+                {
+                    EditorGUILayout.HelpBox(validationWarning, MessageType.Warning);
+                }
+                EditorGUILayout.Space();
 
                 scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
                 foreach (MissingBoneEntry entry in missingBoneEntries)
                 {
                     string label = GetHumanName(entry.Bone);
-                    entry.AssignedTransform =
-                        (Transform)EditorGUILayout.ObjectField(label, entry.AssignedTransform, typeof(Transform), true);
+                    // 1. Capture the user's input into a temporary variable
+                    Transform pickedTransform = (Transform)EditorGUILayout.ObjectField(label, entry.AssignedTransform, typeof(Transform), true);
+
+                    // 2. Validate if the user changed the field
+                    if (pickedTransform != entry.AssignedTransform)
+                    {
+                        if (pickedTransform == null)
+                        {
+                            // Always allow clearing the field
+                            entry.AssignedTransform = null; 
+                        }
+                        else if (!pickedTransform.IsChildOf(rootObject.transform))
+                        {
+                            // Must belong to this avatar's hierarchy
+                            validationWarning = $"Cannot assign '{pickedTransform.name}'. It must be a child of '{rootObject.name}'.";
+                        }
+                        else
+                        {
+                            // Valid! Accept the assignment.
+                            entry.AssignedTransform = pickedTransform;
+                        }
+                    }
                 }
 
                 EditorGUILayout.EndScrollView();
