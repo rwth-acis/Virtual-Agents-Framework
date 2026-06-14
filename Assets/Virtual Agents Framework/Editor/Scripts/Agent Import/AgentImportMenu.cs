@@ -188,6 +188,17 @@ namespace i5.VirtualAgents
         {
             obj.name = "Failed" + obj.name;
             Debug.LogError(errorMessage);
+            string message = "An error occurred while setting up the agent:\n" + errorMessage + "\n" +
+                             "The incomplete agent is named " + obj.name + ".\n" +
+                             "Would you like to delete it or keep it and resolve the issue manually?";
+            bool answer = EditorUtility.DisplayDialog("Import Setup Error", message, "Delete Failed Agent (recommended)",
+                "Keep Failed Agent");
+            if (answer)
+            {
+                DestroyImmediate(obj);
+            }
+            
+            
         }
 
         private static void CheckAnimatorAvatar()
