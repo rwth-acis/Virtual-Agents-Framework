@@ -78,11 +78,11 @@ If you are happy with your new piece of clothing, you need to make it a piece of
 The official video tutorial can be found [here](https://www.youtube.com/watch?v=b5AA5nlelxc).
 1. Select your clothes and mark them as such in MPFB using `Create assets` > `MakeClothes` > `Change type`, making sure to select "Clothes" as object type in the dropdown menu.
 2. In the same menu further below, fill out the properties of the clothing ("Clothes props"), and generate a new unique UUID. 
-2. In edit mode, select all vertices of the clothing (press `a`) and assign them to a new vertex group called exactly "body". Vertex groups can be found in the properties panel on the right side of the viewport, under the tab with the green triangle icon.
-3. Back in object mode use the `Check clothes` function in the MPFB `MakeClothes` menu to check if the clothing is correctly set up.
+3. In edit mode, select all vertices of the clothing (press `a`) and assign them to a new vertex group called exactly "body". Vertex groups can be found in the properties panel on the right side of the viewport, under the tab with the green triangle icon.
+4. Back in object mode use the `Check clothes` function in the MPFB `MakeClothes` menu to check if the clothing is correctly set up.
    1. If not all faces have the same number of vertices, go into edit mode, select all vertices and use `Face` > `Triangulate Faces` to convert all faces to polygons with three vertices.
    2. If not all vertices belong to a face, go into edit mode, select all vertices, go into the vertex select mode (the leftmost icon to the right of the mode selection dropdown) and use `Select` > `Select All by Trait` > `Loose Geometry` to select all vertices that do not belong to a face. Then you can delete them.
-4. Click `Store in Library` or `Save as files` respectively to save the clothing in the library or as a .MHCLO file. You should now be able to find the clothing in the library or load it from the file and add it to your avatar. You can delete or move the original clothing mesh at this point. Check that everything works by selecting the rig, going into pose mode and moving the avatar around. The clothing should move with the avatar.
+5. Click `Store in Library` or `Save as files` respectively to save the clothing in the library or as a .MHCLO file. You should now be able to find the clothing in the library or load it from the file and add it to your avatar. You can delete or move the original clothing mesh at this point. Check that everything works by selecting the rig, going into pose mode and moving the avatar around. The clothing should move with the avatar.
    1. If you add the clothes to a different model to the one you used to create them, you might have to use sculpt mode with a low brush strength to smoothen things out.
    2. If the clothing moves when moving bones that it should not move with, you may need to select the clothing, go into `Weight Paint` mode and redraw the influence of the offending bone. You select the bone in the dropdown menu at the top of the viewport. To lower the influence of the bone on a vertex, hold `Ctrl` while painting.
 
@@ -126,14 +126,14 @@ You should now have an `AgentBasedOnFemale_Adult_01` (or equivalent) in the scen
 
 ### Importing Custom Models from MPFB
 1. In the MPFB menu select `Operations` > `Export copy` > `Create Export copy`. This creates a copy of the avatar with helpers removed. You find it in the Blender collection `export copy` and it is probably standing inside the original model. 
-1. Export the export copy as an fbx file and import it into Unity by selecting `File` > `Export` > `FBX (.fbx)`. Make sure to select them with clothes and bones and check `Limit to Selected Objects` in the export settings. 
-2. Before clicking on `Export FBX`, make sure to set `Path Mode` to `Copy` and check `Embed Textures` (the small box icon right next to the Path Mode dropdown) to include the textures in the fbx file.
-2. In Unity right-click the project window and import the fbx file as a new asset. 
-3. If you have multiple avatars you might have to set the position of the model to the origin, as Blender exports the model at the position where it is in the scene. To do this, select the model in the scene and set the position to (0,0,0) in the inspector. Alternatively you can move the model in Blender to the origin before exporting it. 
-4. In the inspector select the `Rig` tab and set the `Animation type` to `Humanoid`. Then click on `Apply`.
-4. In the `Materials` tab, click on `Extract Textures` and choose a folder to save the textures. Repeat this with `Extract Materials` to save the materials as well.
-5. Now you need to reassign the textures to the corresponding materials. To do this, drag each texture on to the `Albedo` slot of the right material. For eyebrows, eyelashes and hair you likely have to change the `Rendering Mode` of the material to `Cutout`.
-6. If you drag the model into the scene, it should now be correctly textured and ready to be set up as an agent by following the steps described in the previous sections.
+2. Export the export copy as an fbx file and import it into Unity by selecting `File` > `Export` > `FBX (.fbx)`. Make sure to select them with clothes and bones and check `Limit to Selected Objects` in the export settings. 
+3. Before clicking on `Export FBX`, make sure to set `Path Mode` to `Copy` and check `Embed Textures` (the small box icon right next to the Path Mode dropdown) to include the textures in the fbx file.
+4. In Unity right-click the project window and import the fbx file as a new asset. 
+5. If you have multiple avatars you might have to set the position of the model to the origin, as Blender exports the model at the position where it is in the scene. To do this, select the model in the scene and set the position to (0,0,0) in the inspector. Alternatively you can move the model in Blender to the origin before exporting it. 
+6. In the inspector select the `Rig` tab and set the `Animation type` to `Humanoid`. Then click on `Apply`.
+7. In the `Materials` tab, click on `Extract Textures` and choose a folder to save the textures. Repeat this with `Extract Materials` to save the materials as well.
+8. Now you need to reassign the textures to the corresponding materials. To do this, drag each texture on to the `Albedo` slot of the right material. For eyebrows, eyelashes and hair you likely have to change the `Rendering Mode` of the material to `Cutout`.
+9. If you drag the model into the scene, it should now be correctly textured and ready to be set up as an agent by following the steps described in the previous sections.
 
 ### Importing Custom Models from Ready Player Me
 **Ready Player Me has shut down its services in January 2026, so this section is only relevant for users who have already created and saved avatars with Ready Player Me and want to use them as agents in their project.** The steps might not work anymore.
@@ -142,7 +142,7 @@ You should now have an `AgentBasedOnFemale_Adult_01` (or equivalent) in the scen
    To easily import the avatar, the Ready Player Me SDK for Unity can be used. Optionally the Avatar can also be downloaded as a glb file and turned into a fbx file with programs like Blender to import the avatar normally as in the steps above.
 2. Copy the provided .gbl URL after avatar creation
 3. Follow the first step [here](https://docs.readyplayer.me/ready-player-me/integration-guides/unity/quickstart) to import the Ready Player Me Unity SDK into your package. Optionally, the other steps of the installation guide can be followed but there are not needed here. Close the Setup Guide menu.
-4. In the top menu of Unity click ``Ready Player Me`` > ``Avatar Loaded``. In the new window copy the .gbl URL of step 2 and load the avatar.
+4. In the top menu of Unity click ``Ready Player Me`` > ``Avatar Loaded``. In the new window copy the .glb URL of step 2 and load the avatar.
 5. Select the loaded avatar in the scene and in the top menu of Unity click `Virtual Agents Framework` > `Custom Model Agent Import` > ` Create Agent from Humanoid Model`.
    The avatar should now be ready to function as an agent.
 
