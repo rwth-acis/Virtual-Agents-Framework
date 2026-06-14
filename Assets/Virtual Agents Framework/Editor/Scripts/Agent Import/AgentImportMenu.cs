@@ -262,6 +262,26 @@ namespace i5.VirtualAgents
         private static bool TryBuildAvatar(GameObject rootObject, Animator animator, HumanDescription description,
             bool applyRiggingNow)
         {
+            // Check if the hip bone is at the top level of the agent, if yes inject an "ArmatureRoot" in between to allow constraints to be used on the hip bone
+            string hipsBoneName = description.human.FirstOrDefault(b => b.humanName == "Hips").boneName;
+            if (!string.IsNullOrEmpty(hipsBoneName))
+            {
+                Transform hipsBone = rootObject.GetComponentsInChildren<Transform>().FirstOrDefault(t => t.name == hipsBoneName);
+                
+                if (hipsBone != null && (hipsBone.parent == rootObject.transform || hipsBone.parent.name.Contains("Scene")))
+                {
+                    Debug.Log($"Identified Hips bone ('{hipsBone.name}') from mapping. Injecting 'ArmatureRoot' to preserve Root Motion.");
+                    GameObject armatureRoot = new GameObject("ArmatureRoot");
+                    armatureRoot.transform.SetParent(hipsBone.parent, false);
+            
+                    armatureRoot.transform.localPosition = hipsBone.localPosition;
+                    armatureRoot.transform.localRotation = hipsBone.localRotation;
+                    armatureRoot.transform.localScale = Vector3.one;
+
+                    hipsBone.SetParent(armatureRoot.transform, true);
+                }
+            }
+            
             EnforceTPose(rootObject.transform, description.human); // AvatarBuilder.BuildHumanAvatar requires T-Pose
 
             // Rebuild skeleton to match the enforced T-pose transforms
