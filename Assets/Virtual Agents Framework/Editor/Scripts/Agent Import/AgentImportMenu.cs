@@ -455,8 +455,9 @@ namespace i5.VirtualAgents
         /// </summary>
         private static AvatarCreationResult TryCreateAutomaticAvatar(GameObject rootObject, Animator animator)
         {
+            // Create dictionary for quick bone lookup by name, ignoring case and common separators, and taking the first match in case of duplicates
             Dictionary<string, Transform> boneLookup = rootObject.GetComponentsInChildren<Transform>()
-                .GroupBy(t => t.name)
+                .GroupBy(t => NormalizeBoneName(t.name))
                 .ToDictionary(g => g.Key, g => g.First());
 
 
@@ -481,16 +482,31 @@ namespace i5.VirtualAgents
             // 2. Setup Human (Mapping from Bone Name -> Unity HumanBone)
             List<UnityEngine.HumanBone> humanBones = new List<UnityEngine.HumanBone>();
 
+            string NormalizeBoneName(string boneName)
+            {
+                if (string.IsNullOrEmpty(boneName))
+                {
+                    return string.Empty;
+                }
+
+                return new string(boneName
+                    .Where(c => c != ' ' && c != '-' && c != '_')
+                    .Select(char.ToLowerInvariant)
+                    .ToArray());
+            }
+            
             // Helper to add mapping if a candidate bone exists in hierarchy
             void AddMap(string humanName, params string[] boneNames)
             {
                 foreach (string boneName in boneNames)
                 {
-                    if (boneLookup.ContainsKey(boneName))
+                    string normalizedName = NormalizeBoneName(boneName);
+                    if (boneLookup.TryGetValue(normalizedName, out Transform actualBone))
                     {
                         humanBones.Add(new UnityEngine.HumanBone
                         {
-                            boneName = boneName, humanName = humanName,
+                            boneName = actualBone.name, // Keep the original name in tact!
+                            humanName = humanName,
                             limit = new HumanLimit { useDefaultValues = true }
                         });
                         return;
