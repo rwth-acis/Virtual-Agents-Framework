@@ -690,12 +690,7 @@ namespace i5.VirtualAgents
             // Straighten Right Leg
             AlignBone(GetMappedBone("RightUpperLeg"), GetMappedBone("RightLowerLeg"), legTarget);
             AlignBone(GetMappedBone("RightLowerLeg"), GetMappedBone("RightFoot"), legTarget);
-
-            // --- FEET (Target: Forward) ---
-            Vector3 footTarget = root.forward;
-
-            AlignBone(GetMappedBone("LeftFoot"), GetMappedBone("LeftToes"), footTarget);
-            AlignBone(GetMappedBone("RightFoot"), GetMappedBone("RightToes"), footTarget);
+            
         }
 
         private static List<HumanBodyBones> GetMissingHumanBones(List<UnityEngine.HumanBone> mappedBones,
