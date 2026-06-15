@@ -1,6 +1,6 @@
 {
     "name": "com.i5.virtualagents",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "displayName": "Virtual Agents Framework",
     "description": "A Unity package for creating virtual agents",
     "unity": "2022.3",
@@ -27,7 +27,6 @@
         "name": "Advanced Community Information Systems\nInformatik 5, RWTH Aachen University",
         "url": "https://dbis.rwth-aachen.de/dbis/"
     },
-
   "samples": [
     {
       "displayName": "Navigation Sample",
@@ -69,11 +68,6 @@
       "description": "Example scene which demonstrates how the agent can pick up and drop items that are placed in the environment.",
       "path": "Samples~/ItemPickUpSample"
     },
-	{
-      "displayName": "Behaviour Tree Samples",
-	  "description": "Example scenes which demonstrates how to use the behaviour tree editor.",
-	  "path": "Samples~/BehaviourTree"
-    },
     {
       "displayName": "Sitting Sample",
       "description": "Example scene which shows how to make the agent sit down and stand back up.",
@@ -88,6 +82,16 @@
       "displayName": "Task Bundle Sample",
       "description": "Example scene which shows how to use task bundle to combine multiple tasks into one.",
       "path": "Samples~/TaskBundle Sample"
+    },
+    {
+      "displayName": "Multiple Agents Sample",
+      "description": "Example scene which shows how multiple agents can navigate past each other. It also contains realistic characters demonstrating that the framework works on different humanoid characters.",
+      "path": "Samples~/TaskBundle Sample"
+    },
+    {
+      "displayName": "Behaviour Tree Samples",
+      "description": "Samples which show the Behaviour Tree in action.",
+      "path": "Samples~/BehaviourTree"
     }
   ]
 }

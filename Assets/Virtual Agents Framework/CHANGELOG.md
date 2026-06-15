@@ -2,6 +2,25 @@
 
 This document keeps track of the changes between versions of the framework.
 
+## 1.4.0 (2026-06-15)
+
+### Added
+
+- Audio task: play pre-recorded audio on the agent
+- Rotation task: rotate the agent by an angle, towards a position or towards a GameObject
+- Sitting task: let the agent sit down on a chair
+- Expanded avatar import: supports more diverse humanoid characters, especially MPFB and Microsoft Rocketbox avatars
+- Realistic character models
+- Tooltips as in-editor documentation of exposed fields on components
+- Further documentation on how to add custom humanoid characters
+
+### Changes
+- Revamp of the behaviour tree, making it more robust
+- Performance improvements for the aim task
+- Stability and performance improvements for path calculation: the calculation now waits for the path to be computed, using the velocity in the meantime to keep the animation going. The path is only recomputes if the target moves
+- Updated the project to Unity 6.4
+- Switched project and assets to URP
+
 ## 1.3.0 (2024-11-18)
 
 ### Added
