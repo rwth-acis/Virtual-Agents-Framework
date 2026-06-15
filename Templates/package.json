@@ -3,13 +3,15 @@
     "version": "${version}",
     "displayName": "Virtual Agents Framework",
     "description": "A Unity package for creating virtual agents",
-    "unity": "2020.3",
+    "unity": "2022.3",
     "unityRelease": "13f1",
-    "dependencies": {
-        "com.i5.toolkit.core": "1.9.5",
-        "com.unity.animation.rigging": "1.2.1",
-        "com.unity.ai.navigation": "1.1.5"
-    },
+  "dependencies": {
+    "com.i5.toolkit.core": "1.9.5",
+    "com.unity.animation.rigging": "1.2.1",
+    "com.unity.ai.navigation": "1.1.5",
+    "com.unity.render-pipelines.universal": "14.0.11",
+    "com.unity.modules.uielements": "1.0.0"
+  },
     "keywords": [
         "Unity",
         "Virtual Agent",
