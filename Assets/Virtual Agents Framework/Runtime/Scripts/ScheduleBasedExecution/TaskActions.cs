@@ -198,6 +198,39 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         }
 
         /// <summary>
+        /// Go to a chair (using its FeetPosition) and perform a sitting/standing action on it.
+        /// This composes a movement task to the chair's FeetPosition and an AgentSittingTask for the chair.
+        /// </summary>
+        /// <param name="chair">The chair GameObject. Must have a child named "FeetPosition" and "SitPosition".</param>
+        /// <param name="direction">Sitting direction: SITDOWN, STANDUP or TOGGLE</param>
+        /// <param name="priority">Priority of the composed task bundle</param>
+        /// <param name="minDistance">Minimum distance to the FeetPosition for the movement task to complete</param>
+        public AgentBaseTask GoToAndSit(GameObject chair, SittingDirection direction = SittingDirection.TOGGLE, int priority = 0, float minDistance = 0.1f)
+        {
+            if (chair == null)
+            {
+                return null;
+            }
+
+            // Determine the feet position on the chair. AgentSittingTask expects the Chair to have a FeetPosition child.
+            Transform feetTransform = chair.transform.Find("FeetPosition");
+            Vector3 destination = feetTransform != null ? feetTransform.position : chair.transform.position;
+            
+            AgentMovementTask movementTask = new AgentMovementTask(destination);
+            movementTask.MinDistance = minDistance;
+
+            AgentSittingTask sittingTask = new AgentSittingTask(chair, direction);
+
+            TaskBundle sitBundle = new TaskBundle();
+            sitBundle.AddTask(movementTask);
+            //sitBundle.AddTask(rotationTask);
+            sitBundle.AddTask(sittingTask);
+
+            scheduleTaskSystem.ScheduleTask(sitBundle, priority);
+            return sitBundle;
+        }
+
+        /// <summary>
         /// Creates an adaptiveGazeTask that activates the AdaptiveGaze component, then a wait task on the head and then a task that deactivates the AdaptiveGaze component. These a scheduled so that they play one after another.
         /// </summary>
         /// <param name="seconds">Time in seconds after which the gazing should stop</param>
