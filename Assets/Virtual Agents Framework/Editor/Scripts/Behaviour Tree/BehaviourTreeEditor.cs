@@ -85,7 +85,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                 {
                     if (Selection.activeGameObject.TryGetComponent<BehaviourTreeRunner>(out var runner))
                     {
-                        if(runner.Tree == null)
+                        if (runner.Tree == null)
                         {
                             return;
                         }
@@ -121,9 +121,15 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
 
         [OnOpenAsset]
         // Handles opening the editor window when double-clicking BehaviourTreeAsset files
+#if UNITY_2023_2_OR_NEWER
         public static bool OnOpenAsset(EntityId instanceID, int line)
         {
             Object obj = EditorUtility.EntityIdToObject(instanceID);
+#else
+        public static bool OnOpenAsset(int instanceID, int line)
+        {
+            Object obj = EditorUtility.InstanceIDToObject(instanceID);
+#endif
 
             if (obj is BehaviourTreeAsset)
             {
