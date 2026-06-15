@@ -82,6 +82,16 @@
       "displayName": "Task Bundle Sample",
       "description": "Example scene which shows how to use task bundle to combine multiple tasks into one.",
       "path": "Samples~/TaskBundle Sample"
+    },
+    {
+      "displayName": "Multiple Agents Sample",
+      "description": "Example scene which shows how multiple agents can navigate past each other. It also contains realistic characters demonstrating that the framework works on different humanoid characters.",
+      "path": "Samples~/TaskBundle Sample"
+    },
+    {
+      "displayName": "Behaviour Tree Samples",
+      "description": "Samples which show the Behaviour Tree in action.",
+      "path": "Samples~/BehaviourTree"
     }
   ]
 }
