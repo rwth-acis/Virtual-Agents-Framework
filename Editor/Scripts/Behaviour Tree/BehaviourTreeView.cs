@@ -14,9 +14,16 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
     /// <summary>
     /// Displays a Behaviour Tree in the Behaviour Tree Editor and provides the means to manipulate it.
     /// </summary>
+#if UNITY_2023_2_OR_NEWER
     [UxmlElement]
     public partial class BehaviourTreeView : GraphView
     {
+#else
+    public class BehaviourTreeView : GraphView
+    {
+        // Unity 2022 fallback factory so UI Builder/UXML can find this GraphView
+        public new class UxmlFactory : GraphView.UxmlFactory { }
+#endif
         public Action<NodeView> OnNodeSelect;
 
         public Agent CurrentlySelectedAgent { get; set; }
@@ -330,7 +337,7 @@ namespace i5.VirtualAgents.Editor.BehaviourTrees
                     // the width of the layer above, so that the tree is cantered at 0 under the roodNode
                     float xPosition = currentlyUsedSpace + (float)nodeInfo.SubTreeWidth / 2 - (float)widthOfLayerAbove / 2;
                     xPosition *= 220;// 220 is the width of a node + space between nodes
-                    
+
                     // the node occupies the space of its subtree in the layer and is centered above its subtree
                     currentlyUsedSpace += nodeInfo.SubTreeWidth;
                     if (nodeInfo.Node != null)
