@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Behaviour Tree | Documentation of the Virtual Agents Framework </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Behaviour Tree | Documentation of the Virtual Agents Framework ">
+    
+    
+      <link rel="shortcut icon" href="../resources/Logos/Logo_whiteBg.svg">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../resources/Logos/Logo_whiteBg.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="behaviour-tree">Behaviour Tree</h1>
+
+<p>The Behaviour Tree provides an alternative, user-friendly way to schedule tasks on an agent using a graphical interface, eliminating the need for code. An agent can either use the <a class="xref" href="../api/i5.VirtualAgents.ScheduleBasedExecution.ScheduleBasedTaskSystem.html">ScheduleBasedTaskSystem</a> component with an associated script, as seen in the <a href="quickstart-guide.html#setting-up-the-scene">quickstart guide</a>, or the &lt;xref:i5.VirtualAgents.BehaviourTrees.BehaviourTreeRunner&gt; component with a Behaviour Tree, which will be explained here.</p>
+<p>The framework comes with a Behaviour Tree Editor window that can be used to create Behaviour Trees. The following image shows a tree in the editor.</p>
+<p><img src="../resources/BehaviourTree.png" alt="Image of Behaviour Tree"></p>
+<p>A tree can be read from top to bottom and then from left to right. The RootNode is always connected to one node that is executed first. Every leaf node (green) represents a task for the agent to execute. The blue nodes are composite nodes that execute multiple children nodes in specific ways, here e.g. the &lt;xref:i5.VirtualAgents.BehaviourTrees.SequencerNode&gt;. The yellow nodes are decorator nodes that offer different functionality for traversing the tree, here e.g. the &lt;xref:i5.VirtualAgents.BehaviourTrees.RepeatUntilSuccessNode&gt;.
+Try to understand what the agent would do with this tree before continuing to read.</p>
+<p>With this tree, the agent would first walk somewhere, then try to pick up an object. Ideally, the walking destination is the object to be picked up. If either walking or picking up fails, the agent will retry both actions. When both actions are successful, the agent will perform an animation and then drop the item.</p>
+<h2 id="node-types">Node types</h2>
+<p>Nodes are categorized into three types. Refer to the documentation of each node to understand how they work.</p>
+<h3 id="s">&lt;xref:i5.VirtualAgents.BehaviourTrees.CompositeNode&gt;s</h3>
+<ul>
+<li>&lt;xref:i5.VirtualAgents.BehaviourTrees.SequencerNode&gt;</li>
+<li>&lt;xref:i5.VirtualAgents.BehaviourTrees.SelectorNode&gt;</li>
+<li>&lt;xref:i5.VirtualAgents.BehaviourTrees.RandomNode&gt;</li>
+</ul>
+<h3 id="s-1">&lt;xref:i5.VirtualAgents.BehaviourTrees.DecoratorNode&gt;s</h3>
+<ul>
+<li>&lt;xref:i5.VirtualAgents.BehaviourTrees.AlwaysSucceedNode&gt;</li>
+<li>&lt;xref:i5.VirtualAgents.BehaviourTrees.InverterNode&gt;</li>
+<li>&lt;xref:i5.VirtualAgents.BehaviourTrees.RepeatUntilSuccessNode&gt;</li>
+<li>&lt;xref:i5.VirtualAgents.BehaviourTrees.TimeOutNode&gt;</li>
+</ul>
+<h3 id="-nodes"><a class="xref" href="../api/i5.VirtualAgents.AgentTasks.AgentBaseTask.html">AgentBaseTask</a> Nodes</h3>
+<p>The tree can use all task that implement <a class="xref" href="../api/i5.VirtualAgents.AgentTasks.IAgentTask.html">IAgentTask</a> and <a class="xref" href="../api/i5.VirtualAgents.AgentTasks.ISerializable.html">ISerializable</a>. Each attribute that should be available in the tree editor needs to be serialized and deserialized in the methods of <a class="xref" href="../api/i5.VirtualAgents.AgentTasks.ISerializable.html">ISerializable</a>. See <a href="behaviour-tree.html#integrating-custom-tasks-into-the-behaviour-tree">here</a> for more.</p>
+<h5 id="section">&lt;xref:i5.VirtualAgents.AgentTasks.BehaviourTreeTask&gt;</h5>
+<p>There is one specific task for the Behaviour Tree, the &lt;xref:i5.VirtualAgents.AgentTasks.BehaviourTreeTask&gt; which allows subtrees to be added to a tree.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Subtrees can only have static changes to the node attributes, e.g. no GameObjects from a scene.</p>
+</div>
+<h2 id="setup">Setup</h2>
+<p>All the setup and usage of the Behaviour Tree is done in the Unity Editor, and no code editing is necessary or possible, apart from creating completely new tasks.</p>
+<h3 id="scene-setup">Scene Setup</h3>
+<ol>
+<li>Insert the agent prefab or an <a href="own-agents.html">imported agent</a> into your scene, to set up the scene correctly follow the <a href="quickstart-guide.html#setting-up-the-scene">scene setup in the quickstart guide</a></li>
+<li>Remove the <a class="xref" href="../api/i5.VirtualAgents.ScheduleBasedExecution.ScheduleBasedTaskSystem.html">ScheduleBasedTaskSystem</a> component from the agent</li>
+<li>Add the &lt;xref:i5.VirtualAgents.BehaviourTrees.BehaviourTreeRunner&gt; to replace the ScheduleBasedTaskSystem as the TaskSystem</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Because the <a class="xref" href="../api/i5.VirtualAgents.ScheduleBasedExecution.ScheduleBasedTaskSystem.html">ScheduleBasedTaskSystem</a> is removed none of the code, for example the code in the <a href="quickstart-guide.html#setting-up-the-scene">quickstart guide</a> will work anymore. This is because only one implementation of <a class="xref" href="../api/i5.VirtualAgents.ITaskSystem.html">ITaskSystem</a> can be used per agent.</p>
+</div>
+<h3 id="creating-trees">Creating Trees</h3>
+<ol start="4">
+<li>Create a new Tree by right-clicking in the project window and then <code>Create  &gt; Virtual Agents Framework &gt; Behaviour Tree</code></li>
+<li>Double-Click the newly created &lt;xref:i5.VirtualAgents.BehaviourTrees.Visual.BehaviourTreeAsset&gt; to open the tree in the tree editor</li>
+<li>Follow the manual on the left of the editor to create a few nodes and connect them to the RootNode</li>
+<li>When clicking on a node, you can change attributes in the inspector on the left that is included within the tree editor window</li>
+<li>You can use the auto layout button and then press the save button, move the tree editor window to the side</li>
+</ol>
+<h3 id="connecting-tree-with-scene">Connecting Tree with Scene</h3>
+<ol start="9">
+<li>Drag and drop the tree asset file into the added &lt;xref:i5.VirtualAgents.BehaviourTrees.BehaviourTreeRunner&gt; of the Agent</li>
+<li>In the editor that opens as part of the component, click on a node to change attributes here</li>
+<li>Do agent or scene specific changes to node attributes here. Any changes in the inspector will overwrite the values from the file, but not change the file.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The tree editor window only allows static changes to be made to a tree file, so they are independent of a scene. That means that, for example to set a GameObject as a destination of a movement task, the GameObject needs to be added to the node when editing the node as part of the &lt;xref:i5.VirtualAgents.BehaviourTrees.BehaviourTreeRunner&gt; component in the inspector view of the agent.</p>
+</div>
+<h2 id="debugging-a-tree">Debugging a tree</h2>
+<p>When playing a scene while the tree editor is open the nodes in the tree show their current state with a colored outline.</p>
+<p><img src="../resources/NodeDebugging.png" alt="Image shows a tree with different node states"></p>
+<p>Green means that a task was finished successfully.
+Yellow means that a task is currently running.
+Red means that a task failed.
+When there is no outline the task hasn't started yet.</p>
+<p>When using multiple agents in a scene the according task states will be show when selecting the agent in the scene hierarchy.</p>
+<h2 id="example-scenes">Example Scenes</h2>
+<p>The framework contains five sample scenes demonstrating the various node types and functions of the Behaviour Tree usage. Each sample includes a scene with a documentation object, that includes more information about the scene. The five samples are:</p>
+<ol>
+<li>A small introduction sample</li>
+<li>A sample showing how the three types of composite nodes work</li>
+<li>A sample demonstrating the decorator nodes</li>
+<li>A sample demonstrating subtrees</li>
+<li>A sample demonstrating the debug capabilities</li>
+</ol>
+<h2 id="integrating-custom-tasks-into-the-behaviour-tree">Integrating Custom Tasks into the Behaviour Tree</h2>
+<p>To make custom tasks usable within the Behaviour Tree Editor, they must implement both the <a class="xref" href="../api/i5.VirtualAgents.AgentTasks.IAgentTask.html">IAgentTask</a> and <a class="xref" href="../api/i5.VirtualAgents.AgentTasks.ISerializable.html">ISerializable</a> interfaces.</p>
+<p>For a general guide on implementing the <a class="xref" href="../api/i5.VirtualAgents.AgentTasks.IAgentTask.html">IAgentTask</a> interface, refer to the <a href="task-system.html#adding-own-tasks">Adding Own Tasks</a> section. The small description shown in the Behaviour Tree Editor can be change by changing &lt;xref:i5.VirtualAgents.BaseTask.description&gt; in the constructor of the new task.</p>
+<p>In addition to <a class="xref" href="../api/i5.VirtualAgents.AgentTasks.IAgentTask.html">IAgentTask</a>, the Behaviour Tree requires the implementation of <a class="xref" href="../api/i5.VirtualAgents.AgentTasks.ISerializable.html">ISerializable</a>'s <a class="xref" href="../api/i5.VirtualAgents.AgentTasks.ISerializable.html#i5_VirtualAgents_AgentTasks_ISerializable_Serialize_">Serialize</a> and <a class="xref" href="../api/i5.VirtualAgents.AgentTasks.ISerializable.html#i5_VirtualAgents_AgentTasks_ISerializable_Deserialize_">Deserialize</a> methods.</p>
+<p>Below is an example from the <a class="xref" href="../api/i5.VirtualAgents.AgentTasks.AgentMovementTask.html">AgentMovementTask</a> demonstrating how these methods can be implemented.</p>
+<pre><code class="lang-csharp">public void Serialize(SerializationDataContainer serializer)
+{
+    // Serialize attributes of the 
+    // AgentMovementTask that are relevant for the BehaviourTree
+    serializer.AddSerializedData(&quot;Destination Object&quot;, DestinationObject);
+    serializer.AddSerializedData(&quot;Destination&quot;, Destination);
+    serializer.AddSerializedData(&quot;Target Speed&quot;, TargetSpeed);
+    serializer.AddSerializedData(&quot;Follow GameObject?&quot;, followGameObject);
+}
+
+public void Deserialize(SerializationDataContainer serializer)
+{
+    // Replace old names, to update old tree files
+    serializer.Replace(&quot;TargetSpeed&quot;, &quot;Target Speed&quot;);
+    serializer.Replace(&quot;FollowGameObject&quot;, &quot;Follow GameObject?&quot;);
+
+    // Deserialize the attributes of the AgentMovementTask
+    DestinationObject = serializer.GetSerializedGameobjects(&quot;Destination Object&quot;);
+    Destination = serializer.GetSerializedVector(&quot;Destination&quot;);
+    TargetSpeed = serializer.GetSerializedFloat(&quot;Target Speed&quot;);
+    followGameObject = serializer.GetSerializedBool(&quot;Follow GameObject?&quot;);
+}
+</code></pre>
+<p>These methods should handle all task attributes that are relevant to the Behaviour Tree Editor. The attributes will be displayed in the editor with the same key names and in the same order as they are called in the <code>Serialize</code> method.</p>
+<p>If key names are changed, you can use <code>serializer.Replace()</code> in the <code>Deserialize</code> method to maintain compatibility with trees created using the previous names.</p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>The <code>serializer.Replace()</code> method should be removed once all old trees have been updated and saved again, as it adds unnecessary complexity to the <code>Deserialize</code> method.</p>
+</div>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/rwth-acis/Virtual-Agents-Framework/blob/master/Documentation/manual/behaviour-tree.md/#L1" class="contribution-link">Edit this page</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      Documentation of the Virtual Agents Framework
+      
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
