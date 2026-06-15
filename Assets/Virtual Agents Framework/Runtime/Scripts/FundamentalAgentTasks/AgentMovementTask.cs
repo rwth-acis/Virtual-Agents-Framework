@@ -42,6 +42,11 @@ namespace i5.VirtualAgents.AgentTasks
 		public GameObject DestinationObject { get; protected set; }
 
 		/// <summary>
+		/// Optional offset that is applied to the destination object position.
+		/// </summary>
+		public Vector3 DestinationOffset { get; protected set; }
+
+		/// <summary>
 		/// The target movement speed of the agent
 		/// If negative, the default value set in the NavMeshAgent is taken
 		/// </summary>
@@ -51,6 +56,14 @@ namespace i5.VirtualAgents.AgentTasks
 		/// Number of seconds after which the path will be recalculated
 		/// </summary>
 		public float PathUpdateInterval { get; set; } = 1f;
+
+		/// <summary>
+		/// Minimum positional delta required before a follow target triggers a new SetDestination call in the next PathUpdateInterval
+		/// </summary>
+		public float FollowRepathDistanceThreshold { get; set; } = 0.1f;
+
+		private Vector3 lastFollowDestination;
+		private bool hasLastFollowDestination;
 
 		public AgentMovementTask()
 		{
@@ -82,16 +95,28 @@ namespace i5.VirtualAgents.AgentTasks
 		}
 
 		/// <summary>
+		/// Create an AgentMovementTask using a destination object and offset
+		/// </summary>
+		/// <param name="destinationObject">The object that the agent should move to or follow</param>
+		/// <param name="destinationOffset">Offset to apply to the object position</param>
+		/// <param name="targetSpeed">The target speed of the agent, e.g. to set running or walking; if not set, the default value in the NavMeshAgent is taken</param>
+		/// <param name="followGameObject">Determines if the agent should follow the DestinationObject automatically, even when path is noncomplete</param>
+		public AgentMovementTask(GameObject destinationObject, Vector3 destinationOffset, float targetSpeed = -1, bool followGameObject = false)
+			: this(destinationObject, targetSpeed, followGameObject)
+		{
+			DestinationOffset = destinationOffset;
+		}
+
+		/// <summary>
 		/// Starts the movement task
 		/// </summary>
 		/// <param name="agent">The agent which should execute the movement task</param>
 		public override void StartExecution(Agent agent)
 		{
 			base.StartExecution(agent);
-			navMeshAgent = agent.GetComponent<NavMeshAgent>();
-
+            
 			// only proceed on agents with a NavMeshAgent
-			if (navMeshAgent == null)
+			if (!agent.TryGetComponent<NavMeshAgent>(out navMeshAgent))
 			{
 				i5Debug.LogError($"The agent {agent.name} does not have a NavMeshAgent component. " +
 					$"Therefore, it cannot move. Skipping this task.",
@@ -108,12 +133,12 @@ namespace i5.VirtualAgents.AgentTasks
 		/// </summary>
 		public override TaskState EvaluateTaskState()
 		{
-			// we only need to recalculate the path if we are following a GameObject
+			// Only recalculate the path if we are following a GameObject
 			if (followGameObject)
 			{
 				if (timeOnCurrentPath >= PathUpdateInterval)
 				{
-					UpdateMovement(); //calculates new path if object is not stationary and follow is activated
+					UpdateMovement(); // Calculates new path if object is not stationary and follow is activated
 					timeOnCurrentPath = 0;
 				}
 				else
@@ -134,10 +159,10 @@ namespace i5.VirtualAgents.AgentTasks
 				if (navMeshAgent.pathStatus == NavMeshPathStatus.PathPartial)
 				{
 					Vector3[] corners = navMeshAgent.path.corners;
-					string lastCorner = corners[corners.Length - 1].ToString();
+					string lastCorner = corners[^1].ToString();
 
                     Debug.LogWarning("Path calculation to " + Destination.ToString() + " failed because only a partial path could be generated. Use an DestinationObject instead of Destination coordinates and activate follow to allow partial paths. " +
-						"The clostes point was: " + lastCorner);
+						"The closest point was: " + lastCorner);
 					return TaskState.Failure; // The navmesh agent couldn't generate a complete and valid path
 				}
 			}
@@ -145,7 +170,8 @@ namespace i5.VirtualAgents.AgentTasks
 			{
 				return TaskState.Success;
 			}
-			// The agent moves on a valid path and hasn't reached its destination yet
+			// The agent moves on a valid path and hasn't reached its destination yet. Give all control about movement und rotation to the navmesh agent
+            navMeshAgent.isStopped = false;
 			return TaskState.Running;
 
 
@@ -158,11 +184,15 @@ namespace i5.VirtualAgents.AgentTasks
 			navMeshAgent.enabled = true;
 			navMeshAgent.updatePosition = true;
 			navMeshAgent.updateRotation = true;
-			if (!navMeshAgent.SetDestination(DestinationObject != null ? DestinationObject.transform.position : Destination))
+			Vector3 destination = GetCurrentDestination();
+			if (!navMeshAgent.SetDestination(destination))
 			{
-				State = TaskState.Failure;
+				FinishTaskAsFailed();
 				return;
 			}
+			lastFollowDestination = destination;
+			hasLastFollowDestination = true;
+			navMeshAgent.isStopped = true;
 			if (TargetSpeed > 0)
 			{
 				navMeshAgent.speed = TargetSpeed;
@@ -174,33 +204,63 @@ namespace i5.VirtualAgents.AgentTasks
 		{
 			if (followGameObject && DestinationObject != null)
 			{
-				// recalculate the path by restarting the movement from the current position
-				StartMovement();
+				Vector3 destination = GetCurrentDestination();
+				if (hasLastFollowDestination)
+				{
+					float thresholdSq = FollowRepathDistanceThreshold * FollowRepathDistanceThreshold;
+					if ((destination - lastFollowDestination).sqrMagnitude <= thresholdSq)
+					{
+						return;
+					}
+				}
+
+				// Refresh path to the updated target
+				if (!navMeshAgent.SetDestination(destination))
+				{
+					FinishTaskAsFailed();
+				}
+				else
+				{
+					lastFollowDestination = destination;
+					hasLastFollowDestination = true;
+				}
 			}
 		}
 
-		/// <summary>
-		/// Finish the task
-		/// </summary>
-		public override void StopExecution()
+		private Vector3 GetCurrentDestination()
 		{
-			navMeshAgent.enabled = false;
+			return DestinationObject != null ? DestinationObject.transform.position + DestinationOffset : Destination;
 		}
+
+        /// <summary>
+        /// Finish the task
+        /// </summary>
+        public override void StopExecution()
+        {
+            navMeshAgent.isStopped = true;
+        }
 
 		public void Serialize(SerializationDataContainer serializer)
 		{
+			// Serialize attributes of the AgentMovementTask that are relevant for the BehaviourTree
 			serializer.AddSerializedData("Destination Object", DestinationObject);
 			serializer.AddSerializedData("Destination", Destination);
-			serializer.AddSerializedData("TargetSpeed", TargetSpeed);
-            //serializer.AddSerializedData("FollowingGameObject", FollowingGameObject);
+			serializer.AddSerializedData("Target Speed", TargetSpeed);
+            serializer.AddSerializedData("Follow GameObject?", followGameObject);
         }
 
 		public void Deserialize(SerializationDataContainer serializer)
 		{
-			DestinationObject = serializer.GetSerializedGameobjects("Destination Object");
+            // Replace old names, to update old tree files
+			// Methods left as comments for documentation purposes
+            //serializer.Replace("TargetSpeed", "Target Speed");
+            //serializer.Replace("FollowGameObject", "Follow GameObject?");
+
+			// Deserialize the attributes of the AgentMovementTask
+            DestinationObject = serializer.GetSerializedGameobjects("Destination Object");
 			Destination = serializer.GetSerializedVector("Destination");
-			TargetSpeed = serializer.GetSerializedFloat("TargetSpeed");
-            //FollowingGameObject = serializer.GetSerializedBool("FollowingGameObject");
+			TargetSpeed = serializer.GetSerializedFloat("Target Speed");
+            followGameObject = serializer.GetSerializedBool("Follow GameObject?");
 		}
 
 		/// <summary>

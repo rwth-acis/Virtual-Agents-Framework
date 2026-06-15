@@ -12,12 +12,12 @@ namespace i5.VirtualAgents.AgentTasks
         private string startTrigger;
         private string stopTrigger;
         private float playTime;
-        private readonly GameObject aimTarget;
-        private readonly string layer;
+        private GameObject aimTarget;
+        private string layer;
 
-        AimAt aimScript;
+        private AimAt aimScript;
 
-        AdaptiveGaze lookAroundController;
+        private AdaptiveGaze lookAroundController;
         public AgentAnimationTask() { }
 
         public AgentAnimationTask(string startTrigger, float playTime, string stopTrigger = "", string layer = "", GameObject aimTarget = null)
@@ -40,11 +40,11 @@ namespace i5.VirtualAgents.AgentTasks
             animator.SetTrigger(startTrigger);
 
 
-            if (aimTarget != null)
+            if (aimTarget)
             {
                 if (layer == "")
                 {
-                    Debug.LogError("When aming at a target a layer coresponding to the body area that should aim at the target has to be choosen.");
+                    Debug.LogError("When aiming at a target, a layer coresponding to the body area that should aim at the target has to be chosen.");
                 }
 
                 switch (layer)
@@ -68,7 +68,7 @@ namespace i5.VirtualAgents.AgentTasks
                         aimScript = agent.gameObject.AddComponent<BaseLayerPreset>();
                         break;
                     default:
-                        Debug.LogWarning("No boneset avaiable for the layer named:" + layer);
+                        Debug.LogWarning("No bone set avaiable for the layer named:" + layer);
                         break;
                 }
 
@@ -85,10 +85,10 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         public override void StopExecution()
         {
-            if (aimTarget != null)
+            if (aimTarget)
             {
                 aimScript.Stop();
-                if (lookAroundController != null && layer == "Head")
+                if (lookAroundController && layer == "Head")
                 {
                     lookAroundController.Activate();
                 }
@@ -111,7 +111,7 @@ namespace i5.VirtualAgents.AgentTasks
             {
                 Debug.LogError("The layer " + layer + " does not exist in the animator of the agent.");
             }
-            // normalizedTims goes from X.0 to X+1 for each animation cycle, so we wait until the next animation cycle starts or the animation cycle with a diffrent animation begins
+            // normalizedTime goes from X.0 to X+1 for each animation cycle, so we wait until the next animation cycle starts or the animation cycle with a different animation begins
             int endOfNextAnimation = (int)System.Math.Ceiling(animator.GetCurrentAnimatorStateInfo(layerIndex).normalizedTime);
             while (animator.GetCurrentAnimatorStateInfo(layerIndex).normalizedTime < endOfNextAnimation && !(animator.GetCurrentAnimatorStateInfo(layerIndex).normalizedTime < (endOfNextAnimation - 1)))
             {
@@ -120,7 +120,7 @@ namespace i5.VirtualAgents.AgentTasks
 
             aimScript.SetupAndStart(aimTarget.transform);
             // If the agent is setup to look around, stop it while aiming with the head
-            if (lookAroundController != null && layer == "Head")
+            if (lookAroundController && layer == "Head")
             {
                 lookAroundController.Deactivate();
             }
@@ -131,6 +131,8 @@ namespace i5.VirtualAgents.AgentTasks
             serializer.AddSerializedData("Start Trigger", startTrigger);
             serializer.AddSerializedData("Stop Trigger", stopTrigger);
             serializer.AddSerializedData("Play Time", playTime);
+            serializer.AddSerializedData("Aim Target", aimTarget);
+            serializer.AddSerializedData("Layer", layer);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
@@ -138,6 +140,8 @@ namespace i5.VirtualAgents.AgentTasks
             startTrigger = serializer.GetSerializedString("Start Trigger");
             stopTrigger = serializer.GetSerializedString("Stop Trigger");
             playTime = serializer.GetSerializedFloat("Play Time");
+            aimTarget = serializer.GetSerializedGameobjects("Aim Target");
+            layer = serializer.GetSerializedString("Layer");
         }
 
         /// <summary>

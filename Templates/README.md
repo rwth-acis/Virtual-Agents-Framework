@@ -12,7 +12,7 @@ This framework provides the architecture, assets and samples for creating own vi
 
 ## Setup
 
-Minimum Unity version: 2020.3.
+Minimum Unity version: 2022.3.
 
 There are different ways to add the package to a project.
 
@@ -23,7 +23,7 @@ Here, we first need to add a scoped registry which tells Unity that the package 
 After that, we can add the package in Unity's package manager window.
 
 1. In Unity, go to Window > Package Manager to open the package manager UI.
-2. In the right corner of the opened windows, click on the small cogwheel and select "Advanced Project Settings".
+2. In the right corner of the opened window, click on the context menu button and select "Project Settings".
 3. Add a new scoped registry with the following values:
 
 | Field | Value(s) |
@@ -35,12 +35,12 @@ After that, we can add the package in Unity's package manager window.
 4. Next, click the Save/Apply button.
 5. Close the settings window and return to the package manager window.
 6. Click the small plus button at the left top of the window.
-   Select ""Add package by name..." or "Add package from git URL..." depending on your Unity version.
+   Select "Add package by name..." or "Add package from git URL..." depending on your Unity version.
 7. Enter `com.i5.virtualagents` in the text field.
 8. If the package manager asks for a version number, enter the latest one, so `${version}`.
 9. Click the add button and wait for the download to finish.
 
-As an alternative to steps 7 - 8, the package should also be available in the list if you switch the dropdown next to the plus button from "Packages: Unity Registry" to "Packages: My Registries".
+As an alternative to steps 7 - 8, the package should also be available in the list under "My Registries".
 You can then select the entry and click the "Install" button.
 
 ### Alternative 2: OpenUPM with manifest.json file
@@ -95,7 +95,7 @@ To update to the newest current version, remove the package again and re-downloa
 
 ## Quickstart Guide
 
-As part of the documentation a quickstart guide can be found [here](https://rwth-acis.github.io/Virtual-Agents-Framework/${version}/manual/quickstart-guide.html).
+As part of the documentation a quickstart guide can be found [here](https://rwth-acis.github.io/Virtual-Agents-Framework/1.2.1/manual/task-system.html).
 
 ## Documentation
 
@@ -136,9 +136,10 @@ All art assets (e.g. files located in the folders "3D Models" and "Animations" i
 
 - Benedikt Hensen
 - David Terhürne
+- Lena Linke
+
+The provided realistic human character models are created based on CC0-licensed [MPFB](https://static.makehumancommunity.org/mpfb.html) assets.
 
 ## Related Projects
 
 This framework uses the [i5 Toolkit for Unity](https://github.com/rwth-acis/i5-Toolkit-for-Unity) which provides building blocks and modules for general development with the Unity 3D engine.
-If you want to use the virtual agents in mixed reality, check out our [i5 Toolkit for Mixed Reality](https://github.com/rwth-acis/i5-Toolkit-for-Mixed-Reality).
-It is an extension package that builds upon the functionality of the i5 Toolkit for Unity and is optimized for mixed reality.

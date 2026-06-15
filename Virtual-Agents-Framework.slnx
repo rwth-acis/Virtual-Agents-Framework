@@ -1,0 +1,8 @@
+﻿<Solution>
+  <Project Path="i5.VirtualAgents.Examples.csproj" />
+  <Project Path="i5.VirtualAgents.Editor.Tests.csproj" />
+  <Project Path="i5.VirtualAgents.Editor.csproj" />
+  <Project Path="i5.VirtualAgents.Runtime.csproj" />
+  <Project Path="i5.VirtualAgents.Runtime.Tests.csproj" />
+  <Project Path="Automation.csproj" />
+</Solution>

@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using i5.VirtualAgents.Examples;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -29,8 +30,9 @@ namespace i5.VirtualAgents
             { "Independent Tasks", "Assets/Virtual Agents Framework/Samples/Parallel Tasks Sample/Independent Tasks/Independent Tasks Sample.unity" },
             { "Synchronized Tasks", "Assets/Virtual Agents Framework/Samples/Parallel Tasks Sample/Synchronized Tasks/Synchronized Tasks Sample.unity" },
             { "Wait", "Assets/Virtual Agents Framework/Samples/Wait Sample/Wait Sample.unity" },
-            { "TaskBundle", "Assets/Virtual Agents Framework/Samples/TaskBundle Sample/TaskBundle Sample.unity" }
-            
+            { "TaskBundle", "Assets/Virtual Agents Framework/Samples/TaskBundle Sample/TaskBundle Sample.unity" },
+            { "Rotation", "Assets/Virtual Agents Framework/Samples/Rotation Sample/Rotation Sample.unity" },
+            { "Behaviour", "Assets/Virtual Agents Framework/Tests/Runtime/BehaviourTreeTestScene/BehaviourTreeSampleScene.unity" }
         };
 
         //Method to setup the test, is called once before building the tests (IPrebuildSetup)
@@ -133,6 +135,76 @@ namespace i5.VirtualAgents
 
             //TODO: Add more sample specific asserts 
         }
+        /// <summary>
+        /// Verify that the agent dynamically walks around obstacles when set to follow the target object
+        /// </summary>
+        /// <returns></returns>
+        [UnityTest]
+        public IEnumerator VerifySceneDynamicNavigationWithMovingObstacles()
+        {
+            pathToScenes.TryGetValue("Dynamic Navigation", out string path);
+            
+            SceneManager.sceneLoaded -= OnSceneLoaded; // In case something went wrong before
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.LoadScene(path);
+            void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+            {
+                // Remove second waypoint from controller before it is scheduled in start method
+                AgentDynamicNavigationController controller = GameObject.Find("Controller")?.GetComponent<AgentDynamicNavigationController>();
+                Assert.That(controller, Is.Not.Null);
+                controller.waypoints.RemoveAt(1);
+                SceneManager.sceneLoaded -= OnSceneLoaded;
+            }
+
+            yield return null;
+            var Agent = GameObject.Find("AgentStandard");
+            var obstacle = GameObject.Find("Cube (7)");
+            var waypoint = GameObject.Find("Waypoint1");
+            Object.Destroy(GameObject.Find("Waypoint2"));
+            Camera camera = GameObject.FindAnyObjectByType<Camera>();
+            
+            Assert.That(Agent, Is.Not.Null);
+            Assert.That(obstacle, Is.Not.Null);
+            Assert.That(waypoint, Is.Not.Null);
+            Assert.That(camera, Is.Not.Null);
+
+            // Top-down view to see the agent navigate past the obstacle
+            camera.transform.position = new Vector3(-14, 20, 6);
+            camera.transform.rotation = Quaternion.Euler(90, 0, 0);
+
+            // Disable movement on the target, so that paths are not recalculated by the Movement Task
+            waypoint.GetComponent<WaypointController>().enabled = false;
+            waypoint.GetComponent<WaypointController>().StopAllCoroutines();
+
+
+            // Obstacle setup: Make it a dynamic obstacle in the NevMesh and make it move
+            obstacle.transform.position = new Vector3(-8,0.50f,3);
+            Vector3 obstacleScale = obstacle.transform.localScale;
+            obstacleScale.x = 14f;
+            obstacle.transform.localScale = obstacleScale;
+            NavMeshObstacle obsNevMesh = obstacle.AddComponent<NavMeshObstacle>();
+            obsNevMesh.carving = true;
+            obsNevMesh.carvingMoveThreshold = 0.1f;
+            obsNevMesh.carvingTimeToStationary = 0.5f;
+            obsNevMesh.carveOnlyStationary = false;
+
+            WaypointController obsController = obstacle.AddComponent<WaypointController>();
+            obsController.WaitTime = 1f;
+            obsController.MoveDistance = 6;
+            obsController.MoveLeft = false;
+            obsController.MoveRight = false;
+            
+            // Check that the obstacle was not completely ignored and the target is already reached
+            yield return new WaitForSeconds(12);
+            float distanceToWaypoint = Vector3.Distance(Agent.transform.position, waypoint.transform.position);
+            Assert.That(distanceToWaypoint, Is.GreaterThan(2f));
+            
+            // Check that the target was reached
+            yield return new WaitForSeconds(13);
+            distanceToWaypoint = Vector3.Distance(Agent.transform.position, waypoint.transform.position);
+            Assert.That(distanceToWaypoint, Is.LessThan(0.75f));
+        }
+        
         [UnityTest]
         public IEnumerator VerifySceneItem()
         {
@@ -168,7 +240,7 @@ namespace i5.VirtualAgents
             Assert.That(Agent, Is.Not.Null);
 
             //Check if the agent is moving after 5 seconds
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(8);
             bool isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
             Assert.That(isMoving, Is.True);
 
@@ -250,13 +322,14 @@ namespace i5.VirtualAgents
             bool isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
             Assert.That(isMoving, Is.True);
 
-            yield return new WaitForSeconds(25);
+            yield return new WaitForSeconds(18);
 
             //Check if the agent has stopped moving
             isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
             Assert.That(isMoving, Is.False);
-            //TODO: Add more sample specific asserts 
+            //TODO: Add more sample specific asserts
         }
+
         [UnityTest]
         public IEnumerator VerifyTaskBundle()
         {
@@ -274,6 +347,50 @@ namespace i5.VirtualAgents
             Assert.That(isMoving, Is.True);
 
             yield return new WaitForSeconds(30);
+
+            //TODO: Add more sample specific asserts
+        }
+
+
+        [UnityTest]
+        public IEnumerator VerifyBehaviourTree()
+        {
+            pathToScenes.TryGetValue("Behaviour", out string path);
+            AsyncOperation sceneLoaded = SceneManager.LoadSceneAsync(path);
+            while (!sceneLoaded.isDone)
+            {
+                yield return null;
+            }
+            var Agent = GameObject.Find("AgentStandard");
+            Assert.That(Agent, Is.Not.Null);
+
+            //Check if the agent is moving after 5 seconds
+            yield return new WaitForSeconds(5);
+            bool isMoving = Agent.GetComponent<NavMeshAgent>().velocity != Vector3.zero;
+            Assert.That(isMoving, Is.True);
+
+            yield return new WaitForSeconds(45);
+
+            //TODO: Add more sample specific asserts
+        }
+        
+        [UnityTest]
+        public IEnumerator VerifyRotationTask()
+        {
+            pathToScenes.TryGetValue("Rotation", out string path);
+            AsyncOperation sceneLoaded = SceneManager.LoadSceneAsync(path);
+            while (!sceneLoaded.isDone)
+            {
+                yield return null;
+            }
+            var Agent = GameObject.Find("AgentStandard");
+            Assert.That(Agent, Is.Not.Null);
+
+            yield return new WaitForSeconds(45);
+
+            // Assert that rotation Y of agent is 7.044
+            float rotationY = Agent.transform.rotation.eulerAngles.y;
+            Assert.That(rotationY, Is.EqualTo(7.044f).Within(0.5f));
 
             //TODO: Add more sample specific asserts 
         }

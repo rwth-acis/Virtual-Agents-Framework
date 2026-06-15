@@ -43,10 +43,10 @@ namespace i5.VirtualAgents
                 bone = HumanBodyBones.RightIndexProximal,
                 weight = 0.01f
             };
-            aimDirection = AimDirection.Y;
-            angleLimit = 180f;  
-
-            GetBoneTransformsFromAnimatior(HumanBodyBones.RightIndexDistal);
+            
+            angleLimit = 180f;
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Chain;
+            GetBoneTransformsFromAnimator(HumanBodyBones.RightIndexDistal);
         }
     }
     public class LeftArmPreset : AimAt
@@ -90,10 +90,9 @@ namespace i5.VirtualAgents
                 weight = 0.01f
             };
 
-            aimDirection = AimDirection.Y;
             angleLimit = 180f;
-
-            GetBoneTransformsFromAnimatior(HumanBodyBones.LeftIndexDistal);
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Chain;
+            GetBoneTransformsFromAnimator(HumanBodyBones.LeftIndexDistal);
         }
     }
 
@@ -133,9 +132,9 @@ namespace i5.VirtualAgents
                 weight = 0.9f
             };
 
-            aimDirection = AimDirection.Y;
             angleLimit = 180f;
-            GetBoneTransformsFromAnimatior(HumanBodyBones.RightToes);
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Chain;
+            GetBoneTransformsFromAnimator(HumanBodyBones.RightToes);
         }
     }
     public class LeftLegPreset : AimAt
@@ -173,9 +172,10 @@ namespace i5.VirtualAgents
                 bone = HumanBodyBones.LeftToes,
                 weight = 0.9f
             };
-            aimDirection = AimDirection.Y;
+            
             angleLimit = 180f;
-            GetBoneTransformsFromAnimatior(HumanBodyBones.LeftToes);
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Chain;
+            GetBoneTransformsFromAnimator(HumanBodyBones.LeftToes);
         }
     }
 
@@ -201,9 +201,8 @@ namespace i5.VirtualAgents
             };
 
             angleLimit = 100f;
-            aimDirection = AimDirection.Z;
-
-            GetBoneTransformsFromAnimatior(HumanBodyBones.Head);
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Forward;
+            GetBoneTransformsFromAnimator(HumanBodyBones.Head);
         }
     }
     public class BaseLayerPreset : AimAt
@@ -228,9 +227,8 @@ namespace i5.VirtualAgents
             };
 
             angleLimit = 90.0f;
-            aimDirection = AimDirection.Z;
-
-            GetBoneTransformsFromAnimatior(HumanBodyBones.Chest);
+            aimAxisAlignmentMode = AimAxisAlignmentMode.Forward;
+            GetBoneTransformsFromAnimator(HumanBodyBones.Chest);
         }
     }
 }

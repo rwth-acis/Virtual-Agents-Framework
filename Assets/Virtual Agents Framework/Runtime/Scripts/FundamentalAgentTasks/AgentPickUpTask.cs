@@ -15,12 +15,12 @@ namespace i5.VirtualAgents.AgentTasks
         /// <summary>
         /// Minimum distance of the agent to the target so that the target can be picked up
         /// </summary>
-        private const float minDistance = 1f;
+        public float minDistanceForPickup = 1f;
 
         /// <summary>
         /// Speed of IK animations
         /// </summary>
-        private const float moveSpeed = 2f;
+        public float animationSpeed = 2f;
 
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace i5.VirtualAgents.AgentTasks
         public GameObject PickupObject { get; protected set; }
 
         /// <summary>
-        /// Agents socket that the object should attached to
+        /// Agents socket that the object should be attached to
         /// </summary>
         public SocketId SocketId { get; protected set; }
 
@@ -50,10 +50,12 @@ namespace i5.VirtualAgents.AgentTasks
         /// </summary>
         /// <param name="pickupObject">The object that the agent should pick up</param>
         /// <param name="socketId">Agent socket that the object should be attached to, standard is the right Hand</param>
-        public AgentPickUpTask(GameObject pickupObject, SocketId socketId = SocketId.RightHand)
+        public AgentPickUpTask(GameObject pickupObject, SocketId socketId = SocketId.RightHand, float minDistanceForPickup = 1f, float animationSpeed = 2f)
         {
             PickupObject = pickupObject;
             SocketId = socketId;
+            this.minDistanceForPickup = minDistanceForPickup;
+            this.animationSpeed = animationSpeed;
         }
 
         /// <summary>
@@ -64,6 +66,14 @@ namespace i5.VirtualAgents.AgentTasks
         {
             base.StartExecution(agent);
 
+            if (!PickupObject)
+            {
+                i5Debug.LogError($"The pickup object is null. " +
+                    "Therefore, it cannot be picked up. Skipping this task.",
+                    this);
+                FinishTaskAsFailed();
+                return;
+            }
             if (!PickupObject.TryGetComponent<Item>(out var item))
             {
                 i5Debug.LogError($"The pickup object {PickupObject.name} does not have a Item component. " +
@@ -84,9 +94,9 @@ namespace i5.VirtualAgents.AgentTasks
             }
 
             float distance = Vector3.Distance(agent.transform.position, PickupObject.transform.position);
-            if (distance > minDistance)
+            if (distance > minDistanceForPickup)
             {
-                Debug.LogWarning("Object was not close enough for pickup:" + distance + " > " + minDistance);
+                Debug.LogWarning("Object was not close enough for pickup:" + distance + " > " + minDistanceForPickup);
                 FinishTaskAsFailed();
                 return;
             }
@@ -112,31 +122,37 @@ namespace i5.VirtualAgents.AgentTasks
                 // SocketId == SocketId.LeftHand or SocketId == SocketId.Spine
                 constraint = meshSockets.TwoBoneIKConstraintRightArm;
             }
-            if(constraint == null)
+            if(!constraint)
             {
                 Debug.LogError("No TwoBoneIKConstraint found on the meshSockets component ");
                 FinishTaskAsFailed();
                 yield break;
             }
 
-            if(constraint.data.tip == null || constraint.data.mid == null || constraint.data.root == null)
+            if(!constraint.data.tip || !constraint.data.mid || !constraint.data.root)
             {
                 // Add correct Root, Mid and Tip to CharacterRig for IK animation
                 if (!agent.TryGetComponent<Animator>(out var animator))
                 {
                     Debug.LogWarning("Agent has no Animator component.");
-
                 }
-                meshSockets.TwoBoneIKConstraintLeftArm.data.root = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
-                meshSockets.TwoBoneIKConstraintLeftArm.data.mid = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
-                meshSockets.TwoBoneIKConstraintLeftArm.data.tip = animator.GetBoneTransform(HumanBodyBones.LeftHand);
+                else
+                {
+                    meshSockets.TwoBoneIKConstraintLeftArm.data.root = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
+                    meshSockets.TwoBoneIKConstraintLeftArm.data.mid = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
+                    meshSockets.TwoBoneIKConstraintLeftArm.data.tip = animator.GetBoneTransform(HumanBodyBones.LeftHand);
 
-                meshSockets.TwoBoneIKConstraintRightArm.data.root = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
-                meshSockets.TwoBoneIKConstraintRightArm.data.mid = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
-                meshSockets.TwoBoneIKConstraintRightArm.data.tip = animator.GetBoneTransform(HumanBodyBones.RightHand);
-                //TODO: This is a computational heavy operation, it would be advisable to not do this during runtime
-                RigBuilder rigs = agent.GetComponent<RigBuilder>();
-                rigs.Build();
+                    meshSockets.TwoBoneIKConstraintRightArm.data.root = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
+                    meshSockets.TwoBoneIKConstraintRightArm.data.mid = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
+                    meshSockets.TwoBoneIKConstraintRightArm.data.tip = animator.GetBoneTransform(HumanBodyBones.RightHand);
+                    Debug.LogWarning("The TwoBoneIKConstraint of the Right Arm IK/Left Arm IK had no root, mid or tip assigned. " +
+                                     "The correct Transforms were assigned automatically, but it is recommended to assign them in the scene manually to avoid this computational heavy operation during runtime. \n" +
+                                     "Check " + agent.gameObject.name + "/AnimationRigging/MeshSockets/" + (SocketId == SocketId.LeftHand ? "LeftArmIK" : "RightArmIK") + " for the assigned root, mid and tip. \n" +
+                                     "Assign them with the Transforms of the agent model, like this: \n Root: " + constraint.data.root.name + ",\n Mid: " + constraint.data.mid.name + ",\n Tip: " + constraint.data.tip.name);
+                    RigBuilder rigs = agent.GetComponent<RigBuilder>();
+                    rigs.Build();
+                }
+                
             }
             constraint.data.target.SetPositionAndRotation(constraint.data.tip.position, constraint.data.tip.rotation);
             constraint.weight = 1;
@@ -150,8 +166,8 @@ namespace i5.VirtualAgents.AgentTasks
                 direction = Quaternion.Euler(direction.eulerAngles.x + ((315- direction.eulerAngles.x)*2), direction.eulerAngles.y -180, direction.eulerAngles.z);
    
                 // Change position and rotation of the target smoothly
-                constraint.data.target.position = Vector3.Lerp(constraint.data.target.position, item.GrabTarget.position, Time.deltaTime * moveSpeed);
-                constraint.data.target.rotation = Quaternion.Lerp(constraint.data.target.rotation, direction, Time.deltaTime * moveSpeed);
+                constraint.data.target.position = Vector3.Lerp(constraint.data.target.position, item.GrabTarget.position, Time.deltaTime * animationSpeed);
+                constraint.data.target.rotation = Quaternion.Lerp(constraint.data.target.rotation, direction, Time.deltaTime * animationSpeed);
 
                 yield return null;
 
@@ -177,11 +193,17 @@ namespace i5.VirtualAgents.AgentTasks
         public void Serialize(SerializationDataContainer serializer)
         {
             serializer.AddSerializedData("Pickup Object", PickupObject);
+            serializer.AddSerializedData("SocketId", (int) SocketId);
+            serializer.AddSerializedData("Min Distance For Pickup", minDistanceForPickup);
+            serializer.AddSerializedData("Animation Speed", animationSpeed);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
         {
             PickupObject = serializer.GetSerializedGameobjects("Pickup Object");
+            SocketId = (SocketId) serializer.GetSerializedInt("SocketId");
+            minDistanceForPickup = serializer.GetSerializedFloat("Min Distance For Pickup");
+            animationSpeed = serializer.GetSerializedFloat("Animation Speed");
         }
     }
 }
