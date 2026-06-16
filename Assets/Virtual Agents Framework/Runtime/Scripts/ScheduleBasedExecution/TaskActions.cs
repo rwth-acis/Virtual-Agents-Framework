@@ -198,32 +198,30 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         }
 
         /// <summary>
-        /// Go to a chair (using its FeetPosition) and perform a sitting/standing action on it.
+        /// Go to a chair and perform a sitting action on it, or stand up from the chair.
         /// This composes a movement task to the chair's FeetPosition and an AgentSittingTask for the chair.
         /// </summary>
-        /// <param name="chair">The chair GameObject. Must have a child named "FeetPosition" and "SitPosition".</param>
+        /// <param name="chair">The chair object that the agent should sit on.</param>
         /// <param name="direction">Sitting direction: SITDOWN, STANDUP or TOGGLE</param>
         /// <param name="priority">Priority of the composed task bundle</param>
         /// <param name="minDistance">Minimum distance to the FeetPosition for the movement task to complete</param>
-        public AgentBaseTask GoToAndSit(GameObject chair, SittingDirection direction = SittingDirection.TOGGLE, int priority = 0, float minDistance = 0.1f)
+        public AgentBaseTask GoToAndSit(Chair chair, SittingDirection direction = SittingDirection.TOGGLE, int priority = 0, float minDistance = 0.1f)
         {
             if (chair == null)
             {
                 return null;
             }
-
-            // Determine the feet position on the chair. AgentSittingTask expects the Chair to have a FeetPosition child.
-            Transform feetTransform = chair.transform.Find("FeetPosition");
-            Vector3 destination = feetTransform != null ? feetTransform.position : chair.transform.position;
             
-            AgentMovementTask movementTask = new AgentMovementTask(destination);
+            Transform feetTransform = chair.StandingFeetPosition;
+            Transform destination = feetTransform != null ? feetTransform : chair.transform;
+            
+            AgentMovementTask movementTask = new AgentMovementTask(destination.gameObject);
             movementTask.MinDistance = minDistance;
 
             AgentSittingTask sittingTask = new AgentSittingTask(chair, direction);
 
             TaskBundle sitBundle = new TaskBundle();
             sitBundle.AddTask(movementTask);
-            //sitBundle.AddTask(rotationTask);
             sitBundle.AddTask(sittingTask);
 
             scheduleTaskSystem.ScheduleTask(sitBundle, priority);
@@ -248,7 +246,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             adaptiveGazeBundle.AddTask(adaptiveGazeTaskStop);
 
             scheduleTaskSystem.ScheduleTask(adaptiveGazeBundle, priority, "Head");
-            return new AgentBaseTask[] { adaptiveGazeTaskStart, adaptiveGazeTaskStop };
+            return new [] { adaptiveGazeTaskStart, adaptiveGazeTaskStop };
         }
         /// <summary>
         /// Creates an adaptiveGazeTask that activates or deactivates the AdaptiveGaze component on the agent
