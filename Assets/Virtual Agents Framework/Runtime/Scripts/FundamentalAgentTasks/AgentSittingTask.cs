@@ -33,6 +33,7 @@ namespace i5.VirtualAgents.AgentTasks
         private float animationDuration = 2.233f; // How long the sitting down / standing up animation takes, to synchronize the IK fade with the animation, in seconds 
         private float animationSitReached = 0.70f; // When does the animation reach the sitting pose i.e. the hip is stable, in percent
         private bool finished = false;
+        private bool failed =  false;
         private TwoBoneIKConstraint leftLegIK;
         private GameObject leftLegIKTarget;
         private TwoBoneIKConstraint rightLegIK;
@@ -61,6 +62,13 @@ namespace i5.VirtualAgents.AgentTasks
 
         public override void StartExecution(Agent agent)
         {
+            if(Chair.SeatedHipPosition == null || Chair.StandingFeetPosition == null)
+            {
+                Debug.LogWarning("The chair "+ Chair.name +" assigned to the AgentSittingTask does not have all necessary alignment points (SeatedHipPosition and StandingFeetPosition) assigned. Aborting task.");
+                failed = true;
+                return;
+            }
+            
             Animator animator = agent.GetComponent<Animator>();
             sitting = animator.GetBool(Sitting);
             bool oldState = sitting;
@@ -194,6 +202,8 @@ namespace i5.VirtualAgents.AgentTasks
         {
             if (finished)
                 return TaskState.Success;
+            if(failed)
+                return TaskState.Failure;
             return TaskState.Running;
         }
         
