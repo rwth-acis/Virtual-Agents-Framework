@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace i5.VirtualAgents
 {
@@ -20,14 +19,7 @@ namespace i5.VirtualAgents
 
 				if (adaptiveGazeTarget)
 				{
-					if (this.isPickedUp)
-					{
-						adaptiveGazeTarget.canCurrentlyBeLookedAt = false;
-					}
-					else
-					{
-						adaptiveGazeTarget.canCurrentlyBeLookedAt = true;
-					}
+					adaptiveGazeTarget.canCurrentlyBeLookedAt = !isPickedUp;
 				}
 			}
 		}
@@ -40,7 +32,7 @@ namespace i5.VirtualAgents
 		public bool CanBePickedUp { get; set; } = false;
 
 		/// <summary>
-		/// This event can be listend to, to get notified when the item is dropped
+		/// This event can be listened to, to get notified when the item is dropped
 		/// </summary>
 		public UnityEvent dropEvent = new();
 

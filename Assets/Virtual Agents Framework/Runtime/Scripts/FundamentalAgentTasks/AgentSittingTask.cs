@@ -1,7 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using UnityEngine.UIElements;
 
 namespace i5.VirtualAgents.AgentTasks
 {
@@ -14,6 +13,8 @@ namespace i5.VirtualAgents.AgentTasks
 
     public class AgentSittingTask: AgentBaseTask, ISerializable
     {
+        private static readonly int Sitting = Animator.StringToHash("Sitting");
+
         /// <summary>
         /// The direction of the sitting task
         /// Can be sit down, stand up or toggle
@@ -26,10 +27,11 @@ namespace i5.VirtualAgents.AgentTasks
         /// <summary>
         /// The chair the agent should sit on
         /// </summary>
-        public GameObject Chair{ get; protected set; }
+        public Chair Chair{ get; protected set; }
 
         private bool sitting = false;
-        private float animationDuration = 2.233f;
+        private float animationDuration = 2.233f; // How long the sitting down / standing up animation takes, to synchronize the IK fade with the animation, in seconds 
+        private float animationSitReached = 0.70f; // When does the animation reach the sitting pose i.e. the hip is stable, in percent
         private bool finished = false;
         private TwoBoneIKConstraint leftLegIK;
         private GameObject leftLegIKTarget;
@@ -39,28 +41,28 @@ namespace i5.VirtualAgents.AgentTasks
         private MultiParentConstraint hipConstraint;
         private GameObject hipIKTarget;
         private Vector3 prevPosition;
-        private readonly Vector3 feetPosition;
-        private readonly Vector3 footrest;
-        private readonly Vector3 sitPosition;
 
+        // For serialization purposes
+        public AgentSittingTask()
+        {
+        }
+        
         /// <summary>
         /// Enables the agent to sit on a prepared chair GameObject
         /// </summary>
         /// <param name="chair">The chair to be sat on. Needs to have at least "FeetPosition" and "SitPosition" child objects.</param>
         /// <param name="direction">Either SITDOWN, STANDUP or TOGGLE. TOGGLE is equivalent to SITDOWN while standing and STANDUP while sitting.</param>
-        public AgentSittingTask(GameObject chair, SittingDirection direction = SittingDirection.TOGGLE)
+
+        public AgentSittingTask(Chair chair, SittingDirection direction = SittingDirection.TOGGLE)
         {
             Direction = direction;
             Chair = chair;
-            feetPosition = chair.transform.Find("FeetPosition").position;
-            footrest = chair.transform.Find("Footrest") != null ? chair.transform.Find("Footrest").position : feetPosition;
-            sitPosition = chair.transform.Find("SitPosition").position;
         }
 
         public override void StartExecution(Agent agent)
         {
             Animator animator = agent.GetComponent<Animator>();
-            sitting = animator.GetBool("Sitting");
+            sitting = animator.GetBool(Sitting);
             bool oldState = sitting;
 
             if (Direction==SittingDirection.TOGGLE)
@@ -92,26 +94,28 @@ namespace i5.VirtualAgents.AgentTasks
                 hipConstraint = agent.transform.Find("AnimationRigging/CharacterRig/Hip Constraint").GetComponent<MultiParentConstraint>();
                 hipIKTarget = hipConstraint.transform.Find("Hip IK_target").gameObject;
 
-                leftLegIK.transform.position = rightLegIK.transform.position = Vector3.zero;
-                hipIKTarget.transform.position = Vector3.zero;
-
                 // case: sitting down
                 if (currentState)
                 {
                     agent.StartCoroutine(RotateOverTime(agent, Chair.transform.rotation));
-                    hipIKTarget.transform.position = sitPosition;
+                    hipIKTarget.transform.position = Chair.SeatedHipPosition.position;
 
-                    animator.SetBool("Sitting", sitting);
+                    animator.SetBool(Sitting, sitting);
 
                     agent.StartCoroutine(FadeIK(agent, true));
                 }
                 // case: standing up
                 else
                 {
-                    animator.SetBool("Sitting", false);
+                    animator.SetBool(Sitting, false);
                     agent.StartCoroutine(FadeIK(agent, false));
                 }
 
+            }
+            else
+            {
+                // Agent is already doing what it is instructed to do
+                finished = true;
             }
 
         }
@@ -124,42 +128,48 @@ namespace i5.VirtualAgents.AgentTasks
         /// <returns></returns>
         private IEnumerator FadeIK(Agent agent, bool fadeIn)
         {
-            float duration = animationDuration;
+            // When sitting down up, completely fade before the hip reaches the chair
+            float duration = animationDuration * animationSitReached;
+            
             float time = 0;
             float startWeight = fadeIn ? 0 : 1;
             float endWeight = fadeIn ? 1 : 0;
-            Vector3 ikPosition = fadeIn ? footrest : feetPosition;
-            Vector3 curIkPosition = ikPosition;
-
-            while (time < duration)
+            Vector3 ikPosition = fadeIn ? Chair.SeatedFeetPosition.position : Chair.StandingFeetPosition.position;
+            
+            // When standing up, wait for the hip to leave the chair before starting to fade
+            while (!fadeIn && time < (duration * (1- animationSitReached)))
             {
-                rightLegIK.gameObject.transform.position = leftLegIK.gameObject.transform.position = feetPosition;
                 time += Time.deltaTime;
-                leftLegIK.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
-                rightLegIK.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
-
-                // move ik target when standing up, to avoid, that the agent suddenly fully stretches their legs
-                curIkPosition =
-                    fadeIn ? ikPosition : Vector3.Lerp(footrest, feetPosition, time / duration);
-                leftLegIKTarget.transform.position = curIkPosition - agent.transform.right * 0.08f;
-                rightLegIKTarget.transform.position = curIkPosition + agent.transform.right * 0.08f;
-
-                spineAim.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
-                hipConstraint.weight = Mathf.Lerp(startWeight, endWeight, time / duration);
-                hipIKTarget.transform.position = sitPosition;
                 yield return null;
             }
-            rightLegIK.gameObject.transform.position = leftLegIK.gameObject.transform.position = feetPosition;
-            leftLegIKTarget.transform.position = ikPosition - agent.transform.right * 0.08f;
-            rightLegIKTarget.transform.position = ikPosition + agent.transform.right * 0.08f;
-            hipIKTarget.transform.position = sitPosition;
+            time = 0;
+            while (time < duration)
+            {
+                time += Time.deltaTime;
+                leftLegIK.weight = Mathf.SmoothStep(startWeight, endWeight, time / duration);
+                rightLegIK.weight = Mathf.SmoothStep(startWeight, endWeight, time / duration);
+
+                // move ik target when standing up, to avoid, that the agent suddenly fully stretches their legs
+                Vector3 curIkPosition =
+                    fadeIn ? ikPosition : Vector3.Lerp(Chair.SeatedFeetPosition.position, Chair.StandingFeetPosition.position, time / duration);
+                leftLegIKTarget.transform.position = curIkPosition - agent.transform.right * Chair.distanceBetweenFeet/2;
+                rightLegIKTarget.transform.position = curIkPosition + agent.transform.right * Chair.distanceBetweenFeet/2;
+
+                spineAim.weight = Mathf.SmoothStep(startWeight, endWeight, time / duration);
+                hipConstraint.weight = Mathf.SmoothStep(startWeight, endWeight, time / duration);
+                hipIKTarget.transform.position = Chair.SeatedHipPosition.position;
+                yield return null;
+            }
+            leftLegIKTarget.transform.position = ikPosition - agent.transform.right * Chair.distanceBetweenFeet/2;
+            rightLegIKTarget.transform.position = ikPosition + agent.transform.right * Chair.distanceBetweenFeet/2;
+            hipIKTarget.transform.position = Chair.SeatedHipPosition.position;
 
             finished = true;
 
         }
 
         /// <summary>
-        /// Smoothly rotate the agent to align its back to the the chair
+        /// Smoothly rotate the agent to align its back to the chair
         /// </summary>
         /// <param name="agent">The agent</param>
         /// <param name="targetRotation">The target rotation to rotate towards</param>
@@ -173,7 +183,7 @@ namespace i5.VirtualAgents.AgentTasks
             while (time < duration)
             {
                 time += Time.deltaTime;
-                agent.transform.rotation = Quaternion.Lerp(startRotation, targetRotation, time / duration);
+                agent.transform.rotation = Quaternion.Slerp(startRotation, targetRotation, time / duration);
                 yield return null;
             }
 
@@ -183,21 +193,24 @@ namespace i5.VirtualAgents.AgentTasks
         public override TaskState EvaluateTaskState()
         {
             if (finished)
-            {
                 return TaskState.Success;
-            }
             return TaskState.Running;
         }
-
-
+        
         public void Serialize(SerializationDataContainer serializer)
         {
-            serializer.AddSerializedData("Chair", Chair);
+            serializer.AddSerializedData("Chair", Chair != null ? Chair.gameObject : null);
+            serializer.AddSerializedData("Direction", (int)Direction);
         }
 
         public void Deserialize(SerializationDataContainer serializer)
         {
-            Chair = serializer.GetSerializedGameobjects("Chair");
+            GameObject chairObject = serializer.GetSerializedGameobjects("Chair");
+            if (chairObject != null)
+            {
+                Chair = chairObject.GetComponent<Chair>();
+            }
+            Direction = (SittingDirection)serializer.GetSerializedInt("Direction");
         }
     }
 }
