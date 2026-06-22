@@ -442,7 +442,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 148573333}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dee4bf2dd3f4d743b6259fa445da292, type: 3}
+  m_Script: {fileID: 11500000, guid: dde39c82cea287a44bfdabfa77e49baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: i5.VirtualAgents.Runtime::i5.VirtualAgents.Chair
   <CanBePickedUp>k__BackingField: 0
@@ -1326,7 +1326,7 @@ GameObject:
   m_Component:
   - component: {fileID: 653219470}
   m_Layer: 0
-  m_Name: SitPosition
+  m_Name: SitHipPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1571,7 +1571,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 376222293}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dee4bf2dd3f4d743b6259fa445da292, type: 3}
+  m_Script: {fileID: 11500000, guid: dde39c82cea287a44bfdabfa77e49baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: i5.VirtualAgents.Runtime::i5.VirtualAgents.Chair
   <CanBePickedUp>k__BackingField: 0
@@ -2450,7 +2450,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1651691537}
   m_Layer: 0
-  m_Name: Footrest
+  m_Name: FootrestSitting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2624,7 +2624,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1779049544}
   m_Layer: 0
-  m_Name: FeetPosition
+  m_Name: FeetStandingPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
