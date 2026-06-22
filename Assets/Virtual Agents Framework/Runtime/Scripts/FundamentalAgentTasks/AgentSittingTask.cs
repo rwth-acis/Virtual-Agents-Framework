@@ -35,12 +35,12 @@ namespace i5.VirtualAgents.AgentTasks
         private bool finished = false;
         private bool failed =  false;
         private TwoBoneIKConstraint leftLegIK;
-        private GameObject leftLegIKTarget;
+        private Transform leftLegIKTarget;
         private TwoBoneIKConstraint rightLegIK;
-        private GameObject rightLegIKTarget;
+        private Transform rightLegIKTarget;
         private MultiAimConstraint spineAim;
         private MultiParentConstraint hipConstraint;
-        private GameObject hipIKTarget;
+        private Transform hipIKTarget;
         private Vector3 prevPosition;
 
         // For serialization purposes
@@ -93,14 +93,16 @@ namespace i5.VirtualAgents.AgentTasks
             // check if animation is needed
             if (oldState != currentState)
             {
+                MeshSockets agentSockets = agent.GetComponent<MeshSockets>();
+                
                 // get all constraints
-                leftLegIK = agent.transform.Find("AnimationRigging/CharacterRig/Left Leg IK").GetComponent<TwoBoneIKConstraint>();
-                leftLegIKTarget = leftLegIK.transform.Find("Left Leg IK_target").gameObject;
-                rightLegIK = agent.transform.Find("AnimationRigging/CharacterRig/Right Leg IK").GetComponent<TwoBoneIKConstraint>();
-                rightLegIKTarget = rightLegIK.transform.Find("Right Leg IK_target").gameObject;
-                spineAim = agent.transform.Find("AnimationRigging/CharacterRig/Spine Aim").GetComponent<MultiAimConstraint>();
-                hipConstraint = agent.transform.Find("AnimationRigging/CharacterRig/Hip Constraint").GetComponent<MultiParentConstraint>();
-                hipIKTarget = hipConstraint.transform.Find("Hip IK_target").gameObject;
+                leftLegIK = agentSockets.TwoBoneIKConstraintLeftLeg;
+                leftLegIKTarget = leftLegIK.data.target;
+                rightLegIK = agentSockets.TwoBoneIKConstraintRightLeg;
+                rightLegIKTarget = rightLegIK.data.target;
+                spineAim = agentSockets.MultiAimConstraintSpine;
+                hipConstraint = agentSockets.MultiParentConstraintHip;
+                hipIKTarget = hipConstraint.data.sourceObjects.GetTransform(0);
 
                 // case: sitting down
                 if (currentState)
@@ -160,17 +162,17 @@ namespace i5.VirtualAgents.AgentTasks
                 // move ik target when standing up, to avoid, that the agent suddenly fully stretches their legs
                 Vector3 curIkPosition =
                     fadeIn ? ikPosition : Vector3.Lerp(Chair.SeatedFeetPosition.position, Chair.StandingFeetPosition.position, time / duration);
-                leftLegIKTarget.transform.position = curIkPosition - agent.transform.right * Chair.distanceBetweenFeet/2;
-                rightLegIKTarget.transform.position = curIkPosition + agent.transform.right * Chair.distanceBetweenFeet/2;
+                leftLegIKTarget.position = curIkPosition - agent.transform.right * Chair.distanceBetweenFeet/2;
+                rightLegIKTarget.position = curIkPosition + agent.transform.right * Chair.distanceBetweenFeet/2;
 
                 spineAim.weight = Mathf.SmoothStep(startWeight, endWeight, time / duration);
                 hipConstraint.weight = Mathf.SmoothStep(startWeight, endWeight, time / duration);
-                hipIKTarget.transform.position = Chair.SeatedHipPosition.position;
+                hipIKTarget.position = Chair.SeatedHipPosition.position;
                 yield return null;
             }
-            leftLegIKTarget.transform.position = ikPosition - agent.transform.right * Chair.distanceBetweenFeet/2;
-            rightLegIKTarget.transform.position = ikPosition + agent.transform.right * Chair.distanceBetweenFeet/2;
-            hipIKTarget.transform.position = Chair.SeatedHipPosition.position;
+            leftLegIKTarget.position = ikPosition - agent.transform.right * Chair.distanceBetweenFeet/2;
+            rightLegIKTarget.position = ikPosition + agent.transform.right * Chair.distanceBetweenFeet/2;
+            hipIKTarget.position = Chair.SeatedHipPosition.position;
 
             finished = true;
 
