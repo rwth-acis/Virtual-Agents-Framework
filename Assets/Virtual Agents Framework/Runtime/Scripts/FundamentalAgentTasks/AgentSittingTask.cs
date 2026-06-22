@@ -105,7 +105,7 @@ namespace i5.VirtualAgents.AgentTasks
                 // case: sitting down
                 if (currentState)
                 {
-                    agent.StartCoroutine(RotateOverTime(agent, Chair.transform.rotation));
+                    agent.StartCoroutine(RotateOverTime(agent, Chair.SeatedHipPosition.transform.rotation));
                     hipIKTarget.transform.position = Chair.SeatedHipPosition.position;
 
                     animator.SetBool(Sitting, sitting);
