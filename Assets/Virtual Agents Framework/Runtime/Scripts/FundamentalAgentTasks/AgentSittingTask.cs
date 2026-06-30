@@ -162,16 +162,16 @@ namespace i5.VirtualAgents.AgentTasks
                 // move ik target when standing up, to avoid, that the agent suddenly fully stretches their legs
                 Vector3 curIkPosition =
                     fadeIn ? ikPosition : Vector3.Lerp(Chair.SeatedFeetPosition.position, Chair.StandingFeetPosition.position, time / duration);
-                leftLegIKTarget.position = curIkPosition - agent.transform.right * Chair.distanceBetweenFeet/2;
-                rightLegIKTarget.position = curIkPosition + agent.transform.right * Chair.distanceBetweenFeet/2;
+                leftLegIKTarget.position = curIkPosition - Chair.SeatedFeetPosition.right * Chair.distanceBetweenFeet/2;
+                rightLegIKTarget.position = curIkPosition + Chair.SeatedFeetPosition.right * Chair.distanceBetweenFeet/2;
 
                 spineAim.weight = Mathf.SmoothStep(startWeight, endWeight, time / duration);
                 hipConstraint.weight = Mathf.SmoothStep(startWeight, endWeight, time / duration);
                 hipIKTarget.position = Chair.SeatedHipPosition.position;
                 yield return null;
             }
-            leftLegIKTarget.position = ikPosition - agent.transform.right * Chair.distanceBetweenFeet/2;
-            rightLegIKTarget.position = ikPosition + agent.transform.right * Chair.distanceBetweenFeet/2;
+            leftLegIKTarget.position = ikPosition - Chair.SeatedFeetPosition.right * Chair.distanceBetweenFeet/2;
+            rightLegIKTarget.position = ikPosition + Chair.SeatedFeetPosition.right * Chair.distanceBetweenFeet/2;
             hipIKTarget.position = Chair.SeatedHipPosition.position;
 
             finished = true;
