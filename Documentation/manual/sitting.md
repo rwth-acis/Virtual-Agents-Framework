@@ -32,7 +32,7 @@ If you want the agent to walk to the chair before sitting, use <xref:i5.VirtualA
 
 ## Using <xref:i5.VirtualAgents.AgentTasks.AgentSittingTask>
 
-<xref:i5.VirtualAgents.AgentTasks.AgentSittingTask> takes a <xref:i5.VirtualAgents.Chair> instance and a <xref:i5.VirtualAgents.SittingDirection>:
+<xref:i5.VirtualAgents.AgentTasks.AgentSittingTask> takes a <xref:i5.VirtualAgents.Chair> instance and a <xref:i5.VirtualAgents.AgentTasks.SittingDirection>:
 
 - <xref:i5.VirtualAgents.AgentTasks.SittingDirection.SITDOWN> makes the agent sit if it is standing.
 - <xref:i5.VirtualAgents.AgentTasks.SittingDirection.STANDUP> makes the agent stand if it is sitting.
