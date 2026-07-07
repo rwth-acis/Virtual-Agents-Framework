@@ -10,7 +10,7 @@ The sitting implementation relies on the <xref:i5.VirtualAgents.Chair> component
 2. <xref:i5.VirtualAgents.Chair.SeatedHipPosition> - This is the position the agent will moves it's hips to when sitting down. Idearly it should be positioned slightly above the chair seat.
 
 Additional chair settings:
-- <xref:i5.VirtualAgents.Chair.SeatedFeetPosition> - Used as the seated foot target, this could be a feet rest on the chair. When it is not set, the <xref:i5.VirtualAgents.Chair> falls back to <xref:i5.VirtualAgents.Chair.StandingFeetPosition>.
+- <xref:i5.VirtualAgents.Chair.SeatedFeetPosition> - Used as the seated foot target, this could be a footrest on the chair. When it is not set, the <xref:i5.VirtualAgents.Chair> falls back to <xref:i5.VirtualAgents.Chair.StandingFeetPosition>.
 - <xref:i5.VirtualAgents.Chair.distanceBetweenFeet> - Controls how far apart the left and right foot are placed apart while seated. The default value should work for most agents and chairs.
 
 ## Using <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoToAndSit*> (recommended)
