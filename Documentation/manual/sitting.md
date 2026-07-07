@@ -7,7 +7,7 @@ The agent can sit down on a <xref:i5.VirtualAgents.Chair> using <xref:i5.Virtual
 The sitting implementation relies on the <xref:i5.VirtualAgents.Chair> component on a game object in the scene that represents the chair. You should add the chair component to the root of the chair and assign at least the following two transforms to the chair component. You can add empty game objects as children of the chair to assign these transforms:
 
 1. <xref:i5.VirtualAgents.Chair.StandingFeetPosition> - This is the position the agent will initially walk to and stand on when sitting down and to where it will return when standing up. Idearly it should be positioned right in front of the chair.
-2. <xref:i5.VirtualAgents.Chair.SeatedHipPosition> - This is the position the agent will moves it's hips to when sitting down. Idearly it should be positioned slightly above the chair seat.
+2. <xref:i5.VirtualAgents.Chair.SeatedHipPosition> - This is the position the agent will move its hips to when sitting down. Ideally it should be positioned slightly above the chair seat.
 
 Additional chair settings:
 - <xref:i5.VirtualAgents.Chair.SeatedFeetPosition> - Used as the seated foot target, this could be a footrest on the chair. When it is not set, the <xref:i5.VirtualAgents.Chair> falls back to <xref:i5.VirtualAgents.Chair.StandingFeetPosition>.
