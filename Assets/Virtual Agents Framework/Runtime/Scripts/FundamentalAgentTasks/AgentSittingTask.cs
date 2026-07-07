@@ -62,6 +62,13 @@ namespace i5.VirtualAgents.AgentTasks
 
         public override void StartExecution(Agent agent)
         {
+            if (Chair == null)
+            {
+                  Debug.LogWarning("No Chair assigned to AgentSittingTask. Aborting task.");
+                  failed = true;
+                 return;
+            }
+
             if(Chair.SeatedHipPosition == null || Chair.StandingFeetPosition == null)
             {
                 Debug.LogWarning("The chair "+ Chair.name +" assigned to the AgentSittingTask does not have all necessary alignment points (SeatedHipPosition and StandingFeetPosition) assigned. Aborting task.");
