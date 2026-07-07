@@ -64,14 +64,14 @@ namespace i5.VirtualAgents.AgentTasks
         {
             if (Chair == null)
             {
-                  Debug.LogWarning("No Chair assigned to AgentSittingTask. Aborting task.");
+                  Debug.LogWarning("No Chair assigned to AgentSittingTask. Aborting sitting task.");
                   failed = true;
                  return;
             }
 
             if(Chair.SeatedHipPosition == null || Chair.StandingFeetPosition == null)
             {
-                Debug.LogWarning("The chair "+ Chair.name +" assigned to the AgentSittingTask does not have all necessary alignment points (SeatedHipPosition and StandingFeetPosition) assigned. Aborting task.");
+                Debug.LogWarning("The chair "+ Chair.name +" assigned to the AgentSittingTask does not have all necessary alignment points (SeatedHipPosition and StandingFeetPosition) assigned. Aborting sitting task.");
                 failed = true;
                 return;
             }
@@ -101,6 +101,19 @@ namespace i5.VirtualAgents.AgentTasks
             if (oldState != currentState)
             {
                 MeshSockets agentSockets = agent.GetComponent<MeshSockets>();
+
+                if (!agentSockets)
+                {
+                    Debug.LogWarning("No MeshSockets component found on agent. Aborting sitting task.");
+                    failed = true;
+                    return;
+                }
+                if(!agentSockets.VerifySetUpOfAllConstraints())
+                {
+                    Debug.LogWarning("The agent's MeshSockets component is not set up properly. Aborting sitting task.");
+                    failed = true;
+                    return;
+                }
                 
                 // get all constraints
                 leftLegIK = agentSockets.TwoBoneIKConstraintLeftLeg;
@@ -110,6 +123,8 @@ namespace i5.VirtualAgents.AgentTasks
                 spineAim = agentSockets.MultiAimConstraintSpine;
                 hipConstraint = agentSockets.MultiParentConstraintHip;
                 hipIKTarget = hipConstraint.data.sourceObjects.GetTransform(0);
+                
+                
 
                 // case: sitting down
                 if (currentState)

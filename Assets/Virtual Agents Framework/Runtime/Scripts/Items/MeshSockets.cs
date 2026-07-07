@@ -133,5 +133,14 @@ namespace i5.VirtualAgents
                 Debug.LogError("Socket with ID " + socketId + " not found or is null.");
             }
         }
+        
+        /// <summary>
+        /// Verifies that all required IK and aim constraints are properly set up on the mesh sockets.
+        /// </summary>
+        /// <returns>True if all constraints are assigned, false otherwise.</returns>
+        public bool VerifySetUpOfAllConstraints()
+        {
+            return TwoBoneIKConstraintRightLeg && TwoBoneIKConstraintRightArm && TwoBoneIKConstraintLeftLeg && TwoBoneIKConstraintLeftArm && MultiParentConstraintHip && MultiAimConstraintSpine;
+        }
     }
 }
