@@ -154,7 +154,7 @@ namespace i5.VirtualAgents.AgentTasks
             Vector3 ikPosition = fadeIn ? Chair.SeatedFeetPosition.position : Chair.StandingFeetPosition.position;
             
             // When standing up, wait for the hip to leave the chair before starting to fade
-            while (!fadeIn && time < (duration * (1- animationSitReached)))
+            while (!fadeIn && time < (animationDuration * (1- animationSitReached)))
             {
                 time += Time.deltaTime;
                 yield return null;
