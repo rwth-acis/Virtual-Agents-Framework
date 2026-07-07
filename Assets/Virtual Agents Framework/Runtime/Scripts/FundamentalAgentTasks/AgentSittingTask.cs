@@ -33,7 +33,7 @@ namespace i5.VirtualAgents.AgentTasks
         private float animationDuration = 2.233f; // How long the sitting down / standing up animation takes, to synchronize the IK fade with the animation, in seconds 
         private float animationSitReached = 0.70f; // When does the animation reach the sitting pose i.e. the hip is stable, in percent
         private bool finished = false;
-        private bool failed =  false;
+        private bool failed = false;
         private TwoBoneIKConstraint leftLegIK;
         private Transform leftLegIKTarget;
         private TwoBoneIKConstraint rightLegIK;
