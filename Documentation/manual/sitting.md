@@ -6,7 +6,7 @@ The agent can sit down on a <xref:i5.VirtualAgents.Chair> using <xref:i5.Virtual
 
 The sitting implementation relies on the <xref:i5.VirtualAgents.Chair> component on a game object in the scene that represents the chair. You should add the chair component to the root of the chair and assign at least the following two transforms to the chair component. You can add empty game objects as children of the chair to assign these transforms:
 
-1. <xref:i5.VirtualAgents.Chair.StandingFeetPosition> - This is the position the agent will initially walk to and stand on when sitting down and to where it will return when standing up. Idearly it should be positioned right in front of the chair.
+1. <xref:i5.VirtualAgents.Chair.StandingFeetPosition> - This is the position the agent will initially walk to and stand on when sitting down and to where it will return when standing up. Ideally it should be positioned right in front of the chair.
 2. <xref:i5.VirtualAgents.Chair.SeatedHipPosition> - This is the position the agent will move its hips to when sitting down. Ideally it should be positioned slightly above the chair seat.
 
 Additional chair settings:
@@ -15,18 +15,12 @@ Additional chair settings:
 
 ## Using <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoToAndSit*> (recommended)
 
-If you want the agent to walk to the chair before sitting, use <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoToAndSit*>. It can be used the same way to make the agent stand up from the chair again, just with a different <xref:i5.VirtualAgents.SittingDirection> or no SittingDirection to toggle it automatically.
+You can use two convenience shortcuts from <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions> to easily schedule sitting tasks. If you want the agent to walk to the <xref:i5.VirtualAgents.Chair> before sitting, use <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoToAndSit*>. Similarly, you can use <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StandUp*> to make the agent stand up from the chair.
 
 ```csharp
-            taskSystem.Tasks.GoToAndSit(Chair, SittingDirection.SITDOWN);
+            taskSystem.Tasks.GoToAndSit(Chair); // Chair is a reference to a game object with the Chair component, see sample scene for an example
             taskSystem.Tasks.WaitForSeconds(3);
-            // GoToAndSit is also used for making the agent standup from a chair
-            taskSystem.Tasks.GoToAndSit(Chair, SittingDirection.STANDUP);
-            
-            // If no SittingDirection is defined it will automatically be toggled
-            taskSystem.Tasks.GoToAndSit(Stool);
-            taskSystem.Tasks.WaitForSeconds(3);
-            taskSystem.Tasks.GoToAndSit(Stool); 
+            taskSystem.Tasks.StandUp(Chair);
 
 ```
 
@@ -39,8 +33,8 @@ If you want the agent to walk to the chair before sitting, use <xref:i5.VirtualA
 - <xref:i5.VirtualAgents.AgentTasks.SittingDirection.TOGGLE> switches between both states depending on the current animation state.
 
 ```csharp
-AgentSittingTask sittingTask = new AgentSittingTask(chair, SittingDirection.SITDOWN);
-AgentSittingTask standingTask = new AgentSittingTask(chair, SittingDirection.STANDUP);
+AgentSittingTask sittingTask = new AgentSittingTask(Chair, SittingDirection.SITDOWN); // Chair is a reference to a game object with the Chair component, see sample scene for an example
+AgentSittingTask standingTask = new AgentSittingTask(Chair, SittingDirection.STANDUP);
 
 taskSystem.ScheduleTask(sittingTask);
 taskSystem.Tasks.WaitForSeconds(3);

@@ -14,17 +14,15 @@ namespace i5.VirtualAgents.Examples
         {
             base.Start();
             
-            taskSystem.Tasks.GoToAndSit(Chair, SittingDirection.SITDOWN);
+            taskSystem.Tasks.GoToAndSit(Chair);
             taskSystem.Tasks.WaitForSeconds(3);
-            // GoToAndSit is also used for making the agent standup from a chair
-            taskSystem.Tasks.GoToAndSit(Chair, SittingDirection.STANDUP);
+            taskSystem.Tasks.StandUp(Chair);
             
             taskSystem.Tasks.GoToAndPickUp(Item);
             
-            // If no SittingDirection is defined it will automatically be toggled
             taskSystem.Tasks.GoToAndSit(Stool);
             taskSystem.Tasks.WaitForSeconds(3);
-            taskSystem.Tasks.GoToAndSit(Stool);
+            taskSystem.Tasks.StandUp(Stool);
         }
 
     }
