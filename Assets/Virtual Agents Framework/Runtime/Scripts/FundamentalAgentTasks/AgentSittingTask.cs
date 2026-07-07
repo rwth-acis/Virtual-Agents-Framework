@@ -180,6 +180,13 @@ namespace i5.VirtualAgents.AgentTasks
             leftLegIKTarget.position = ikPosition - agent.transform.right * Chair.distanceBetweenFeet/2;
             rightLegIKTarget.position = ikPosition + agent.transform.right * Chair.distanceBetweenFeet/2;
             hipIKTarget.position = Chair.SeatedHipPosition.position;
+            
+            // When sitting down, wait for the animation to finish completely
+            while (fadeIn && time < animationDuration)
+            {
+                time += Time.deltaTime;
+                yield return null;
+            }
 
             finished = true;
 
