@@ -23,15 +23,20 @@ namespace i5.VirtualAgents.AgentTasks
         /// TOGGLE: if the agent is sitting, it will stand up; if the agent is standing, it will sit down
         /// </summary>
         public SittingDirection Direction { get; protected set; }
-
         /// <summary>
         /// The chair the agent should sit on
         /// </summary>
         public Chair Chair{ get; protected set; }
 
         private bool sitting = false;
-        private float animationDuration = 2.233f; // How long the sitting down / standing up animation takes, to synchronize the IK fade with the animation, in seconds 
-        private float animationSitReached = 0.70f; // When does the animation reach the sitting pose i.e. the hip is stable, in percent
+        /// <summary>
+        /// How long the sitting down / standing up animation takes, to synchronize the IK fade and task length with the animation (in seconds).
+        /// </summary>
+        public float animationDuration = 2.233f;
+        /// <summary>
+        /// When does the animation reach the sitting pose i.e. the hip is stable (in percent).
+        /// </summary>
+        public float animationSitReached = 0.70f;
         private bool finished = false;
         private bool failed = false;
         private TwoBoneIKConstraint leftLegIK;
