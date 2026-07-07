@@ -198,14 +198,14 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         }
 
         /// <summary>
-        /// Go to a chair and perform a sitting action on it, or stand up from the chair.
-        /// This composes a movement task to the chair's FeetPosition and an AgentSittingTask for the chair.
+        /// Schedules a task to go to a chair and sit down on that chair
+        /// This composes a movement task to the chair's StandingFeetPosition and an AgentSittingTask for the chair.
+        /// Shortcut queue management function
         /// </summary>
         /// <param name="chair">The chair object that the agent should sit on.</param>
-        /// <param name="direction">Sitting direction: SITDOWN, STANDUP or TOGGLE</param>
         /// <param name="priority">Priority of the composed task bundle</param>
-        /// <param name="minDistance">Minimum distance to the FeetPosition for the movement task to complete</param>
-        public AgentBaseTask GoToAndSit(Chair chair, SittingDirection direction = SittingDirection.TOGGLE, int priority = 0, float minDistance = 0.1f)
+        /// <param name="minDistance">Minimum distance to the StandingFeetPosition for the movement task to complete</param>
+        public AgentBaseTask GoToAndSit(Chair chair, int priority = 0, float minDistance = 0.1f)
         {
             if (chair == null)
             {
@@ -218,7 +218,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             AgentMovementTask movementTask = new AgentMovementTask(destination.gameObject);
             movementTask.MinDistance = minDistance;
 
-            AgentSittingTask sittingTask = new AgentSittingTask(chair, direction);
+            AgentSittingTask sittingTask = new AgentSittingTask(chair, SittingDirection.SITDOWN);
 
             TaskBundle sitBundle = new TaskBundle();
             sitBundle.AddTask(movementTask);
@@ -226,6 +226,22 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
 
             scheduleTaskSystem.ScheduleTask(sitBundle, priority);
             return sitBundle;
+        }
+        /// <summary>
+        /// Schedules a task to stand up from a chair
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="chair"></param>
+        /// <param name="priority"></param>
+        /// <returns></returns>
+        public AgentBaseTask StandUp(Chair chair, int priority = 0)
+        {
+            if (chair == null) return null;
+
+            AgentSittingTask standUpTask = new AgentSittingTask(chair, SittingDirection.STANDUP);
+
+            scheduleTaskSystem.ScheduleTask(standUpTask, priority);
+            return standUpTask;
         }
 
         /// <summary>

@@ -1,13 +1,12 @@
+// ...existing code...
 using i5.VirtualAgents.AgentTasks;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace i5.VirtualAgents.Examples
 {
     /// <summary>
     /// Demonstrates different sitting behaviors using the Virtual Agents Framework.
-    /// This includes sitting/standing on static chairs with explicit directions,
-    /// automatic toggling of sitting states on stools, and interacting with mobile seats
+    /// This includes sitting/standing on static chairs, stools, and interacting with mobile seats
     /// (wheelchair and skateboard) by parenting them to the agent and modifying movement parameters.
     /// </summary>
     public class AgentSittingController : SampleScheduleController
@@ -54,25 +53,20 @@ namespace i5.VirtualAgents.Examples
         [Tooltip("The target waypoint the agent travels to while riding the skateboard.")]
         [SerializeField] Transform waypoint2 = null;
         
-        /// <summary>
-        /// Initializes the schedule-based tasks for the agent.
-        /// </summary>
         protected override void Start()
         {
             base.Start();
             
+            
             // First example: Go to and sit on a chair, wait for 3 seconds, and then stand up.
-            // This example uses explicit SittingDirection parameters.
-            taskSystem.Tasks.GoToAndSit(Chair, SittingDirection.SITDOWN);
+            taskSystem.Tasks.GoToAndSit(Chair);
             taskSystem.Tasks.WaitForSeconds(3);
-            // GoToAndSit is also used for making the agent standup from a chair
-            taskSystem.Tasks.GoToAndSit(Chair, SittingDirection.STANDUP);
+            taskSystem.Tasks.StandUp(Chair);
             
             // Second example: Go to and sit on a stool, wait for 3 seconds, and then stand up.
-            // If no SittingDirection is defined it will automatically be toggled (from standing to sitting, and vice versa).
             taskSystem.Tasks.GoToAndSit(Stool);
             taskSystem.Tasks.WaitForSeconds(3);
-            taskSystem.Tasks.GoToAndSit(Stool);
+            taskSystem.Tasks.StandUp(Stool);
             
             // Third example: Sit on a wheelchair, move to waypoint 1 while "riding" it, and then stand up.
             // Start the GoToAndSit task for the wheelchair and cast it to a TaskBundle to listen to its events.
