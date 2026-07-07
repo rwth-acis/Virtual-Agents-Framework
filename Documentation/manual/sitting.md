@@ -52,7 +52,7 @@ taskSystem.ScheduleTask(standingTask);
 
 The framework contains an example scene that demonstrates sitting on different chairs and stools.
 
-During execution of the scene, the agent walks to a chair, sits down, stands up, picks up an item, and then walks to a stool to do the same. Checkout the ``Chair`` and ``Stool`` gameobjects in the scene to see how the chair component is set up and how the different transforms are assigned.
+During execution of the scene, the agent walks to a chair, sits down, stands up, picks up an item, and then walks to a stool to do the same. Check out the ``Chair`` and ``Stool`` gameobjects in the scene to see how the chair component is set up and how the different transforms are assigned.
 
 ## Related
 
