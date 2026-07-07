@@ -225,10 +225,7 @@ namespace i5.VirtualAgents.AgentTasks
         public void Deserialize(SerializationDataContainer serializer)
         {
             GameObject chairObject = serializer.GetSerializedGameobjects("Chair");
-            if (chairObject != null)
-            {
-                Chair = chairObject.GetComponent<Chair>();
-            }
+            Chair = chairObject != null ? chairObject.GetComponent<Chair>() : null;
             Direction = (SittingDirection)serializer.GetSerializedInt("Direction");
         }
     }
