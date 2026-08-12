@@ -209,6 +209,12 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         {
             if (chair == null)
             {
+                Debug.LogWarning("Cannot schedule GoToAndSit: The chair is null.");
+                return null;
+            }
+            if (!chair.HasValidConfiguration)
+            {
+                Debug.LogWarning($"Cannot schedule GoToAndSit: chair {chair.name} is missing StandingFeetPosition or SeatedHipPosition.");
                 return null;
             }
             
@@ -236,7 +242,16 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <returns></returns>
         public AgentBaseTask StandUp(Chair chair, int priority = 0)
         {
-            if (chair == null) return null;
+            if (chair == null)
+            {
+                Debug.LogWarning("Cannot schedule StandUp: The chair is null.");
+                return null;
+            }
+            if (!chair.HasValidConfiguration)
+            {
+                Debug.LogWarning($"Cannot schedule StandUp: chair {chair.name} is missing StandingFeetPosition or SeatedHipPosition.");
+                return null;
+            }
 
             AgentSittingTask standUpTask = new AgentSittingTask(chair, SittingDirection.STANDUP);
 

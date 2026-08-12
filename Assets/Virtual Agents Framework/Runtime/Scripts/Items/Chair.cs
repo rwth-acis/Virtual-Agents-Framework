@@ -46,5 +46,10 @@ namespace i5.VirtualAgents
         [field: Tooltip("The position used to align the character's hips while seated.")]
         [field: SerializeField]
         public Transform SeatedHipPosition { get; protected set; }
+        
+        /// <summary>
+        /// Indicates whether this chair has the required alignment points configured.
+        /// </summary>
+        public bool HasValidConfiguration => StandingFeetPosition != null && SeatedHipPosition != null;
     }
 }
