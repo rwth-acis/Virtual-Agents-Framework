@@ -131,7 +131,7 @@ namespace i5.VirtualAgents.AgentTasks
                     failed = true;
                     return;
                 }
-                if(!agentSockets.VerifySetUpOfAllConstraints())
+                if(!agentSockets.VerifySetUpOfAllConstraints(false, true, true))
                 {
                     Debug.LogWarning("The agent's MeshSockets component is not set up properly. Aborting sitting task.");
                     failed = true;
