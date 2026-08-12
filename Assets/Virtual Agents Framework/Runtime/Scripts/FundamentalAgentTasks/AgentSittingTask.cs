@@ -29,14 +29,24 @@ namespace i5.VirtualAgents.AgentTasks
         public Chair Chair{ get; protected set; }
 
         private bool sitting = false;
+        private float _animationDuration = 2.233f;
         /// <summary>
         /// How long the sitting down / standing up animation takes, to synchronize the IK fade and task length with the animation (in seconds).
         /// </summary>
-        public float animationDuration = 2.233f;
+        public float animationDuration
+        {
+            get => _animationDuration;
+            set => _animationDuration = Mathf.Max(0f, value);
+        }
+        private float _animationSitReached = 0.70f;
         /// <summary>
         /// When does the animation reach the sitting pose i.e. the hip is stable (in percent).
         /// </summary>
-        public float animationSitReached = 0.70f;
+        public float animationSitReached
+        {
+            get => _animationSitReached;
+            set => _animationSitReached = Mathf.Clamp01(value);
+        }
         private bool finished = false;
         private bool failed = false;
         private TwoBoneIKConstraint leftLegIK;
@@ -67,6 +77,8 @@ namespace i5.VirtualAgents.AgentTasks
 
         public override void StartExecution(Agent agent)
         {
+            finished = false;
+            failed = false;
             if (Chair == null)
             {
                   Debug.LogWarning("No Chair assigned to AgentSittingTask. Aborting sitting task.");
@@ -82,6 +94,12 @@ namespace i5.VirtualAgents.AgentTasks
             }
             
             Animator animator = agent.GetComponent<Animator>();
+            if (animator == null)
+            {
+                Debug.LogWarning($"No Animator component found on agent {agent.name}. Aborting sitting task.");
+                failed = true;
+                return;
+            }
             sitting = animator.GetBool(Sitting);
             bool oldState = sitting;
 
@@ -165,46 +183,52 @@ namespace i5.VirtualAgents.AgentTasks
         /// <returns></returns>
         private IEnumerator FadeIK(Agent agent, bool fadeIn)
         {
-            // When sitting down up, completely fade before the hip reaches the chair
-            float duration = animationDuration * animationSitReached;
-            
-            float time = 0;
-            float startWeight = fadeIn ? 0 : 1;
-            float endWeight = fadeIn ? 1 : 0;
+            float fadeDuration = animationDuration * animationSitReached;
+            float waitBeforeFade = fadeIn ? 0f : animationDuration * (1f - animationSitReached);
+            float waitAfterFade = Mathf.Max(0f, animationDuration - waitBeforeFade - fadeDuration);
+            float elapsed = 0f;
+            float startWeight = fadeIn ? 0f : 1f;
+            float endWeight = fadeIn ? 1f : 0f;
             Vector3 ikPosition = fadeIn ? Chair.SeatedFeetPosition.position : Chair.StandingFeetPosition.position;
             
             // When standing up, wait for the hip to leave the chair before starting to fade
-            while (!fadeIn && time < (animationDuration * (1- animationSitReached)))
+            while (elapsed < waitBeforeFade)
             {
-                time += Time.deltaTime;
+                elapsed += Time.deltaTime;
                 yield return null;
             }
-            time = 0;
-            while (time < duration)
+            elapsed = 0f;
+            while (elapsed < fadeDuration)
             {
-                time += Time.deltaTime;
-                leftLegIK.weight = Mathf.SmoothStep(startWeight, endWeight, time / duration);
-                rightLegIK.weight = Mathf.SmoothStep(startWeight, endWeight, time / duration);
+                elapsed += Time.deltaTime;
+                float fadeProgress = fadeDuration > 0f ? elapsed / fadeDuration : 1f;
+                leftLegIK.weight = Mathf.SmoothStep(startWeight, endWeight, fadeProgress);
+                rightLegIK.weight = Mathf.SmoothStep(startWeight, endWeight, fadeProgress);
 
                 // move ik target when standing up, to avoid, that the agent suddenly fully stretches their legs
                 Vector3 curIkPosition =
-                    fadeIn ? ikPosition : Vector3.Lerp(Chair.SeatedFeetPosition.position, Chair.StandingFeetPosition.position, time / duration);
+                    fadeIn ? ikPosition : Vector3.Lerp(Chair.SeatedFeetPosition.position, Chair.StandingFeetPosition.position, fadeProgress);
                 leftLegIKTarget.position = curIkPosition - agent.transform.right * Chair.distanceBetweenFeet/2;
                 rightLegIKTarget.position = curIkPosition + agent.transform.right * Chair.distanceBetweenFeet/2;
 
-                spineAim.weight = Mathf.SmoothStep(startWeight, endWeight, time / duration);
-                hipConstraint.weight = Mathf.SmoothStep(startWeight, endWeight, time / duration);
+                spineAim.weight = Mathf.SmoothStep(startWeight, endWeight, fadeProgress);
+                hipConstraint.weight = Mathf.SmoothStep(startWeight, endWeight, fadeProgress);
                 hipIKTarget.position = Chair.SeatedHipPosition.position;
                 yield return null;
             }
+            leftLegIK.weight = endWeight;
+            rightLegIK.weight = endWeight;
+            spineAim.weight = endWeight;
+            hipConstraint.weight = endWeight;
             leftLegIKTarget.position = ikPosition - agent.transform.right * Chair.distanceBetweenFeet/2;
             rightLegIKTarget.position = ikPosition + agent.transform.right * Chair.distanceBetweenFeet/2;
             hipIKTarget.position = Chair.SeatedHipPosition.position;
             
             // When sitting down, wait for the animation to finish completely
-            while (fadeIn && time < animationDuration)
+            elapsed = 0f;
+            while (fadeIn && elapsed < waitAfterFade)
             {
-                time += Time.deltaTime;
+                elapsed += Time.deltaTime;
                 yield return null;
             }
 
