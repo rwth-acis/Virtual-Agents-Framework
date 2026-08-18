@@ -198,6 +198,68 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         }
 
         /// <summary>
+        /// Schedules a task to go to a chair and sit down on that chair
+        /// This composes a movement task to the chair's StandingFeetPosition and an AgentSittingTask for the chair.
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="chair">The chair object that the agent should sit on.</param>
+        /// <param name="priority">Priority of the composed task bundle</param>
+        /// <param name="minDistance">Minimum distance to the StandingFeetPosition for the movement task to complete</param>
+        public AgentBaseTask GoToAndSit(Chair chair, int priority = 0, float minDistance = 0.1f)
+        {
+            if (chair == null)
+            {
+                Debug.LogWarning("Cannot schedule GoToAndSit: The chair is null.");
+                return null;
+            }
+            if (!chair.HasValidConfiguration)
+            {
+                Debug.LogWarning($"Cannot schedule GoToAndSit: chair {chair.name} is missing StandingFeetPosition or SeatedHipPosition.");
+                return null;
+            }
+            
+            Transform feetTransform = chair.StandingFeetPosition;
+            Transform destination = feetTransform != null ? feetTransform : chair.transform;
+            
+            AgentMovementTask movementTask = new AgentMovementTask(destination.gameObject);
+            movementTask.MinDistance = minDistance;
+
+            AgentSittingTask sittingTask = new AgentSittingTask(chair, SittingDirection.SITDOWN);
+
+            TaskBundle sitBundle = new TaskBundle();
+            sitBundle.AddTask(movementTask);
+            sitBundle.AddTask(sittingTask);
+
+            scheduleTaskSystem.ScheduleTask(sitBundle, priority);
+            return sitBundle;
+        }
+        /// <summary>
+        /// Schedules a task to stand up from a chair
+        /// Shortcut queue management function
+        /// </summary>
+        /// <param name="chair"></param>
+        /// <param name="priority"></param>
+        /// <returns></returns>
+        public AgentBaseTask StandUp(Chair chair, int priority = 0)
+        {
+            if (chair == null)
+            {
+                Debug.LogWarning("Cannot schedule StandUp: The chair is null.");
+                return null;
+            }
+            if (!chair.HasValidConfiguration)
+            {
+                Debug.LogWarning($"Cannot schedule StandUp: chair {chair.name} is missing StandingFeetPosition or SeatedHipPosition.");
+                return null;
+            }
+
+            AgentSittingTask standUpTask = new AgentSittingTask(chair, SittingDirection.STANDUP);
+
+            scheduleTaskSystem.ScheduleTask(standUpTask, priority);
+            return standUpTask;
+        }
+
+        /// <summary>
         /// Creates an adaptiveGazeTask that activates the AdaptiveGaze component, then a wait task on the head and then a task that deactivates the AdaptiveGaze component. These a scheduled so that they play one after another.
         /// </summary>
         /// <param name="seconds">Time in seconds after which the gazing should stop</param>
@@ -215,7 +277,7 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
             adaptiveGazeBundle.AddTask(adaptiveGazeTaskStop);
 
             scheduleTaskSystem.ScheduleTask(adaptiveGazeBundle, priority, "Head");
-            return new AgentBaseTask[] { adaptiveGazeTaskStart, adaptiveGazeTaskStop };
+            return new [] { adaptiveGazeTaskStart, adaptiveGazeTaskStop };
         }
         /// <summary>
         /// Creates an adaptiveGazeTask that activates or deactivates the AdaptiveGaze component on the agent

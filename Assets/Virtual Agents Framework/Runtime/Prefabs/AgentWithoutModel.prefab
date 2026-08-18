@@ -1232,12 +1232,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7942832833635756771}
+  - {fileID: 1431800264347431279}
   - {fileID: 1700170329982813235}
   - {fileID: 128985551231859547}
   - {fileID: 1104326176079854655}
-  - {fileID: 1431800264347431279}
   - {fileID: 4803157871810863022}
-  - {fileID: 7942832833635756771}
   m_Father: {fileID: 485173572849798641}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6236198718674910226
@@ -2245,7 +2245,7 @@ PrefabInstance:
       value: AgentWithoutModel
       objectReference: {fileID: 0}
     - target: {fileID: 2021133116110439406, guid: 26f8cd740528f3b469c4f32fe28b8306, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: fb4b7816a049cf244af9684f69d89b92, type: 2}
     - target: {fileID: 5866666021909216657, guid: 26f8cd740528f3b469c4f32fe28b8306, type: 3}
@@ -2432,9 +2432,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RigLayers:
-  - m_Rig: {fileID: 5593429887882419193}
-    m_Active: 1
   - m_Rig: {fileID: 6236198718674910226}
+    m_Active: 1
+  - m_Rig: {fileID: 5593429887882419193}
     m_Active: 1
   m_Effectors: []
 --- !u!114 &2054765473159481603
@@ -2489,6 +2489,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

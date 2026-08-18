@@ -104,7 +104,7 @@ namespace i5.VirtualAgents
             else
             {
                 Debug.Log("Preconditions of TaskBundle not met");
-                StopAsFailed();
+                FinishTaskAsFailed();
             }
         }
 
@@ -122,12 +122,12 @@ namespace i5.VirtualAgents
                 if (state == TaskState.Failure)
                 {
                     Debug.LogWarning("Task bundle failed");
-                    StopAsFailed();
+                    FinishTaskAsFailed();
                 }
 
                 if (state == TaskState.Success)
                 {
-                    StopAsSucceeded();
+                    FinishTask();
                 }
 
                 if (state == TaskState.Running)

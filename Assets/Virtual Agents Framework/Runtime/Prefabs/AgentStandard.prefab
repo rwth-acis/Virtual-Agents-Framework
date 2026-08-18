@@ -1265,12 +1265,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6379119042602302806}
+  - {fileID: 298491387001026864}
   - {fileID: 1700170329982813235}
   - {fileID: 128985551231859547}
-  - {fileID: 298491387001026864}
   - {fileID: 334442996744392338}
   - {fileID: 8066738664786797255}
-  - {fileID: 6379119042602302806}
   m_Father: {fileID: 485173572849798641}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6236198718674910226
@@ -2245,7 +2245,7 @@ PrefabInstance:
       value: AgentStandard
       objectReference: {fileID: 0}
     - target: {fileID: 2021133116110439406, guid: 26f8cd740528f3b469c4f32fe28b8306, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: fb4b7816a049cf244af9684f69d89b92, type: 2}
     - target: {fileID: 5866666021909216657, guid: 26f8cd740528f3b469c4f32fe28b8306, type: 3}
@@ -2414,9 +2414,9 @@ MonoBehaviour:
   <TwoBoneIKConstraintRightArm>k__BackingField: {fileID: 480406094898911219}
   <TwoBoneIKConstraintLeftArm>k__BackingField: {fileID: 2009437644724414400}
   <MultiParentConstraintHip>k__BackingField: {fileID: 3171231385932343981}
-  <TwoBoneIKConstraintLeftLeg>k__BackingField: {fileID: 0}
-  <TwoBoneIKConstraintRightLeg>k__BackingField: {fileID: 0}
-  <MultiAimConstraintSpine>k__BackingField: {fileID: 0}
+  <TwoBoneIKConstraintLeftLeg>k__BackingField: {fileID: 7390127396291110507}
+  <TwoBoneIKConstraintRightLeg>k__BackingField: {fileID: 6700788506347371110}
+  <MultiAimConstraintSpine>k__BackingField: {fileID: 999317304695083755}
 --- !u!114 &1372687343423552459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2430,9 +2430,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RigLayers:
-  - m_Rig: {fileID: 5593429887882419193}
-    m_Active: 1
   - m_Rig: {fileID: 6236198718674910226}
+    m_Active: 1
+  - m_Rig: {fileID: 5593429887882419193}
     m_Active: 1
   m_Effectors: []
 --- !u!114 &2054765473159481603
@@ -2487,6 +2487,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

@@ -4,10 +4,10 @@ using UnityEngine.Animations.Rigging;
 
 namespace i5.VirtualAgents
 {
-	/// <summary>
-	/// Collects and advertises the available mesh sockets to other scripts
-	/// </summary>
-	public class MeshSockets : MonoBehaviour
+    /// <summary>
+    /// Collects and advertises the available mesh sockets to other scripts
+    /// </summary>
+    public class MeshSockets : MonoBehaviour
     {
         public enum SocketId
         {
@@ -22,7 +22,7 @@ namespace i5.VirtualAgents
             HipsFrontLeft,
             HipsFrontRight,
             HipsBackLeft,
-            HipsBackRight,    
+            HipsBackRight,
             AdditionalSocket1,
             AdditionalSocket2,
             AdditionalSocket3,
@@ -45,36 +45,42 @@ namespace i5.VirtualAgents
         /// <summary>
         /// Define the two bone IK constraints for the left arm that is used in the AgentPickUpTask
         /// </summary>
-        [field:Tooltip("Defines the two bone IK constraints for the left arm that is used in the AgentPickUpTask")]
+        [field: Tooltip("Defines the two bone IK constraints for the left arm that is used in the AgentPickUpTask")]
         [field: SerializeField]
         public TwoBoneIKConstraint TwoBoneIKConstraintLeftArm { get; set; }
-        
+
         /// <summary>
         /// Defines the multi-parent constraint used to drive the hips during the sitting task.
         /// </summary>
         [field: Tooltip("Defines the multi-parent constraint used to drive the hips during the sitting task.")]
-        [field: SerializeField] public MultiParentConstraint MultiParentConstraintHip { get; set; }
+        [field: SerializeField]
+        public MultiParentConstraint MultiParentConstraintHip { get; set; }
 
         /// <summary>
         /// Defines the two bone IK constraint used to position the left leg during the sitting task.
         /// </summary>
         [field: Tooltip("Defines the two bone IK constraint used to position the left leg during the sitting task.")]
-        [field: SerializeField] public TwoBoneIKConstraint TwoBoneIKConstraintLeftLeg { get; private set; }
+        [field: SerializeField]
+        public TwoBoneIKConstraint TwoBoneIKConstraintLeftLeg { get; private set; }
 
         /// <summary>
         /// Defines the two bone IK constraint used to position the right leg during the sitting task.
         /// </summary>
         [field: Tooltip("Defines the two bone IK constraint used to position the right leg during the sitting task.")]
-        [field: SerializeField] public TwoBoneIKConstraint TwoBoneIKConstraintRightLeg { get; private set; }
+        [field: SerializeField]
+        public TwoBoneIKConstraint TwoBoneIKConstraintRightLeg { get; private set; }
 
         /// <summary>
         /// Defines the multi-aim constraint used to orient the spine during the sitting task.
         /// </summary>
         [field: Tooltip("Defines the multi-aim constraint used to orient the spine during the sitting task.")]
-        [field: SerializeField] public MultiAimConstraint MultiAimConstraintSpine { get; private set; }
+        [field: SerializeField]
+        public MultiAimConstraint MultiAimConstraintSpine { get; private set; }
 
         Dictionary<SocketId, MeshSocket> socketMap = new();
+
         Dictionary<Item, SocketId> itemSocketMap = new();
+
         // Initializes the component and collects the MeshSockets
         private void Start()
         {
@@ -132,6 +138,58 @@ namespace i5.VirtualAgents
             {
                 Debug.LogError("Socket with ID " + socketId + " not found or is null.");
             }
+        }
+
+        /// <summary>
+        /// Verifies that the requested IK and rig constraints are properly assigned.
+        /// </summary>
+        /// <param name="armConstraint">If true, validates both arm two-bone IK constraints and their targets.</param>
+        /// <param name="legConstraint">If true, validates both leg two-bone IK constraints and their targets.</param>
+        /// <param name="hipAndSpineConstraint">If true, validates the hip multi-parent and spine multi-aim constraints.</param>
+        /// <returns>True if all enabled checks pass; otherwise, false.</returns>
+        public bool VerifySetUpOfAllConstraints(bool armConstraint = true, bool legConstraint = true, bool hipAndSpineConstraint = true)
+        {
+            bool result = true;
+            if (armConstraint)
+            {
+                result &= VerifySetUpOfArmConstraints();
+            }
+
+            if (legConstraint)
+            {
+                result &= VerifySetUpOfLegConstraints();
+            }
+
+            if (hipAndSpineConstraint)
+            {
+                result &= VerifySetUpOfHipAndSpineConstraint();
+            }
+
+            return result;
+        }
+
+        private bool VerifySetUpOfArmConstraints()
+        {
+            return TwoBoneIKConstraintRightArm &&
+                   TwoBoneIKConstraintRightArm.data.target &&
+                   TwoBoneIKConstraintLeftArm &&
+                   TwoBoneIKConstraintLeftArm.data.target;
+        }
+
+        private bool VerifySetUpOfLegConstraints()
+        {
+            return TwoBoneIKConstraintRightLeg &&
+                   TwoBoneIKConstraintRightLeg.data.target &&
+                   TwoBoneIKConstraintLeftLeg &&
+                   TwoBoneIKConstraintLeftLeg.data.target;
+        }
+
+        private bool VerifySetUpOfHipAndSpineConstraint()
+        {
+            return MultiParentConstraintHip &&
+                   MultiParentConstraintHip.data.sourceObjects.Count > 0 &&
+                   MultiParentConstraintHip.data.sourceObjects.GetTransform(0) &&
+                   MultiAimConstraintSpine;
         }
     }
 }
