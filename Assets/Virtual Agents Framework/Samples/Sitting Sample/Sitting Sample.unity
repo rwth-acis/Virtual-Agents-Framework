@@ -430,6 +430,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wheelchair
       objectReference: {fileID: 0}
+    - target: {fileID: 6704535031573641287, guid: aae9508f98a9c0c4fa06405abd498617, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8734292621688248755, guid: aae9508f98a9c0c4fa06405abd498617, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -1007,6 +1011,10 @@ PrefabInstance:
     - target: {fileID: 700674713753034054, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7788638724650443711, guid: 2962848ab48f0e4459691ff3d6d1eed0, type: 3}
+      propertyPath: m_Radius
+      value: 0.33
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2465,6 +2473,7 @@ GameObject:
   - component: {fileID: 1386483151}
   - component: {fileID: 1386483150}
   - component: {fileID: 1386483149}
+  - component: {fileID: 1386483153}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -2565,6 +2574,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1294797797}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!208 &1386483153
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386483148}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &1540361692
 PrefabInstance:
   m_ObjectHideFlags: 0

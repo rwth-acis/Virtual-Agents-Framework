@@ -1,3 +1,4 @@
+using i5.VirtualAgents.AgentTasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -71,30 +72,36 @@ namespace i5.VirtualAgents.Examples
             // Start the GoToAndSit task for the wheelchair and cast it to a TaskBundle to listen to its events.
             TaskBundle wheelChairTask = (TaskBundle) taskSystem.Tasks.GoToAndSit(Wheelchair);
             
-            // Once the sitting task finishes (the agent is seated), parent the wheelchair to the agent
-            // and connect the tire animation script to the agent's NavMeshAgent.
+            // Once the sitting task finishes (the agent is seated), parent the wheelchair to the agent,
+            // connect the tire animation script to the agent's NavMeshAgent, deactivate the wheelchair's NavMeshObstacle,
+            // and increase the agent's radius to reflect the larger size while seated in the wheelchair.
             wheelChairTask.OnTaskFinished += () =>
             {
                 Wheelchair.transform.parent = agent.transform;
                 Wheelchair.GetComponent<TireAnimation>().agent = agent.GetComponent<NavMeshAgent>();
+                Wheelchair.GetComponent<NavMeshObstacle>().enabled = false;
+                agent.GetComponent<NavMeshAgent>().radius += 0.15f;
+
             };
             
             // Instruct the agent to move to the first waypoint (the wheelchair will move with the agent).
             taskSystem.Tasks.GoTo(waypoint1);
             
             // Stand up from/leave the wheelchair once the destination is reached.
-            TaskBundle wheelChairTaskEnd = (TaskBundle) taskSystem.Tasks.GoToAndSit(Wheelchair);
+            AgentBaseTask wheelChairTaskEnd = taskSystem.Tasks.StandUp(Wheelchair);
             
-            // Once the stand up task finishes, deparent the wheelchair and stop animating its tires.
+            // Once the stand up task finishes, deparent the wheelchair, stop animating its tires, enable it as a NavMeshObstacle, and decrease the agent's radius.
             wheelChairTaskEnd.OnTaskFinished += () =>
             {
                 Wheelchair.transform.parent = null;
                 Wheelchair.GetComponent<TireAnimation>().agent = null;
+                Wheelchair.GetComponent<NavMeshObstacle>().enabled = true;
+                agent.GetComponent<NavMeshAgent>().radius -= 0.15f;
             };
             
             // Fourth example: Ride a skateboard to pick up an item, travel to waypoint 2, and then leave the skateboard.
             // This example shows some of the limitations of using the SittingTask for "vehicles".
-            TaskBundle skateBoardTask = (TaskBundle) taskSystem.Tasks.GoToAndSit(Skateboard);
+            AgentBaseTask skateBoardTask = taskSystem.Tasks.GoToAndSit(Skateboard);
             
             // Once seated, parent the skateboard, set up tire animation, and adjust agent velocity/rotation parameters
             // to mimic a skateboard's dynamic movement (faster speed/acceleration, slower rotation).
@@ -119,7 +126,7 @@ namespace i5.VirtualAgents.Examples
             taskSystem.Tasks.GoTo(waypoint2);
             
             // Stand up from/leave the skateboard.
-            TaskBundle skateBoardTaskEnd = (TaskBundle) taskSystem.Tasks.GoToAndSit(Skateboard);
+            AgentBaseTask skateBoardTaskEnd = taskSystem.Tasks.StandUp(Skateboard);
             
             // Deparent the skateboard and disable tire animation when the task finishes.
             skateBoardTaskEnd.OnTaskFinished += () =>
