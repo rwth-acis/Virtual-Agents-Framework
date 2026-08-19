@@ -39,6 +39,7 @@ namespace i5.VirtualAgents.AgentTasks
         {
             if(Time.realtimeSinceStartup - startTime > WaitTimeInSeconds)
 			{
+                FinishTask();
 				return TaskState.Success;
 			}
 			else

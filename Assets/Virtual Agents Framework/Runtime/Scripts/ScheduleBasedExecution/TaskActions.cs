@@ -209,6 +209,12 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         {
             if (chair == null)
             {
+                Debug.LogWarning("Cannot schedule GoToAndSit: The chair is null.");
+                return null;
+            }
+            if (!chair.HasValidConfiguration)
+            {
+                Debug.LogWarning($"Cannot schedule GoToAndSit: chair {chair.name} is missing StandingFeetPosition or SeatedHipPosition.");
                 return null;
             }
             
@@ -236,7 +242,16 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
         /// <returns></returns>
         public AgentBaseTask StandUp(Chair chair, int priority = 0)
         {
-            if (chair == null) return null;
+            if (chair == null)
+            {
+                Debug.LogWarning("Cannot schedule StandUp: The chair is null.");
+                return null;
+            }
+            if (!chair.HasValidConfiguration)
+            {
+                Debug.LogWarning($"Cannot schedule StandUp: chair {chair.name} is missing StandingFeetPosition or SeatedHipPosition.");
+                return null;
+            }
 
             AgentSittingTask standUpTask = new AgentSittingTask(chair, SittingDirection.STANDUP);
 
@@ -312,6 +327,49 @@ namespace i5.VirtualAgents.ScheduleBasedExecution
                 scheduleTaskSystem.ScheduleTask(pointing, priority, "Right Arm");
             }
             return pointing;
+        }
+
+        /// <summary>
+        /// Schedules an interaction task on the agent based on an Interactable component.
+        /// </summary>
+        /// <param name="interactable">The interactable component on the target object</param>
+        /// <param name="priority">The scheduling priority of the task</param>
+        public AgentBaseTask Interact(Interactable interactable, int priority = 0)
+        {
+            AgentInteractionTask interactionTask = new AgentInteractionTask(interactable);
+            scheduleTaskSystem.ScheduleTask(interactionTask, priority, interactable.LayerName);
+            return interactionTask;
+        }
+
+        /// <summary>
+        /// Schedules an interaction task on the agent with explicit parameters.
+        /// </summary>
+        public AgentBaseTask Interact(
+            AnimationClip animationClip,
+            GameObject targetObject = null,
+            InteractionIKMode ikMode = InteractionIKMode.None,
+            string layerName = "Right Arm",
+            float duration = 2.0f,
+            float maxWeight = 1.0f,
+            Transform touchBone = null,
+            HumanBodyBones touchHumanBone = HumanBodyBones.LastBone,
+            string touchBoneName = "",
+            int priority = 0
+        )
+        {
+            AgentInteractionTask interactionTask = new AgentInteractionTask(
+                animationClip,
+                targetObject,
+                ikMode,
+                layerName,
+                duration: duration,
+                maxWeight: maxWeight,
+                touchBone: touchBone,
+                touchHumanBone: touchHumanBone,
+                touchBoneName: touchBoneName
+            );
+            scheduleTaskSystem.ScheduleTask(interactionTask, priority, layerName);
+            return interactionTask;
         }
     }
 }

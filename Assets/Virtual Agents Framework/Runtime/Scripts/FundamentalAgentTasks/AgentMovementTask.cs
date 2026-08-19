@@ -168,6 +168,7 @@ namespace i5.VirtualAgents.AgentTasks
 			}
 			if (navMeshAgent.remainingDistance < MinDistance)
 			{
+				FinishTask();
 				return TaskState.Success;
 			}
 			// The agent moves on a valid path and hasn't reached its destination yet. Give all control about movement und rotation to the navmesh agent
