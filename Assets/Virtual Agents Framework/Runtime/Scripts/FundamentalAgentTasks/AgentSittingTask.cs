@@ -261,9 +261,16 @@ namespace i5.VirtualAgents.AgentTasks
         public override TaskState EvaluateTaskState()
         {
             if (finished)
+            {
+                FinishTask();
                 return TaskState.Success;
-            if(failed)
+            }
+
+            if (failed)
+            {
+                FinishTaskAsFailed();
                 return TaskState.Failure;
+            }
             return TaskState.Running;
         }
         
