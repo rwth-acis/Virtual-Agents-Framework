@@ -25,6 +25,7 @@ namespace i5.VirtualAgents.AgentTasks
         public string TouchBoneName { get; protected set; }
 
         private bool finished = false;
+        private bool contactTriggered = false;
         private Animator animator;
         private AnimatorOverrideController overrideController;
         private RuntimeAnimatorController originalController;
@@ -35,6 +36,7 @@ namespace i5.VirtualAgents.AgentTasks
         private Transform originalTip;
         private bool tipModified = false;
         private Coroutine ikReachCoroutine;
+        private Coroutine contactCoroutine;
         private Coroutine timerCoroutine;
         private Coroutine activeAimCoroutine;
 
@@ -119,6 +121,7 @@ namespace i5.VirtualAgents.AgentTasks
             }
 
             finished = false;
+            contactTriggered = false;
 
             // 1. Trigger Started Event
             if (AssociatedInteractable != null)
@@ -282,6 +285,12 @@ namespace i5.VirtualAgents.AgentTasks
                 }
             }
 
+            // Start Contact Timer for non-Reach mode
+            if (AssociatedInteractable != null && (IkMode != InteractionIKMode.Reach || TargetObject == null))
+            {
+                contactCoroutine = agent.StartCoroutine(RunNonReachContactCoroutine());
+            }
+
             // 4. Start Duration Timer
             timerCoroutine = agent.StartCoroutine(TimerCoroutine());
         }
@@ -313,6 +322,13 @@ namespace i5.VirtualAgents.AgentTasks
                 yield return null;
             }
 
+            // Trigger Contact Event when peak reach is made
+            if (AssociatedInteractable != null && !contactTriggered)
+            {
+                contactTriggered = true;
+                AssociatedInteractable.OnInteractionContact?.Invoke();
+            }
+
             // Phase 2: Hold (Interact)
             time = 0f;
             while (time < holdDuration)
@@ -340,6 +356,17 @@ namespace i5.VirtualAgents.AgentTasks
             armConstraint.weight = 0f;
             armConstraint.data.target.position = originalIKTargetPosition;
             armConstraint.data.target.rotation = originalIKTargetRotation;
+        }
+
+        private IEnumerator RunNonReachContactCoroutine()
+        {
+            float transitionDuration = Mathf.Min(1.0f / AnimationSpeed, Duration / 2f);
+            yield return new WaitForSeconds(transitionDuration);
+            if (AssociatedInteractable != null && !contactTriggered)
+            {
+                contactTriggered = true;
+                AssociatedInteractable.OnInteractionContact?.Invoke();
+            }
         }
 
         private IEnumerator TimerCoroutine()
@@ -406,6 +433,10 @@ namespace i5.VirtualAgents.AgentTasks
                 if (ikReachCoroutine != null)
                 {
                     executingAgent.StopCoroutine(ikReachCoroutine);
+                }
+                if (contactCoroutine != null)
+                {
+                    executingAgent.StopCoroutine(contactCoroutine);
                 }
                 if (timerCoroutine != null)
                 {

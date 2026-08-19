@@ -70,6 +70,11 @@ namespace i5.VirtualAgents
         public UnityEvent OnInteractionStarted;
 
         /// <summary>
+        /// Triggered when the agent reaches peak touch / contact with this object.
+        /// </summary>
+        public UnityEvent OnInteractionContact;
+
+        /// <summary>
         /// Triggered when the agent finishes interacting with this object.
         /// </summary>
         public UnityEvent OnInteractionEnded;
