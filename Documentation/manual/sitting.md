@@ -18,9 +18,9 @@ Additional chair settings:
 You can use two convenience shortcuts from <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions> to easily schedule sitting tasks. If you want the agent to walk to the <xref:i5.VirtualAgents.Chair> before sitting, use <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoToAndSit*>. Similarly, you can use <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.StandUp*> to make the agent stand up from the chair.
 
 ```csharp
-            taskSystem.Tasks.GoToAndSit(Chair); // Chair is a reference to a game object with the Chair component, see sample scene for an example
+            taskSystem.Tasks.GoToAndSit(chair); // chair is a reference to a game object with the Chair component, see sample scene for an example
             taskSystem.Tasks.WaitForSeconds(3);
-            taskSystem.Tasks.StandUp(Chair);
+            taskSystem.Tasks.StandUp(chair);
 
 ```
 
@@ -33,8 +33,8 @@ You can use two convenience shortcuts from <xref:i5.VirtualAgents.ScheduleBasedE
 - <xref:i5.VirtualAgents.AgentTasks.SittingDirection.TOGGLE> switches between both states depending on the current animation state.
 
 ```csharp
-AgentSittingTask sittingTask = new AgentSittingTask(Chair, SittingDirection.SITDOWN); // Chair is a reference to a game object with the Chair component, see sample scene for an example
-AgentSittingTask standingTask = new AgentSittingTask(Chair, SittingDirection.STANDUP);
+AgentSittingTask sittingTask = new AgentSittingTask(chair, SittingDirection.SITDOWN); // chair is a reference to a game object with the Chair component, see sample scene for an example
+AgentSittingTask standingTask = new AgentSittingTask(chair, SittingDirection.STANDUP);
 
 taskSystem.ScheduleTask(sittingTask);
 taskSystem.Tasks.WaitForSeconds(3);
@@ -44,7 +44,7 @@ taskSystem.ScheduleTask(standingTask);
 
 ## Interacting with Mobile Seats (e.g. Wheelchairs & Skateboards)
 
-You can combine sitting with agent movement to implement mobile seats such as wheelchairs or skateboards. By casting the returned task of <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoToAndSit*> to a <xref:i5.VirtualAgents.TaskBundle>, you can subscribe to the `OnTaskFinished` event. Once the agent is seated, you can parent the vehicle/seat to the agent and activate relevant components (such as tire animations or custom movement parameters). You can find an example of how to do this for a wheelchair and a skateboard in the sitting example scene.
+You can combine sitting with agent movement to implement mobile seats such as wheelchairs or skateboards. You can subscribe to the `OnTaskFinished` event of the returned task of <xref:i5.VirtualAgents.ScheduleBasedExecution.TaskActions.GoToAndSit*> . Once the agent is seated, you can parent the vehicle/seat to the agent and activate relevant components (such as tire animations or custom movement parameters). You can find an example of how to do this for a wheelchair and a skateboard in the sitting example scene.
 
 > [!NOTE]
 > <xref:i5.VirtualAgents.AgentTasks.AgentMovementTask> relies on Unity's NavMesh system which allows in-place rotation. It is suitable for simple prototyping and works well for wheelchair movement, but not for realistic vehicle steering physics.
@@ -54,20 +54,21 @@ For a wheelchair, once the sitting task completes, the wheelchair is parented to
 
 ```csharp
 // Sit on the wheelchair
-TaskBundle wheelChairTask = (TaskBundle) taskSystem.Tasks.GoToAndSit(Wheelchair);
+TaskBundle wheelChairTask = (TaskBundle) taskSystem.Tasks.GoToAndSit(wheelchair);
 
 // Once seated, parent the wheelchair to the agent and connect the tire animation script
 wheelChairTask.OnTaskFinished += () =>
 {
     Wheelchair.transform.parent = agent.transform;
     Wheelchair.GetComponent<TireAnimation>().agent = agent.GetComponent<NavMeshAgent>();
+    // Other settings can also be modified here, such as the agent's movement speed or rotation speed to simulate wheelchair dynamics, see the sample scene for an example
 };
 
 // Instruct the agent to move to a waypoint (the wheelchair moves with it)
 taskSystem.Tasks.GoTo(waypoint1);
 
 // Stand up from/leave the wheelchair
-TaskBundle wheelChairTaskEnd = (TaskBundle) taskSystem.Tasks.GoToAndSit(Wheelchair);
+AgentBaseTask wheelChairTaskEnd = taskSystem.Tasks.StandUp(wheelchair);
 
 // Deparent the wheelchair once stood up
 wheelChairTaskEnd.OnTaskFinished += () =>
@@ -87,7 +88,7 @@ During execution of the scene in the `AgentSittingController`:
 3. The agent sits on a wheelchair, which is then parented to the agent to move with them to a waypoint, after which the agent leaves the wheelchair.
 4. The agent sits on a skateboard, which modifies the agent's velocity/rotation attributes to simulate skateboarding dynamics. The agent picks up an item, rides to another waypoint, and then steps off the skateboard (reverting the movement settings).
 
-Checkout the `Chair`, `Stool`, `Wheelchair`, and `Skateboard` gameobjects in the scene to see how the <xref:i5.VirtualAgents.Chair> component is set up and how the different transforms are assigned.
+Check out the `Chair`, `Stool`, `Wheelchair`, and `Skateboard` GameObjects in the scene to see how the <xref:i5.VirtualAgents.Chair> component is set up and how the different transforms are assigned.
 
 ## Related
 
